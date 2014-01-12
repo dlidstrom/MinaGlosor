@@ -26,8 +26,7 @@ namespace MinaGlosor.Web.Infrastructure.IoC
             if (controllerName == null)
                 throw new ArgumentNullException("controllerName");
 
-            var controller = kernel.Resolve<IController>(controllerName + "Controller");
-            return controller;
+            return kernel.Resolve<IController>(controllerName + "Controller");
         }
     }
 }
