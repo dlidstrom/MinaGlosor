@@ -51,6 +51,12 @@
     <Reference Include="Cassette.Views">
       <HintPath>..\packages\Cassette.Views.2.3.0\lib\net40\Cassette.Views.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.2.2\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\packages\Castle.Windsor.3.2.1\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Raven.Abstractions">
       <HintPath>..\packages\RavenDB.Client.2.5.2750\lib\net45\Raven.Abstractions.dll</HintPath>
@@ -132,6 +138,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\CassetteConfiguration.cs" />
+    <Compile Include="Infrastructure\IoC\WindsorWebApiInstaller.cs" />
+    <Compile Include="Infrastructure\IoC\ControllerFactoryInstaller.cs" />
+    <Compile Include="Infrastructure\IoC\ControllerInstaller.cs" />
+    <Compile Include="Infrastructure\IoC\RavenInstaller.cs" />
+    <Compile Include="Infrastructure\IoC\WindsorControllerFactory.cs" />
+    <Compile Include="Infrastructure\IoC\WindsorDependencyScope.cs" />
+    <Compile Include="Infrastructure\IoC\WindsorHttpDependencyResolver.cs" />
+    <Compile Include="Infrastructure\IoC\WindsorMvcDependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
