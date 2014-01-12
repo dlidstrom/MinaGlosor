@@ -1,24 +1,44 @@
-﻿@{
-    Layout = "";
-    Bundles.Reference("bootstrap");
-}<!DOCTYPE HTML>
-<html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta charset="utf-8">
-        <title>Mina Glosor</title>
-        @Bundles.RenderStylesheets()
-    </head>
-    <body>
-        <div class="container">
-            <div class="row">
-                <p class="lead">
-                    Välkommen! Du måste börja med att skapa ett konto för administratören.
-                    Med hjälp av det kommer du kunna hantera användarkonton.
-                </p>
-                <div class="col-md-4">
-                </div>
+﻿<p class="lead">
+    Välkommen! Du måste börja med att skapa ett konto för administratören.
+    Med hjälp av det kommer du kunna hantera användarkonton.
+</p>
+<form method="POST" name="adminform">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group" ng-class="{'has-error': adminform.useremail.$dirty && adminform.useremail.$invalid}">
+                <label class="control-label">
+                    Ange e-postadress
+                </label>
+                <input type="email" class="form-control" name="useremail" />
             </div>
         </div>
-    </body>
-</html>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">
+                    Ange lösenord
+                </label>
+                <input type="password" class="form-control" name="password"/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group has-error">
+                <label class="control-label">
+                    Upprepa lösenordet
+                </label>
+                <input type="password" class="form-control" name="passwordConfirm"/>
+                <span class="help-block" ng-show="">
+                    Lösenorden måste vara lika
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <input class="btn btn-primary" type="submit" value="Spara" />
+        </div>
+    </div>
+</form>
