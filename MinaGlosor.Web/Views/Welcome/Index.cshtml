@@ -1,36 +1,50 @@
-﻿<p class="lead">
+﻿@model MinaGlosor.Web.Controllers.WelcomeController.InitialData
+
+<p class="lead">
     Välkommen! Du måste börja med att skapa ett konto för administratören.
     Med hjälp av det kommer du kunna hantera användarkonton.
 </p>
-<form method="POST" name="adminform">
+<form method="POST" name="adminform" action="@Url.Action("Create")">
     <div class="row">
         <div class="col-md-4">
             <div class="form-group" ng-class="{'has-error': adminform.useremail.$dirty && adminform.useremail.$invalid}">
                 <label class="control-label">
                     Ange e-postadress
                 </label>
-                <input type="email" class="form-control" name="useremail" />
+                <input type="email"
+                       class="form-control"
+                       name="useremail"
+                       ng-model="user.email"
+                       placeholder="@Model.SuggestedEmail"
+                       autofocus="autofocus"
+                       required />
+                <span class="help-block" ng-show="adminform.useremail.$dirty && adminform.useremail.$invalid">
+                    Skriv din e-postadress
+                </span>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': adminform.password.$dirty && adminform.password.$invalid}">
                 <label class="control-label">
                     Ange lösenord
                 </label>
-                <input type="password" class="form-control" name="password"/>
+                <input type="password" class="form-control" name="password" ng-model="user.password" placeholder="Skriv ett lösenord" required />
+                <span class="help-block" ng-show="adminform.password.$dirty && adminform.password.$invalid">
+                    Skriv ett lösenord
+                </span>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
-            <div class="form-group has-error">
+            <div class="form-group" ng-class="{'has-error': adminform.passwordConfirm.$dirty && (adminform.passwordConfirm.$invalid || user.passwordConfirm != user.password)}">
                 <label class="control-label">
                     Upprepa lösenordet
                 </label>
-                <input type="password" class="form-control" name="passwordConfirm"/>
-                <span class="help-block" ng-show="">
+                <input type="password" class="form-control" name="passwordConfirm" ng-model="user.passwordConfirm" placeholder="Upprepa lösenordet" required />
+                <span class="help-block" ng-show="adminform.passwordConfirm.$dirty && (adminform.passwordConfirm.$invalid || user.passwordConfirm != user.password)">
                     Lösenorden måste vara lika
                 </span>
             </div>
@@ -38,7 +52,7 @@
     </div>
     <div class="row">
         <div class="col-md-4">
-            <input class="btn btn-primary" type="submit" value="Spara" />
+            <input class="btn btn-primary" type="submit" value="Spara" ng-disabled="adminform.$invalid" />
         </div>
     </div>
 </form>

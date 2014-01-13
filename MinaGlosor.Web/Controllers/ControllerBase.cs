@@ -17,5 +17,12 @@ namespace MinaGlosor.Web.Controllers
             Response.Redirect("/welcome");
             Response.End();
         }
+
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            if (filterContext.IsChildAction || filterContext.Exception != null) return;
+
+            DocumentSession.SaveChanges();
+        }
     }
 }
