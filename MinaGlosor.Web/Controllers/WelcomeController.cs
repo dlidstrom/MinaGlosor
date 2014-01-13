@@ -7,6 +7,11 @@ namespace MinaGlosor.Web.Controllers
     {
         public ActionResult Index()
         {
+            if (DocumentSession.Load<User>("Admin") != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View(new InitialData("admin@" + Request.ServerVariables["HTTP_HOST"]));
         }
 
