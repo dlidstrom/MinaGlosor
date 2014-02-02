@@ -1,1 +1,8 @@
-﻿
+﻿@if (Request.IsAuthenticated)
+{
+    @Html.ActionLink("Skapa gloslista", "Create", "List")
+}
+else
+{
+    @Html.ActionLink("Skapa ett konto", "Create", "Account")
+}
