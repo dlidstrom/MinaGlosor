@@ -42,8 +42,9 @@ namespace MinaGlosor.Web.Infrastructure.IoC
             var documentStore = new EmbeddableDocumentStore
                 {
                     DataDirectory = dataDirectory
-                }.Initialize();
-            //documentStore.Configuration.MemoryCacheLimitMegabytes = 256;
+                };
+            documentStore.Initialize();
+            documentStore.Configuration.MemoryCacheLimitMegabytes = 256;
             IndexCreator.CreateIndexes(documentStore);
             return documentStore;
         }
