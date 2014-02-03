@@ -1,0 +1,23 @@
+﻿To: @ViewBag.To
+From: @ViewBag.From
+Bcc: @ViewBag.Bcc
+Subject: @ViewBag.Subject
+Content-Type: text/html; charset=utf-8
+
+<p>
+    Du får det här brevet för att du har blivit inbjuden till MinaGlosor.se.
+    Det innebär att du kan skapa egna gloslistor och öva själv.
+</p>
+<p>
+    Klicka här för att aktivera ditt konto:
+    <a href="@Url.Action(
+        "Activate",
+        "Account",
+        new
+        {
+            activationCode = Model.ActivationCode
+        },
+        Request.Url.Scheme)">
+        Aktivera mitt konto
+    </a>
+</p>

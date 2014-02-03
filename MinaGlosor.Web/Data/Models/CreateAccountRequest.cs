@@ -9,11 +9,11 @@ namespace MinaGlosor.Web.Data.Models
         {
             if (email == null) throw new ArgumentNullException("email");
             Email = email;
-            ActivationCode = Guid.NewGuid();
+            ActivationCode = Guid.NewGuid().ToString("N");
         }
 
         [JsonConstructor]
-        private CreateAccountRequest(string email, Guid activationCode)
+        private CreateAccountRequest(string email, string activationCode)
         {
             Email = email;
             ActivationCode = activationCode;
@@ -21,6 +21,6 @@ namespace MinaGlosor.Web.Data.Models
 
         public string Email { get; private set; }
 
-        public Guid ActivationCode { get; private set; }
+        public string ActivationCode { get; private set; }
     }
 }

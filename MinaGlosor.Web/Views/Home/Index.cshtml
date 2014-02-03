@@ -1,8 +1,11 @@
 ﻿@if (Request.IsAuthenticated)
 {
     @Html.ActionLink("Skapa gloslista", "Create", "List")
+    @Html.Action("Stored", "List")
 }
 else
 {
-    @Html.ActionLink("Skapa ett konto", "Create", "Account")
+    @Html.ActionLink("Logga in", "Logon", "Account")
+    @:eller
+    @Html.ActionLink("Skapa ett konto", "Invite", "Account")
 }

@@ -28,3 +28,5 @@ obj/
 _ReSharper*/
 [Tt]est[Rr]esult*
 packages
+MinaGlosor.Web/App_Data/Database
+MinaGlosor.Web/Raven

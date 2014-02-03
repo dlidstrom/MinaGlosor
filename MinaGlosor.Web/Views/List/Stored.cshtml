@@ -1,0 +1,14 @@
+﻿@model MinaGlosor.Web.Data.Models.WordList[]
+
+@{
+    Layout = null;
+}
+
+<table class="table table-condensed">
+    @foreach (var item in Model)
+{
+    <tr>
+        <td>@item.Name</td>
+    </tr>
+}
+    </table>

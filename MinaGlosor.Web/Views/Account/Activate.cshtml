@@ -1,0 +1,14 @@
+﻿@model MinaGlosor.Web.Controllers.ActivateAccountViewModel
+
+<p class="lead">
+    Välkommen till MinaGlosor.se!
+    Börja med att välja ett personligt lösenord.
+</p>
+<form method="POST" action="@Url.Action("Activate")">
+    @Html.HiddenFor(x => x.ActivationCode)
+    <label>Lösenord:</label>
+    <input type="password" name="password" />
+    <label>Upprepa lösenordet:</label>
+    <input type="password" name="passwordConfirm" />
+    <input type="submit" value="Skapa" />
+</form>

@@ -23,28 +23,6 @@ namespace MinaGlosor.Web.Infrastructure
                 });
         }
 
-        public static void UserRegistered(string recipient, string subject, string id, string activationKey)
-        {
-            Send(
-                "UserRegistered",
-                recipient,
-                subject,
-                o =>
-                {
-                    o.Id = id;
-                    o.ActivationKey = activationKey;
-                });
-        }
-
-        public static void SendMail(string email, string subject, string content)
-        {
-            Send(
-                "Mail",
-                email,
-                subject,
-                o => o.Content = content);
-        }
-
         private static void Send(
             [AspMvcView] string view,
             string recipient,

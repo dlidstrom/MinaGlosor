@@ -178,7 +178,9 @@
     <Compile Include="Infrastructure\CassetteConfiguration.cs" />
     <Compile Include="Infrastructure\Annotations.cs" />
     <Compile Include="Infrastructure\Emails.cs" />
+    <Compile Include="Infrastructure\Indexes\CreateAccountRequestIndex.cs" />
     <Compile Include="Infrastructure\Indexes\User_ByEmail.cs" />
+    <Compile Include="Infrastructure\Indexes\WordListIndex.cs" />
     <Compile Include="Infrastructure\IoC\WindsorWebApiInstaller.cs" />
     <Compile Include="Infrastructure\IoC\ControllerFactoryInstaller.cs" />
     <Compile Include="Infrastructure\IoC\ControllerInstaller.cs" />
@@ -189,6 +191,11 @@
     <Compile Include="Infrastructure\IoC\WindsorMvcDependencyResolver.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Views\Account\Activate.cshtml" />
+    <Content Include="Views\Account\InviteSuccess.cshtml" />
+    <Content Include="Views\Account\Logon.cshtml" />
+    <None Include="Views\Emails\InviteUser.cshtml" />
+    <Content Include="Views\List\Stored.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -242,7 +249,7 @@
     <Content Include="Views\List\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Account\Create.cshtml" />
+    <Content Include="Views\Account\Invite.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Emails\Web.config" />
