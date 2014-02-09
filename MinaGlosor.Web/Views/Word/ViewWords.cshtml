@@ -1,0 +1,16 @@
+﻿@model MinaGlosor.Web.Controllers.WordController.WordIndexViewModel
+
+@Html.ActionLink("Lägg till ord", "Add", new { wordListId = Model.WordListId })
+@if (Model.Words.Length > 0)
+{
+    @Html.ActionLink("Öva", "Index", "Practice", new { wordListId = Model.WordListId }, null)
+}
+
+<table class="table table-striped">
+    @foreach (var word in Model.Words)
+    {
+        <tr>
+            <td>@word.Text</td>
+        </tr>
+    }
+</table>

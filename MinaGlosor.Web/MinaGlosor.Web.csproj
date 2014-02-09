@@ -168,10 +168,14 @@
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListController.cs" />
+    <Compile Include="Controllers\PracticeController.cs" />
     <Compile Include="Controllers\WelcomeController.cs" />
+    <Compile Include="Controllers\WordController.cs" />
+    <Compile Include="Data\Commands\AnswerWordCommand.cs" />
     <Compile Include="Data\Commands\CreateAccountRequestCommand.cs" />
     <Compile Include="Data\Commands\CreateAdminUserCommand.cs" />
     <Compile Include="Data\Commands\CreateUserCommand.cs" />
+    <Compile Include="Data\Commands\CreateWordCommand.cs" />
     <Compile Include="Data\Commands\CreateWordListCommand.cs" />
     <Compile Include="Data\Events\CreateAcountRequestCreated.cs" />
     <Compile Include="Data\Events\DomainEvent.cs" />
@@ -182,12 +186,17 @@
     <Compile Include="Data\ICommand.cs" />
     <Compile Include="Data\IQuery.cs" />
     <Compile Include="Data\Models\CreateAccountRequest.cs" />
+    <Compile Include="Data\Models\Word.cs" />
+    <Compile Include="Data\Models\WordAnswer.cs" />
     <Compile Include="Data\Models\WordList.cs" />
     <Compile Include="Data\Queries\GetCreateAccountRequest.cs" />
     <Compile Include="Data\Queries\GetCreateAccountRequestQuery.cs" />
+    <Compile Include="Data\Queries\GetPracticeWordQuery.cs" />
     <Compile Include="Data\Queries\GetUserByEmailQuery.cs" />
     <Compile Include="Data\Queries\GetUserQuery.cs" />
     <Compile Include="Data\Queries\GetWordListsQuery.cs" />
+    <Compile Include="Data\Queries\GetWordQuery.cs" />
+    <Compile Include="Data\Queries\GetWordsQuery.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -196,7 +205,9 @@
     <Compile Include="Infrastructure\Emails.cs" />
     <Compile Include="Infrastructure\Indexes\CreateAccountRequestIndex.cs" />
     <Compile Include="Infrastructure\Indexes\User_ByEmail.cs" />
+    <Compile Include="Infrastructure\Indexes\WordIndex.cs" />
     <Compile Include="Infrastructure\Indexes\WordListIndex.cs" />
+    <Compile Include="Infrastructure\Indexes\WordPracticeIndex.cs" />
     <Compile Include="Infrastructure\IoC\HandlersInstaller.cs" />
     <Compile Include="Infrastructure\IoC\IndexCreator.cs" />
     <Compile Include="Infrastructure\IoC\WindsorWebApiInstaller.cs" />
@@ -212,9 +223,13 @@
     <Content Include="Views\Account\Activate.cshtml" />
     <Content Include="Views\Account\InviteSuccess.cshtml" />
     <Content Include="Views\Account\Logon.cshtml" />
+    <None Include="Properties\PublishProfiles\MinaGlosor-Netcetera.pubxml" />
     <None Include="Views\Emails\InviteUser.cshtml" />
     <Content Include="Views\List\Stored.cshtml" />
-    <Content Include="Views\List\View.cshtml" />
+    <Content Include="Views\Word\ViewWords.cshtml" />
+    <Content Include="Views\Word\Add.cshtml" />
+    <Content Include="Views\Practice\Index.cshtml" />
+    <Content Include="Views\Practice\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />

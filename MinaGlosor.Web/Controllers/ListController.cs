@@ -25,10 +25,5 @@ namespace MinaGlosor.Web.Controllers
             var results = ExecuteQuery(new GetWordListsQuery(CurrentUser));
             return PartialView(results);
         }
-
-        public ActionResult View(int id)
-        {
-            return View();
-        }
     }
 }

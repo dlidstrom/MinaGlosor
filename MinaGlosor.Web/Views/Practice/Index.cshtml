@@ -1,0 +1,6 @@
+﻿@model MinaGlosor.Web.Controllers.PracticeController.ShowWordViewModel
+
+<p>
+    @Model.Word.Text
+</p>
+@Html.ActionLink("Visa", "Show", new { wordListId = Model.WordListId, wordId = Model.Word.WordId })

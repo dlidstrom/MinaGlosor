@@ -30,3 +30,4 @@ _ReSharper*/
 packages
 MinaGlosor.Web/App_Data/Database
 MinaGlosor.Web/Raven
+MinaGlosor.Web/Web.Release.config

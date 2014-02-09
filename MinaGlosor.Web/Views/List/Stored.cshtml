@@ -9,7 +9,8 @@
     {
         <tr>
             <td>@item.Name</td>
-            <td>@Html.ActionLink("Visa", "View", new { id = item.Id })</td>
+            <td>@item.WordCount</td>
+            <td>@Html.ActionLink("Visa", "ViewWords", "Word", new { wordListId = item.Id }, null)</td>
         </tr>
     }
 </table>

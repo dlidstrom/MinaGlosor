@@ -54,6 +54,7 @@ namespace MinaGlosor.Web.Infrastructure.IoC
         private static void InitializeStore(IDocumentStore documentStore)
         {
             documentStore.Initialize();
+            documentStore.Conventions.IdentityPartsSeparator = "-";
             IndexCreator.CreateIndexes(documentStore);
         }
 

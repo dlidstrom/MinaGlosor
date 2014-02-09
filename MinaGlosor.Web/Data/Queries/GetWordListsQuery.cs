@@ -24,22 +24,25 @@ namespace MinaGlosor.Web.Data.Queries
                                .Where(x => x.OwnerId == currentUser.Id)
                                .OrderBy(x => x.Name)
                                .ToArray()
-                               .Select(x => new Result(x));
+                               .Select(x => new Result(x, 0));
             return items;
         }
 
         public class Result
         {
-            public Result(WordList wordList)
+            public Result(WordList wordList, int wordCount)
             {
                 if (wordList == null) throw new ArgumentNullException("wordList");
                 Id = wordList.Id;
                 Name = wordList.Name;
+                WordCount = wordCount;
             }
 
             public int Id { get; set; }
 
             public string Name { get; set; }
+
+            public int WordCount { get; set; }
         }
     }
 }

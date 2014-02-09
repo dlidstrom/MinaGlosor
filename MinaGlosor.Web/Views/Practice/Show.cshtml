@@ -1,0 +1,18 @@
+﻿@model MinaGlosor.Web.Controllers.PracticeController.AnswerWordViewModel
+
+<p>
+    @Model.Word.Text
+    betyder
+    @Model.Word.Definition
+</p>
+<ul>
+    <li>
+        @Html.ActionLink("Det visste jag", "Answer", new { wordListId = Model.WordListId, wordId = Model.Word.WordId, confidence = 5 })
+    </li>
+    <li>
+        @Html.ActionLink("Osäker", "Answer", new { wordListId = Model.WordListId, wordId = Model.Word.WordId, confidence = 3 })
+    </li>
+    <li>
+        @Html.ActionLink("Visste inte alls", "Answer", new { wordListId = Model.WordListId, wordId = Model.Word.WordId, confidence = 1 })
+    </li>
+</ul>
