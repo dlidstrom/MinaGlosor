@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using MinaGlosor.Web.Data.Commands;
-using MinaGlosor.Web.Data.Models;
-using MinaGlosor.Web.Infrastructure.Indexes;
-using Raven.Client.Linq;
+using MinaGlosor.Web.Data.Queries;
 
 namespace MinaGlosor.Web.Controllers
 {
+    [Authorize]
     public class ListController : ControllerBase
     {
         public ActionResult Create()
@@ -24,11 +22,13 @@ namespace MinaGlosor.Web.Controllers
         [ChildActionOnly]
         public PartialViewResult Stored()
         {
-            var items = DocumentSession.Query<WordList, WordListIndex>()
-                           .Where(x => x.OwnerId == CurrentUser.Id)
-                           .OrderBy(x => x.Name)
-                           .ToArray();
-            return PartialView(items);
+            var results = ExecuteQuery(new GetWordListsQuery(CurrentUser));
+            return PartialView(results);
+        }
+
+        public ActionResult View(int id)
+        {
+            return View();
         }
     }
 }

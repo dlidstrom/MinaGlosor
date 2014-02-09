@@ -163,15 +163,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationMode.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListController.cs" />
     <Compile Include="Controllers\WelcomeController.cs" />
+    <Compile Include="Data\Commands\CreateAccountRequestCommand.cs" />
+    <Compile Include="Data\Commands\CreateAdminUserCommand.cs" />
+    <Compile Include="Data\Commands\CreateUserCommand.cs" />
     <Compile Include="Data\Commands\CreateWordListCommand.cs" />
+    <Compile Include="Data\Events\CreateAcountRequestCreated.cs" />
+    <Compile Include="Data\Events\DomainEvent.cs" />
+    <Compile Include="Data\Events\DomainEventReset.cs" />
+    <Compile Include="Data\Events\IDomainEvent.cs" />
+    <Compile Include="Data\Handlers\CreateAcountRequestCreatedHandler.cs" />
+    <Compile Include="Data\Handlers\IHandle.cs" />
     <Compile Include="Data\ICommand.cs" />
+    <Compile Include="Data\IQuery.cs" />
     <Compile Include="Data\Models\CreateAccountRequest.cs" />
     <Compile Include="Data\Models\WordList.cs" />
+    <Compile Include="Data\Queries\GetCreateAccountRequest.cs" />
+    <Compile Include="Data\Queries\GetCreateAccountRequestQuery.cs" />
+    <Compile Include="Data\Queries\GetUserByEmailQuery.cs" />
+    <Compile Include="Data\Queries\GetUserQuery.cs" />
+    <Compile Include="Data\Queries\GetWordListsQuery.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -181,6 +197,8 @@
     <Compile Include="Infrastructure\Indexes\CreateAccountRequestIndex.cs" />
     <Compile Include="Infrastructure\Indexes\User_ByEmail.cs" />
     <Compile Include="Infrastructure\Indexes\WordListIndex.cs" />
+    <Compile Include="Infrastructure\IoC\HandlersInstaller.cs" />
+    <Compile Include="Infrastructure\IoC\IndexCreator.cs" />
     <Compile Include="Infrastructure\IoC\WindsorWebApiInstaller.cs" />
     <Compile Include="Infrastructure\IoC\ControllerFactoryInstaller.cs" />
     <Compile Include="Infrastructure\IoC\ControllerInstaller.cs" />
@@ -189,13 +207,14 @@
     <Compile Include="Infrastructure\IoC\WindsorDependencyScope.cs" />
     <Compile Include="Infrastructure\IoC\WindsorHttpDependencyResolver.cs" />
     <Compile Include="Infrastructure\IoC\WindsorMvcDependencyResolver.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Data\Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Views\Account\Activate.cshtml" />
     <Content Include="Views\Account\InviteSuccess.cshtml" />
     <Content Include="Views\Account\Logon.cshtml" />
     <None Include="Views\Emails\InviteUser.cshtml" />
     <Content Include="Views\List\Stored.cshtml" />
+    <Content Include="Views\List\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />

@@ -4,22 +4,21 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using JetBrains.Annotations;
-using MinaGlosor.Web.Data.Models;
 using Postal;
 
 namespace MinaGlosor.Web.Infrastructure
 {
     public static class Emails
     {
-        public static void InviteUser(CreateAccountRequest request)
+        public static void InviteUser(string email, string activationCode)
         {
             Send(
                 "InviteUser",
-                request.Email,
+                email,
                 "Inbjudan",
                 o =>
                 {
-                    o.ActivationCode = request.ActivationCode;
+                    o.ActivationCode = activationCode;
                 });
         }
 

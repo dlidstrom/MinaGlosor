@@ -1,12 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using MinaGlosor.Web.Data.Models;
-using MinaGlosor.Web.Infrastructure;
-using MinaGlosor.Web.Infrastructure.Indexes;
-using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Data.Commands;
+using MinaGlosor.Web.Data.Queries;
 
 namespace MinaGlosor.Web.Controllers
 {
@@ -20,11 +17,10 @@ namespace MinaGlosor.Web.Controllers
         [HttpPost]
         public ActionResult Invite(RequestCreateAccount request)
         {
-            if (DocumentSession.Query<User, User_ByEmail>().FirstOrDefault(x => x.Email == request.Email) != null)
+            if (ExecuteQuery(new GetUserByEmailQuery(request.Email)) != null)
                 ModelState.AddModelError("Email", "E-postadressen finns redan");
 
-            if (DocumentSession.Query<CreateAccountRequest, CreateAccountRequestIndex>()
-                               .FirstOrDefault(x => x.Email == request.Email) != null)
+            if (ExecuteQuery(new GetCreateAccountRequest(request.Email)) != null)
             {
                 ModelState.AddModelError("Email", "Inbjudan är redan skickad");
             }
@@ -32,15 +28,20 @@ namespace MinaGlosor.Web.Controllers
             if (ModelState.IsValid == false)
                 return View();
 
-            var accountRequest = new CreateAccountRequest(request.Email);
-            DocumentSession.Store(accountRequest);
+            ExecuteCommand(new CreateAccountRequestCommand(request.Email));
 
-            Emails.InviteUser(accountRequest);
             return RedirectToAction("InviteSuccess");
         }
 
         public ActionResult Activate(string activationCode)
         {
+            var createAccountRequest = ExecuteQuery(new GetCreateAccountRequestQuery(activationCode));
+            if (createAccountRequest == null)
+                throw new HttpException(404, "Not found");
+
+            if (createAccountRequest.HasBeenUsed())
+                throw new HttpException(404, "Already used");
+
             return View(new ActivateAccountViewModel { ActivationCode = activationCode });
         }
 
@@ -50,14 +51,16 @@ namespace MinaGlosor.Web.Controllers
             if (ModelState.IsValid == false)
                 return View(vm);
 
-            var createAccountRequest = DocumentSession.Query<CreateAccountRequest, CreateAccountRequestIndex>()
-                                                      .FirstOrDefault(x => x.ActivationCode == vm.ActivationCode);
+            var createAccountRequest = ExecuteQuery(new GetCreateAccountRequestQuery(vm.ActivationCode));
             if (createAccountRequest == null)
                 throw new HttpException(404, "Not found");
 
-            var user = new User("", "", createAccountRequest.Email, vm.Password);
-            DocumentSession.Store(user);
-            FormsAuthentication.SetAuthCookie(user.Email, true);
+            if (createAccountRequest.HasBeenUsed())
+                throw new HttpException(404, "Already used");
+
+            createAccountRequest.MarkAsUsed();
+            ExecuteCommand(new CreateUserCommand(createAccountRequest.Email, vm.Password));
+            FormsAuthentication.SetAuthCookie(createAccountRequest.Email, true);
             return RedirectToAction("Index", "Home");
         }
 
@@ -74,7 +77,7 @@ namespace MinaGlosor.Web.Controllers
         [HttpPost]
         public ActionResult Logon(LogonRequest request)
         {
-            var user = DocumentSession.Query<User, User_ByEmail>().FirstOrDefault(x => x.Email == request.Email);
+            var user = ExecuteQuery(new GetUserByEmailQuery(request.Email));
             if (user == null)
                 throw new HttpException(404, "Not found");
 
@@ -92,26 +95,26 @@ namespace MinaGlosor.Web.Controllers
         {
             public string Email { get; set; }
         }
-    }
 
-    public class LogonRequest
-    {
-        [Required]
-        public string Email { get; set; }
+        public class LogonRequest
+        {
+            [Required]
+            public string Email { get; set; }
 
-        [Required]
-        public string Password { get; set; }
-    }
+            [Required]
+            public string Password { get; set; }
+        }
 
-    public class ActivateAccountViewModel
-    {
-        [HiddenInput]
-        public string ActivationCode { get; set; }
+        public class ActivateAccountViewModel
+        {
+            [HiddenInput]
+            public string ActivationCode { get; set; }
 
-        [Required]
-        public string Password { get; set; }
+            [Required]
+            public string Password { get; set; }
 
-        [Required, System.ComponentModel.DataAnnotations.Compare("Password")]
-        public string ConfirmPassword { get; set; }
+            [Required, System.ComponentModel.DataAnnotations.Compare("Password")]
+            public string ConfirmPassword { get; set; }
+        }
     }
 }

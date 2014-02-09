@@ -1,4 +1,4 @@
-﻿@model MinaGlosor.Web.Data.Models.WordList[]
+﻿@model IEnumerable<MinaGlosor.Web.Data.Queries.GetWordListsQuery.Result>
 
 @{
     Layout = null;
@@ -6,9 +6,10 @@
 
 <table class="table table-condensed">
     @foreach (var item in Model)
-{
-    <tr>
-        <td>@item.Name</td>
-    </tr>
-}
-    </table>
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@Html.ActionLink("Visa", "View", new { id = item.Id })</td>
+        </tr>
+    }
+</table>

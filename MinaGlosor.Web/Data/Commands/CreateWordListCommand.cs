@@ -1,5 +1,4 @@
 using MinaGlosor.Web.Data.Models;
-using MinaGlosor.Web.Models;
 using Raven.Client;
 
 namespace MinaGlosor.Web.Data.Commands

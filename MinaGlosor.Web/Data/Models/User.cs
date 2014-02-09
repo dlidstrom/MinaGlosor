@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Raven.Imports.Newtonsoft.Json;
 
-namespace MinaGlosor.Web.Models
+namespace MinaGlosor.Web.Data.Models
 {
     /// <summary>
     /// Represents a registered user.

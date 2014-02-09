@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
-using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Data.Commands;
+using MinaGlosor.Web.Data.Queries;
 
 namespace MinaGlosor.Web.Controllers
 {
@@ -7,7 +8,7 @@ namespace MinaGlosor.Web.Controllers
     {
         public ActionResult Index()
         {
-            if (DocumentSession.Load<User>("Admin") != null)
+            if (ExecuteQuery(new GetUserQuery("Admin")) != null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -18,14 +19,8 @@ namespace MinaGlosor.Web.Controllers
         [HttpPost]
         public ActionResult Create(CreateAdminUserRequest request)
         {
-            if (DocumentSession.Load<User>("Admin") == null)
-            {
-                var user = new User(string.Empty, string.Empty, request.UserEmail, request.Password)
-                    {
-                        Id = "Admin"
-                    };
-                DocumentSession.Store(user);
-            }
+            if (ExecuteQuery(new GetUserQuery("Admin")) == null)
+                ExecuteCommand(new CreateAdminUserCommand(request.UserEmail, request.Password));
 
             return RedirectToAction("Index", "Home");
         }

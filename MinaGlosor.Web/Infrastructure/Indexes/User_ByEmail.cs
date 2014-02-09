@@ -1,5 +1,5 @@
 using System.Linq;
-using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Data.Models;
 using Raven.Client.Indexes;
 
 namespace MinaGlosor.Web.Infrastructure.Indexes

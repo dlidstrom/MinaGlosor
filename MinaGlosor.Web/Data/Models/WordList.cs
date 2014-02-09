@@ -1,5 +1,4 @@
 using System;
-using MinaGlosor.Web.Models;
 using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Data.Models
@@ -20,6 +19,8 @@ namespace MinaGlosor.Web.Data.Models
             Name = name;
             OwnerId = ownerId;
         }
+
+        public int Id { get; set; }
 
         public string Name { get; private set; }
 
