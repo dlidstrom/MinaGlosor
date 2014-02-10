@@ -223,7 +223,7 @@
     <Content Include="Views\Account\InviteSuccess.cshtml" />
     <Content Include="Views\Account\Logon.cshtml" />
     <None Include="Properties\PublishProfiles\MinaGlosor-Netcetera.pubxml" />
-    <None Include="Views\Emails\InviteUser.cshtml" />
+    <Content Include="Views\Emails\InviteUser.cshtml" />
     <Content Include="Views\List\Stored.cshtml" />
     <Content Include="Views\Word\ViewWords.cshtml" />
     <Content Include="Views\Word\Add.cshtml" />
