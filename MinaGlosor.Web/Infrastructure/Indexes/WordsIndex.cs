@@ -1,19 +1,22 @@
 using System.Linq;
 using MinaGlosor.Web.Data.Models;
+using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
 
 namespace MinaGlosor.Web.Infrastructure.Indexes
 {
-    public class WordPracticeIndex : AbstractMultiMapIndexCreationTask<WordPracticeIndex.Result>
+    public class WordsIndex : AbstractMultiMapIndexCreationTask<WordsIndex.Result>
     {
-        public WordPracticeIndex()
+        public WordsIndex()
         {
             AddMap<Word>(words => from word in words
                                   select new
                                       {
                                           WordId = word.Id,
                                           word.WordListId,
-                                          Confidence = 0
+                                          word.Text,
+                                          word.Definition,
+                                          EasynessFactor = 0
                                       });
 
             AddMap<WordAnswer>(answers => from answer in answers
@@ -21,7 +24,9 @@ namespace MinaGlosor.Web.Infrastructure.Indexes
                                               {
                                                   answer.WordId,
                                                   answer.WordListId,
-                                                  answer.Confidence
+                                                  Text = (string)null,
+                                                  Definition = (string)null,
+                                                  answer.EasynessFactor
                                               });
 
             Reduce = words => from word in words
@@ -31,17 +36,29 @@ namespace MinaGlosor.Web.Infrastructure.Indexes
                                       {
                                           WordId = g.Key.WordId,
                                           WordListId = g.Key.WordListId,
-                                          Confidence = g.Sum(x => x.Confidence)
+                                          Text = g.Single(x => x.Text != null).Text,
+                                          Definition = g.Single(x => x.Definition != null).Definition,
+                                          EasynessFactor = g.Max(x => x.EasynessFactor)
                                       };
+
+            Store(x => x.WordId, FieldStorage.Yes);
+            Store(x => x.WordListId, FieldStorage.Yes);
+            Store(x => x.Text, FieldStorage.Yes);
+            Store(x => x.Definition, FieldStorage.Yes);
+            Store(x => x.EasynessFactor, FieldStorage.Yes);
         }
 
         public class Result
         {
             public string WordId { get; set; }
 
-            public int WordListId { get; set; }
+            public string WordListId { get; set; }
 
-            public int Confidence { get; set; }
+            public string Text { get; set; }
+
+            public string Definition { get; set; }
+
+            public double EasynessFactor { get; set; }
         }
     }
 }

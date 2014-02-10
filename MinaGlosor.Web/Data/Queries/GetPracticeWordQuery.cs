@@ -8,10 +8,10 @@ namespace MinaGlosor.Web.Data.Queries
 {
     public class GetPracticeWordQuery : IQuery<GetPracticeWordQuery.Result>
     {
-        private readonly int wordListId;
+        private readonly string wordListId;
         private readonly User currentUser;
 
-        public GetPracticeWordQuery(int wordListId, User currentUser)
+        public GetPracticeWordQuery(string wordListId, User currentUser)
         {
             if (currentUser == null) throw new ArgumentNullException("currentUser");
             this.wordListId = wordListId;
@@ -20,9 +20,9 @@ namespace MinaGlosor.Web.Data.Queries
 
         public Result Execute(IDocumentSession session)
         {
-            var first = session.Query<WordPracticeIndex.Result, WordPracticeIndex>()
+            var first = session.Query<WordsIndex.Result, WordsIndex>()
                                .Where(x => x.WordListId == wordListId)
-                               .OrderBy(x => x.Confidence)
+                               .OrderBy(x => x.EasynessFactor)
                                .First();
             var word = session.Load<Word>(first.WordId);
             return new Result(first, word);
@@ -30,7 +30,7 @@ namespace MinaGlosor.Web.Data.Queries
 
         public class Result
         {
-            public Result(WordPracticeIndex.Result result, Word word)
+            public Result(WordsIndex.Result result, Word word)
             {
                 WordId = result.WordId;
                 Text = word.Text;

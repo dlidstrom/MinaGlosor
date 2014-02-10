@@ -22,15 +22,17 @@ namespace MinaGlosor.Web.Data.Commands
 
         public void Execute(IDocumentSession session)
         {
-            var id = WordAnswer.GetId(wordId, user);
+            var word = session.Load<Word>(wordId);
+            var wordList = session.Load<WordList>(wordListId);
+            var id = WordAnswer.GetId(word, user);
             var wordAnswer = session.Load<WordAnswer>(id);
             if (wordAnswer == null)
             {
-                wordAnswer = new WordAnswer(wordId, wordListId, user);
+                wordAnswer = wordList.Answer(word, user);
                 session.Store(wordAnswer);
             }
 
-            wordAnswer.AddConfidence(confidence);
+            wordAnswer.UpdateEasynessFactor(confidence);
         }
     }
 }

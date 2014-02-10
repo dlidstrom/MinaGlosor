@@ -13,9 +13,9 @@ namespace MinaGlosor.Web.Controllers
             return View(new WordIndexViewModel(wordListId, words));
         }
 
-        public ActionResult Add(int wordListId)
+        public ActionResult Add(string wordListId)
         {
-            return View(wordListId);
+            return View(new AddWordViewModel(wordListId));
         }
 
         [HttpPost]
@@ -47,6 +47,16 @@ namespace MinaGlosor.Web.Controllers
             public string WordListId { get; private set; }
 
             public GetWordsQuery.Result[] Words { get; private set; }
+        }
+
+        public class AddWordViewModel
+        {
+            public AddWordViewModel(string wordListId)
+            {
+                WordListId = wordListId;
+            }
+
+            public string WordListId { get; private set; }
         }
     }
 }

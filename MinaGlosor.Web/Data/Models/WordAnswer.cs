@@ -1,14 +1,16 @@
+using System;
 using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Data.Models
 {
     public class WordAnswer
     {
-        public WordAnswer(string wordId, string wordListId, User user)
+        public WordAnswer(Word word, WordList wordList, User user)
         {
-            Id = GetId(wordId, user);
-            WordListId = wordListId;
-            WordId = wordId;
+            Id = GetId(word, user);
+            WordListId = wordList.Id;
+            WordId = word.Id;
+            EasynessFactor = 0;
         }
 
         [JsonConstructor]
@@ -18,22 +20,23 @@ namespace MinaGlosor.Web.Data.Models
             WordListId = wordListId;
         }
 
+        public double EasynessFactor { get; private set; }
+
         public string Id { get; set; }
 
         public string WordId { get; private set; }
 
         public string WordListId { get; private set; }
 
-        public int Confidence { get; private set; }
-
-        public static string GetId(string wordId, User user)
+        public static string GetId(Word word, User user)
         {
-            return string.Format("wordanswer-{0}-{1}", wordId, user.Id);
+            return string.Format("wordanswer-{0}-{1}", word.Id, user.Id);
         }
 
-        public void AddConfidence(int confidence)
+        public void UpdateEasynessFactor(int confidence)
         {
-            Confidence += confidence;
+            var nextEf = EasynessFactor - 0.8 + 0.28 * confidence - 0.02 * confidence * confidence;
+            EasynessFactor = Math.Min(2.5, Math.Max(0, nextEf));
         }
     }
 }

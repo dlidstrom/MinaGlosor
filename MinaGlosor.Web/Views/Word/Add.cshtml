@@ -1,9 +1,10 @@
-﻿@model int
+﻿@model MinaGlosor.Web.Controllers.WordController.AddWordViewModel
+
 <p class="lead">
     Skriv ordet med förklaringen.
 </p>
-@Html.ActionLink("Klar", "ViewWords", new { wordListId = Model })
-<form method="POST" action="@Url.Action("Add", new { wordListId = Model })">
+@Html.ActionLink("Klar", "ViewWords", new { wordListId = Model.WordListId })
+<form method="POST" action="@Url.Action("Add", new { wordListId = Model.WordListId })">
     <label>Ord:</label>
     <input type="text"
            name="text"

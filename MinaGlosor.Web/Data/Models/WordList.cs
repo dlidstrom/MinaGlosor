@@ -20,10 +20,21 @@ namespace MinaGlosor.Web.Data.Models
             OwnerId = ownerId;
         }
 
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string Name { get; private set; }
 
         public string OwnerId { get; private set; }
+
+        public WordAnswer Answer(Word word, User user)
+        {
+            // TODO: Access control
+            return new WordAnswer(word, this, user);
+        }
+
+        public Word AddWord(string text, string definition)
+        {
+            return new Word(this, text, definition);
+        }
     }
 }

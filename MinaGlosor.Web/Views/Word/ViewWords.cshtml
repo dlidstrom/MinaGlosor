@@ -1,8 +1,12 @@
 ﻿@model MinaGlosor.Web.Controllers.WordController.WordIndexViewModel
 
+<p>
+    @Html.ActionLink("Avsluta", "Index", "Home")
+</p>
 @Html.ActionLink("Lägg till ord", "Add", new { wordListId = Model.WordListId })
 @if (Model.Words.Length > 0)
 {
+    @:|
     @Html.ActionLink("Öva", "Index", "Practice", new { wordListId = Model.WordListId }, null)
 }
 
@@ -11,6 +15,8 @@
     {
         <tr>
             <td>@word.Text</td>
+            <td>@word.Definition</td>
+            <td>@word.EasynessFactor</td>
         </tr>
     }
 </table>

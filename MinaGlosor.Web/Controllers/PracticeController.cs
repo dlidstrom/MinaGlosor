@@ -6,13 +6,13 @@ namespace MinaGlosor.Web.Controllers
 {
     public class PracticeController : ControllerBase
     {
-        public ActionResult Index(int wordListId)
+        public ActionResult Index(string wordListId)
         {
             var word = ExecuteQuery(new GetPracticeWordQuery(wordListId, CurrentUser));
             return View(new ShowWordViewModel(wordListId, word));
         }
 
-        public ActionResult Show(int wordListId, string wordId)
+        public ActionResult Show(string wordListId, string wordId)
         {
             var word = ExecuteQuery(new GetWordQuery(wordId));
             return View(new AnswerWordViewModel(wordListId, word));
@@ -26,26 +26,26 @@ namespace MinaGlosor.Web.Controllers
 
         public class ShowWordViewModel
         {
-            public ShowWordViewModel(int wordListId, GetPracticeWordQuery.Result word)
+            public ShowWordViewModel(string wordListId, GetPracticeWordQuery.Result word)
             {
                 WordListId = wordListId;
                 Word = word;
             }
 
-            public int WordListId { get; set; }
+            public string WordListId { get; set; }
 
             public GetPracticeWordQuery.Result Word { get; set; }
         }
 
         public class AnswerWordViewModel
         {
-            public AnswerWordViewModel(int wordListId, GetWordQuery.Result word)
+            public AnswerWordViewModel(string wordListId, GetWordQuery.Result word)
             {
                 WordListId = wordListId;
                 Word = word;
             }
 
-            public int WordListId { get; set; }
+            public string WordListId { get; set; }
 
             public GetWordQuery.Result Word { get; set; }
         }

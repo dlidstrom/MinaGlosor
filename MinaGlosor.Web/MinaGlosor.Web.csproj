@@ -205,9 +205,8 @@
     <Compile Include="Infrastructure\Emails.cs" />
     <Compile Include="Infrastructure\Indexes\CreateAccountRequestIndex.cs" />
     <Compile Include="Infrastructure\Indexes\User_ByEmail.cs" />
-    <Compile Include="Infrastructure\Indexes\WordIndex.cs" />
     <Compile Include="Infrastructure\Indexes\WordListIndex.cs" />
-    <Compile Include="Infrastructure\Indexes\WordPracticeIndex.cs" />
+    <Compile Include="Infrastructure\Indexes\WordsIndex.cs" />
     <Compile Include="Infrastructure\IoC\HandlersInstaller.cs" />
     <Compile Include="Infrastructure\IoC\IndexCreator.cs" />
     <Compile Include="Infrastructure\IoC\WindsorWebApiInstaller.cs" />
@@ -307,7 +306,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>50891</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:50646/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

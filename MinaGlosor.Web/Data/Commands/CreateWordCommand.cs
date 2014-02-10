@@ -18,7 +18,8 @@ namespace MinaGlosor.Web.Data.Commands
 
         public void Execute(IDocumentSession session)
         {
-            session.Store(new Word(wordListId, text, definition));
+            var wordList = session.Load<WordList>(wordListId);
+            session.Store(wordList.AddWord(text, definition));
         }
     }
 }
