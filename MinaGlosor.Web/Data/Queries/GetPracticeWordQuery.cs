@@ -8,6 +8,7 @@ namespace MinaGlosor.Web.Data.Queries
 {
     public class GetPracticeWordQuery : IQuery<GetPracticeWordQuery.Result>
     {
+        private static readonly Random Random = new Random();
         private readonly string wordListId;
         private readonly User currentUser;
 
@@ -20,12 +21,14 @@ namespace MinaGlosor.Web.Data.Queries
 
         public Result Execute(IDocumentSession session)
         {
-            var first = session.Query<WordsIndex.Result, WordsIndex>()
-                               .Where(x => x.WordListId == wordListId)
-                               .OrderBy(x => x.EasynessFactor)
-                               .First();
-            var word = session.Load<Word>(first.WordId);
-            return new Result(first, word);
+            var results = session.Query<WordsIndex.Result, WordsIndex>()
+                                 .Where(x => x.WordListId == wordListId)
+                                 .OrderBy(x => x.EasynessFactor)
+                                 .Take(32)
+                                 .ToArray();
+            var randomWord = results[Random.Next(results.Length)];
+            var word = session.Load<Word>(randomWord.WordId);
+            return new Result(randomWord, word);
         }
 
         public class Result
