@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -33,17 +32,6 @@ namespace MinaGlosor.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             CreateContainer();
-        }
-
-        protected void Application_BeginRequest(object sender, EventArgs e)
-        {
-            if (HttpContext.Current.Request.IsSecureConnection.Equals(true)
-                || HttpContext.Current.Request.IsLocal.Equals(true)) return;
-            var url = string.Format(
-                "https://{0}{1}",
-                Request.ServerVariables["HTTP_HOST"],
-                HttpContext.Current.Request.RawUrl);
-            Response.Redirect(url);
         }
 
         private static void CreateContainer()
