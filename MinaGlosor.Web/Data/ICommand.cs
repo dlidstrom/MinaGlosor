@@ -4,6 +4,6 @@ namespace MinaGlosor.Web.Data
 {
     public interface ICommand
     {
-        Task ExecuteAsync(IDbContext session);
+        Task ExecuteAsync(IDbContext context);
     }
 }

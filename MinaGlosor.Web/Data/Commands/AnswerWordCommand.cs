@@ -20,7 +20,7 @@ namespace MinaGlosor.Web.Data.Commands
             this.confidence = confidence;
         }
 
-        public Task ExecuteAsync(IDbContext session)
+        public Task ExecuteAsync(IDbContext context)
         {
             //var word = await session.Words.SingleOrDefaultAsync(x => x.Id == wordId);
             //var wordList = session.Load<WordList>(wordListId);

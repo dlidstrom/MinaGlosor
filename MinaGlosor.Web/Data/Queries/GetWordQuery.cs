@@ -12,7 +12,7 @@ namespace MinaGlosor.Web.Data.Queries
             this.wordId = wordId;
         }
 
-        public Task<Result> ExecuteAsync(IDbContext session)
+        public Task<Result> ExecuteAsync(IDbContext context)
         {
             return null;
             //return new Result(session.Load<Word>(wordId));

@@ -19,8 +19,8 @@ namespace MinaGlosor.Test.Api
             {
                 context.Users.Add(owner);
                 context.WordLists.Add(wordList);
-                context.Words.Add(wordList.AddWord("w1", "d1"));
-                context.Words.Add(wordList.AddWord("w2", "d2"));
+                wordList.AddWord("w1", "d1");
+                wordList.AddWord("w2", "d2");
             });
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);

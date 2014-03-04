@@ -21,10 +21,18 @@ namespace MinaGlosor.Web.Data.Queries
             this.currentUser = currentUser;
         }
 
-        public async Task<IEnumerable<Result>> ExecuteAsync(IDbContext session)
+        public async Task<IEnumerable<Result>> ExecuteAsync(IDbContext context)
         {
-            var wordLists = await session.WordLists.Where(x => x.OwnerId == currentUser.Id).ToArrayAsync();
-            return wordLists.Select(x => new Result(x));
+            var wordLists = await context.WordLists
+                                         .Where(x => x.OwnerId == currentUser.Id)
+                                         .Select(x => new Result
+                                             {
+                                                 Id = x.Id,
+                                                 Name = x.Name,
+                                                 WordCount = x.Words.Count()
+                                             })
+                                         .ToArrayAsync();
+            return wordLists;
             //var query = GetQuery(session);
             //var items = query.Where(x => x.OwnerId == currentUser.Id)
             //                 .OrderBy(x => x.WordListName)
@@ -40,18 +48,11 @@ namespace MinaGlosor.Web.Data.Queries
 
         public class Result
         {
-            public Result(WordList wordList)
-            {
-                Id = wordList.Id;
-                Name = wordList.Name;
-                WordCount = 0;
-            }
+            public int Id { get; set; }
 
-            public int Id { get; private set; }
+            public string Name { get; set; }
 
-            public string Name { get; private set; }
-
-            public int WordCount { get; private set; }
+            public int WordCount { get; set; }
         }
     }
 }

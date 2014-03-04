@@ -13,7 +13,7 @@ namespace MinaGlosor.Web.Data.Commands
             this.password = password;
         }
 
-        public Task ExecuteAsync(IDbContext session)
+        public Task ExecuteAsync(IDbContext context)
         {
             //var user = new User(string.Empty, string.Empty, userEmail, password);
             //user.SetRole(UserRole.Admin);

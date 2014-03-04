@@ -20,7 +20,7 @@ namespace MinaGlosor.Web.Data.Commands
         {
         }
 
-        public Task ExecuteAsync(IDbContext session)
+        public Task ExecuteAsync(IDbContext context)
         {
             //var wordList = session.Load<WordList>(wordListId);
             //session.Store(wordList.AddWord(text, definition));

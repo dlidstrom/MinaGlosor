@@ -14,7 +14,7 @@ namespace MinaGlosor.Web.Data.Queries
             this.email = email;
         }
 
-        public Task<Result> ExecuteAsync(IDbContext session)
+        public Task<Result> ExecuteAsync(IDbContext context)
         {
             return null;
             //var request = session.Query<CreateAccountRequest, CreateAccountRequestIndex>()

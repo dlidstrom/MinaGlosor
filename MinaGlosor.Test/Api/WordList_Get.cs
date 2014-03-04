@@ -100,29 +100,29 @@ namespace MinaGlosor.Test.Api
 
         private void ArrangeThreeWordLists()
         {
-            Transact(session =>
+            Transact(context =>
             {
                 // first word list
                 var owner = new User("First", "Last", "e@d.com", "pwd");
-                session.Users.Add(owner);
-                var wordList1 = new WordList("Some name", owner);
-                session.WordLists.Add(wordList1);
-                session.Words.Add(wordList1.AddWord("Word1", "Definition1"));
-                session.Words.Add(wordList1.AddWord("Word2", "Definition2"));
+                context.Users.Add(owner);
+                var wordList1 = new WordList("Some name", owner) { Id = 1 };
+                context.WordLists.Add(wordList1);
+                wordList1.AddWord("Word1", "Definition1");
+                wordList1.AddWord("Word2", "Definition2");
 
                 // second word list
-                var wordList2 = new WordList("Then one more", owner);
-                session.WordLists.Add(wordList2);
-                session.Words.Add(wordList2.AddWord("Word1", "Definition1"));
-                session.Words.Add(wordList2.AddWord("Word2", "Definition2"));
-                session.Words.Add(wordList2.AddWord("Word3", "Definition2"));
+                var wordList2 = new WordList("Then one more", owner) { Id = 2 };
+                context.WordLists.Add(wordList2);
+                wordList2.AddWord("Word1", "Definition1");
+                wordList2.AddWord("Word2", "Definition2");
+                wordList2.AddWord("Word3", "Definition2");
 
                 // third one, this is for another user
                 var anotherOwner = new User("First", "Last", "some_other_user@d.com", "pwd");
-                session.Users.Add(anotherOwner);
-                var wordList3 = new WordList("Again one more", anotherOwner);
-                session.WordLists.Add(wordList3);
-                session.Words.Add(wordList3.AddWord("Word1", "Definition1"));
+                context.Users.Add(anotherOwner);
+                var wordList3 = new WordList("Again one more", anotherOwner) { Id = 3 };
+                context.WordLists.Add(wordList3);
+                wordList3.AddWord("Word1", "Definition1");
             });
         }
     }

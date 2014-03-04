@@ -14,7 +14,7 @@ namespace MinaGlosor.Web.Data.Commands
             this.owner = owner;
         }
 
-        public Task ExecuteAsync(IDbContext session)
+        public Task ExecuteAsync(IDbContext context)
         {
             //session.Store(new WordList(name, owner));
             return Task.FromResult(0);

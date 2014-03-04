@@ -16,7 +16,7 @@ namespace MinaGlosor.Web.Data.Queries
         {
         }
 
-        public Task<Result[]> ExecuteAsync(IDbContext session)
+        public Task<Result[]> ExecuteAsync(IDbContext context)
         {
             //return session.Query<WordsIndex.Result, WordsIndex>()
             //              .Where(x => x.WordListId == wordListId)

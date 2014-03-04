@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace MinaGlosor.Web.Data.Models
 {
@@ -18,6 +20,8 @@ namespace MinaGlosor.Web.Data.Models
 
             Name = name;
             OwnerId = owner.Id;
+
+            Words = new Collection<Word>();
         }
 
         private WordList()
@@ -30,15 +34,18 @@ namespace MinaGlosor.Web.Data.Models
 
         public int OwnerId { get; private set; }
 
+        public virtual ICollection<Word> Words { get; private set; }
+
         public WordAnswer Answer(Word word, User user)
         {
             // TODO: Access control
             return new WordAnswer(word, this, user);
         }
 
-        public Word AddWord(string text, string definition)
+        public void AddWord(string text, string definition)
         {
-            return new Word(this, text, definition);
+            var word = new Word(this, text, definition);
+            Words.Add(word);
         }
     }
 }

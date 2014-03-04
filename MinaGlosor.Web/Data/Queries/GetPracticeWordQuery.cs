@@ -18,7 +18,7 @@ namespace MinaGlosor.Web.Data.Queries
             this.currentUser = currentUser;
         }
 
-        public Task<Result> ExecuteAsync(IDbContext session)
+        public Task<Result> ExecuteAsync(IDbContext context)
         {
             return null;
             //var results = session.Query<WordsIndex.Result, WordsIndex>()

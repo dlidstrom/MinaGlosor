@@ -11,7 +11,7 @@ namespace MinaGlosor.Web.Data.Queries
             this.id = id;
         }
 
-        public Task<Result> ExecuteAsync(IDbContext session)
+        public Task<Result> ExecuteAsync(IDbContext context)
         {
             //var stringifiedId = "WordLists-" + id;
             //var wordList = session.Query<WordListIndex.Result, WordListIndex>()

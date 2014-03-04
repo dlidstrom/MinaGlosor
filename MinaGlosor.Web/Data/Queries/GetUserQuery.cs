@@ -14,7 +14,7 @@ namespace MinaGlosor.Web.Data.Queries
             this.id = id;
         }
 
-        public Task<Result> ExecuteAsync(IDbContext session)
+        public Task<Result> ExecuteAsync(IDbContext context)
         {
             return null;
             //var user = session.Load<User>(id);

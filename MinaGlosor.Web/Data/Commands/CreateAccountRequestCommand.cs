@@ -11,7 +11,7 @@ namespace MinaGlosor.Web.Data.Commands
             this.email = email;
         }
 
-        public Task ExecuteAsync(IDbContext session)
+        public Task ExecuteAsync(IDbContext context)
         {
             //var accountRequest = new CreateAccountRequest(email);
             //session.Store(accountRequest);

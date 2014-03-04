@@ -14,7 +14,7 @@ namespace MinaGlosor.Web.Data.Queries
             this.email = email;
         }
 
-        public Task<User> ExecuteAsync(IDbContext session)
+        public Task<User> ExecuteAsync(IDbContext context)
         {
             //return session.Query<User, User_ByEmail>().FirstOrDefault(x => x.Email == email);
             return null;
