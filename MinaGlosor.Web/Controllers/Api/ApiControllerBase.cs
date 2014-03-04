@@ -3,8 +3,6 @@ using System.Linq;
 using System.Web.Http;
 using MinaGlosor.Web.Data;
 using MinaGlosor.Web.Data.Models;
-using MinaGlosor.Web.Infrastructure.Indexes;
-using Raven.Client;
 
 namespace MinaGlosor.Web.Controllers.Api
 {
@@ -13,7 +11,7 @@ namespace MinaGlosor.Web.Controllers.Api
     {
         private User currentUser;
 
-        public IDocumentSession Session { private get; set; }
+        //public IDocumentSession Session { private get; set; }
 
         public User CurrentUser
         {
@@ -21,35 +19,31 @@ namespace MinaGlosor.Web.Controllers.Api
             {
                 if (currentUser == null)
                 {
-                    currentUser = Session.Query<User, User_ByEmail>()
-                                         .FirstOrDefault(x => x.Email == User.Identity.Name);
+                    currentUser = Context.Users
+                        .FirstOrDefault(x => x.Email == User.Identity.Name);
                 }
 
                 return currentUser;
             }
         }
 
-        [NonAction]
-        public void SaveChanges()
-        {
-            Session.SaveChanges();
-        }
+        public IDbContext Context { get; set; }
 
         protected void ExecuteCommand(ICommand command)
         {
             if (command == null) throw new ArgumentNullException("command");
-            command.Execute(Session);
+            command.Execute(Context);
         }
 
         protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)
         {
             if (query == null) throw new ArgumentNullException("query");
-            return query.Execute(Session);
+            return query.Execute(Context);
         }
 
         protected string ExecuteQueryForEtag<TResult>(QueryForEtagBase<TResult> query)
         {
-            return query.QueryForEtag(Session);
+            return query.QueryForEtag(Context);
         }
     }
 }

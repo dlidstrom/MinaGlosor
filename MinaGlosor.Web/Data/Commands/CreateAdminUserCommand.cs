@@ -14,12 +14,10 @@ namespace MinaGlosor.Web.Data.Commands
             this.password = password;
         }
 
-        public void Execute(IDocumentSession session)
+        public void Execute(IDbContext session)
         {
-            var user = new User(string.Empty, string.Empty, userEmail, password)
-                {
-                    Id = "Admin"
-                };
+            var user = new User(string.Empty, string.Empty, userEmail, password);
+            user.SetRole(UserRole.Admin);
             session.Store(user);
         }
     }

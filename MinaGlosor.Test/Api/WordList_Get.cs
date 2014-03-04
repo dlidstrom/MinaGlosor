@@ -16,8 +16,8 @@ namespace MinaGlosor.Test.Api
             Transact(session =>
             {
                 var owner = new User("First", "Last", "e@d.com", "pwd");
-                session.Store(owner);
-                session.Store(new WordList("list", owner));
+                session.Users.Add(owner);
+                session.WordLists.Add(new WordList("list", owner));
             });
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
@@ -104,25 +104,25 @@ namespace MinaGlosor.Test.Api
             {
                 // first word list
                 var owner = new User("First", "Last", "e@d.com", "pwd");
-                session.Store(owner);
+                session.Users.Add(owner);
                 var wordList1 = new WordList("Some name", owner);
-                session.Store(wordList1);
-                session.Store(wordList1.AddWord("Word1", "Definition1"));
-                session.Store(wordList1.AddWord("Word2", "Definition2"));
+                session.WordLists.Add(wordList1);
+                session.Words.Add(wordList1.AddWord("Word1", "Definition1"));
+                session.Words.Add(wordList1.AddWord("Word2", "Definition2"));
 
                 // second word list
                 var wordList2 = new WordList("Then one more", owner);
-                session.Store(wordList2);
-                session.Store(wordList2.AddWord("Word1", "Definition1"));
-                session.Store(wordList2.AddWord("Word2", "Definition2"));
-                session.Store(wordList2.AddWord("Word3", "Definition2"));
+                session.WordLists.Add(wordList2);
+                session.Words.Add(wordList2.AddWord("Word1", "Definition1"));
+                session.Words.Add(wordList2.AddWord("Word2", "Definition2"));
+                session.Words.Add(wordList2.AddWord("Word3", "Definition2"));
 
                 // third one, this is for another user
                 var anotherOwner = new User("First", "Last", "some_other_user@d.com", "pwd");
-                session.Store(anotherOwner);
+                session.Users.Add(anotherOwner);
                 var wordList3 = new WordList("Again one more", anotherOwner);
-                session.Store(wordList3);
-                session.Store(wordList3.AddWord("Word1", "Definition1"));
+                session.WordLists.Add(wordList3);
+                session.Words.Add(wordList3.AddWord("Word1", "Definition1"));
             });
         }
     }

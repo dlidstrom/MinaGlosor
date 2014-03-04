@@ -16,7 +16,7 @@ namespace MinaGlosor.Web.Data.Queries
             this.email = email;
         }
 
-        public Result Execute(IDocumentSession session)
+        public Result Execute(IDbContext session)
         {
             var request = session.Query<CreateAccountRequest, CreateAccountRequestIndex>()
                                  .FirstOrDefault(x => x.Email == email);

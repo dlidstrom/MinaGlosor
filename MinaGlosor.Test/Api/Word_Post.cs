@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using System.Net;
+
 using System.Net.Http;
+
 using System.Security.Principal;
 using System.Threading;
 using MinaGlosor.Web.Data.Models;
@@ -19,8 +22,8 @@ namespace MinaGlosor.Test.Api
             var wordList = new WordList("list", owner);
             Transact(session =>
             {
-                session.Store(owner);
-                session.Store(wordList);
+                session.Users.Add(owner);
+                session.WordLists.Add(wordList);
             });
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
@@ -36,9 +39,9 @@ namespace MinaGlosor.Test.Api
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-            Transact(session =>
+            Transact(context =>
             {
-                var word = session.Load<Word>(1);
+                var word = context.Words.SingleOrDefault();
                 Assert.That(word, Is.Not.Null);
                 Debug.Assert(word != null, "task != null");
                 Assert.That(word.Text, Is.EqualTo("Some word"));

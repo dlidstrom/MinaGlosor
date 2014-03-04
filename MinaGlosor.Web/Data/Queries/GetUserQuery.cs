@@ -14,7 +14,7 @@ namespace MinaGlosor.Web.Data.Queries
             this.id = id;
         }
 
-        public Result Execute(IDocumentSession session)
+        public Result Execute(IDbContext session)
         {
             var user = session.Load<User>(id);
             return user != null ? new Result(user) : null;

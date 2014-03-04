@@ -16,7 +16,7 @@ namespace MinaGlosor.Web.Data.Queries
             this.activationCode = activationCode;
         }
 
-        public CreateAccountRequest Execute(IDocumentSession session)
+        public CreateAccountRequest Execute(IDbContext session)
         {
             return session.Query<CreateAccountRequest, CreateAccountRequestIndex>()
                           .FirstOrDefault(x => x.ActivationCode == activationCode);

@@ -15,12 +15,12 @@ namespace MinaGlosor.Test.Api
             // Arrange
             var owner = new User("First", "Last", "e@d.com", "pwd");
             var wordList = new WordList("list", owner);
-            Transact(session =>
+            Transact(context =>
             {
-                session.Store(owner);
-                session.Store(wordList);
-                session.Store(wordList.AddWord("w1", "d1"));
-                session.Store(wordList.AddWord("w2", "d2"));
+                context.Users.Add(owner);
+                context.WordLists.Add(wordList);
+                context.Words.Add(wordList.AddWord("w1", "d1"));
+                context.Words.Add(wordList.AddWord("w2", "d2"));
             });
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);

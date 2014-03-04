@@ -21,7 +21,7 @@ namespace MinaGlosor.Web.Data.Commands
         {
         }
 
-        public void Execute(IDocumentSession session)
+        public void Execute(IDbContext session)
         {
             var wordList = session.Load<WordList>(wordListId);
             session.Store(wordList.AddWord(text, definition));

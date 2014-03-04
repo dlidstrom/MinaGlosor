@@ -1,5 +1,4 @@
 using System;
-using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Data.Models
 {
@@ -18,17 +17,13 @@ namespace MinaGlosor.Web.Data.Models
             Definition = definition;
         }
 
-        [JsonConstructor]
-        private Word(string wordListId, string text, string definition)
+        private Word()
         {
-            WordListId = wordListId;
-            Text = text;
-            Definition = definition;
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
 
-        public string WordListId { get; private set; }
+        public int WordListId { get; private set; }
 
         public string Text { get; private set; }
 

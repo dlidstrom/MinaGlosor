@@ -14,7 +14,7 @@ namespace MinaGlosor.Web.Data.Commands
             this.owner = owner;
         }
 
-        public void Execute(IDocumentSession session)
+        public void Execute(IDbContext session)
         {
             session.Store(new WordList(name, owner));
         }

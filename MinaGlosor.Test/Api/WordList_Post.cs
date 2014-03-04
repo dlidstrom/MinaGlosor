@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Principal;
@@ -16,7 +17,7 @@ namespace MinaGlosor.Test.Api
         {
             // Arrange
             var owner = new User("First", "Last", "e@d.com", "pwd");
-            Transact(session => session.Store(owner));
+            Transact(session => session.Users.Add(owner));
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
 
@@ -31,7 +32,7 @@ namespace MinaGlosor.Test.Api
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
             Transact(session =>
             {
-                var wordList = session.Load<WordList>(1);
+                var wordList = session.WordLists.SingleOrDefault();
                 Assert.That(wordList, Is.Not.Null);
                 Debug.Assert(wordList != null, "task != null");
                 Assert.That(wordList.Name, Is.EqualTo("Some name"));

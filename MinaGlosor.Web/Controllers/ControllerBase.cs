@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
 using Castle.MicroKernel;
 using MinaGlosor.Web.Data;
 using MinaGlosor.Web.Data.Models;
-using MinaGlosor.Web.Infrastructure.Indexes;
 using Raven.Client;
 
 namespace MinaGlosor.Web.Controllers
@@ -15,31 +13,31 @@ namespace MinaGlosor.Web.Controllers
 
         protected User CurrentUser { get; private set; }
 
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        protected override async void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (Response.IsRequestBeingRedirected) return;
 
             if (Request.IsAuthenticated)
             {
-                var user = GetDocumentSession().Query<User, User_ByEmail>()
-                                               .FirstOrDefault(x => x.Email == User.Identity.Name);
+                var user = await GetDocumentSession().Users.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
                 if (user != null)
                     CurrentUser = user;
             }
 
             // make sure there's an admin user
-            if (GetDocumentSession().Load<User>("Admin") != null) return;
+            if (await GetDocumentSession().Users.SingleOrDefaultAsync(x => x.Role == UserRole.Admin) != null)
+                return;
 
             // first launch
             Response.Redirect("/welcome");
             Response.End();
         }
 
-        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        protected override async void OnActionExecuted(ActionExecutedContext filterContext)
         {
             if (filterContext.IsChildAction || filterContext.Exception != null) return;
 
-            GetDocumentSession().SaveChanges();
+            await GetDocumentSession().SaveChangesAsync();
         }
 
         protected void ExecuteCommand(ICommand command)
@@ -54,9 +52,9 @@ namespace MinaGlosor.Web.Controllers
             return query.Execute(GetDocumentSession());
         }
 
-        private IDocumentSession GetDocumentSession()
+        private IDbContext GetDocumentSession()
         {
-            return Kernel.Resolve<IDocumentSession>();
+            return Kernel.Resolve<IDbContext>();
         }
     }
 }

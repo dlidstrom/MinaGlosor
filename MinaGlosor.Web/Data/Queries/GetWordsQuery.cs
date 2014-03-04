@@ -19,7 +19,7 @@ namespace MinaGlosor.Web.Data.Queries
         {
         }
 
-        public Result[] Execute(IDocumentSession session)
+        public Result[] Execute(IDbContext session)
         {
             return session.Query<WordsIndex.Result, WordsIndex>()
                           .Where(x => x.WordListId == wordListId)

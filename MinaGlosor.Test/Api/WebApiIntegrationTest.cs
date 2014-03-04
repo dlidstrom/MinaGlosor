@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
 using Castle.Core;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web;
 using MinaGlosor.Web.Controllers.Api;
+using MinaGlosor.Web.Data;
 using MinaGlosor.Web.Infrastructure.IoC;
 using NUnit.Framework;
-using Raven.Client;
 
 namespace MinaGlosor.Test.Api
 {
@@ -23,6 +24,10 @@ namespace MinaGlosor.Test.Api
         {
             var configuration = new HttpConfiguration();
             Container = new WindsorContainer();
+            Container.Register(
+                Component.For<IDbContext>()
+                         .ImplementedBy<InMemoryDbContext>()
+                         .LifestyleSingleton());
             Container.Install(
                 new ControllerInstaller(),
                 new WindsorWebApiInstaller(),
@@ -44,15 +49,10 @@ namespace MinaGlosor.Test.Api
             MvcApplication.Shutdown();
         }
 
-        protected void Transact(Action<IDocumentSession> action)
+        protected void Transact(Action<IDbContext> action)
         {
-            using (var session = Container.Resolve<IDocumentStore>().OpenSession())
-            {
-                action.Invoke(session);
-                session.SaveChanges();
-            }
-
-            WaitForIndexing();
+            var context = Container.Resolve<IDbContext>();
+            action.Invoke(context);
         }
 
         protected virtual void OnSetUp(IWindsorContainer container)
@@ -61,26 +61,6 @@ namespace MinaGlosor.Test.Api
 
         protected virtual void OnTearDown()
         {
-        }
-
-        private void WaitForIndexing()
-        {
-            var documentStore = Container.Resolve<IDocumentStore>();
-            var indexingTask = Task.Factory.StartNew(
-                () =>
-                {
-                    while (true)
-                    {
-                        var s = documentStore.DatabaseCommands.GetStatistics().StaleIndexes;
-                        if (s.Length == 0)
-                        {
-                            break;
-                        }
-
-                        Task.Delay(500);
-                    }
-                });
-            indexingTask.Wait(15000);
         }
     }
 }

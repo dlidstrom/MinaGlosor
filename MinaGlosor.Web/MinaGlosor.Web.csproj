@@ -42,6 +42,9 @@
     <Reference Include="AjaxMin">
       <HintPath>..\packages\AjaxMin.4.84.4790.14417\lib\net40\AjaxMin.dll</HintPath>
     </Reference>
+    <Reference Include="BCrypt.Net">
+      <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
+    </Reference>
     <Reference Include="Cassette">
       <HintPath>..\packages\Cassette.2.3.0\lib\net40-client\Cassette.dll</HintPath>
     </Reference>
@@ -56,6 +59,12 @@
     </Reference>
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.2.1\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -177,12 +186,14 @@
     <Compile Include="Controllers\PracticeController.cs" />
     <Compile Include="Controllers\WelcomeController.cs" />
     <Compile Include="Controllers\WordController.cs" />
+    <Compile Include="Data\IDbContext.cs" />
     <Compile Include="Data\Commands\AnswerWordCommand.cs" />
     <Compile Include="Data\Commands\CreateAccountRequestCommand.cs" />
     <Compile Include="Data\Commands\CreateAdminUserCommand.cs" />
     <Compile Include="Data\Commands\CreateUserCommand.cs" />
     <Compile Include="Data\Commands\CreateWordCommand.cs" />
     <Compile Include="Data\Commands\CreateWordListCommand.cs" />
+    <Compile Include="Data\Context.cs" />
     <Compile Include="Data\Events\CreateAcountRequestCreated.cs" />
     <Compile Include="Data\Events\DomainEvent.cs" />
     <Compile Include="Data\Events\DomainEventReset.cs" />
@@ -191,6 +202,7 @@
     <Compile Include="Data\Handlers\IHandle.cs" />
     <Compile Include="Data\ICommand.cs" />
     <Compile Include="Data\IQuery.cs" />
+    <Compile Include="Data\Models\UserRole.cs" />
     <Compile Include="Data\Queries\GetWordListByIdQuery.cs" />
     <Compile Include="Data\QueryForEtagBase.cs" />
     <Compile Include="Data\Models\CreateAccountRequest.cs" />
@@ -205,16 +217,17 @@
     <Compile Include="Data\Queries\GetWordListsQuery.cs" />
     <Compile Include="Data\Queries\GetWordQuery.cs" />
     <Compile Include="Data\Queries\GetWordsQuery.cs" />
+    <Compile Include="Data\SaveChangesAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\AsyncFilter.cs" />
     <Compile Include="Infrastructure\CassetteBundleConfiguration.cs" />
     <Compile Include="Infrastructure\Annotations.cs" />
     <Compile Include="Infrastructure\Emails.cs" />
     <Compile Include="Infrastructure\Indexes\CreateAccountRequestIndex.cs" />
-    <Compile Include="Infrastructure\Indexes\User_ByEmail.cs" />
-    <Compile Include="Infrastructure\Indexes\WordListIndex.cs" />
     <Compile Include="Infrastructure\Indexes\WordsIndex.cs" />
+    <Compile Include="Infrastructure\IoC\ContextInstaller.cs" />
     <Compile Include="Infrastructure\IoC\HandlersInstaller.cs" />
     <Compile Include="Infrastructure\IoC\IndexCreator.cs" />
     <Compile Include="Infrastructure\IoC\WindsorWebApiInstaller.cs" />
@@ -226,7 +239,6 @@
     <Compile Include="Infrastructure\IoC\WindsorHttpDependencyResolver.cs" />
     <Compile Include="Infrastructure\IoC\WindsorMvcDependencyResolver.cs" />
     <Compile Include="Data\Models\User.cs" />
-    <Compile Include="Infrastructure\SaveChangesAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\about\about.html" />
     <Content Include="Content\app\infrastructure\app.js" />
@@ -252,6 +264,7 @@
     <None Include="Content\main.less" />
     <Content Include="Content\readable.min.css" />
     <Content Include="Content\toastr.css" />
+    <Content Include="LICENSE.txt" />
     <Content Include="Views\Account\Activate.cshtml" />
     <Content Include="Views\Account\InviteSuccess.cshtml" />
     <Content Include="Views\Account\Logon.cshtml" />

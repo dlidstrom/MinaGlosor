@@ -1,8 +1,6 @@
 using System;
-using System.Linq;
 using MinaGlosor.Web.Data.Models;
 using MinaGlosor.Web.Infrastructure.Indexes;
-using Raven.Client;
 
 namespace MinaGlosor.Web.Data.Queries
 {
@@ -19,7 +17,7 @@ namespace MinaGlosor.Web.Data.Queries
             this.currentUser = currentUser;
         }
 
-        public Result Execute(IDocumentSession session)
+        public Result Execute(IDbContext session)
         {
             var results = session.Query<WordsIndex.Result, WordsIndex>()
                                  .Where(x => x.WordListId == wordListId)

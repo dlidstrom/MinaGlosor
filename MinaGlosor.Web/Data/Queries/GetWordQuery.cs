@@ -12,7 +12,7 @@ namespace MinaGlosor.Web.Data.Queries
             this.wordId = wordId;
         }
 
-        public Result Execute(IDocumentSession session)
+        public Result Execute(IDbContext session)
         {
             return new Result(session.Load<Word>(wordId));
         }
@@ -30,7 +30,7 @@ namespace MinaGlosor.Web.Data.Queries
 
             public string Text { get; set; }
 
-            public string WordId { get; set; }
+            public int WordId { get; set; }
         }
     }
 }

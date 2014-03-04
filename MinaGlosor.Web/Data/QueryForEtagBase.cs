@@ -6,7 +6,7 @@ namespace MinaGlosor.Web.Data
 {
     public abstract class QueryForEtagBase<TResult>
     {
-        public string QueryForEtag(IDocumentSession session)
+        public string QueryForEtag(IDbContext session)
         {
             QueryHeaderInformation queryHeaderInformation;
             var query = GetQuery(session);

@@ -12,7 +12,7 @@ namespace MinaGlosor.Web.Data.Commands
             this.email = email;
         }
 
-        public void Execute(IDocumentSession session)
+        public void Execute(IDbContext session)
         {
             var accountRequest = new CreateAccountRequest(email);
             session.Store(accountRequest);

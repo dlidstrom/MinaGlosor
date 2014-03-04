@@ -1,9 +1,4 @@
-﻿using System.Globalization;
-using System.Linq;
-using MinaGlosor.Web.Infrastructure.Indexes;
-using Raven.Client;
-
-namespace MinaGlosor.Web.Data.Queries
+﻿namespace MinaGlosor.Web.Data.Queries
 {
     public class GetWordListByIdQuery : IQuery<GetWordListByIdQuery.Result>
     {
@@ -14,23 +9,17 @@ namespace MinaGlosor.Web.Data.Queries
             this.id = id;
         }
 
-        public Result Execute(IDocumentSession session)
+        public Result Execute(IDbContext session)
         {
-            var stringifiedId = "WordLists-" + id;
-            var wordList = session.Query<WordListIndex.Result, WordListIndex>()
-                .SingleOrDefault(x => x.WordListId == stringifiedId);
-            return wordList != null ? new Result(wordList) : null;
+            //var stringifiedId = "WordLists-" + id;
+            //var wordList = session.Query<WordListIndex.Result, WordListIndex>()
+            //    .SingleOrDefault(x => x.WordListId == stringifiedId);
+            //return wordList != null ? new Result(wordList) : null;
+            return null;
         }
 
         public class Result
         {
-            public Result(WordListIndex.Result wordList)
-            {
-                Id = int.Parse(wordList.WordListId.Replace("WordLists-", string.Empty), CultureInfo.InvariantCulture);
-                Name = wordList.WordListName;
-                WordCount = wordList.WordCount;
-            }
-
             public int Id { get; private set; }
 
             public string Name { get; private set; }

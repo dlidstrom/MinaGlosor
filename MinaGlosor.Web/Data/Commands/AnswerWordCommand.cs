@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using MinaGlosor.Web.Data.Models;
 using Raven.Client;
 
@@ -20,9 +21,9 @@ namespace MinaGlosor.Web.Data.Commands
             this.confidence = confidence;
         }
 
-        public void Execute(IDocumentSession session)
+        public async Task Execute(IDbContext session)
         {
-            var word = session.Load<Word>(wordId);
+            var word = await session.Words.SingleOrDefaultAsync(x => x.Id == wordId);
             var wordList = session.Load<WordList>(wordListId);
             var id = WordAnswer.GetId(word, user);
             var wordAnswer = session.Load<WordAnswer>(id);

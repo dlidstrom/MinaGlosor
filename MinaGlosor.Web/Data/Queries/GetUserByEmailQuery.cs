@@ -1,8 +1,5 @@
 using System;
-using System.Linq;
 using MinaGlosor.Web.Data.Models;
-using MinaGlosor.Web.Infrastructure.Indexes;
-using Raven.Client;
 
 namespace MinaGlosor.Web.Data.Queries
 {
@@ -16,9 +13,10 @@ namespace MinaGlosor.Web.Data.Queries
             this.email = email;
         }
 
-        public User Execute(IDocumentSession session)
+        public User Execute(IDbContext session)
         {
-            return session.Query<User, User_ByEmail>().FirstOrDefault(x => x.Email == email);
+            //return session.Query<User, User_ByEmail>().FirstOrDefault(x => x.Email == email);
+            return null;
         }
     }
 }
