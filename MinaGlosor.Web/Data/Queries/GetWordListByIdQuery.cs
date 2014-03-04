@@ -1,4 +1,6 @@
-﻿namespace MinaGlosor.Web.Data.Queries
+﻿using System.Threading.Tasks;
+
+namespace MinaGlosor.Web.Data.Queries
 {
     public class GetWordListByIdQuery : IQuery<GetWordListByIdQuery.Result>
     {
@@ -9,7 +11,7 @@
             this.id = id;
         }
 
-        public Result Execute(IDbContext session)
+        public Task<Result> ExecuteAsync(IDbContext session)
         {
             //var stringifiedId = "WordLists-" + id;
             //var wordList = session.Query<WordListIndex.Result, WordListIndex>()

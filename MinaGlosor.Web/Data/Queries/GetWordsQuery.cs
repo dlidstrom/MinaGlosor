@@ -1,7 +1,4 @@
-using System.Linq;
-using MinaGlosor.Web.Infrastructure.Indexes;
-using Raven.Client;
-using Raven.Client.Linq;
+using System.Threading.Tasks;
 
 namespace MinaGlosor.Web.Data.Queries
 {
@@ -19,14 +16,15 @@ namespace MinaGlosor.Web.Data.Queries
         {
         }
 
-        public Result[] Execute(IDbContext session)
+        public Task<Result[]> ExecuteAsync(IDbContext session)
         {
-            return session.Query<WordsIndex.Result, WordsIndex>()
-                          .Where(x => x.WordListId == wordListId)
-                          .OrderBy(x => x.EasynessFactor)
-                          .ThenBy(x => x.Text)
-                          .AsProjection<Result>()
-                          .ToArray();
+            //return session.Query<WordsIndex.Result, WordsIndex>()
+            //              .Where(x => x.WordListId == wordListId)
+            //              .OrderBy(x => x.EasynessFactor)
+            //              .ThenBy(x => x.Text)
+            //              .AsProjection<Result>()
+            //              .ToArray();
+            return null;
         }
 
         public class Result

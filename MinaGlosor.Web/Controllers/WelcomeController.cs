@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
 using MinaGlosor.Web.Data.Commands;
 using MinaGlosor.Web.Data.Queries;
 
@@ -6,9 +7,9 @@ namespace MinaGlosor.Web.Controllers
 {
     public class WelcomeController : ControllerBase
     {
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            if (ExecuteQuery(new GetUserQuery("Admin")) != null)
+            if (await ExecuteQueryAsync(new GetUserQuery("Admin")) != null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -17,10 +18,10 @@ namespace MinaGlosor.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(CreateAdminUserRequest request)
+        public async Task<ActionResult> Create(CreateAdminUserRequest request)
         {
-            if (ExecuteQuery(new GetUserQuery("Admin")) == null)
-                ExecuteCommand(new CreateAdminUserCommand(request.UserEmail, request.Password));
+            if (await ExecuteQueryAsync(new GetUserQuery("Admin")) == null)
+                await ExecuteCommandAsync(new CreateAdminUserCommand(request.UserEmail, request.Password));
 
             return RedirectToAction("Index", "Home");
         }

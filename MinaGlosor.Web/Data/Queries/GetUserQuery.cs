@@ -1,6 +1,6 @@
 using System;
+using System.Threading.Tasks;
 using MinaGlosor.Web.Data.Models;
-using Raven.Client;
 
 namespace MinaGlosor.Web.Data.Queries
 {
@@ -14,10 +14,11 @@ namespace MinaGlosor.Web.Data.Queries
             this.id = id;
         }
 
-        public Result Execute(IDbContext session)
+        public Task<Result> ExecuteAsync(IDbContext session)
         {
-            var user = session.Load<User>(id);
-            return user != null ? new Result(user) : null;
+            return null;
+            //var user = session.Load<User>(id);
+            //return user != null ? new Result(user) : null;
         }
 
         public class Result

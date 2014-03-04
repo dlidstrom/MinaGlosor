@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using MinaGlosor.Web.Data.Commands;
 using MinaGlosor.Web.Data.Queries;
@@ -7,9 +8,9 @@ namespace MinaGlosor.Web.Controllers
 {
     public class WordController : ControllerBase
     {
-        public ActionResult ViewWords(string wordListId)
+        public async Task<ActionResult> ViewWords(string wordListId)
         {
-            var words = ExecuteQuery(new GetWordsQuery(wordListId));
+            var words = await ExecuteQueryAsync(new GetWordsQuery(wordListId));
             return View(new WordIndexViewModel(wordListId, words));
         }
 
@@ -19,11 +20,11 @@ namespace MinaGlosor.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(string wordListId, AddWordRequest request)
+        public async Task<ActionResult> Add(string wordListId, AddWordRequest request)
         {
             if (ModelState.IsValid == false)
                 return View();
-            ExecuteCommand(new CreateWordCommand(wordListId, request.Text, request.Definition));
+            await ExecuteCommandAsync(new CreateWordCommand(wordListId, request.Text, request.Definition));
             return RedirectToAction("Add", new { wordListId });
         }
 

@@ -1,5 +1,4 @@
-using MinaGlosor.Web.Data.Models;
-using Raven.Client;
+using System.Threading.Tasks;
 
 namespace MinaGlosor.Web.Data.Commands
 {
@@ -14,11 +13,12 @@ namespace MinaGlosor.Web.Data.Commands
             this.password = password;
         }
 
-        public void Execute(IDbContext session)
+        public Task ExecuteAsync(IDbContext session)
         {
-            var user = new User(string.Empty, string.Empty, userEmail, password);
-            user.SetRole(UserRole.Admin);
-            session.Store(user);
+            //var user = new User(string.Empty, string.Empty, userEmail, password);
+            //user.SetRole(UserRole.Admin);
+            //session.Store(user);
+            return null;
         }
     }
 }

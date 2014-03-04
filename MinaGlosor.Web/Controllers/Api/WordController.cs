@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using MinaGlosor.Web.Data.Commands;
 using MinaGlosor.Web.Data.Queries;
@@ -9,18 +10,18 @@ namespace MinaGlosor.Web.Controllers.Api
 {
     public class WordController : ApiControllerBase
     {
-        public HttpResponseMessage Get(int wordListId)
+        public async Task<HttpResponseMessage> Get(int wordListId)
         {
-            var words = ExecuteQuery(new GetWordsQuery(wordListId));
+            var words = await ExecuteQueryAsync(new GetWordsQuery(wordListId));
             return Request.CreateResponse(HttpStatusCode.OK, words);
         }
 
-        public HttpResponseMessage Post(NewWordRequest request)
+        public async Task<HttpResponseMessage> Post(NewWordRequest request)
         {
             if (ModelState.IsValid == false)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
 
-            ExecuteCommand(new CreateWordCommand(request.WordListId, request.Word, request.Definition));
+            await ExecuteCommandAsync(new CreateWordCommand(request.WordListId, request.Word, request.Definition));
             return Request.CreateResponse(HttpStatusCode.Created);
         }
 

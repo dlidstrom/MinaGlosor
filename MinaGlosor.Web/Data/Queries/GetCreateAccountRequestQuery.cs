@@ -1,8 +1,6 @@
 using System;
-using System.Linq;
+using System.Threading.Tasks;
 using MinaGlosor.Web.Data.Models;
-using MinaGlosor.Web.Infrastructure.Indexes;
-using Raven.Client;
 
 namespace MinaGlosor.Web.Data.Queries
 {
@@ -16,10 +14,11 @@ namespace MinaGlosor.Web.Data.Queries
             this.activationCode = activationCode;
         }
 
-        public CreateAccountRequest Execute(IDbContext session)
+        public Task<CreateAccountRequest> ExecuteAsync(IDbContext session)
         {
-            return session.Query<CreateAccountRequest, CreateAccountRequestIndex>()
-                          .FirstOrDefault(x => x.ActivationCode == activationCode);
+            //return session.Query<CreateAccountRequest, CreateAccountRequestIndex>()
+            //              .FirstOrDefault(x => x.ActivationCode == activationCode);
+            return null;
         }
     }
 }

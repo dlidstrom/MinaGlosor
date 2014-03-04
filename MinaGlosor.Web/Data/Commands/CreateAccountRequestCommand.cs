@@ -1,5 +1,4 @@
-using MinaGlosor.Web.Data.Models;
-using Raven.Client;
+using System.Threading.Tasks;
 
 namespace MinaGlosor.Web.Data.Commands
 {
@@ -12,10 +11,11 @@ namespace MinaGlosor.Web.Data.Commands
             this.email = email;
         }
 
-        public void Execute(IDbContext session)
+        public Task ExecuteAsync(IDbContext session)
         {
-            var accountRequest = new CreateAccountRequest(email);
-            session.Store(accountRequest);
+            //var accountRequest = new CreateAccountRequest(email);
+            //session.Store(accountRequest);
+            return Task.FromResult(0);
         }
     }
 }

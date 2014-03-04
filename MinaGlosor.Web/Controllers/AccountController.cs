@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -15,12 +16,12 @@ namespace MinaGlosor.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Invite(RequestCreateAccount request)
+        public async Task<ActionResult> Invite(RequestCreateAccount request)
         {
-            if (ExecuteQuery(new GetUserByEmailQuery(request.UserEmail)) != null)
+            if (await ExecuteQueryAsync(new GetUserByEmailQuery(request.UserEmail)) != null)
                 ModelState.AddModelError("Email", "E-postadressen finns redan");
 
-            if (ExecuteQuery(new GetCreateAccountRequest(request.UserEmail)) != null)
+            if (await ExecuteQueryAsync(new GetCreateAccountRequest(request.UserEmail)) != null)
             {
                 ModelState.AddModelError("Email", "Inbjudan är redan skickad");
             }
@@ -28,14 +29,14 @@ namespace MinaGlosor.Web.Controllers
             if (ModelState.IsValid == false)
                 return View();
 
-            ExecuteCommand(new CreateAccountRequestCommand(request.UserEmail));
+            await ExecuteCommandAsync(new CreateAccountRequestCommand(request.UserEmail));
 
             return RedirectToAction("InviteSuccess");
         }
 
-        public ActionResult Activate(string activationCode)
+        public async Task<ActionResult> Activate(string activationCode)
         {
-            var createAccountRequest = ExecuteQuery(new GetCreateAccountRequestQuery(activationCode));
+            var createAccountRequest = await ExecuteQueryAsync(new GetCreateAccountRequestQuery(activationCode));
             if (createAccountRequest == null)
                 throw new HttpException(404, "Not found");
 
@@ -46,12 +47,12 @@ namespace MinaGlosor.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Activate(ActivateAccountViewModel vm)
+        public async Task<ActionResult> Activate(ActivateAccountViewModel vm)
         {
             if (ModelState.IsValid == false)
                 return View(vm);
 
-            var createAccountRequest = ExecuteQuery(new GetCreateAccountRequestQuery(vm.ActivationCode));
+            var createAccountRequest = await ExecuteQueryAsync(new GetCreateAccountRequestQuery(vm.ActivationCode));
             if (createAccountRequest == null)
                 throw new HttpException(404, "Not found");
 
@@ -59,7 +60,7 @@ namespace MinaGlosor.Web.Controllers
                 throw new HttpException(404, "Already used");
 
             createAccountRequest.MarkAsUsed();
-            ExecuteCommand(new CreateUserCommand(createAccountRequest.Email, vm.Password));
+            await ExecuteCommandAsync(new CreateUserCommand(createAccountRequest.Email, vm.Password));
             FormsAuthentication.SetAuthCookie(createAccountRequest.Email, true);
             return RedirectToAction("Index", "Home");
         }
@@ -75,9 +76,9 @@ namespace MinaGlosor.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Logon(LogonRequest request)
+        public async Task<ActionResult> Logon(LogonRequest request)
         {
-            var user = ExecuteQuery(new GetUserByEmailQuery(request.Email));
+            var user = await ExecuteQueryAsync(new GetUserByEmailQuery(request.Email));
             if (user == null)
                 throw new HttpException(404, "Not found");
 

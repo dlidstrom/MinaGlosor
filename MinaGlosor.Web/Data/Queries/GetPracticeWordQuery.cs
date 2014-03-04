@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using MinaGlosor.Web.Data.Models;
 using MinaGlosor.Web.Infrastructure.Indexes;
 
@@ -17,16 +18,17 @@ namespace MinaGlosor.Web.Data.Queries
             this.currentUser = currentUser;
         }
 
-        public Result Execute(IDbContext session)
+        public Task<Result> ExecuteAsync(IDbContext session)
         {
-            var results = session.Query<WordsIndex.Result, WordsIndex>()
-                                 .Where(x => x.WordListId == wordListId)
-                                 .OrderBy(x => x.EasynessFactor)
-                                 .Take(32)
-                                 .ToArray();
-            var randomWord = results[Random.Next(results.Length)];
-            var word = session.Load<Word>(randomWord.WordId);
-            return new Result(randomWord, word);
+            return null;
+            //var results = session.Query<WordsIndex.Result, WordsIndex>()
+            //                     .Where(x => x.WordListId == wordListId)
+            //                     .OrderBy(x => x.EasynessFactor)
+            //                     .Take(32)
+            //                     .ToArray();
+            //var randomWord = results[Random.Next(results.Length)];
+            //var word = session.Load<Word>(randomWord.WordId);
+            //return new Result(randomWord, word);
         }
 
         public class Result

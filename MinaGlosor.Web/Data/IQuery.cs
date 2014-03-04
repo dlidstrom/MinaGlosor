@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
+
 namespace MinaGlosor.Web.Data
 {
-    public interface IQuery<out TResult>
+    public interface IQuery<TResult>
     {
-        TResult Execute(IDbContext session);
+        Task<TResult> ExecuteAsync(IDbContext session);
     }
 }

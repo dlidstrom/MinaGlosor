@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using MinaGlosor.Web.Data.Models;
 
 namespace MinaGlosor.Web.Data.Queries
@@ -13,7 +14,7 @@ namespace MinaGlosor.Web.Data.Queries
             this.email = email;
         }
 
-        public User Execute(IDbContext session)
+        public Task<User> ExecuteAsync(IDbContext session)
         {
             //return session.Query<User, User_ByEmail>().FirstOrDefault(x => x.Email == email);
             return null;

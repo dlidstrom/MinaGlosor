@@ -1,5 +1,5 @@
+using System.Threading.Tasks;
 using MinaGlosor.Web.Data.Models;
-using Raven.Client;
 
 namespace MinaGlosor.Web.Data.Commands
 {
@@ -14,9 +14,10 @@ namespace MinaGlosor.Web.Data.Commands
             this.owner = owner;
         }
 
-        public void Execute(IDbContext session)
+        public Task ExecuteAsync(IDbContext session)
         {
-            session.Store(new WordList(name, owner));
+            //session.Store(new WordList(name, owner));
+            return Task.FromResult(0);
         }
     }
 }

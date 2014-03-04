@@ -1,5 +1,5 @@
+using System.Threading.Tasks;
 using MinaGlosor.Web.Data.Models;
-using Raven.Client;
 
 namespace MinaGlosor.Web.Data.Queries
 {
@@ -12,9 +12,10 @@ namespace MinaGlosor.Web.Data.Queries
             this.wordId = wordId;
         }
 
-        public Result Execute(IDbContext session)
+        public Task<Result> ExecuteAsync(IDbContext session)
         {
-            return new Result(session.Load<Word>(wordId));
+            return null;
+            //return new Result(session.Load<Word>(wordId));
         }
 
         public class Result

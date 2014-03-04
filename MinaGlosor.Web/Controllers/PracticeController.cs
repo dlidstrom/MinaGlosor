@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
 using MinaGlosor.Web.Data.Commands;
 using MinaGlosor.Web.Data.Queries;
 
@@ -6,21 +7,21 @@ namespace MinaGlosor.Web.Controllers
 {
     public class PracticeController : ControllerBase
     {
-        public ActionResult Index(string wordListId)
+        public async Task<ActionResult> Index(string wordListId)
         {
-            var word = ExecuteQuery(new GetPracticeWordQuery(wordListId, CurrentUser));
+            var word = await ExecuteQueryAsync(new GetPracticeWordQuery(wordListId, CurrentUser));
             return View(new ShowWordViewModel(wordListId, word));
         }
 
-        public ActionResult Show(string wordListId, string wordId)
+        public async Task<ActionResult> Show(string wordListId, string wordId)
         {
-            var word = ExecuteQuery(new GetWordQuery(wordId));
+            var word = await ExecuteQueryAsync(new GetWordQuery(wordId));
             return View(new AnswerWordViewModel(wordListId, word));
         }
 
-        public ActionResult Answer(string wordListId, string wordId, int confidence)
+        public async Task<ActionResult> Answer(int wordListId, int wordId, int confidence)
         {
-            ExecuteCommand(new AnswerWordCommand(CurrentUser, wordId, wordListId, confidence));
+            await ExecuteCommandAsync(new AnswerWordCommand(CurrentUser, wordId, wordListId, confidence));
             return RedirectToAction("Index", new { wordListId });
         }
 

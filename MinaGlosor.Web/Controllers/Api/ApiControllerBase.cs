@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using MinaGlosor.Web.Data;
 using MinaGlosor.Web.Data.Models;
@@ -29,16 +30,16 @@ namespace MinaGlosor.Web.Controllers.Api
 
         public IDbContext Context { get; set; }
 
-        protected void ExecuteCommand(ICommand command)
+        protected Task ExecuteCommandAsync(ICommand command)
         {
             if (command == null) throw new ArgumentNullException("command");
-            command.Execute(Context);
+            return command.ExecuteAsync(Context);
         }
 
-        protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)
+        protected Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query)
         {
             if (query == null) throw new ArgumentNullException("query");
-            return query.Execute(Context);
+            return query.ExecuteAsync(Context);
         }
 
         protected string ExecuteQueryForEtag<TResult>(QueryForEtagBase<TResult> query)

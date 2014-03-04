@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
+
 namespace MinaGlosor.Web.Data
 {
     public interface ICommand
     {
-        void Execute(IDbContext session);
+        Task ExecuteAsync(IDbContext session);
     }
 }

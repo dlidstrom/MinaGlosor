@@ -17,7 +17,7 @@ namespace MinaGlosor.Test.Api
             {
                 var owner = new User("First", "Last", "e@d.com", "pwd");
                 session.Users.Add(owner);
-                session.WordLists.Add(new WordList("list", owner));
+                session.WordLists.Add(new WordList("list", owner) { Id = 1 });
             });
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);

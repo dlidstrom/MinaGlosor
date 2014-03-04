@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using Castle.MicroKernel;
 using MinaGlosor.Web.Data;
 using MinaGlosor.Web.Data.Models;
 using Raven.Client;
@@ -9,7 +9,7 @@ namespace MinaGlosor.Web.Controllers
 {
     public abstract class ControllerBase : Controller
     {
-        public IKernel Kernel { get; set; }
+        public IDbContext Context { get; set; }
 
         protected User CurrentUser { get; private set; }
 
@@ -19,13 +19,13 @@ namespace MinaGlosor.Web.Controllers
 
             if (Request.IsAuthenticated)
             {
-                var user = await GetDocumentSession().Users.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
+                var user = await Context.Users.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
                 if (user != null)
                     CurrentUser = user;
             }
 
             // make sure there's an admin user
-            if (await GetDocumentSession().Users.SingleOrDefaultAsync(x => x.Role == UserRole.Admin) != null)
+            if (await Context.Users.SingleOrDefaultAsync(x => x.Role == UserRole.Admin) != null)
                 return;
 
             // first launch
@@ -37,24 +37,19 @@ namespace MinaGlosor.Web.Controllers
         {
             if (filterContext.IsChildAction || filterContext.Exception != null) return;
 
-            await GetDocumentSession().SaveChangesAsync();
+            await Context.SaveChangesAsync();
         }
 
-        protected void ExecuteCommand(ICommand command)
+        protected Task ExecuteCommandAsync(ICommand command)
         {
             if (command == null) throw new ArgumentNullException("command");
-            command.Execute(GetDocumentSession());
+            return command.ExecuteAsync(Context);
         }
 
-        protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)
+        protected Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query)
         {
             if (query == null) throw new ArgumentNullException("query");
-            return query.Execute(GetDocumentSession());
-        }
-
-        private IDbContext GetDocumentSession()
-        {
-            return Kernel.Resolve<IDbContext>();
+            return query.ExecuteAsync(Context);
         }
     }
 }

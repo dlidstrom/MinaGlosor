@@ -1,8 +1,6 @@
 using System;
-using System.Linq;
+using System.Threading.Tasks;
 using MinaGlosor.Web.Data.Models;
-using MinaGlosor.Web.Infrastructure.Indexes;
-using Raven.Client;
 
 namespace MinaGlosor.Web.Data.Queries
 {
@@ -16,11 +14,12 @@ namespace MinaGlosor.Web.Data.Queries
             this.email = email;
         }
 
-        public Result Execute(IDbContext session)
+        public Task<Result> ExecuteAsync(IDbContext session)
         {
-            var request = session.Query<CreateAccountRequest, CreateAccountRequestIndex>()
-                                 .FirstOrDefault(x => x.Email == email);
-            return request != null ? new Result(request) : null;
+            return null;
+            //var request = session.Query<CreateAccountRequest, CreateAccountRequestIndex>()
+            //                     .FirstOrDefault(x => x.Email == email);
+            //return request != null ? new Result(request) : null;
         }
 
         public class Result

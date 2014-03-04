@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-using MinaGlosor.Web.Infrastructure;
+using MinaGlosor.Web.Data;
 using Newtonsoft.Json.Serialization;
 
 // ReSharper disable CheckNamespace
