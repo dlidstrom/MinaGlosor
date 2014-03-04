@@ -94,6 +94,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Spatial, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\System.Spatial.5.2.0\lib\net40\System.Spatial.dll</HintPath>
@@ -165,6 +166,11 @@
   <ItemGroup>
     <Compile Include="ApplicationMode.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Api\ApiControllerBase.cs" />
+    <Compile Include="Controllers\Api\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\Api\LogErrorController.cs" />
+    <Compile Include="Controllers\Api\WordController.cs" />
+    <Compile Include="Controllers\Api\WordListController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListController.cs" />
@@ -185,6 +191,8 @@
     <Compile Include="Data\Handlers\IHandle.cs" />
     <Compile Include="Data\ICommand.cs" />
     <Compile Include="Data\IQuery.cs" />
+    <Compile Include="Data\Queries\GetWordListByIdQuery.cs" />
+    <Compile Include="Data\QueryForEtagBase.cs" />
     <Compile Include="Data\Models\CreateAccountRequest.cs" />
     <Compile Include="Data\Models\Word.cs" />
     <Compile Include="Data\Models\WordAnswer.cs" />
@@ -200,7 +208,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\CassetteConfiguration.cs" />
+    <Compile Include="Infrastructure\CassetteBundleConfiguration.cs" />
     <Compile Include="Infrastructure\Annotations.cs" />
     <Compile Include="Infrastructure\Emails.cs" />
     <Compile Include="Infrastructure\Indexes\CreateAccountRequestIndex.cs" />
@@ -218,7 +226,32 @@
     <Compile Include="Infrastructure\IoC\WindsorHttpDependencyResolver.cs" />
     <Compile Include="Infrastructure\IoC\WindsorMvcDependencyResolver.cs" />
     <Compile Include="Data\Models\User.cs" />
+    <Compile Include="Infrastructure\SaveChangesAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\about\about.html" />
+    <Content Include="Content\app\infrastructure\app.js" />
+    <Content Include="Content\app\infrastructure\config.js" />
+    <Content Include="Content\app\infrastructure\errorHandler.js" />
+    <Content Include="Content\app\infrastructure\errorParser.js" />
+    <Content Include="Content\app\infrastructure\exceptionHandler.js" />
+    <Content Include="Content\app\infrastructure\once.js" />
+    <Content Include="Content\app\infrastructure\toaster.js" />
+    <Content Include="Content\app\shared\wordservice.js" />
+    <Content Include="Content\app\shared\wordlistservice.js" />
+    <Content Include="Content\app\infrastructure\stacktrace.js" />
+    <Content Include="Content\app\wordlist\addword.html" />
+    <Content Include="Content\app\wordlist\addwordctrl.js" />
+    <Content Include="Content\app\wordlist\viewlistctrl.js" />
+    <Content Include="Content\app\wordlist\view.html" />
+    <Content Include="Content\app\wordlist\new.html" />
+    <Content Include="Content\app\wordlist\index.html" />
+    <Content Include="Content\app\wordlist\newctrl.js" />
+    <Content Include="Content\app\wordlist\wordlistctrl.js" />
+    <Content Include="Content\external\angularjs-1.2.8\angular-animate.js" />
+    <Content Include="Content\external\angularjs-1.2.8\angular-route.js" />
+    <None Include="Content\main.less" />
+    <Content Include="Content\readable.min.css" />
+    <Content Include="Content\toastr.css" />
     <Content Include="Views\Account\Activate.cshtml" />
     <Content Include="Views\Account\InviteSuccess.cshtml" />
     <Content Include="Views\Account\Logon.cshtml" />
@@ -229,13 +262,14 @@
     <Content Include="Views\Word\Add.cshtml" />
     <Content Include="Views\Practice\Index.cshtml" />
     <Content Include="Views\Practice\Show.cshtml" />
+    <Content Include="Views\Home\RegisterOrLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Content Include="Content\app\app.js" />
-    <Content Include="Content\app\initialdata.js" />
+    <Content Include="Content\app\infrastructure\routes.js" />
+    <Content Include="Content\app\infrastructure\initialdata.js" />
     <Content Include="Content\external\angularjs-1.2.8\angular.js" />
     <Content Include="Global.asax" />
     <Content Include="Content\external\bootstrap-3.0.3\css\bootstrap-theme.css" />
@@ -256,7 +290,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\app\shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

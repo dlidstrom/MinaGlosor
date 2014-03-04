@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using MinaGlosor.Web.Data.Models;
 using MinaGlosor.Web.Infrastructure.Indexes;
@@ -11,6 +12,7 @@ namespace MinaGlosor.Web.Data.Queries
 
         public GetUserByEmailQuery(string email)
         {
+            if (email == null) throw new ArgumentNullException("email");
             this.email = email;
         }
 

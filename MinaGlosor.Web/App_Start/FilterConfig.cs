@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 
-namespace MinaGlosor.Web.App_Start
+// ReSharper disable CheckNamespace
+namespace MinaGlosor.Web
 {
     public static class FilterConfig
     {

@@ -14,6 +14,11 @@ namespace MinaGlosor.Web.Data.Queries
             this.wordListId = wordListId;
         }
 
+        public GetWordsQuery(int wordListId)
+            : this("WordLists-" + wordListId)
+        {
+        }
+
         public Result[] Execute(IDocumentSession session)
         {
             return session.Query<WordsIndex.Result, WordsIndex>()

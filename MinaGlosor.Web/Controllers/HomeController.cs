@@ -6,6 +6,9 @@ namespace MinaGlosor.Web.Controllers
     {
         public ActionResult Index()
         {
+            if (Request.IsAuthenticated == false)
+                return View("RegisterOrLogin");
+
             return View();
         }
     }

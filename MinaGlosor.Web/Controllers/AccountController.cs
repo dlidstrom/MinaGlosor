@@ -17,10 +17,10 @@ namespace MinaGlosor.Web.Controllers
         [HttpPost]
         public ActionResult Invite(RequestCreateAccount request)
         {
-            if (ExecuteQuery(new GetUserByEmailQuery(request.Email)) != null)
+            if (ExecuteQuery(new GetUserByEmailQuery(request.UserEmail)) != null)
                 ModelState.AddModelError("Email", "E-postadressen finns redan");
 
-            if (ExecuteQuery(new GetCreateAccountRequest(request.Email)) != null)
+            if (ExecuteQuery(new GetCreateAccountRequest(request.UserEmail)) != null)
             {
                 ModelState.AddModelError("Email", "Inbjudan är redan skickad");
             }
@@ -28,7 +28,7 @@ namespace MinaGlosor.Web.Controllers
             if (ModelState.IsValid == false)
                 return View();
 
-            ExecuteCommand(new CreateAccountRequestCommand(request.Email));
+            ExecuteCommand(new CreateAccountRequestCommand(request.UserEmail));
 
             return RedirectToAction("InviteSuccess");
         }
@@ -93,7 +93,7 @@ namespace MinaGlosor.Web.Controllers
 
         public class RequestCreateAccount
         {
-            public string Email { get; set; }
+            public string UserEmail { get; set; }
         }
 
         public class LogonRequest

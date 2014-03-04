@@ -16,6 +16,11 @@ namespace MinaGlosor.Web.Data.Commands
             this.definition = definition;
         }
 
+        public CreateWordCommand(int wordListId, string text, string definition)
+            : this("WordLists-" + wordListId, text, definition)
+        {
+        }
+
         public void Execute(IDocumentSession session)
         {
             var wordList = session.Load<WordList>(wordListId);

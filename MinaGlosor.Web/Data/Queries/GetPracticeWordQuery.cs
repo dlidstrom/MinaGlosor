@@ -39,9 +39,9 @@ namespace MinaGlosor.Web.Data.Queries
                 Text = word.Text;
             }
 
-            public string WordId { get; set; }
+            public string WordId { get; private set; }
 
-            public string Text { get; set; }
+            public string Text { get; private set; }
         }
     }
 }

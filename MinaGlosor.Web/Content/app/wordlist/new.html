@@ -1,0 +1,30 @@
+﻿<p class="lead">
+    Skapa en ny ordlista.
+</p>
+
+<form name="form" ng-submit="create(wordListName)" ng-controller="NewCtrl">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group" ng-class="{'has-error': form.wordListName.$dirty && form.wordListName.$invalid}">
+                <label class="control-label">
+                    Ange namn
+                </label>
+                <input type="text"
+                       class="form-control"
+                       name="wordListName"
+                       ng-model="wordListName"
+                       placeholder="Skriv ett namn"
+                       autofocus="autofocus"
+                       required />
+                <span class="help-block" ng-show="form.wordListName.$dirty && form.wordListName.$invalid">
+                    Du måste ange ett namn på ordlistan
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <input class="btn btn-primary" type="submit" value="Spara" ng-disabled="form.$invalid" />
+        </div>
+    </div>
+</form>

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Castle.Core;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
@@ -12,31 +13,31 @@ namespace MinaGlosor.Web.Infrastructure.IoC
 {
     public class RavenInstaller : IWindsorInstaller
     {
-        public void Install(IWindsorContainer container, IConfigurationStore store)
+        private readonly ApplicationMode applicationMode;
+        private readonly LifestyleType lifestyleType;
+
+        public RavenInstaller()
         {
-            container.Register(Component.For<IDocumentStore>().UsingFactoryMethod(CreateStore).LifestyleSingleton());
-            container.Register(Component.For<IDocumentSession>().UsingFactoryMethod(CreateSession).LifestylePerWebRequest());
+            applicationMode = MvcApplication.Mode;
+            lifestyleType = LifestyleType.PerWebRequest;
         }
 
-        private static IDocumentStore CreateStore()
+        public RavenInstaller(ApplicationMode mode, LifestyleType lifestyleType)
         {
-            IDocumentStore documentStore;
-            switch (MvcApplication.Mode)
-            {
-                case ApplicationMode.Debug:
-                    documentStore = new DocumentStore { ConnectionStringName = "RavenDB" };
-                    break;
+            applicationMode = mode;
+            this.lifestyleType = lifestyleType;
+        }
 
-                case ApplicationMode.Release:
-                    documentStore = CreateEmbeddableDocumentStore();
-                    break;
-
-                default:
-                    throw new ApplicationException("Mode not yet implemented");
-            }
-
-            InitializeStore(documentStore);
-            return documentStore;
+        public void Install(IWindsorContainer container, IConfigurationStore store)
+        {
+            container.Register(
+                Component.For<IDocumentStore>()
+                         .UsingFactoryMethod(CreateStore)
+                         .LifestyleSingleton());
+            container.Register(
+                Component.For<IDocumentSession>()
+                         .UsingFactoryMethod(CreateSession)
+                         .LifeStyle.Is(lifestyleType));
         }
 
         private static EmbeddableDocumentStore CreateEmbeddableDocumentStore()
@@ -63,6 +64,39 @@ namespace MinaGlosor.Web.Infrastructure.IoC
             var documentSession = kernel.Resolve<IDocumentStore>().OpenSession();
             documentSession.Advanced.UseOptimisticConcurrency = true;
             return documentSession;
+        }
+
+        private static IDocumentStore CreateInMemoryDocumentStore()
+        {
+            return new EmbeddableDocumentStore
+            {
+                RunInMemory = true
+            };
+        }
+
+        private IDocumentStore CreateStore()
+        {
+            IDocumentStore documentStore;
+            switch (applicationMode)
+            {
+                case ApplicationMode.Debug:
+                    documentStore = new DocumentStore { ConnectionStringName = "RavenDB" };
+                    break;
+
+                case ApplicationMode.Release:
+                    documentStore = CreateEmbeddableDocumentStore();
+                    break;
+
+                case ApplicationMode.Test:
+                    documentStore = CreateInMemoryDocumentStore();
+                    break;
+
+                default:
+                    throw new ApplicationException("Mode not yet implemented");
+            }
+
+            InitializeStore(documentStore);
+            return documentStore;
         }
     }
 }

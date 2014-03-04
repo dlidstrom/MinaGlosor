@@ -10,6 +10,7 @@ namespace MinaGlosor.Web.Data.Queries
 
         public GetUserQuery(string id)
         {
+            if (id == null) throw new ArgumentNullException("id");
             this.id = id;
         }
 

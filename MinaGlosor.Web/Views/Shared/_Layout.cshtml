@@ -1,7 +1,12 @@
 ﻿@{
-    Bundles.Reference("bootstrap");
+    Bundles.Reference("Content/main.less");
+    Bundles.Reference("Content/readable.min.css");
+    Bundles.Reference("Content/toastr.css");
     Bundles.Reference("angularjs");
-    Bundles.Reference("Content/app");
+    Bundles.Reference("angular-routejs");
+    Bundles.Reference("angular-animate");
+    Bundles.Reference("jquery");
+    Bundles.Reference("Content/app/infrastructure");
 }<!DOCTYPE HTML>
 <html>
     <head>
@@ -16,9 +21,11 @@
         </style>
     </head>
     <body ng-app="App">
+        <toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
         <div class="container ng-cloak">
             @RenderBody()
         </div>
         @Bundles.RenderScripts()
+        @Bundles.RenderScripts("scripts")
     </body>
 </html>

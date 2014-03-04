@@ -1,11 +1,6 @@
-﻿@if (Request.IsAuthenticated)
-{
-    @Html.ActionLink("Skapa gloslista", "Create", "List")
-    @Html.Action("Stored", "List")
+﻿@{
+    Bundles.Reference("Content/app/wordlist", "scripts");
+    Bundles.Reference("Content/app/shared", "scripts");
 }
-else
-{
-    @Html.ActionLink("Logga in", "Logon", "Account")
-    @:eller
-    @Html.ActionLink("Skapa ett konto", "Invite", "Account")
-}
+
+<div ng-view></div>

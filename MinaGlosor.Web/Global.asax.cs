@@ -3,7 +3,6 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.Windsor;
-using MinaGlosor.Web.App_Start;
 using MinaGlosor.Web.Data.Events;
 using MinaGlosor.Web.Infrastructure.IoC;
 
@@ -23,30 +22,50 @@ namespace MinaGlosor.Web
 
         public static ApplicationMode Mode { get { return applicationMode; } }
 
+        public static void Configure(IWindsorContainer windsorContainer, HttpConfiguration configuration)
+        {
+            container = windsorContainer;
+            Configure(configuration);
+        }
+
+        public static void Shutdown()
+        {
+            GlobalFilters.Filters.Clear();
+            RouteTable.Routes.Clear();
+            if (container != null)
+                container.Dispose();
+            container = null;
+        }
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
 
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
+            Configure(GlobalConfiguration.Configuration);
+        }
+
+        private static void Configure(HttpConfiguration configuration)
+        {
+            WebApiConfig.Register(configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            CreateContainer();
+            if (container == null)
+                container = CreateContainer();
+            DependencyResolver.SetResolver(new WindsorMvcDependencyResolver(container));
+            configuration.DependencyResolver =
+                new WindsorHttpDependencyResolver(container.Kernel);
+            DomainEvent.SetContainer(container);
         }
 
-        private static void CreateContainer()
+        private static IWindsorContainer CreateContainer()
         {
-            container = new WindsorContainer().Install(
+            return new WindsorContainer().Install(
                 new ControllerInstaller(),
                 new WindsorWebApiInstaller(),
                 new ControllerFactoryInstaller(),
                 new RavenInstaller(),
                 new HandlersInstaller());
-
-            DependencyResolver.SetResolver(new WindsorMvcDependencyResolver(container));
-            GlobalConfiguration.Configuration.DependencyResolver =
-                new WindsorHttpDependencyResolver(container.Kernel);
-            DomainEvent.SetContainer(container);
         }
     }
 }

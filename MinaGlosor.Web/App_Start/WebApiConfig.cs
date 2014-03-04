@@ -1,7 +1,9 @@
 ﻿using System.Web.Http;
+using MinaGlosor.Web.Infrastructure;
 using Newtonsoft.Json.Serialization;
 
-namespace MinaGlosor.Web.App_Start
+// ReSharper disable CheckNamespace
+namespace MinaGlosor.Web
 {
     public static class WebApiConfig
     {
@@ -11,6 +13,8 @@ namespace MinaGlosor.Web.App_Start
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional });
+
+            config.Filters.Add(new SaveChangesAttribute());
 
             // camelCase by default
             var formatter = config.Formatters.JsonFormatter;

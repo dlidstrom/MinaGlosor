@@ -9,6 +9,14 @@ namespace MinaGlosor.Web.Data.Models
         {
             if (name == null) throw new ArgumentNullException("name");
             if (owner == null) throw new ArgumentNullException("owner");
+
+            if (name.Length > 1024)
+            {
+                throw new ArgumentException(
+                    "Name cannot be longer than 1024 characters",
+                    "name");
+            }
+
             Name = name;
             OwnerId = owner.Id;
         }

@@ -1,0 +1,38 @@
+﻿<h1>Välkommen! <small>Lär dig ett ämne genom repetition.</small></h1>
+<p class="lead">
+    Öva på dina ordlistor och lär dig hundratals ord på kort tid.
+    Effektivisera inlärning genom repetition av &ldquo;svåra&rdquo; ord.
+</p>
+
+<p>
+    Om du inte har ett konto kan du bjuda in dig själv nedan.
+</p>
+<form method="POST" name="inviteform" action="@Url.Action("Invite", "Account")">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group" ng-class="{'has-error': inviteform.useremail.$dirty && inviteform.useremail.$invalid}">
+                <label class="control-label">
+                    Ange e-postadress
+                </label>
+                <input type="email"
+                       class="form-control"
+                       name="useremail"
+                       ng-model="user.email"
+                       placeholder="Skriv e-postadress"
+                       autofocus="autofocus"
+                       required />
+                <span class="help-block" ng-show="inviteform.useremail.$dirty && inviteform.useremail.$invalid">
+                    Skriv din e-postadress
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <input class="btn btn-primary" type="submit" value="Bjud in mig" ng-disabled="inviteform.$invalid" />
+        </div>
+    </div>
+</form>
+<p>
+    Har du redan ett konto kan du @Html.ActionLink("logga in", "Logon", "Account").
+</p>

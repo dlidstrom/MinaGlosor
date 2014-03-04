@@ -1,7 +1,8 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace MinaGlosor.Web.App_Start
+// ReSharper disable CheckNamespace
+namespace MinaGlosor.Web
 {
     public static class RouteConfig
     {
@@ -14,10 +15,17 @@ namespace MinaGlosor.Web.App_Start
                 "welcome",
                 new { controller = "Welcome", action = "Index" });
 
+            // add routes for register scenario
+
+            //routes.MapRoute(
+            //    name: "Default",
+            //    url: "{controller}/{action}/{id}",
+            //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+                url: "{*catchall}",
+                defaults: new { controller = "Home", action = "Index" });
         }
     }
 }
