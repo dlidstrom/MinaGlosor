@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using MinaGlosor.Web.Data.Commands;
@@ -8,7 +9,7 @@ namespace MinaGlosor.Web.Controllers
 {
     public class WordController : ControllerBase
     {
-        public async Task<ActionResult> ViewWords(string wordListId)
+        public async Task<ActionResult> ViewWords(int wordListId)
         {
             var words = await ExecuteQueryAsync(new GetWordsQuery(wordListId));
             return View(new WordIndexViewModel(wordListId, words));
@@ -39,15 +40,15 @@ namespace MinaGlosor.Web.Controllers
 
         public class WordIndexViewModel
         {
-            public WordIndexViewModel(string wordListId, GetWordsQuery.Result[] words)
+            public WordIndexViewModel(int wordListId, IEnumerable<GetWordsQuery.Result> words)
             {
                 WordListId = wordListId;
                 Words = words;
             }
 
-            public string WordListId { get; private set; }
+            public int WordListId { get; private set; }
 
-            public GetWordsQuery.Result[] Words { get; private set; }
+            public IEnumerable<GetWordsQuery.Result> Words { get; private set; }
         }
 
         public class AddWordViewModel

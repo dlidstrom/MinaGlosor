@@ -42,10 +42,11 @@ namespace MinaGlosor.Web.Data.Models
             return new WordAnswer(word, this, user);
         }
 
-        public void AddWord(string text, string definition)
+        public Word AddWord(string text, string definition)
         {
             var word = new Word(this, text, definition);
             Words.Add(word);
+            return word;
         }
     }
 }

@@ -4,7 +4,7 @@
     @Html.ActionLink("Avsluta", "Index", "Home")
 </p>
 @Html.ActionLink("Lägg till ord", "Add", new { wordListId = Model.WordListId })
-@if (Model.Words.Length > 0)
+@if (Model.Words.Any())
 {
     @:|
     @Html.ActionLink("Öva", "Index", "Practice", new { wordListId = Model.WordListId }, null)

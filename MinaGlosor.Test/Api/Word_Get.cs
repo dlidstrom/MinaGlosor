@@ -13,14 +13,14 @@ namespace MinaGlosor.Test.Api
         public void GetsWordsForWordList()
         {
             // Arrange
-            var owner = new User("First", "Last", "e@d.com", "pwd");
-            var wordList = new WordList("list", owner);
+            var owner = new User("First", "Last", "e@d.com", "pwd") { Id = 1 };
+            var wordList = new WordList("list", owner) { Id = 1 };
             Transact(context =>
             {
                 context.Users.Add(owner);
                 context.WordLists.Add(wordList);
-                wordList.AddWord("w1", "d1");
-                wordList.AddWord("w2", "d2");
+                context.Words.Add(wordList.AddWord("w1", "d1"));
+                context.Words.Add(wordList.AddWord("w2", "d2"));
             });
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
