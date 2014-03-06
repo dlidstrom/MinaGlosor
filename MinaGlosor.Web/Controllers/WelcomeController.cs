@@ -9,10 +9,8 @@ namespace MinaGlosor.Web.Controllers
     {
         public async Task<ActionResult> Index()
         {
-            if (await ExecuteQueryAsync(new GetUserQuery("Admin")) != null)
-            {
+            if (await ExecuteQueryAsync(new HasAdminUserQuery()))
                 return RedirectToAction("Index", "Home");
-            }
 
             return View(new InitialData("admin@" + Request.ServerVariables["HTTP_HOST"]));
         }
@@ -20,7 +18,7 @@ namespace MinaGlosor.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(CreateAdminUserRequest request)
         {
-            if (await ExecuteQueryAsync(new GetUserQuery("Admin")) == null)
+            if (await ExecuteQueryAsync(new HasAdminUserQuery()) == false)
                 await ExecuteCommandAsync(new CreateAdminUserCommand(request.UserEmail, request.Password));
 
             return RedirectToAction("Index", "Home");

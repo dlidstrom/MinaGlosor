@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MinaGlosor.Web.Data.Models
 {
     public class User
@@ -17,12 +19,16 @@ namespace MinaGlosor.Web.Data.Models
 
         public int Id { get; set; }
 
+        [Required, MaxLength(320)]
         public string Email { get; private set; }
 
+        [Required, MaxLength(120)]
         public string FirstName { get; private set; }
 
+        [Required, MaxLength(120)]
         public string LastName { get; private set; }
 
+        [Required, MaxLength(50)]
         public string HashedPassword { get; private set; }
 
         public UserRole Role { get; private set; }

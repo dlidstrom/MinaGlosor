@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using MinaGlosor.Web.Data;
 using MinaGlosor.Web.Data.Models;
-using Raven.Client;
 
 namespace MinaGlosor.Web.Controllers
 {
@@ -13,19 +13,19 @@ namespace MinaGlosor.Web.Controllers
 
         protected User CurrentUser { get; private set; }
 
-        protected override async void OnActionExecuting(ActionExecutingContext filterContext)
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (Response.IsRequestBeingRedirected) return;
 
             if (Request.IsAuthenticated)
             {
-                var user = await Context.Users.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
+                var user = Context.Users.FirstOrDefault(x => x.Email == User.Identity.Name);
                 if (user != null)
                     CurrentUser = user;
             }
 
             // make sure there's an admin user
-            if (await Context.Users.SingleOrDefaultAsync(x => x.Role == UserRole.Admin) != null)
+            if (Context.Users.SingleOrDefault(x => x.Role == UserRole.Admin) != null)
                 return;
 
             // first launch
@@ -33,11 +33,11 @@ namespace MinaGlosor.Web.Controllers
             Response.End();
         }
 
-        protected override async void OnActionExecuted(ActionExecutedContext filterContext)
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             if (filterContext.IsChildAction || filterContext.Exception != null) return;
 
-            await Context.SaveChangesAsync();
+            Context.SaveChanges();
         }
 
         protected Task ExecuteCommandAsync(ICommand command)

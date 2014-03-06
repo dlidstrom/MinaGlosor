@@ -64,8 +64,9 @@ namespace MinaGlosor.Web
                 new ControllerInstaller(),
                 new WindsorWebApiInstaller(),
                 new ControllerFactoryInstaller(),
-                new RavenInstaller(),
-                new HandlersInstaller());
+                /*new RavenInstaller(),*/
+                new HandlersInstaller(),
+                new ContextInstaller());
         }
     }
 }

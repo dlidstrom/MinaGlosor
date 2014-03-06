@@ -20,6 +20,11 @@ namespace MinaGlosor.Test.Api.Infrastructure
 
         public IDbSet<Word> Words { get; set; }
 
+        public int SaveChanges()
+        {
+            return 0;
+        }
+
         public Task<int> SaveChangesAsync()
         {
             return Task.FromResult(0);

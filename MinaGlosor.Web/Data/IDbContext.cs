@@ -12,6 +12,8 @@ namespace MinaGlosor.Web.Data
 
         IDbSet<Word> Words { get; set; }
 
+        int SaveChanges();
+
         Task<int> SaveChangesAsync();
     }
 }

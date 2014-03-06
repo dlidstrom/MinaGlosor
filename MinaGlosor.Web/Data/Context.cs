@@ -8,6 +8,7 @@ namespace MinaGlosor.Web.Data
         public Context()
             : base("MainDb")
         {
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<Context>());
         }
 
         public IDbSet<User> Users { get; set; }
