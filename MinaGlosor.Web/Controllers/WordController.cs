@@ -21,7 +21,7 @@ namespace MinaGlosor.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(string wordListId, AddWordRequest request)
+        public async Task<ActionResult> Add(int wordListId, AddWordRequest request)
         {
             if (ModelState.IsValid == false)
                 return View();

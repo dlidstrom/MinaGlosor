@@ -18,12 +18,12 @@ namespace MinaGlosor.Test.Api
         public void AddsWordToList()
         {
             // Arrange
-            var owner = new User("First", "Last", "e@d.com", "pwd");
-            var wordList = new WordList("list", owner);
-            Transact(session =>
+            var owner = new User("First", "Last", "e@d.com", "pwd") { Id = 1 };
+            var wordList = new WordList("list", owner) { Id = 2 };
+            Transact(context =>
             {
-                session.Users.Add(owner);
-                session.WordLists.Add(wordList);
+                context.Users.Add(owner);
+                context.WordLists.Add(wordList);
             });
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
@@ -31,7 +31,7 @@ namespace MinaGlosor.Test.Api
             // Act
             var request = new
             {
-                wordListId = 1,
+                wordListId = 2,
                 word = "Some word",
                 definition = "Some definition"
             };
@@ -39,15 +39,12 @@ namespace MinaGlosor.Test.Api
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-            Transact(context =>
-            {
-                var word = context.Words.SingleOrDefault();
-                Assert.That(word, Is.Not.Null);
-                Debug.Assert(word != null, "task != null");
-                Assert.That(word.Text, Is.EqualTo("Some word"));
-                Assert.That(word.Definition, Is.EqualTo("Some definition"));
-                Assert.That(word.WordListId, Is.EqualTo(wordList.Id));
-            });
+            var word = wordList.Words.SingleOrDefault();
+            Assert.That(word, Is.Not.Null);
+            Debug.Assert(word != null, "task != null");
+            Assert.That(word.Text, Is.EqualTo("Some word"));
+            Assert.That(word.Definition, Is.EqualTo("Some definition"));
+            Assert.That(word.WordListId, Is.EqualTo(wordList.Id));
         }
     }
 }
