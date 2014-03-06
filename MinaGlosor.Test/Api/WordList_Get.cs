@@ -9,6 +9,8 @@ namespace MinaGlosor.Test.Api
     [TestFixture]
     public class WordList_Get : WebApiIntegrationTest
     {
+        private IdGenerator generator;
+
         [Test]
         public void GetsEmptyWordList()
         {
@@ -98,12 +100,17 @@ namespace MinaGlosor.Test.Api
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
         }
 
+        protected override void OnSetUp(Castle.Windsor.IWindsorContainer container)
+        {
+            generator = new IdGenerator();
+        }
+
         private void ArrangeThreeWordLists()
         {
             Transact(context =>
             {
                 // first word list
-                var owner = new User("First", "Last", "e@d.com", "pwd");
+                var owner = new User("First", "Last", "e@d.com", "pwd") { Id = generator.NextId() };
                 context.Users.Add(owner);
                 var wordList1 = new WordList("Some name", owner) { Id = 1 };
                 context.WordLists.Add(wordList1);

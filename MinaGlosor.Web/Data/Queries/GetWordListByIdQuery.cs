@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MinaGlosor.Web.Data.Queries
 {
@@ -11,22 +13,23 @@ namespace MinaGlosor.Web.Data.Queries
             this.id = id;
         }
 
-        public Task<Result> ExecuteAsync(IDbContext context)
+        public async Task<Result> ExecuteAsync(IDbContext context)
         {
-            //var stringifiedId = "WordLists-" + id;
-            //var wordList = session.Query<WordListIndex.Result, WordListIndex>()
-            //    .SingleOrDefault(x => x.WordListId == stringifiedId);
-            //return wordList != null ? new Result(wordList) : null;
-            return null;
+            return await context.WordLists.Select(x => new Result
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    WordCount = x.Words.Count()
+                }).SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public class Result
         {
-            public int Id { get; private set; }
+            public int Id { get; set; }
 
-            public string Name { get; private set; }
+            public string Name { get; set; }
 
-            public int WordCount { get; private set; }
+            public int WordCount { get; set; }
         }
     }
 }

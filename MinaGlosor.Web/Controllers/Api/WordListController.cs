@@ -25,9 +25,9 @@ namespace MinaGlosor.Web.Controllers.Api
             return response;
         }
 
-        public HttpResponseMessage Get(int id)
+        public async Task<HttpResponseMessage> Get(int id)
         {
-            var wordList = ExecuteQueryAsync(new GetWordListByIdQuery(id));
+            var wordList = await ExecuteQueryAsync(new GetWordListByIdQuery(id));
             if (wordList != null) return Request.CreateResponse(HttpStatusCode.OK, wordList);
 
             ModelState.AddModelError("id", string.Format("No word list found with id {0}", id));
