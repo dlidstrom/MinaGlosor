@@ -16,7 +16,7 @@ namespace MinaGlosor.Test.Api
         public void ItShouldCreateWordList()
         {
             // Arrange
-            var owner = new User("First", "Last", "e@d.com", "pwd");
+            var owner = new User("e@d.com", "pwd");
             Transact(session => session.Users.Add(owner));
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);

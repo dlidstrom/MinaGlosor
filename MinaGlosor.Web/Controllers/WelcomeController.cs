@@ -16,7 +16,7 @@ namespace MinaGlosor.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(CreateAdminUserRequest request)
+        public async Task<ActionResult> Index(CreateAdminUserRequest request)
         {
             if (await ExecuteQueryAsync(new HasAdminUserQuery()) == false)
                 await ExecuteCommandAsync(new CreateAdminUserCommand(request.UserEmail, request.Password));

@@ -13,7 +13,7 @@ namespace MinaGlosor.Test.Api
         public void GetsWordsForWordList()
         {
             // Arrange
-            var owner = new User("First", "Last", "e@d.com", "pwd") { Id = 1 };
+            var owner = new User("e@d.com", "pwd") { Id = 1 };
             var wordList = new WordList("list", owner) { Id = 1 };
             Transact(context =>
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -37,7 +38,14 @@ namespace MinaGlosor.Web.Controllers
         {
             if (filterContext.IsChildAction || filterContext.Exception != null) return;
 
-            Context.SaveChanges();
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                throw;
+            }
         }
 
         protected Task ExecuteCommandAsync(ICommand command)

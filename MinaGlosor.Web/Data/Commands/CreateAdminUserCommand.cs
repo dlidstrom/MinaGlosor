@@ -16,7 +16,7 @@ namespace MinaGlosor.Web.Data.Commands
 
         public Task ExecuteAsync(IDbContext context)
         {
-            context.Users.Add(new User(string.Empty, string.Empty, userEmail, password));
+            context.Users.Add(new User(userEmail, password, UserRole.Admin));
             return Task.FromResult(0);
         }
     }

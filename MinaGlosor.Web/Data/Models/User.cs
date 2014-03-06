@@ -1,15 +1,27 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MinaGlosor.Web.Data.Models
 {
     public class User
     {
-        public User(string firstName, string lastName, string email, string password)
+        private readonly string password;
+
+        public User(string email, string password)
         {
-            FirstName = firstName;
-            LastName = lastName;
+            if (email == null) throw new ArgumentNullException("email");
+            if (password == null) throw new ArgumentNullException("password");
             Email = email;
             Role = UserRole.Basic;
+            HashedPassword = ComputeHashedPassword(password);
+        }
+
+        public User(string email, string password, UserRole userRole)
+        {
+            if (email == null) throw new ArgumentNullException("email");
+            if (password == null) throw new ArgumentNullException("password");
+            Email = email;
+            Role = userRole;
             HashedPassword = ComputeHashedPassword(password);
         }
 
@@ -23,12 +35,6 @@ namespace MinaGlosor.Web.Data.Models
         public string Email { get; private set; }
 
         [Required, MaxLength(120)]
-        public string FirstName { get; private set; }
-
-        [Required, MaxLength(120)]
-        public string LastName { get; private set; }
-
-        [Required, MaxLength(50)]
         public string HashedPassword { get; private set; }
 
         public UserRole Role { get; private set; }
