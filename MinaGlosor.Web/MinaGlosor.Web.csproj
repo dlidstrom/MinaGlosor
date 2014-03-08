@@ -242,13 +242,13 @@
     <Compile Include="Data\Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\about\about.html" />
-    <Content Include="Content\app\infrastructure\app.js" />
+    <Content Include="Content\app\app\app.js" />
     <Content Include="Content\app\infrastructure\config.js" />
     <Content Include="Content\app\infrastructure\errorHandler.js" />
     <Content Include="Content\app\infrastructure\errorParser.js" />
     <Content Include="Content\app\infrastructure\exceptionHandler.js" />
-    <Content Include="Content\app\infrastructure\once.js" />
-    <Content Include="Content\app\infrastructure\toaster.js" />
+    <Content Include="Content\app\app\once.js" />
+    <Content Include="Content\app\app\toaster.js" />
     <Content Include="Content\app\shared\wordservice.js" />
     <Content Include="Content\app\shared\wordlistservice.js" />
     <Content Include="Content\app\infrastructure\stacktrace.js" />
@@ -277,6 +277,7 @@
     <Content Include="Views\Practice\Index.cshtml" />
     <Content Include="Views\Practice\Show.cshtml" />
     <Content Include="Views\Home\RegisterOrLogin.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ValidationSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />

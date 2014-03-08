@@ -1,10 +1,11 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MinaGlosor.Web.Data.Models;
 
 namespace MinaGlosor.Web.Data.Queries
 {
-    public class GetUserByEmailQuery : IQuery<User>
+    public class GetUserByEmailQuery : IQuery<GetUserByEmailQuery.Result>
     {
         private readonly string email;
 
@@ -14,10 +15,29 @@ namespace MinaGlosor.Web.Data.Queries
             this.email = email;
         }
 
-        public Task<User> ExecuteAsync(IDbContext context)
+        public Task<Result> ExecuteAsync(IDbContext context)
         {
-            //return session.Query<User, User_ByEmail>().FirstOrDefault(x => x.Email == email);
-            return null;
+            return Task.FromResult(new Result(context.Users.Single(x => x.Email == email)));
+        }
+
+        public class Result
+        {
+            private readonly User user;
+
+            public Result(User user)
+            {
+                this.user = user;
+            }
+
+            public string Email
+            {
+                get { return user.Email; }
+            }
+
+            public bool ValidatePassword(string password)
+            {
+                return user.ValidatePassword(password);
+            }
         }
     }
 }

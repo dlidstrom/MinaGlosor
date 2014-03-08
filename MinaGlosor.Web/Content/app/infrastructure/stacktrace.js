@@ -1,5 +1,4 @@
 ﻿// @reference config.js
-// @reference app.js
 (function (app) {
     // allow non-strict mode here, to be able to capture more detail
     //'use strict';

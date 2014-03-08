@@ -13,7 +13,7 @@ namespace MinaGlosor.Web.Data.Models
             if (password == null) throw new ArgumentNullException("password");
             Email = email;
             Role = UserRole.Basic;
-            HashedPassword = ComputeHashedPassword(password);
+            HashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
         }
 
         public User(string email, string password, UserRole userRole)
@@ -22,7 +22,7 @@ namespace MinaGlosor.Web.Data.Models
             if (password == null) throw new ArgumentNullException("password");
             Email = email;
             Role = userRole;
-            HashedPassword = ComputeHashedPassword(password);
+            HashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
         }
 
         private User()
@@ -41,17 +41,12 @@ namespace MinaGlosor.Web.Data.Models
 
         public bool ValidatePassword(string somePassword)
         {
-            return HashedPassword == ComputeHashedPassword(somePassword);
+            return BCrypt.Net.BCrypt.Verify(somePassword, HashedPassword);
         }
 
         public void SetRole(UserRole role)
         {
             Role = role;
-        }
-
-        private static string ComputeHashedPassword(string password)
-        {
-            return BCrypt.Net.BCrypt.HashPassword(password);
         }
     }
 }

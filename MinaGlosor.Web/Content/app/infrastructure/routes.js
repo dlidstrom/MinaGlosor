@@ -1,5 +1,4 @@
-﻿// @reference app.js
-(function (app) {
+﻿(function (app) {
     'use strict';
 
     app.config([

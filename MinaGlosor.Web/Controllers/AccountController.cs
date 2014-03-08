@@ -78,6 +78,8 @@ namespace MinaGlosor.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Logon(LogonRequest request)
         {
+            if (ModelState.IsValid == false)
+                return View();
             var user = await ExecuteQueryAsync(new GetUserByEmailQuery(request.Email));
             if (user == null)
                 throw new HttpException(404, "Not found");

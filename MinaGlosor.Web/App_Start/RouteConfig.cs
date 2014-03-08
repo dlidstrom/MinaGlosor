@@ -15,7 +15,11 @@ namespace MinaGlosor.Web
                 "welcome",
                 new { controller = "Welcome", action = "Index" });
 
-            // add routes for register scenario
+            // add specific routes
+            routes.MapRoute(
+                "Logon-route",
+                "logon",
+                new { controller = "Account", action = "Logon" });
 
             //routes.MapRoute(
             //    name: "Default",
