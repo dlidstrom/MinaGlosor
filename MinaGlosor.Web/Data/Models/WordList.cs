@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace MinaGlosor.Web.Data.Models
 {
@@ -26,10 +27,12 @@ namespace MinaGlosor.Web.Data.Models
 
         private WordList()
         {
+            Words = new Collection<Word>();
         }
 
         public int Id { get; set; }
 
+        [Required, MaxLength(1024)]
         public string Name { get; private set; }
 
         public int OwnerId { get; private set; }

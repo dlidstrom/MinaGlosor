@@ -39,6 +39,11 @@
                         }
                     })
                 .when(
+                    '/wordlist/new',
+                    {
+                        templateUrl: '/Content/app/wordlist/new.html'
+                    })
+                .when(
                     '/wordlist/:id',
                     {
                         templateUrl: '/Content/app/wordlist/view.html',
@@ -55,11 +60,6 @@
                         }
                     }
                 )
-                .when(
-                    '/wordlist/new',
-                    {
-                        templateUrl: '/Content/app/wordlist/new.html'
-                    })
                 .otherwise({
                     redirectTo: '/wordlist'
                 });
