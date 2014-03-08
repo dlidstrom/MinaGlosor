@@ -262,7 +262,7 @@
     <Content Include="Content\app\wordlist\wordlistctrl.js" />
     <Content Include="Content\external\angularjs-1.2.8\angular-animate.js" />
     <Content Include="Content\external\angularjs-1.2.8\angular-route.js" />
-    <None Include="Content\main.less" />
+    <Content Include="Content\main.less" />
     <Content Include="Content\readable.min.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="LICENSE.txt" />
