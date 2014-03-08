@@ -4,7 +4,7 @@
     Välkommen! Du måste börja med att skapa ett konto för administratören.
     Med hjälp av det kommer du kunna hantera användarkonton.
 </p>
-<form method="POST" name="adminform" action="/welcome">
+<form method="POST" name="adminform" action="@Url.Action("Index")">
     <div class="row">
         <div class="col-md-4">
             <div class="form-group" ng-class="{'has-error': adminform.useremail.$dirty && adminform.useremail.$invalid}">
