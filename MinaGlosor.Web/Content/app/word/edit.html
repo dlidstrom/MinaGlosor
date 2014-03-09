@@ -17,6 +17,9 @@
                        maxlength="1024"
                        ng-disabled="saving"
                        autofocus="autofocus"
+                       autocapitalize="off"
+                       autocomplete="off"
+                       autocorrect="off"
                        required />
                 <span class="help-block" ng-show="form.word.$dirty && form.word.$invalid">
                     Du måste ange ett ord eller en fras
@@ -36,6 +39,9 @@
                        ng-model="entry.definition"
                        placeholder="Skriv betydelsen"
                        maxlength="1024"
+                       autocapitalize="off"
+                       autocomplete="off"
+                       autocorrect="off"
                        ng-disabled="saving"
                        required />
                 <span class="help-block" ng-show="form.definition.$dirty && form.definition.$invalid">
