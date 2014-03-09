@@ -1,6 +1,6 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using MinaGlosor.Web.Data.Events;
-using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Data.Models
 {
@@ -14,12 +14,8 @@ namespace MinaGlosor.Web.Data.Models
             DomainEvent.Raise(new CreateAcountRequestCreated(email, ActivationCode));
         }
 
-        [JsonConstructor]
-        private CreateAccountRequest(string email, string activationCode, DateTime? used)
+        private CreateAccountRequest()
         {
-            Email = email;
-            ActivationCode = activationCode;
-            Used = used;
         }
 
         public string Email { get; private set; }

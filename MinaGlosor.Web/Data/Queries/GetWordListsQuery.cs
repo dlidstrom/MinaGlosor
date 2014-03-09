@@ -4,13 +4,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using MinaGlosor.Web.Data.Models;
-using Raven.Client;
-using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Data.Queries
 {
     public class GetWordListsQuery :
-        QueryForEtagBase<GetWordListsQuery.Result>,
+        //QueryForEtagBase<GetWordListsQuery.Result>,
         IQuery<IEnumerable<GetWordListsQuery.Result>>
     {
         private readonly User currentUser;
@@ -41,10 +39,10 @@ namespace MinaGlosor.Web.Data.Queries
             //return items;
         }
 
-        protected override IRavenQueryable<Result> GetQuery(IDocumentSession session)
-        {
-            return null;
-        }
+        //protected override IRavenQueryable<Result> GetQuery(IDocumentSession session)
+        //{
+        //    return null;
+        //}
 
         public class Result
         {

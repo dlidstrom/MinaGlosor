@@ -1,6 +1,3 @@
-using Raven.Client;
-using Raven.Client.Linq;
-
 namespace MinaGlosor.Web.Data
 {
     public abstract class QueryForEtagBase<TResult>
@@ -17,6 +14,6 @@ namespace MinaGlosor.Web.Data
             return null;
         }
 
-        protected abstract IRavenQueryable<TResult> GetQuery(IDocumentSession session);
+        protected abstract TResult GetQuery();
     }
 }

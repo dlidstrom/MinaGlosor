@@ -14,10 +14,10 @@ namespace MinaGlosor.Web.Controllers.Api
         public async Task<HttpResponseMessage> Get()
         {
             var query = new GetWordListsQuery(CurrentUser);
-            var etag = ExecuteQueryForEtag(query);
+            //var etag = ExecuteQueryForEtag(query);
 
-            if (Request.Headers.IfNoneMatch.SingleOrDefault(x => x.Tag == etag) != null)
-                return Request.CreateResponse(HttpStatusCode.NotModified);
+            //if (Request.Headers.IfNoneMatch.SingleOrDefault(x => x.Tag == etag) != null)
+            //    return Request.CreateResponse(HttpStatusCode.NotModified);
 
             var wordLists = await ExecuteQueryAsync(query);
             var response = Request.CreateResponse(HttpStatusCode.OK, wordLists);

@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using MinaGlosor.Web.Data.Models;
-using MinaGlosor.Web.Infrastructure.Indexes;
 
 namespace MinaGlosor.Web.Data.Queries
 {
@@ -33,11 +32,11 @@ namespace MinaGlosor.Web.Data.Queries
 
         public class Result
         {
-            public Result(WordsIndex.Result result, Word word)
-            {
-                WordId = result.WordId;
-                Text = word.Text;
-            }
+            //public Result(WordsIndex.Result result, Word word)
+            //{
+            //    WordId = result.WordId;
+            //    Text = word.Text;
+            //}
 
             public string WordId { get; private set; }
 
