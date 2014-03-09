@@ -28,8 +28,13 @@ namespace MinaGlosor.Web
 
             routes.MapRoute(
                 name: "Default",
-                url: "{*catchall}",
+                url: string.Empty,
                 defaults: new { controller = "Home", action = "Index" });
+
+            routes.MapRoute(
+                name: "Catchall",
+                url: "{*catchall}",
+                defaults: new { controller = "Redirect", action = "Index" });
         }
     }
 }
