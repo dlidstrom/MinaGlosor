@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using System.Web.Http;
-using Castle.Core;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using MinaGlosor.Test.Api.Infrastructure;
@@ -32,7 +31,6 @@ namespace MinaGlosor.Test.Api
                 new ControllerInstaller(),
                 new WindsorWebApiInstaller(),
                 new ControllerFactoryInstaller(),
-                new RavenInstaller(ApplicationMode.Test, LifestyleType.Scoped),
                 new HandlersInstaller());
             OnSetUp(Container);
 

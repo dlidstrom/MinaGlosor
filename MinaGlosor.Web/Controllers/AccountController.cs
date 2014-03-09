@@ -10,11 +10,6 @@ namespace MinaGlosor.Web.Controllers
 {
     public class AccountController : ControllerBase
     {
-        public ActionResult Invite()
-        {
-            return View();
-        }
-
         [HttpPost]
         public async Task<ActionResult> Invite(RequestCreateAccount request)
         {

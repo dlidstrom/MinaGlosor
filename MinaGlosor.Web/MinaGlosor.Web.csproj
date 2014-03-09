@@ -243,7 +243,6 @@
     <Compile Include="Infrastructure\IoC\WindsorWebApiInstaller.cs" />
     <Compile Include="Infrastructure\IoC\ControllerFactoryInstaller.cs" />
     <Compile Include="Infrastructure\IoC\ControllerInstaller.cs" />
-    <Compile Include="Infrastructure\IoC\RavenInstaller.cs" />
     <Compile Include="Infrastructure\IoC\WindsorControllerFactory.cs" />
     <Compile Include="Infrastructure\IoC\WindsorDependencyScope.cs" />
     <Compile Include="Infrastructure\IoC\WindsorHttpDependencyResolver.cs" />

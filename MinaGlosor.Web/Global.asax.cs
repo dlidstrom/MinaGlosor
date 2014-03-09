@@ -6,21 +6,15 @@ using Castle.Windsor;
 using MinaGlosor.Web.Data.Events;
 using MinaGlosor.Web.Infrastructure.IoC;
 
+// TODO: Länken öva ska gå till sida som listar övningar eller ger alternativ att skapa ny
+// TODO: Inbjudan måste ha route
+// TODO: Inbjudningsmail måste ha länk som har route
+// TODO: Acceptera inbjudan genom mail måste ha route
 namespace MinaGlosor.Web
 {
     public class MvcApplication : HttpApplication
     {
         private static IWindsorContainer container;
-
-        private static ApplicationMode applicationMode =
-#if DEBUG
- ApplicationMode.Debug;
-
-#else
-            ApplicationMode.Release;
-#endif
-
-        public static ApplicationMode Mode { get { return applicationMode; } }
 
         public static void Configure(IWindsorContainer windsorContainer, HttpConfiguration configuration)
         {
@@ -64,7 +58,6 @@ namespace MinaGlosor.Web
                 new ControllerInstaller(),
                 new WindsorWebApiInstaller(),
                 new ControllerFactoryInstaller(),
-                /*new RavenInstaller(),*/
                 new HandlersInstaller(),
                 new ContextInstaller());
         }
