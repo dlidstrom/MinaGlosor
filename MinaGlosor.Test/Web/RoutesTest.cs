@@ -13,10 +13,34 @@ namespace MinaGlosor.Test.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            RouteTable.Routes.Clear();
+        }
+
         [Test]
-        public void MapsLogin()
+        public void Login()
         {
             RouteTable.Routes.Maps("GET", "~/logon", new { controller = "Account", action = "Logon" });
+        }
+
+        [Test]
+        public void AccountInvite()
+        {
+            RouteTable.Routes.Maps("GET", "~/invite", new { controller = "Account", action = "Invite" });
+        }
+
+        [Test]
+        public void AccountInviteSuccess()
+        {
+            RouteTable.Routes.Maps("GET", "~/invited", new { controller = "Account", action = "InviteSuccess" });
+        }
+
+        [Test]
+        public void ActivateAccount()
+        {
+            RouteTable.Routes.Maps("GET", "~/activate", new { controller = "Account", action = "Activate" });
         }
     }
 }

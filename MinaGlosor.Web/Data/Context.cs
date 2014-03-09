@@ -16,5 +16,7 @@ namespace MinaGlosor.Web.Data
         public IDbSet<WordList> WordLists { get; set; }
 
         public IDbSet<Word> Words { get; set; }
+
+        public IDbSet<CreateAccountRequest> CreateAccountRequests { get; set; }
     }
 }

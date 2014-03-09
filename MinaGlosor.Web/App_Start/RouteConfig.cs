@@ -21,10 +21,20 @@ namespace MinaGlosor.Web
                 "logon",
                 new { controller = "Account", action = "Logon" });
 
-            //routes.MapRoute(
-            //    name: "Default",
-            //    url: "{controller}/{action}/{id}",
-            //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+            routes.MapRoute(
+                "AccountInvite-route",
+                "invite",
+                new { controller = "Account", action = "Invite" });
+
+            routes.MapRoute(
+                "AccountInviteSuccess-route",
+                "invited",
+                new { controller = "Account", action = "InviteSuccess" });
+
+            routes.MapRoute(
+                "AccountActivate-route",
+                "activate",
+                new { controller = "Account", action = "Activate" });
 
             routes.MapRoute(
                 name: "Default",

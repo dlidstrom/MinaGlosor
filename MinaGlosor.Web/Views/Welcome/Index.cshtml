@@ -29,7 +29,12 @@
                 <label class="control-label">
                     Ange lösenord
                 </label>
-                <input type="password" class="form-control" name="password" ng-model="user.password" placeholder="Skriv ett lösenord" required />
+                <input type="password"
+                       class="form-control"
+                       name="password"
+                       ng-model="user.password"
+                       placeholder="Skriv ett lösenord"
+                       required />
                 <span class="help-block" ng-show="adminform.password.$dirty && adminform.password.$invalid">
                     Skriv ett lösenord
                 </span>
@@ -42,7 +47,12 @@
                 <label class="control-label">
                     Upprepa lösenordet
                 </label>
-                <input type="password" class="form-control" name="passwordConfirm" ng-model="user.passwordConfirm" placeholder="Upprepa lösenordet" required />
+                <input type="password"
+                       class="form-control"
+                       name="passwordConfirm"
+                       ng-model="user.passwordConfirm"
+                       placeholder="Upprepa lösenordet"
+                       required />
                 <span class="help-block" ng-show="adminform.passwordConfirm.$dirty && (adminform.passwordConfirm.$invalid || user.passwordConfirm != user.password)">
                     Lösenorden måste vara lika
                 </span>

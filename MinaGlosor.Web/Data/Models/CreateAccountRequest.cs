@@ -9,8 +9,10 @@ namespace MinaGlosor.Web.Data.Models
         public CreateAccountRequest(string email)
         {
             if (email == null) throw new ArgumentNullException("email");
+            if (email.Length > 320)
+                throw new ArgumentException("Email can be at most 320 characters", "email");
             Email = email;
-            ActivationCode = Guid.NewGuid().ToString("N");
+            ActivationCode = Guid.NewGuid();
             DomainEvent.Raise(new CreateAcountRequestCreated(email, ActivationCode));
         }
 
@@ -18,11 +20,14 @@ namespace MinaGlosor.Web.Data.Models
         {
         }
 
+        public int Id { get; set; }
+
+        [Required, MaxLength(320)]
         public string Email { get; private set; }
 
-        public string ActivationCode { get; private set; }
+        public Guid ActivationCode { get; private set; }
 
-        public DateTime? Used { get; set; }
+        public DateTime? Used { get; private set; }
 
         public void MarkAsUsed()
         {

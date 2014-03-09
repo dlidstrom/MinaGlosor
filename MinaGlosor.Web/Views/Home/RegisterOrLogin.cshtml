@@ -8,6 +8,7 @@
     Om du inte har ett konto kan du bjuda in dig själv nedan.
 </p>
 <form method="POST" name="inviteform" action="@Url.Action("Invite", "Account")">
+    @Html.DisplayFor(model => Html.ViewData.ModelState, "ValidationSummary")
     <div class="row">
         <div class="col-md-4">
             <div class="form-group" ng-class="{'has-error': inviteform.useremail.$dirty && inviteform.useremail.$invalid}">

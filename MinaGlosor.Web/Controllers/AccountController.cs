@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -16,20 +17,15 @@ namespace MinaGlosor.Web.Controllers
             if (await ExecuteQueryAsync(new GetUserByEmailQuery(request.UserEmail)) != null)
                 ModelState.AddModelError("Email", "E-postadressen finns redan");
 
-            if (await ExecuteQueryAsync(new GetCreateAccountRequest(request.UserEmail)) != null)
-            {
-                ModelState.AddModelError("Email", "Inbjudan är redan skickad");
-            }
-
             if (ModelState.IsValid == false)
-                return View();
+                return RedirectToAction("Index", "Home");
 
             await ExecuteCommandAsync(new CreateAccountRequestCommand(request.UserEmail));
 
             return RedirectToAction("InviteSuccess");
         }
 
-        public async Task<ActionResult> Activate(string activationCode)
+        public async Task<ActionResult> Activate(Guid activationCode)
         {
             var createAccountRequest = await ExecuteQueryAsync(new GetCreateAccountRequestQuery(activationCode));
             if (createAccountRequest == null)
@@ -106,13 +102,13 @@ namespace MinaGlosor.Web.Controllers
         public class ActivateAccountViewModel
         {
             [HiddenInput]
-            public string ActivationCode { get; set; }
+            public Guid ActivationCode { get; set; }
 
             [Required]
             public string Password { get; set; }
 
             [Required, System.ComponentModel.DataAnnotations.Compare("Password")]
-            public string ConfirmPassword { get; set; }
+            public string PasswordConfirm { get; set; }
         }
     }
 }

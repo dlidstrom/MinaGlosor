@@ -203,8 +203,7 @@
     <Compile Include="Infrastructure\CassetteBundleConfiguration.cs" />
     <Compile Include="Infrastructure\Annotations.cs" />
     <Compile Include="Infrastructure\Emails.cs" />
-    <Compile Include="Infrastructure\Indexes\CreateAccountRequestIndex.cs" />
-    <Compile Include="Infrastructure\Indexes\WordsIndex.cs" />
+    <Compile Include="Infrastructure\GuidBinder.cs" />
     <Compile Include="Infrastructure\IoC\ContextInstaller.cs" />
     <Compile Include="Infrastructure\IoC\HandlersInstaller.cs" />
     <Compile Include="Infrastructure\IoC\WindsorWebApiInstaller.cs" />
@@ -287,7 +286,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\LoggedIn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\_ViewStart.cshtml" />

@@ -10,7 +10,7 @@ namespace MinaGlosor.Web.Infrastructure
 {
     public static class Emails
     {
-        public static void InviteUser(string email, string activationCode)
+        public static void InviteUser(string email, Guid activationCode)
         {
             Send(
                 "InviteUser",

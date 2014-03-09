@@ -17,7 +17,8 @@ namespace MinaGlosor.Web.Data.Queries
 
         public Task<Result> ExecuteAsync(IDbContext context)
         {
-            return Task.FromResult(new Result(context.Users.Single(x => x.Email == email)));
+            var user = context.Users.SingleOrDefault(x => x.Email == email);
+            return Task.FromResult(user != null ? new Result(user) : null);
         }
 
         public class Result

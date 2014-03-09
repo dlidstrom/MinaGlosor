@@ -1,4 +1,6 @@
+using System;
 using System.Threading.Tasks;
+using MinaGlosor.Web.Data.Models;
 
 namespace MinaGlosor.Web.Data.Commands
 {
@@ -9,15 +11,17 @@ namespace MinaGlosor.Web.Data.Commands
 
         public CreateUserCommand(string userEmail, string password)
         {
+            if (userEmail == null) throw new ArgumentNullException("userEmail");
+            if (password == null) throw new ArgumentNullException("password");
             this.userEmail = userEmail;
             this.password = password;
         }
 
         public Task ExecuteAsync(IDbContext context)
         {
-            //var user = new User(string.Empty, string.Empty, userEmail, password);
-            //session.Store(user);
-            return null;
+            var user = new User(userEmail, password);
+            context.Users.Add(user);
+            return Task.FromResult(0);
         }
     }
 }

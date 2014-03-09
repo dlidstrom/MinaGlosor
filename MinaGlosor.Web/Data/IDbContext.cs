@@ -6,11 +6,13 @@ namespace MinaGlosor.Web.Data
 {
     public interface IDbContext
     {
-        IDbSet<User> Users { get; set; }
+        IDbSet<User> Users { get; }
 
-        IDbSet<WordList> WordLists { get; set; }
+        IDbSet<WordList> WordLists { get; }
 
-        IDbSet<Word> Words { get; set; }
+        IDbSet<Word> Words { get; }
+
+        IDbSet<CreateAccountRequest> CreateAccountRequests { get; }
 
         int SaveChanges();
 

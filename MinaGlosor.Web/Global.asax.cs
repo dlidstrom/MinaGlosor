@@ -1,15 +1,18 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.Windsor;
 using MinaGlosor.Web.Data.Events;
+using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.IoC;
 
 // TODO: Länken öva ska gå till sida som listar övningar eller ger alternativ att skapa ny
 // TODO: Inbjudan måste ha route
 // TODO: Inbjudningsmail måste ha länk som har route
 // TODO: Acceptera inbjudan genom mail måste ha route
+// TODO: Dela upp AccountController
 namespace MinaGlosor.Web
 {
     public class MvcApplication : HttpApplication
@@ -26,6 +29,7 @@ namespace MinaGlosor.Web
         {
             GlobalFilters.Filters.Clear();
             RouteTable.Routes.Clear();
+            ModelBinders.Binders.Clear();
             if (container != null)
                 container.Dispose();
             container = null;
@@ -43,6 +47,7 @@ namespace MinaGlosor.Web
             WebApiConfig.Register(configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            ModelBinders.Binders.Add(typeof(Guid), new GuidBinder());
 
             if (container == null)
                 container = CreateContainer();

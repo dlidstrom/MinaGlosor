@@ -1,8 +1,10 @@
+using System;
+
 namespace MinaGlosor.Web.Data.Events
 {
     public class CreateAcountRequestCreated : IDomainEvent
     {
-        public CreateAcountRequestCreated(string email, string activationCode)
+        public CreateAcountRequestCreated(string email, Guid activationCode)
         {
             ActivationCode = activationCode;
             Email = email;
@@ -10,6 +12,6 @@ namespace MinaGlosor.Web.Data.Events
 
         public string Email { get; private set; }
 
-        public string ActivationCode { get; private set; }
+        public Guid ActivationCode { get; private set; }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using MinaGlosor.Web.Data.Models;
 
@@ -14,12 +15,10 @@ namespace MinaGlosor.Web.Data.Queries
             this.email = email;
         }
 
-        public Task<Result> ExecuteAsync(IDbContext context)
+        public async Task<Result> ExecuteAsync(IDbContext context)
         {
-            return null;
-            //var request = session.Query<CreateAccountRequest, CreateAccountRequestIndex>()
-            //                     .FirstOrDefault(x => x.Email == email);
-            //return request != null ? new Result(request) : null;
+            var item = await context.CreateAccountRequests.SingleOrDefaultAsync(x => x.Email == email);
+            return item == null ? null : new Result(item);
         }
 
         public class Result
@@ -29,7 +28,7 @@ namespace MinaGlosor.Web.Data.Queries
                 ActivationCode = request.ActivationCode;
             }
 
-            public string ActivationCode { get; set; }
+            public Guid ActivationCode { get; private set; }
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using MinaGlosor.Web.Data.Models;
 
 namespace MinaGlosor.Web.Data.Commands
 {
@@ -13,8 +14,8 @@ namespace MinaGlosor.Web.Data.Commands
 
         public Task ExecuteAsync(IDbContext context)
         {
-            //var accountRequest = new CreateAccountRequest(email);
-            //session.Store(accountRequest);
+            var accountRequest = new CreateAccountRequest(email);
+            context.CreateAccountRequests.Add(accountRequest);
             return Task.FromResult(0);
         }
     }
