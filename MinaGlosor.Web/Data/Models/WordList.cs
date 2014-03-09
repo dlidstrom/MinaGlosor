@@ -21,6 +21,7 @@ namespace MinaGlosor.Web.Data.Models
 
             Name = name;
             OwnerId = owner.Id;
+            Owner = owner;
 
             Words = new Collection<Word>();
         }
@@ -36,6 +37,8 @@ namespace MinaGlosor.Web.Data.Models
         public string Name { get; private set; }
 
         public int OwnerId { get; private set; }
+
+        public virtual User Owner { get; private set; }
 
         public virtual ICollection<Word> Words { get; private set; }
 
