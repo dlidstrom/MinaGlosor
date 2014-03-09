@@ -1,3 +1,4 @@
+using System.Data.Entity;
 using System.Threading.Tasks;
 using MinaGlosor.Web.Data.Models;
 
@@ -5,33 +6,36 @@ namespace MinaGlosor.Web.Data.Queries
 {
     public class GetWordQuery : IQuery<GetWordQuery.Result>
     {
-        private readonly string wordId;
+        private readonly int id;
 
-        public GetWordQuery(string wordId)
+        public GetWordQuery(int id)
         {
-            this.wordId = wordId;
+            this.id = id;
         }
 
-        public Task<Result> ExecuteAsync(IDbContext context)
+        public async Task<Result> ExecuteAsync(IDbContext context)
         {
-            return null;
-            //return new Result(session.Load<Word>(wordId));
+            var word = await context.Words.SingleAsync(x => x.Id == id);
+            return new Result(word);
         }
 
         public class Result
         {
             public Result(Word word)
             {
-                WordId = word.Id;
+                Id = word.Id;
+                WordListId = word.WordListId;
                 Text = word.Text;
                 Definition = word.Definition;
             }
 
-            public string Definition { get; set; }
+            public int Id { get; private set; }
 
-            public string Text { get; set; }
+            public int WordListId { get; private set; }
 
-            public int WordId { get; set; }
+            public string Text { get; private set; }
+
+            public string Definition { get; private set; }
         }
     }
 }

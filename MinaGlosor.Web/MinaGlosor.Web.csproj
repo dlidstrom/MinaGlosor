@@ -45,11 +45,15 @@
     <Reference Include="BCrypt.Net">
       <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Cassette">
-      <HintPath>..\packages\Cassette.2.3.0\lib\net40-client\Cassette.dll</HintPath>
+    <Reference Include="Cassette, Version=2.4.0.18555, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Cassette.2.4.0\lib\net40-client\Cassette.dll</HintPath>
     </Reference>
     <Reference Include="Cassette.Aspnet">
       <HintPath>..\packages\Cassette.Aspnet.2.3.0\lib\net40\Cassette.Aspnet.dll</HintPath>
+    </Reference>
+    <Reference Include="Cassette.Less">
+      <HintPath>..\packages\Cassette.Less.2.4.0\lib\net40-client\Cassette.Less.dll</HintPath>
     </Reference>
     <Reference Include="Cassette.Views">
       <HintPath>..\packages\Cassette.Views.2.3.0\lib\net40\Cassette.Views.dll</HintPath>
@@ -59,6 +63,9 @@
     </Reference>
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.2.1\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="dotless.ClientOnly">
+      <HintPath>..\packages\DotlessClientOnly.1.4.0.0\lib\dotless.ClientOnly.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
@@ -186,6 +193,7 @@
     <Compile Include="Controllers\PracticeController.cs" />
     <Compile Include="Controllers\WelcomeController.cs" />
     <Compile Include="Controllers\WordController.cs" />
+    <Compile Include="Data\Commands\UpdateWordCommand.cs" />
     <Compile Include="Data\IDbContext.cs" />
     <Compile Include="Data\Commands\AnswerWordCommand.cs" />
     <Compile Include="Data\Commands\CreateAccountRequestCommand.cs" />
@@ -260,6 +268,8 @@
     <Content Include="Content\app\wordlist\index.html" />
     <Content Include="Content\app\wordlist\newctrl.js" />
     <Content Include="Content\app\wordlist\wordlistctrl.js" />
+    <Content Include="Content\app\word\edit.html" />
+    <Content Include="Content\app\word\editwordctrl.js" />
     <Content Include="Content\external\angularjs-1.2.8\angular-animate.js" />
     <Content Include="Content\external\angularjs-1.2.8\angular-route.js" />
     <Content Include="Content\main.less" />

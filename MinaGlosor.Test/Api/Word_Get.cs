@@ -12,19 +12,6 @@ namespace MinaGlosor.Test.Api
         [Test]
         public void GetsWordsForWordList()
         {
-            // Arrange
-            var owner = new User("e@d.com", "pwd") { Id = 1 };
-            var wordList = new WordList("list", owner) { Id = 1 };
-            Transact(context =>
-            {
-                context.Users.Add(owner);
-                context.WordLists.Add(wordList);
-                context.Words.Add(wordList.AddWord("w1", "d1"));
-                context.Words.Add(wordList.AddWord("w2", "d2"));
-            });
-
-            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
-
             // Act
             var response = Client.GetAsync("http://temp.uri/api/word?wordListId=1").Result;
             var content = response.Content;
@@ -36,18 +23,58 @@ namespace MinaGlosor.Test.Api
             {
                 new
                 {
+                    id = 1,
                     text = "w1",
-                    definition = "d1",
-                    easynessFactor = 0.0
+                    definition = "d1"
                 },
                 new
                 {
+                    id = 2,
                     text = "w2",
-                    definition = "d2",
-                    easynessFactor = 0.0
+                    definition = "d2"
                 }
             };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
+        }
+
+        [Test]
+        public void GetsSingleWord()
+        {
+            // Act
+            var response = Client.GetAsync("http://temp.uri/api/word?id=1").Result;
+            var content = response.Content;
+
+            // Assert
+            Assert.That(content, Is.Not.Null);
+            var result = content.ReadAsStringAsync().Result;
+            var expected = new
+                {
+                    id = 1,
+                    wordListId = 1,
+                    text = "w1",
+                    definition = "d1"
+                };
+            Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
+        }
+
+        protected override void OnSetUp(Castle.Windsor.IWindsorContainer container)
+        {
+            // Arrange
+            var owner = new User("e@d.com", "pwd") { Id = 1 };
+            var wordList = new WordList("list", owner) { Id = 1 };
+            Transact(context =>
+            {
+                context.Users.Add(owner);
+                context.WordLists.Add(wordList);
+                var word1 = wordList.AddWord("w1", "d1");
+                word1.Id = 1;
+                context.Words.Add(word1);
+                var word2 = wordList.AddWord("w2", "d2");
+                word2.Id = 2;
+                context.Words.Add(word2);
+            });
+
+            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
         }
     }
 }

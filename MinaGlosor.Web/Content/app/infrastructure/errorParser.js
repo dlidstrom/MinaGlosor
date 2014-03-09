@@ -7,8 +7,10 @@
             var parseError = function (response) {
                 var data = {
                     modelState: [],
-                    message: response.Message
+                    message: (response || {}).message
                 };
+
+                if (!response) return data;
 
                 if (response.exceptionMessage) {
                     // does this ever happen?

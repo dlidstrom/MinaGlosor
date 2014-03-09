@@ -5,8 +5,6 @@ namespace MinaGlosor.Web.Data.Models
 {
     public class User
     {
-        private readonly string password;
-
         public User(string email, string password)
         {
             if (email == null) throw new ArgumentNullException("email");

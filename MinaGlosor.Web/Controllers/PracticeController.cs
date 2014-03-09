@@ -13,7 +13,7 @@ namespace MinaGlosor.Web.Controllers
             return View(new ShowWordViewModel(wordListId, word));
         }
 
-        public async Task<ActionResult> Show(string wordListId, string wordId)
+        public async Task<ActionResult> Show(string wordListId, int wordId)
         {
             var word = await ExecuteQueryAsync(new GetWordQuery(wordId));
             return View(new AnswerWordViewModel(wordListId, word));

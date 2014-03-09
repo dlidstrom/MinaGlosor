@@ -119,6 +119,7 @@
     <Compile Include="Api\WordList_Post.cs" />
     <Compile Include="Api\Word_Get.cs" />
     <Compile Include="Api\Word_Post.cs" />
+    <Compile Include="Api\Word_Put.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\RoutesTest.cs" />
     <Compile Include="Web\RouteTestHelper.cs" />
@@ -137,6 +138,7 @@
     <Content Include="Web\run-jasmine.js" />
     <Content Include="Web\SpecRunner.html" />
     <Content Include="Web\spec\addwordctrl.spec.js" />
+    <Content Include="Web\spec\routes.spec.js" />
     <Content Include="Web\spec\wordservice.spec.js" />
     <Content Include="Web\spec\wordlistservice.spec.js" />
   </ItemGroup>

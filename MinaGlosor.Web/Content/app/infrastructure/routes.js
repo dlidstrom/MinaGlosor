@@ -58,6 +58,22 @@
                                 }
                             ]
                         }
+                    })
+                .when(
+                    '/word/:id/edit',
+                    {
+                        templateUrl: '/Content/app/word/edit.html',
+                        controller: 'EditWordCtrl',
+                        resolve: {
+                            Word:
+                            [
+                                '$route',
+                                'WordService',
+                                function ($route, wordService) {
+                                    return wordService.get($route.current.params.id);
+                                }
+                            ]
+                        }
                     }
                 )
                 .otherwise({

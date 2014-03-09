@@ -2,25 +2,24 @@
     'use strict';
 
     app.controller(
-        'AddWordCtrl',
+        'EditWordCtrl',
         [
             '$scope',
+            '$location',
             'toaster',
             'ErrorHandler',
             'WordService',
-            'WordList',
-            function ($scope, toaster, errorHandler, wordService, wordList) {
-                $scope.wordList = wordList;
+            'Word',
+            function ($scope, $location, toaster, errorHandler, wordService, word) {
+                $scope.entry = word;
 
-                $scope.add = function (entry) {
+                $scope.update = function (entry) {
                     $scope.saving = true;
-                    wordService.create(wordList.id, entry.text, entry.definition)
+                    wordService.update(word.id, entry.text, entry.definition)
                         .then(function () {
                             // success
-                            toaster.pop('success', 'Nytt ord', 'Ordet sparades i ' + wordList.name);
-                            $scope.saving = false;
-                            $scope.entry = null;
-                            $scope.form.$setPristine();
+                            toaster.pop('success', 'Ändra ord', 'Uppdateringen genomfördes');
+                            $location.path('/wordlist/' + word.wordListId);
                         }, function (response) {
                             // failure
                             $scope.saving = false;

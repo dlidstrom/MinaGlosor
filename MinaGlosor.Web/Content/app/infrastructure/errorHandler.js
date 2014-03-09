@@ -22,7 +22,7 @@
                         opts.exceptionMessage('Exception: ' + error.exceptionMessage);
                     } else if (error.message) {
                         opts.message('Error: ' + error.message);
-                    } else if (response.status) {
+                    } else if (response && response.status) {
                         opts.status('Internal Server Error: ' + response.status);
                     } else {
                         opts.unknown('Unknown error occurred');

@@ -1,8 +1,8 @@
 ﻿<p class="lead">
-    Lägg till ett ord till {{wordList.name}}
+    Redigera ordet och dess betydelse
 </p>
 
-<form name="form" ng-submit="add(entry)">
+<form name="form" ng-submit="update(entry)">
     <div class="row">
         <div class="col-md-4">
             <div class="form-group" ng-class="{'has-error': form.word.$dirty && form.word.$invalid}">
@@ -47,10 +47,10 @@
     <div class="row">
         <div class="col-md-4">
             <input class="btn btn-primary" type="submit" value="Spara" ng-disabled="form.$invalid || saving" />
-            <a ng-href="/wordlist/{{wordList.id}}"
+            <a ng-href="/wordlist/{{word.wordListId}}"
                class="btn btn-default"
                ng-disabled="saving">
-                Avsluta
+                Avbryt
             </a>
         </div>
     </div>

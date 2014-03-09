@@ -32,7 +32,7 @@ namespace MinaGlosor.Test.Api
             var request = new
             {
                 wordListId = 2,
-                word = "Some word",
+                text = "Some word",
                 definition = "Some definition"
             };
             var response = Client.PostAsJsonAsync("http://temp.uri/api/word", request).Result;

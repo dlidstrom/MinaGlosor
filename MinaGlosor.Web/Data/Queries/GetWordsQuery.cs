@@ -25,16 +25,16 @@ namespace MinaGlosor.Web.Data.Queries
         {
             public Result(Word word)
             {
+                Id = word.Id;
                 Text = word.Text;
                 Definition = word.Definition;
-                EasynessFactor = EasynessFactor;
             }
+
+            public int Id { get; private set; }
 
             public string Text { get; private set; }
 
             public string Definition { get; private set; }
-
-            public double EasynessFactor { get; private set; }
         }
     }
 }

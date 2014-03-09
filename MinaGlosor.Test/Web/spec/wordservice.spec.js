@@ -28,13 +28,23 @@ describe('WordService', function () {
         });
 
         it('should create word', function () {
-            httpMock.expectPOST('/api/word', { wordListId: 1, word: 'some word', definition: 'some def' }).respond(201);
+            httpMock.expectPOST('/api/word', { wordListId: 1, text: 'some word', definition: 'some def' }).respond(201);
             wordService.create(1, 'some word', 'some def');
+        });
+
+        it('should update word', function () {
+            httpMock.expectPUT('/api/word', { id: 2, text: 'new word', definition: 'new def' }).respond(201);
+            wordService.update(2, 'new word', 'new def');
         });
 
         it('should get all words', function () {
             httpMock.expectGET('/api/word?wordListId=1').respond(200);
             wordService.getAll(1);
+        });
+
+        it('should get word', function () {
+            httpMock.expectGET('/api/word?id=1').respond(200);
+            wordService.get(1);
         });
     });
 });
