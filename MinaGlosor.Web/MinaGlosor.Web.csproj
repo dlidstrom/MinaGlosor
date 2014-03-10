@@ -214,6 +214,11 @@
     <Compile Include="Infrastructure\IoC\WindsorHttpDependencyResolver.cs" />
     <Compile Include="Infrastructure\IoC\WindsorMvcDependencyResolver.cs" />
     <Compile Include="Data\Models\User.cs" />
+    <Compile Include="Data\Migrations\201403091213424_InitialCreate.cs" />
+    <Compile Include="Data\Migrations\201403091213424_InitialCreate.Designer.cs">
+      <DependentUpon>201403091213424_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\about\about.html" />
     <Content Include="Content\app\app\app.js" />
@@ -223,6 +228,7 @@
     <Content Include="Content\app\infrastructure\exceptionHandler.js" />
     <Content Include="Content\app\app\once.js" />
     <Content Include="Content\app\app\toaster.js" />
+    <Content Include="Content\app\practice\index.html" />
     <Content Include="Content\app\shared\wordservice.js" />
     <Content Include="Content\app\shared\wordlistservice.js" />
     <Content Include="Content\app\infrastructure\stacktrace.js" />
@@ -313,6 +319,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Emails\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Migrations\201403091213424_InitialCreate.resx">
+      <DependentUpon>201403091213424_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

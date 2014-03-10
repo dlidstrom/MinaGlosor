@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using MinaGlosor.Web.Data.Migrations;
 using MinaGlosor.Web.Data.Models;
 
 namespace MinaGlosor.Web.Data
@@ -8,7 +9,7 @@ namespace MinaGlosor.Web.Data
         public Context()
             : base("MainDb")
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<Context>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<Context, Configuration>());
         }
 
         public IDbSet<User> Users { get; set; }
