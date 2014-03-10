@@ -5,22 +5,14 @@ namespace MinaGlosor.Web.Data.Models
 {
     public class User
     {
-        public User(string email, string password)
-        {
-            if (email == null) throw new ArgumentNullException("email");
-            if (password == null) throw new ArgumentNullException("password");
-            Email = email;
-            Role = UserRole.Basic;
-            HashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
-        }
-
-        public User(string email, string password, UserRole userRole)
+        public User(string email, string password, UserRole userRole = UserRole.Basic)
         {
             if (email == null) throw new ArgumentNullException("email");
             if (password == null) throw new ArgumentNullException("password");
             Email = email;
             Role = userRole;
             HashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+            CreatedDate = DateTime.Now;
         }
 
         private User()
@@ -36,6 +28,8 @@ namespace MinaGlosor.Web.Data.Models
         public string HashedPassword { get; private set; }
 
         public UserRole Role { get; private set; }
+
+        public DateTime CreatedDate { get; private set; }
 
         public bool ValidatePassword(string somePassword)
         {

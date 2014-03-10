@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using MinaGlosor.Web.Data.Commands;
+using MinaGlosor.Web.Data.Models;
 using MinaGlosor.Web.Data.Queries;
 
 namespace MinaGlosor.Web.Controllers
@@ -19,7 +20,7 @@ namespace MinaGlosor.Web.Controllers
         public async Task<ActionResult> Index(CreateAdminUserRequest request)
         {
             if (await ExecuteQueryAsync(new HasAdminUserQuery()) == false)
-                await ExecuteCommandAsync(new CreateAdminUserCommand(request.UserEmail, request.Password));
+                await ExecuteCommandAsync(new CreateUserCommand(request.UserEmail, request.Password, UserRole.Admin));
 
             return RedirectToAction("Index", "Home");
         }

@@ -166,7 +166,6 @@
     <Compile Include="Data\IDbContext.cs" />
     <Compile Include="Data\Commands\AnswerWordCommand.cs" />
     <Compile Include="Data\Commands\CreateAccountRequestCommand.cs" />
-    <Compile Include="Data\Commands\CreateAdminUserCommand.cs" />
     <Compile Include="Data\Commands\CreateUserCommand.cs" />
     <Compile Include="Data\Commands\CreateWordCommand.cs" />
     <Compile Include="Data\Commands\CreateWordListCommand.cs" />
@@ -179,6 +178,10 @@
     <Compile Include="Data\Handlers\IHandle.cs" />
     <Compile Include="Data\ICommand.cs" />
     <Compile Include="Data\IQuery.cs" />
+    <Compile Include="Data\Migrations\201403102000267_User_CreatedDate.cs" />
+    <Compile Include="Data\Migrations\201403102000267_User_CreatedDate.Designer.cs">
+      <DependentUpon>201403102000267_User_CreatedDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\Models\UserRole.cs" />
     <Compile Include="Data\Queries\GetWordListByIdQuery.cs" />
     <Compile Include="Data\Queries\HasAdminUserQuery.cs" />
@@ -323,6 +326,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Data\Migrations\201403091213424_InitialCreate.resx">
       <DependentUpon>201403091213424_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Migrations\201403102000267_User_CreatedDate.resx">
+      <DependentUpon>201403102000267_User_CreatedDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

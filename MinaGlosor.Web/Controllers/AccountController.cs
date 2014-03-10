@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using MinaGlosor.Web.Data.Commands;
+using MinaGlosor.Web.Data.Models;
 using MinaGlosor.Web.Data.Queries;
 
 namespace MinaGlosor.Web.Controllers
@@ -51,7 +52,7 @@ namespace MinaGlosor.Web.Controllers
                 throw new HttpException(404, "Already used");
 
             createAccountRequest.MarkAsUsed();
-            await ExecuteCommandAsync(new CreateUserCommand(createAccountRequest.Email, vm.Password));
+            await ExecuteCommandAsync(new CreateUserCommand(createAccountRequest.Email, vm.Password, UserRole.Basic));
             FormsAuthentication.SetAuthCookie(createAccountRequest.Email, true);
             return RedirectToAction("Index", "Home");
         }
