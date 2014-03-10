@@ -13,7 +13,7 @@ namespace MinaGlosor.Web.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201403102000267_User_CreatedDate"; }
+            get { return "201403102011308_User_CreatedDate"; }
         }
         
         string IMigrationMetadata.Source

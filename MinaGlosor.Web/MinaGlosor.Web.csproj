@@ -178,9 +178,9 @@
     <Compile Include="Data\Handlers\IHandle.cs" />
     <Compile Include="Data\ICommand.cs" />
     <Compile Include="Data\IQuery.cs" />
-    <Compile Include="Data\Migrations\201403102000267_User_CreatedDate.cs" />
-    <Compile Include="Data\Migrations\201403102000267_User_CreatedDate.Designer.cs">
-      <DependentUpon>201403102000267_User_CreatedDate.cs</DependentUpon>
+    <Compile Include="Data\Migrations\201403102011308_User_CreatedDate.cs" />
+    <Compile Include="Data\Migrations\201403102011308_User_CreatedDate.Designer.cs">
+      <DependentUpon>201403102011308_User_CreatedDate.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\Models\UserRole.cs" />
     <Compile Include="Data\Queries\GetWordListByIdQuery.cs" />
@@ -290,6 +290,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -327,8 +328,9 @@
     <EmbeddedResource Include="Data\Migrations\201403091213424_InitialCreate.resx">
       <DependentUpon>201403091213424_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\Migrations\201403102000267_User_CreatedDate.resx">
-      <DependentUpon>201403102000267_User_CreatedDate.cs</DependentUpon>
+    <EmbeddedResource Include="Data\Migrations\201403102011308_User_CreatedDate.resx">
+      <DependentUpon>201403102011308_User_CreatedDate.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
