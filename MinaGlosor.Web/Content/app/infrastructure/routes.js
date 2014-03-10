@@ -74,8 +74,19 @@
                                 }
                             ]
                         }
-                    }
-                )
+                    })
+                .when(
+                    '/practice/:id',
+                    {
+                        templateUrl: '/Content/app/practice/index.html'/*,
+                        controller: 'PracticeIndexCtrl',
+                        resolve: {
+                            PracticeSessions: [
+                                '$route',
+                                'PracticeSessionService'
+                            ]
+                        }*/
+                    })
                 .otherwise({
                     redirectTo: '/wordlist'
                 });
