@@ -76,9 +76,21 @@
                         }
                     })
                 .when(
-                    '/practice/:id',
+                    '/practice/:listid',
                     {
                         templateUrl: '/Content/app/practice/index.html'/*,
+                        controller: 'PracticeIndexCtrl',
+                        resolve: {
+                            PracticeSessions: [
+                                '$route',
+                                'PracticeSessionService'
+                            ]
+                        }*/
+                    })
+                .when(
+                    '/practice/:listid/:id',
+                    {
+                        templateUrl: '/Content/app/practice/view.html'/*,
                         controller: 'PracticeIndexCtrl',
                         resolve: {
                             PracticeSessions: [

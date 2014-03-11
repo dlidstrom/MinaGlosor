@@ -235,6 +235,7 @@
     <Content Include="Content\app\infrastructure\exceptionHandler.js" />
     <Content Include="Content\app\app\once.js" />
     <Content Include="Content\app\app\toaster.js" />
+    <Content Include="Content\app\practice\view.html" />
     <Content Include="Content\app\practice\index.html" />
     <Content Include="Content\app\shared\wordservice.js" />
     <Content Include="Content\app\shared\wordlistservice.js" />

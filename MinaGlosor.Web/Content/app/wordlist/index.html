@@ -1,5 +1,5 @@
 ﻿<div class="row">
-    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+    <div class="col-xs-12">
         <p class="lead">
             Mina ordlistor
         </p>
@@ -15,7 +15,7 @@
             <tr ng-repeat="item in wordLists">
                 <td once-text="item.name + ' (' + item.wordCount + ' ord)'"></td>
                 <td>
-                    <a once-if="item.wordCount > 0" once-href="'practice/' + item.id" class="btn btn-xs btn-default">öva</a>
+                    <a once-if="item.wordCount > 0" once-href="'/practice/' + item.id" class="btn btn-xs btn-default">öva</a>
                     <a once-href="'wordlist/' + item.id" class="btn btn-xs btn-default">visa</a>
                 </td>
             </tr>
