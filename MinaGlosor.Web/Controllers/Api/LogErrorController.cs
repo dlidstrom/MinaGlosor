@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Elmah;
 
 namespace MinaGlosor.Web.Controllers.Api
 {
@@ -9,8 +10,7 @@ namespace MinaGlosor.Web.Controllers.Api
     {
         public HttpResponseMessage Post(JavaScriptExceptionMessage message)
         {
-            // TODO: Implement Elmah
-            //ErrorSignal.FromCurrentContext().Raise(new JavaScriptException(message.Message));
+            ErrorSignal.FromCurrentContext().Raise(new JavaScriptException(message.Message));
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
