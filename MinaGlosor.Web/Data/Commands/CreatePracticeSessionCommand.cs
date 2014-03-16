@@ -23,8 +23,10 @@ namespace MinaGlosor.Web.Data.Commands
             }
 
             var wordList = await context.WordLists.SingleAsync(x => x.Id == wordListId);
-
-            context.PracticeSessions.Add(new PracticeSession(wordList));
+            var wordScoreIds = context.WordScores.Select(x => x.Id);
+            var wordsWithoutScores = await context.Words.Where(x => wordScoreIds.Contains(x.Id) == false).ToArrayAsync();
+            var practiceWords = wordsWithoutScores.Take(10).Select(x => new PracticeWord(x)).ToArray();
+            context.PracticeSessions.Add(new PracticeSession(wordList, practiceWords));
         }
     }
 }

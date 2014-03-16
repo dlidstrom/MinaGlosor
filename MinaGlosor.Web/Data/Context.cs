@@ -21,5 +21,9 @@ namespace MinaGlosor.Web.Data
         public IDbSet<CreateAccountRequest> CreateAccountRequests { get; set; }
 
         public IDbSet<PracticeSession> PracticeSessions { get; set; }
+
+        public IDbSet<WordScore> WordScores { get; set; }
+
+        public IDbSet<PracticeWord> PracticeWords { get; set; }
     }
 }

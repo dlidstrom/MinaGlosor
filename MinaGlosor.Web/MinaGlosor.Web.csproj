@@ -188,7 +188,9 @@
       <DependentUpon>201403102011308_User_CreatedDate.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\Models\PracticeSession.cs" />
+    <Compile Include="Data\Models\PracticeWord.cs" />
     <Compile Include="Data\Models\UserRole.cs" />
+    <Compile Include="Data\Models\WordScore.cs" />
     <Compile Include="Data\Queries\GetWordListByIdQuery.cs" />
     <Compile Include="Data\Queries\HasAdminUserQuery.cs" />
     <Compile Include="Data\QueryForEtagBase.cs" />

@@ -16,6 +16,10 @@ namespace MinaGlosor.Web.Data
 
         IDbSet<PracticeSession> PracticeSessions { get; }
 
+        IDbSet<WordScore> WordScores { get; }
+
+        IDbSet<PracticeWord> PracticeWords { get; }
+
         int SaveChanges();
 
         Task<int> SaveChangesAsync();

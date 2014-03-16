@@ -15,6 +15,7 @@ namespace MinaGlosor.Test.Api
     [TestFixture]
     public class PracticeSession_Post : WebApiIntegrationTest
     {
+        private IdGenerator generator;
         private HttpResponseMessage result;
 
         [Test]
@@ -24,7 +25,7 @@ namespace MinaGlosor.Test.Api
             Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.Created));
             Transact(context =>
                 {
-                    var practiceSession = context.PracticeSessions.SingleOrDefault(x => x.WordListId == 2);
+                    var practiceSession = context.PracticeSessions.Last();
                     Assert.That(practiceSession, Is.Not.Null);
                     Debug.Assert(practiceSession != null, "practiceSession != null");
                     Assert.That(practiceSession.ValidFrom, Is.EqualTo(new DateTime(2014, 3, 16)));
@@ -39,8 +40,20 @@ namespace MinaGlosor.Test.Api
             // Assert
             Transact(context =>
                 {
-                    var existing = context.PracticeSessions.Single(x => x.WordListId == 1);
+                    var existing = context.PracticeSessions.First();
                     Assert.That(existing.ValidTo, Is.EqualTo(new DateTime(2014, 3, 16)));
+                });
+        }
+
+        [Test]
+        public void SelectsWordsForPractice()
+        {
+            // Assert
+            Transact(context =>
+                {
+                    var practiceSession = context.PracticeSessions.Last();
+                    var practiceWords = practiceSession.PracticeWords;
+                    Assert.That(practiceWords.Count, Is.EqualTo(10));
                 });
         }
 
@@ -61,15 +74,25 @@ namespace MinaGlosor.Test.Api
         protected override void OnSetUp(IWindsorContainer container)
         {
             // Arrange
-            var owner = new User("e@d.com", "pwd") { Id = 1 };
+            generator = new IdGenerator();
+            var owner = new User("e@d.com", "pwd") { Id = generator.NextId() };
             Transact(context =>
                 {
                     context.Users.Add(owner);
-                    var wordList1 = new WordList("wl1", owner) { Id = 1 };
-                    var wordList2 = new WordList("wl2", owner) { Id = 2 };
+                    var wordList1 = new WordList("wl1", owner) { Id = generator.NextId() };
                     context.WordLists.Add(wordList1);
+                    foreach (var i in Enumerable.Range(1, 12))
+                    {
+                        var word = wordList1.AddWord("word" + i, "def" + i);
+                        word.Id = generator.NextId();
+                        context.Words.Add(word);
+                    }
+
+                    var wordList2 = new WordList("wl2", owner) { Id = generator.NextId() };
                     context.WordLists.Add(wordList2);
-                    context.PracticeSessions.Add(new PracticeSession(wordList1));
+                    var practiceWords = wordList1.Words.Skip(10).Select(x => new PracticeWord(x)).ToList();
+                    practiceWords.ForEach(x => context.PracticeWords.Add(x));
+                    context.PracticeSessions.Add(new PracticeSession(wordList1, practiceWords));
                 });
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
