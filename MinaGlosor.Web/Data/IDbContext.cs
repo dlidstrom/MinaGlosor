@@ -14,6 +14,8 @@ namespace MinaGlosor.Web.Data
 
         IDbSet<CreateAccountRequest> CreateAccountRequests { get; }
 
+        IDbSet<PracticeSession> PracticeSessions { get; }
+
         int SaveChanges();
 
         Task<int> SaveChangesAsync();

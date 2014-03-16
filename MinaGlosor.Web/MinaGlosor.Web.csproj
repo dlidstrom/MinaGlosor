@@ -156,6 +156,7 @@
     <Compile Include="Controllers\Api\ApiControllerBase.cs" />
     <Compile Include="Controllers\Api\CustomAuthorizeAttribute.cs" />
     <Compile Include="Controllers\Api\LogErrorController.cs" />
+    <Compile Include="Controllers\Api\PracticeSessionController.cs" />
     <Compile Include="Controllers\Api\WordController.cs" />
     <Compile Include="Controllers\Api\WordListController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="Controllers\RedirectController.cs" />
     <Compile Include="Controllers\WelcomeController.cs" />
     <Compile Include="Controllers\WordController.cs" />
+    <Compile Include="Data\Commands\CreatePracticeSessionCommand.cs" />
     <Compile Include="Data\Commands\UpdateWordCommand.cs" />
     <Compile Include="Data\IDbContext.cs" />
     <Compile Include="Data\Commands\AnswerWordCommand.cs" />
@@ -185,6 +187,7 @@
     <Compile Include="Data\Migrations\201403102011308_User_CreatedDate.Designer.cs">
       <DependentUpon>201403102011308_User_CreatedDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\Models\PracticeSession.cs" />
     <Compile Include="Data\Models\UserRole.cs" />
     <Compile Include="Data\Queries\GetWordListByIdQuery.cs" />
     <Compile Include="Data\Queries\HasAdminUserQuery.cs" />
@@ -225,6 +228,7 @@
       <DependentUpon>201403091213424_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\Migrations\Configuration.cs" />
+    <Compile Include="Infrastructure\SystemTime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Content\about\about.html" />

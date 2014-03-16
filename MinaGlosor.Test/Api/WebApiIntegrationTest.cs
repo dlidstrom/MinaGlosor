@@ -38,6 +38,7 @@ namespace MinaGlosor.Test.Api
             Client = new HttpClient(new HttpServer(configuration));
 
             CustomAuthorizeAttribute.DisableAuthorize = true;
+            Act();
         }
 
         [TearDown]
@@ -54,6 +55,10 @@ namespace MinaGlosor.Test.Api
         }
 
         protected virtual void OnSetUp(IWindsorContainer container)
+        {
+        }
+
+        protected virtual void Act()
         {
         }
 

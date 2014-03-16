@@ -85,6 +85,7 @@
     <Compile Include="Api\Infrastructure\TestDbAsyncEnumerable.cs" />
     <Compile Include="Api\Infrastructure\TestDbAsyncEnumerator.cs" />
     <Compile Include="Api\Infrastructure\TestDbAsyncQueryProvider.cs" />
+    <Compile Include="Api\PracticeSession_Post.cs" />
     <Compile Include="Api\WebApiIntegrationTest.cs" />
     <Compile Include="Api\WordList_Get.cs" />
     <Compile Include="Api\WordList_Post.cs" />

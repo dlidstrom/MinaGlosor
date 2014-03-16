@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using MinaGlosor.Web.Infrastructure;
 
 namespace MinaGlosor.Web.Data.Models
 {
@@ -12,7 +13,7 @@ namespace MinaGlosor.Web.Data.Models
             Email = email;
             Role = userRole;
             HashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
-            CreatedDate = DateTime.Now;
+            CreatedDate = SystemTime.UtcNow;
         }
 
         private User()

@@ -13,6 +13,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
             WordLists = new InMemoryDbSet<WordList>();
             Words = new InMemoryDbSet<Word>();
             CreateAccountRequests = new InMemoryDbSet<CreateAccountRequest>();
+            PracticeSessions = new InMemoryDbSet<PracticeSession>();
         }
 
         public IDbSet<User> Users { get; private set; }
@@ -22,6 +23,8 @@ namespace MinaGlosor.Test.Api.Infrastructure
         public IDbSet<Word> Words { get; private set; }
 
         public IDbSet<CreateAccountRequest> CreateAccountRequests { get; private set; }
+
+        public IDbSet<PracticeSession> PracticeSessions { get; private set; }
 
         public int SaveChanges()
         {

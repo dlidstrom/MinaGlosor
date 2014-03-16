@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using MinaGlosor.Web.Infrastructure;
 
 namespace MinaGlosor.Web.Data.Models
 {
@@ -10,7 +11,7 @@ namespace MinaGlosor.Web.Data.Models
             Verify(text, definition);
             WordList = wordList;
             WordListId = wordList.Id;
-            CreatedDate = DateTime.Now;
+            CreatedDate = SystemTime.UtcNow;
             Text = text;
             Definition = definition;
         }

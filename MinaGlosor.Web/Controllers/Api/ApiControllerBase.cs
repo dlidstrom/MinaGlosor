@@ -12,23 +12,21 @@ namespace MinaGlosor.Web.Controllers.Api
     {
         private User currentUser;
 
-        //public IDocumentSession Session { private get; set; }
+        public IDbContext Context { get; set; }
 
-        public User CurrentUser
+        protected User CurrentUser
         {
             get
             {
                 if (currentUser == null)
                 {
                     currentUser = Context.Users
-                        .FirstOrDefault(x => x.Email == User.Identity.Name);
+                                         .FirstOrDefault(x => x.Email == User.Identity.Name);
                 }
 
                 return currentUser;
             }
         }
-
-        public IDbContext Context { get; set; }
 
         protected Task ExecuteCommandAsync(ICommand command)
         {
@@ -40,11 +38,6 @@ namespace MinaGlosor.Web.Controllers.Api
         {
             if (query == null) throw new ArgumentNullException("query");
             return query.ExecuteAsync(Context);
-        }
-
-        protected string ExecuteQueryForEtag<TResult>(QueryForEtagBase<TResult> query)
-        {
-            return query.QueryForEtag(Context);
         }
     }
 }

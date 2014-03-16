@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using MinaGlosor.Web.Data.Events;
+using MinaGlosor.Web.Infrastructure;
 
 namespace MinaGlosor.Web.Data.Models
 {
@@ -31,7 +32,7 @@ namespace MinaGlosor.Web.Data.Models
 
         public void MarkAsUsed()
         {
-            Used = DateTime.Now;
+            Used = SystemTime.UtcNow;
         }
 
         public bool HasBeenUsed()
