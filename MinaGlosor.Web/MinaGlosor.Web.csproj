@@ -257,8 +257,8 @@
     <Content Include="Content\app\wordlist\wordlistctrl.js" />
     <Content Include="Content\app\word\edit.html" />
     <Content Include="Content\app\word\editwordctrl.js" />
-    <Content Include="Content\external\angularjs-1.2.8\angular-animate.js" />
-    <Content Include="Content\external\angularjs-1.2.8\angular-route.js" />
+    <None Include="Content\external\angularjs-1.2.8\angular-animate.js" />
+    <None Include="Content\external\angularjs-1.2.8\angular-route.js" />
     <Content Include="Content\main.less" />
     <Content Include="Content\readable.min.css" />
     <Content Include="Content\toastr.css" />
@@ -283,15 +283,15 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Content\app\infrastructure\routes.js" />
     <Content Include="Content\app\infrastructure\initialdata.js" />
-    <Content Include="Content\external\angularjs-1.2.8\angular.js" />
+    <None Include="Content\external\angularjs-1.2.8\angular.js" />
     <Content Include="Global.asax" />
-    <Content Include="Content\external\bootstrap-3.0.3\css\bootstrap-theme.css" />
-    <Content Include="Content\external\bootstrap-3.0.3\css\bootstrap-theme.min.css" />
-    <Content Include="Content\external\bootstrap-3.0.3\css\bootstrap.css" />
-    <Content Include="Content\external\bootstrap-3.0.3\css\bootstrap.min.css" />
-    <Content Include="Content\external\bootstrap-3.0.3\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\external\bootstrap-3.0.3\js\bootstrap.js" />
-    <Content Include="Content\external\bootstrap-3.0.3\js\bootstrap.min.js" />
+    <None Include="Content\external\bootstrap-3.0.3\css\bootstrap-theme.css" />
+    <None Include="Content\external\bootstrap-3.0.3\css\bootstrap-theme.min.css" />
+    <None Include="Content\external\bootstrap-3.0.3\css\bootstrap.css" />
+    <None Include="Content\external\bootstrap-3.0.3\css\bootstrap.min.css" />
+    <None Include="Content\external\bootstrap-3.0.3\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="Content\external\bootstrap-3.0.3\js\bootstrap.js" />
+    <None Include="Content\external\bootstrap-3.0.3\js\bootstrap.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -317,9 +317,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\external\bootstrap-3.0.3\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\external\bootstrap-3.0.3\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\external\bootstrap-3.0.3\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Content\external\bootstrap-3.0.3\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Content\external\bootstrap-3.0.3\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="Content\external\bootstrap-3.0.3\fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Welcome\Index.cshtml" />
