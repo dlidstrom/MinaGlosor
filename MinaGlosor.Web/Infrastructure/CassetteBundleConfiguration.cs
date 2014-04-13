@@ -24,6 +24,9 @@ namespace MinaGlosor.Web.Infrastructure
             bundles.AddUrlWithAlias(
                 "//code.jquery.com/jquery-1.11.0.min.js",
                 "jquery");
+            bundles.AddUrlWithAlias(
+                "//cdn.jsdelivr.net/json3/3.3.1/json3.min.js",
+                "json3");
 
             bundles.AddPerSubDirectory<ScriptBundle>("Content/app");
 
