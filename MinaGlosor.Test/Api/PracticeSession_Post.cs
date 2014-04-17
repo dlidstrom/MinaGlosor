@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -128,20 +127,15 @@ namespace MinaGlosor.Test.Api
                     context.WordLists.Add(wordList2);
 
                     // create an existing practice session of all words except the first 10
-                    var practiceWords = new List<PracticeWord>();
+                    var practiceSession = owner.Practice(wordList1);
+                    practiceSession.Id = generator.NextId();
                     foreach (var word in wordList1.Words.Skip(10))
                     {
-                        var practiceWord = new PracticeWord(new WordScore(owner, word))
-                            {
-                                Id = generator.NextId()
-                            };
-                        practiceWords.Add(practiceWord);
+                        var wordScore = owner.Score(word);
+                        wordScore.Id = generator.NextId();
+                        practiceSession.AddPracticeWord(wordScore);
                     }
 
-                    var practiceSession = new PracticeSession(wordList1, practiceWords)
-                        {
-                            Id = generator.NextId()
-                        };
                     context.PracticeSessions.Add(practiceSession);
                 });
 

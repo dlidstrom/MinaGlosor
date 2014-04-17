@@ -21,37 +21,44 @@ namespace MinaGlosor.Web.Data.Commands
 
         public async Task ExecuteAsync(IDbContext context)
         {
-            var current = await context.PracticeSessions.Where(x => x.ValidTo == null)
-                                       .ToArrayAsync();
-            foreach (var practiceSession in current)
-            {
-                practiceSession.MarkAsDone();
-            }
+            var toBeExpired = await context.PracticeSessions
+                                           .Where(x => x.ValidTo.HasValue == false)
+                                           .ToArrayAsync();
+            foreach (var expired in toBeExpired)
+                expired.MarkAsDone();
 
+            // new practice session
+            var wordList = await context.WordLists.SingleAsync(x => x.Id == wordListId);
+            var practiceSession = owner.Practice(wordList);
             var wordScoreWordIds = context.WordScores.Select(x => x.WordId);
             var wordsWithoutScores = await context.Words
                                                   .Where(x => x.WordListId == wordListId
                                                               && !wordScoreWordIds.Contains(x.Id))
                                                   .Take(NumberOfWordsToPractice)
                                                   .ToArrayAsync();
-            var practiceWords = wordsWithoutScores.Select(x => new PracticeWord(new WordScore(owner, x)))
-                                                  .ToList();
-            if (practiceWords.Count < NumberOfWordsToPractice)
+
+            foreach (var wordsWithoutScore in wordsWithoutScores)
+            {
+                practiceSession.AddPracticeWord(owner.Score(wordsWithoutScore));
+            }
+
+            if (wordsWithoutScores.Length < NumberOfWordsToPractice)
             {
                 // add words with lowest score
                 var query = context.WordScores
                                    .Include(x => x.Word)
                                    .Where(x => x.UserId == owner.Id)
                                    .OrderBy(x => x.EasynessFactor)
-                                   .Take(NumberOfWordsToPractice - practiceWords.Count);
+                                   .Take(NumberOfWordsToPractice - wordsWithoutScores.Length);
                 var wordsWithLowestScore = await query.ToArrayAsync();
-                var scorePrioritizedPracticeWords = wordsWithLowestScore
-                    .Select(x => new PracticeWord(x));
-                practiceWords.AddRange(scorePrioritizedPracticeWords);
+
+                foreach (var wordScore in wordsWithLowestScore)
+                {
+                    practiceSession.AddPracticeWord(wordScore);
+                }
             }
 
-            var wordList = await context.WordLists.SingleAsync(x => x.Id == wordListId);
-            context.PracticeSessions.Add(new PracticeSession(wordList, practiceWords));
+            context.PracticeSessions.Add(practiceSession);
         }
     }
 }

@@ -47,5 +47,11 @@ namespace MinaGlosor.Web.Data.Models
             if (word == null) throw new ArgumentNullException("word");
             return new WordScore(this, word);
         }
+
+        public PracticeSession Practice(WordList wordList)
+        {
+            if (wordList == null) throw new ArgumentNullException("wordList");
+            return new PracticeSession(wordList, this);
+        }
     }
 }

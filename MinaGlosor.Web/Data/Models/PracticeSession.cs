@@ -7,14 +7,16 @@ namespace MinaGlosor.Web.Data.Models
 {
     public class PracticeSession
     {
-        public PracticeSession(WordList wordList, IList<PracticeWord> practiceWords)
+        public PracticeSession(WordList wordList, User owner)
         {
             if (wordList == null) throw new ArgumentNullException("wordList");
-            if (practiceWords == null) throw new ArgumentNullException("practiceWords");
-            WordList = wordList;
+            if (owner == null) throw new ArgumentNullException("owner");
             WordListId = wordList.Id;
+            WordList = wordList;
+            OwnerId = owner.Id;
+            Owner = owner;
             ValidFrom = SystemTime.UtcNow;
-            PracticeWords = new Collection<PracticeWord>(practiceWords);
+            PracticeWords = new Collection<PracticeWord>();
         }
 
         private PracticeSession()
@@ -32,7 +34,17 @@ namespace MinaGlosor.Web.Data.Models
 
         public virtual WordList WordList { get; private set; }
 
+        public int OwnerId { get; private set; }
+
+        public virtual User Owner { get; private set; }
+
         public virtual ICollection<PracticeWord> PracticeWords { get; private set; }
+
+        public void AddPracticeWord(WordScore wordScore)
+        {
+            if (wordScore == null) throw new ArgumentNullException("wordScore");
+            PracticeWords.Add(new PracticeWord(this, wordScore));
+        }
 
         public void MarkAsDone()
         {
