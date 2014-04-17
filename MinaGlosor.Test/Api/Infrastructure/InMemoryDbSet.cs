@@ -46,6 +46,10 @@ namespace MinaGlosor.Test.Api.Infrastructure
 
         public T Add(T entity)
         {
+            //var asDynamic = (dynamic)entity;
+            //var id = asDynamic.Id;
+            //if (id == 0)
+            //    throw new InvalidOperationException("Forgot to initialize id");
             data.Add(entity);
             return entity;
         }

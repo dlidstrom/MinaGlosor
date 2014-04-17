@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -46,7 +47,7 @@ namespace MinaGlosor.Test.Api
         }
 
         [Test]
-        public void SelectsWordsForPractice()
+        public void SelectsWordsWithoutScores()
         {
             // Assert
             Transact(context =>
@@ -54,7 +55,27 @@ namespace MinaGlosor.Test.Api
                     var practiceSession = context.PracticeSessions.Last();
                     var practiceWords = practiceSession.PracticeWords;
                     Assert.That(practiceWords.Count, Is.EqualTo(10));
+                    foreach (var practiceWord in practiceWords.Take(7))
+                    {
+                        Assert.That(practiceWord.WordScore.EasynessFactor, Is.EqualTo(0m));
+                    }
                 });
+        }
+
+        [Test]
+        public void SelectsWordsWithLowestScore()
+        {
+            // Assert
+            Transact(context =>
+            {
+                var practiceSession = context.PracticeSessions.Last();
+                var practiceWords = practiceSession.PracticeWords;
+                Assert.That(practiceWords.Count, Is.EqualTo(10));
+                foreach (var practiceWord in practiceWords.Skip(7))
+                {
+                    Assert.That(practiceWord.WordScore.EasynessFactor, Is.GreaterThan(0m));
+                }
+            });
         }
 
         protected override void Act()
@@ -79,20 +100,49 @@ namespace MinaGlosor.Test.Api
             Transact(context =>
                 {
                     context.Users.Add(owner);
+
+                    // word list with some words that can be selected for practicing
+                    // words 1-5, 11-12 have no scores
                     var wordList1 = new WordList("wl1", owner) { Id = generator.NextId() };
                     context.WordLists.Add(wordList1);
-                    foreach (var i in Enumerable.Range(1, 12))
+                    foreach (var i in Enumerable.Range(0, 12))
                     {
                         var word = wordList1.AddWord("word" + i, "def" + i);
                         word.Id = generator.NextId();
                         context.Words.Add(word);
                     }
 
+                    // the words in range 6-10 should have associated scores
+                    foreach (var i in Enumerable.Range(5, 5))
+                    {
+                        var word = wordList1.Words
+                                            .Skip(i)
+                                            .First();
+                        var wordScore = owner.Score(word);
+                        wordScore.Id = generator.NextId();
+                        wordScore.UpdateEasynessFactor(5);
+                        context.WordScores.Add(wordScore);
+                    }
+
                     var wordList2 = new WordList("wl2", owner) { Id = generator.NextId() };
                     context.WordLists.Add(wordList2);
-                    var practiceWords = wordList1.Words.Skip(10).Select(x => new PracticeWord(x)).ToList();
-                    practiceWords.ForEach(x => context.PracticeWords.Add(x));
-                    context.PracticeSessions.Add(new PracticeSession(wordList1, practiceWords));
+
+                    // create an existing practice session of all words except the first 10
+                    var practiceWords = new List<PracticeWord>();
+                    foreach (var word in wordList1.Words.Skip(10))
+                    {
+                        var practiceWord = new PracticeWord(new WordScore(owner, word))
+                            {
+                                Id = generator.NextId()
+                            };
+                        practiceWords.Add(practiceWord);
+                    }
+
+                    var practiceSession = new PracticeSession(wordList1, practiceWords)
+                        {
+                            Id = generator.NextId()
+                        };
+                    context.PracticeSessions.Add(practiceSession);
                 });
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);

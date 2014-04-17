@@ -41,5 +41,11 @@ namespace MinaGlosor.Web.Data.Models
         {
             Role = role;
         }
+
+        public WordScore Score(Word word)
+        {
+            if (word == null) throw new ArgumentNullException("word");
+            return new WordScore(this, word);
+        }
     }
 }

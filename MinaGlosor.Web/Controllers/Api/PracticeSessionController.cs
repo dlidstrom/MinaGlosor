@@ -8,7 +8,7 @@ namespace MinaGlosor.Web.Controllers.Api
     {
         public HttpResponseMessage Post(CreatePracticeSessionRequest request)
         {
-            ExecuteCommandAsync(new CreatePracticeSessionCommand(request.WordListId));
+            ExecuteCommandAsync(new CreatePracticeSessionCommand(CurrentUser, request.WordListId));
             return Request.CreateResponse(HttpStatusCode.Created);
         }
 

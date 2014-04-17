@@ -12,11 +12,13 @@ namespace MinaGlosor.Test.Api
     [TestFixture]
     public class WordList_Post : WebApiIntegrationTest
     {
+        private IdGenerator generator;
+
         [Test]
         public void ItShouldCreateWordList()
         {
             // Arrange
-            var owner = new User("e@d.com", "pwd");
+            var owner = new User("e@d.com", "pwd") { Id = generator.NextId() };
             Transact(session => session.Users.Add(owner));
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
@@ -38,6 +40,11 @@ namespace MinaGlosor.Test.Api
                 Assert.That(wordList.Name, Is.EqualTo("Some name"));
                 Assert.That(wordList.OwnerId, Is.EqualTo(owner.Id));
             });
+        }
+
+        protected override void OnSetUp(Castle.Windsor.IWindsorContainer container)
+        {
+            generator = new IdGenerator();
         }
     }
 }

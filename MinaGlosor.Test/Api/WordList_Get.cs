@@ -17,7 +17,7 @@ namespace MinaGlosor.Test.Api
             // Arrange
             Transact(session =>
             {
-                var owner = new User("e@d.com", "pwd");
+                var owner = new User("e@d.com", "pwd") { Id = generator.NextId() };
                 session.Users.Add(owner);
                 session.WordLists.Add(new WordList("list", owner) { Id = 1 });
             });
@@ -125,7 +125,7 @@ namespace MinaGlosor.Test.Api
                 wordList2.AddWord("Word3", "Definition2");
 
                 // third one, this is for another user
-                var anotherOwner = new User("some_other_user@d.com", "pwd");
+                var anotherOwner = new User("some_other_user@d.com", "pwd") { Id = generator.NextId() };
                 context.Users.Add(anotherOwner);
                 var wordList3 = new WordList("Again one more", anotherOwner) { Id = 3 };
                 context.WordLists.Add(wordList3);
