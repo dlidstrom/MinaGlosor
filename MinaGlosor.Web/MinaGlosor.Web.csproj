@@ -194,6 +194,10 @@
     <Compile Include="Data\Migrations\201403102011308_User_CreatedDate.Designer.cs">
       <DependentUpon>201403102011308_User_CreatedDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\Migrations\201404171952424_PostPracticeSession.cs" />
+    <Compile Include="Data\Migrations\201404171952424_PostPracticeSession.Designer.cs">
+      <DependentUpon>201404171952424_PostPracticeSession.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\Models\PracticeSession.cs" />
     <Compile Include="Data\Models\PracticeWord.cs" />
     <Compile Include="Data\Models\UserRole.cs" />
@@ -346,6 +350,9 @@
     <EmbeddedResource Include="Data\Migrations\201403102011308_User_CreatedDate.resx">
       <DependentUpon>201403102011308_User_CreatedDate.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Migrations\201404171952424_PostPracticeSession.resx">
+      <DependentUpon>201404171952424_PostPracticeSession.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
