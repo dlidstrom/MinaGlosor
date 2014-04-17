@@ -19,7 +19,8 @@ namespace MinaGlosor.Test.Api
             Transact(context =>
                 {
                     context.Users.Add(owner);
-                    var wordList = new WordList("list", owner) { Id = 2 };
+                    var wordList = owner.AddWordList("list");
+                    wordList.Id = 2;
                     var word = wordList.AddWord("old text", "old def");
                     word.Id = 3;
                     context.Words.Add(word);

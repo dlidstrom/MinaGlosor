@@ -102,7 +102,8 @@ namespace MinaGlosor.Test.Api
 
                     // word list with some words that can be selected for practicing
                     // words 1-5, 11-12 have no scores
-                    var wordList1 = new WordList("wl1", owner) { Id = generator.NextId() };
+                    var wordList1 = owner.AddWordList("wl1");
+                    wordList1.Id = generator.NextId();
                     context.WordLists.Add(wordList1);
                     foreach (var i in Enumerable.Range(0, 12))
                     {
@@ -123,7 +124,8 @@ namespace MinaGlosor.Test.Api
                         context.WordScores.Add(wordScore);
                     }
 
-                    var wordList2 = new WordList("wl2", owner) { Id = generator.NextId() };
+                    var wordList2 = owner.AddWordList("wl2");
+                    wordList2.Id = generator.NextId();
                     context.WordLists.Add(wordList2);
 
                     // create an existing practice session of all words except the first 10

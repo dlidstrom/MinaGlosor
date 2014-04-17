@@ -42,6 +42,13 @@ namespace MinaGlosor.Web.Data.Models
             Role = role;
         }
 
+        public WordList AddWordList(string name)
+        {
+#pragma warning disable 612,618
+            return new WordList(name, this);
+#pragma warning restore 612,618
+        }
+
         public WordScore Score(Word word)
         {
             if (word == null) throw new ArgumentNullException("word");
@@ -51,7 +58,9 @@ namespace MinaGlosor.Web.Data.Models
         public PracticeSession Practice(WordList wordList)
         {
             if (wordList == null) throw new ArgumentNullException("wordList");
+#pragma warning disable 612,618
             return new PracticeSession(wordList, this);
+#pragma warning restore 612,618
         }
     }
 }

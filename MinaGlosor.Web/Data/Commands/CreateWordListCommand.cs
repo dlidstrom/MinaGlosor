@@ -16,7 +16,7 @@ namespace MinaGlosor.Web.Data.Commands
 
         public Task ExecuteAsync(IDbContext context)
         {
-            context.WordLists.Add(new WordList(name, owner));
+            context.WordLists.Add(owner.AddWordList(name));
             return Task.FromResult(0);
         }
     }

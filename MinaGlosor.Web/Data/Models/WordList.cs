@@ -7,6 +7,7 @@ namespace MinaGlosor.Web.Data.Models
 {
     public class WordList
     {
+        [Obsolete("User.AddWordList")]
         public WordList(string name, User owner)
         {
             if (name == null) throw new ArgumentNullException("name");

@@ -7,6 +7,7 @@ namespace MinaGlosor.Web.Data.Models
 {
     public class PracticeSession
     {
+        [Obsolete("User.Practice")]
         public PracticeSession(WordList wordList, User owner)
         {
             if (wordList == null) throw new ArgumentNullException("wordList");

@@ -19,7 +19,9 @@ namespace MinaGlosor.Test.Api
             {
                 var owner = new User("e@d.com", "pwd") { Id = generator.NextId() };
                 session.Users.Add(owner);
-                session.WordLists.Add(new WordList("list", owner) { Id = 1 });
+                var wordList = owner.AddWordList("list");
+                wordList.Id = 1;
+                session.WordLists.Add(wordList);
             });
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
@@ -112,13 +114,15 @@ namespace MinaGlosor.Test.Api
                 // first word list
                 var owner = new User("e@d.com", "pwd") { Id = generator.NextId() };
                 context.Users.Add(owner);
-                var wordList1 = new WordList("Some name", owner) { Id = 1 };
+                var wordList1 = owner.AddWordList("Some name");
+                wordList1.Id = 1;
                 context.WordLists.Add(wordList1);
                 wordList1.AddWord("Word1", "Definition1");
                 wordList1.AddWord("Word2", "Definition2");
 
                 // second word list
-                var wordList2 = new WordList("Then one more", owner) { Id = 2 };
+                var wordList2 = owner.AddWordList("Then one more");
+                wordList2.Id = 2;
                 context.WordLists.Add(wordList2);
                 wordList2.AddWord("Word1", "Definition1");
                 wordList2.AddWord("Word2", "Definition2");
@@ -127,7 +131,8 @@ namespace MinaGlosor.Test.Api
                 // third one, this is for another user
                 var anotherOwner = new User("some_other_user@d.com", "pwd") { Id = generator.NextId() };
                 context.Users.Add(anotherOwner);
-                var wordList3 = new WordList("Again one more", anotherOwner) { Id = 3 };
+                var wordList3 = anotherOwner.AddWordList("Again one more");
+                wordList3.Id = 3;
                 context.WordLists.Add(wordList3);
                 wordList3.AddWord("Word1", "Definition1");
             });

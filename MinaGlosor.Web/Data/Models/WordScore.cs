@@ -4,6 +4,7 @@ namespace MinaGlosor.Web.Data.Models
 {
     public class WordScore
     {
+        [Obsolete("User.Score")]
         public WordScore(User user, Word word)
         {
             if (user == null) throw new ArgumentNullException("user");
