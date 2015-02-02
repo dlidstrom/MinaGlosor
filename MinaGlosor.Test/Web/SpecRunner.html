@@ -3,32 +3,34 @@
 <head>
     <title>Jasmine Spec Runner</title>
     <link rel="shortcut icon"
-        type="image/png"
-        href="lib/jasmine-1.3.1/jasmine_favicon.png">
+          type="image/png"
+          href="lib/jasmine-1.3.1/jasmine_favicon.png">
     <link rel="stylesheet"
         type="text/css"
         href="lib/jasmine-1.3.1/jasmine.css">
     <script src="lib/jasmine-1.3.1/jasmine.js"></script>
     <script src="lib/jasmine-1.3.1/jasmine-html.js"></script>
-    <script src="../../MinaGlosor.Web/Content/external/angularjs-1.2.8/angular.js"></script>
-    <script src="../../MinaGlosor.Web/Content/external/angularjs-1.2.8/angular-route.js"></script>
-    <script src="../../MinaGlosor.Web/Content/external/angularjs-1.2.8/angular-animate.js"></script>
-    <script src="angular-mocks.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-mocks.js"></script>
 
     <!-- include source files here... -->
-    <script src="../../MinaGlosor.Web/Content/app/app/app.js"></script>
-    <script src="../../MinaGlosor.Web/Content/app/app/once.js"></script>
-    <script src="../../MinaGlosor.Web/Content/app/app/toaster.js"></script>
-    <script src="../../MinaGlosor.Web/Content/app/infrastructure/initialdata.js"></script>
-    <script src="../../MinaGlosor.Web/Content/app/infrastructure/routes.js"></script>
-    <script src="../../MinaGlosor.Web/Content/app/shared/wordlistservice.js"></script>
-    <script src="../../MinaGlosor.Web/Content/app/shared/wordservice.js"></script>
-    <script src="../../MinaGlosor.Web/Content/app/wordlist/addwordctrl.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/app.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/wordlist/addWordController.js"></script>
+<!--    <script src="../../MinaGlosor.Web/wwwroot/app/app/toaster.js"></script>-->
+    <script src="../../MinaGlosor.Web/wwwroot/app/routes.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/shared/practiceService.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/shared/practiceWordService.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/shared/wordListService.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/shared/wordService.js"></script>
+<!--    <script src="../../MinaGlosor.Web/wwwroot/app/wordlist/addwordctrl.js"></script>-->
 
     <!-- include spec files here... -->
-    <script src="spec/wordlistservice.spec.js"></script>
-    <script src="spec/wordservice.spec.js"></script>
-    <script src="spec/addwordctrl.spec.js"></script>
+    <script src="spec/practiceService.spec.js"></script>
+    <script src="spec/practiceWordService.spec.js"></script>
+    <script src="spec/wordListService.spec.js"></script>
+    <script src="spec/wordService.spec.js"></script>
+    <script src="spec/addWordController.spec.js"></script>
     <script src="spec/routes.spec.js"></script>
 
     <script type="text/javascript">
@@ -51,6 +53,12 @@
                     currentWindowOnload();
                 }
                 execJasmine();
+
+                setTimeout(
+                    function () {
+                        location.reload();
+                    },
+                    3000);
             };
 
             function execJasmine() {

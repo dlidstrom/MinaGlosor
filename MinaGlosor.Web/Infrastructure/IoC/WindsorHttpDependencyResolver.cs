@@ -1,13 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Dependencies;
 using Castle.MicroKernel;
-using IDependencyResolver = System.Web.Http.Dependencies.IDependencyResolver;
 
 namespace MinaGlosor.Web.Infrastructure.IoC
 {
-    public sealed class WindsorHttpDependencyResolver : IDependencyResolver
+    public sealed class WindsorHttpDependencyResolver : System.Web.Http.Dependencies.IDependencyResolver
     {
         private readonly IKernel container;
 
@@ -23,14 +22,16 @@ namespace MinaGlosor.Web.Infrastructure.IoC
 
         public object GetService(Type serviceType)
         {
-            return container.HasComponent(serviceType)
-                       ? container.Resolve(serviceType)
-                       : null;
+            var service = container.HasComponent(serviceType)
+                ? container.Resolve(serviceType)
+                : null;
+            return service;
         }
 
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            return container.ResolveAll(serviceType).Cast<object>();
+            var services = container.ResolveAll(serviceType).Cast<object>();
+            return services;
         }
 
         public void Dispose()

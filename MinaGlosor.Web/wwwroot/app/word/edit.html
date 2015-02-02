@@ -1,0 +1,71 @@
+﻿<p class="lead">
+    Redigera ordet och dess betydelse
+</p>
+
+<form name="form" ng-submit="editor.update(editor.entry)">
+    <fieldset ng-disabled="editor.saving">
+        <legend>
+            Ändra ordet och/eller betydelsen.
+        </legend>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group" ng-class="{'has-error': form.word.$dirty && form.word.$invalid}">
+                    <label class="control-label">
+                        Ange ett ord eller en fras
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           name="word"
+                           ng-model="editor.entry.text"
+                           placeholder="Skriv ett ord eller fras"
+                           maxlength="1024"
+                           ng-disabled="saving"
+                           autofocus="autofocus"
+                           autocapitalize="off"
+                           autocomplete="off"
+                           autocorrect="off"
+                           required />
+                    <span class="help-block" ng-show="form.word.$dirty && form.word.$invalid">
+                        Du måste ange ett ord eller en fras
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group" ng-class="{'has-error': form.definition.$dirty && form.definition.$invalid}">
+                    <label class="control-label">
+                        Ange ordet eller frasens betydelse
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           name="definition"
+                           ng-model="editor.entry.definition"
+                           placeholder="Skriv betydelsen"
+                           maxlength="1024"
+                           autocapitalize="off"
+                           autocomplete="off"
+                           autocorrect="off"
+                           ng-disabled="saving"
+                           required />
+                    <span class="help-block" ng-show="form.definition.$dirty && form.definition.$invalid">
+                        Skriv ordet eller frasens betydelse
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">
+                    Spara
+                    <i class="glyphicon glyphicon-refresh mg-spin" ng-show="editor.saving"></i>
+                </button>
+                <a ng-href="/wordlist/{{editor.entry.wordListId}}"
+                   class="btn btn-default"
+                   ng-disabled="editor.saving">
+                    Avbryt
+                </a>
+            </div>
+        </div>
+    </fieldset>
+</form>

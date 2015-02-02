@@ -1,4 +1,4 @@
-﻿@model MinaGlosor.Web.Controllers.WelcomeController.InitialData
+﻿﻿@model MinaGlosor.Web.Controllers.WelcomeController.InitialData
 <p class="lead">
     Välkommen! Du måste börja med att skapa ett konto för administratören.
     Med hjälp av det kommer du kunna hantera användarkonton.
@@ -19,6 +19,25 @@
                        required />
                 <span class="help-block" ng-show="adminform.useremail.$dirty && adminform.useremail.$invalid">
                     Skriv din e-postadress
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group" ng-class="{'has-error': adminform.username.$dirty && adminform.username.$invalid}">
+                <label class="control-label">
+                    Ange användarnamn (för din profil)
+                </label>
+                <input type="text"
+                       class="form-control"
+                       name="username"
+                       ng-model="user.username"
+                       placeholder="Skriv ditt användarnamn"
+                       autofocus="autofocus"
+                       required />
+                <span class="help-block" ng-show="adminform.username.$dirty && adminform.username.$invalid">
+                    Skriv ditt användarnamn
                 </span>
             </div>
         </div>

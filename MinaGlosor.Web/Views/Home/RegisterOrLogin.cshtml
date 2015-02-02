@@ -7,7 +7,7 @@
 <p>
     Om du inte har ett konto kan du bjuda in dig själv nedan.
 </p>
-<form method="POST" name="inviteform" action="@Url.Action("Invite", "Account")">
+<form method="POST" name="inviteform" action="@Url.Action("Index", "AccountInvite")">
     @Html.DisplayFor(model => Html.ViewData.ModelState, "ValidationSummary")
     <div class="row">
         <div class="col-md-4">
@@ -35,5 +35,5 @@
     </div>
 </form>
 <p>
-    Har du redan ett konto kan du @Html.ActionLink("logga in", "Logon", "Account").
+    Har du redan ett konto kan du @Html.ActionLink("logga in", "Logon", "AccountLogon").
 </p>

@@ -1,8 +1,50 @@
-﻿@{
-    Bundles.Reference("Content/app/infrastructure", "scripts");
-    Bundles.Reference("Content/app/wordlist", "scripts");
-    Bundles.Reference("Content/app/word", "scripts");
-    Bundles.Reference("Content/app/shared", "scripts");
-}
+﻿@model CurrentUserViewModel
+@{
+    Layout = null;
+    Bundles.Reference("wwwroot/app");
+    Bundles.Reference("wwwroot/main.less");
+}<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+        <title>Mina Glosor</title>
+        <base href="/" />
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-route.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+        <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        @Bundles.RenderStylesheets()
+    </head>
+    <body ng-app="mgApp">
+        @if (Model.IsAdmin && false)
+        {
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="@Url.Action("Index", "Home")">Mina Glosor</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                @Html.ActionLink("Migrera", "Index", "Migrate")
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        }
 
-<div ng-view></div>
+        <div class="container ng-cloak">
+            <div ng-view></div>
+        </div>
+        @Bundles.RenderScripts()
+    </body>
+</html>

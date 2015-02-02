@@ -15,32 +15,32 @@ namespace MinaGlosor.Web
                 "welcome",
                 new { controller = "Welcome", action = "Index" });
 
-            // add specific routes
+            routes.MapRoute(
+                "Invite-route",
+                "invite",
+                new { controller = "AccountInvite", action = "Invite" });
+
+            routes.MapRoute(
+                "Invited-route",
+                "invited",
+                new { controller = "AccountInvite", action = "InviteSuccess" });
+
+            routes.MapRoute(
+                "Activate-route",
+                "activate",
+                new { controller = "AccountActivate", action = "Activate" });
+
             routes.MapRoute(
                 "Logon-route",
                 "logon",
-                new { controller = "Account", action = "Logon" });
-
-            routes.MapRoute(
-                "AccountInvite-route",
-                "invite",
-                new { controller = "Account", action = "Invite" });
-
-            routes.MapRoute(
-                "AccountInviteSuccess-route",
-                "invited",
-                new { controller = "Account", action = "InviteSuccess" });
-
-            routes.MapRoute(
-                "AccountActivate-route",
-                "activate",
-                new { controller = "Account", action = "Activate" });
+                new { controller = "AccountLogon", action = "Logon" });
 
             routes.MapRoute(
                 name: "Default",
                 url: string.Empty,
                 defaults: new { controller = "Home", action = "Index" });
 
+            // for angular routing
             routes.MapRoute(
                 name: "Catchall",
                 url: "{*catchall}",

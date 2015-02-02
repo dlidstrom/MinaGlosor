@@ -4,67 +4,75 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.Windsor;
-using MinaGlosor.Web.Data.Events;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.IoC;
+using MinaGlosor.Web.Infrastructure.IoC.Installers;
+using MinaGlosor.Web.Infrastructure.Tracing;
+using MinaGlosor.Web.Models.DomainEvents;
 
-// TODO: Länken öva ska gå till sida som listar övningar eller ger alternativ att skapa ny
-// TODO: Inbjudan måste ha route
-// TODO: Inbjudningsmail måste ha länk som har route
-// TODO: Acceptera inbjudan genom mail måste ha route
-// TODO: Dela upp AccountController
 namespace MinaGlosor.Web
 {
-    public class MvcApplication : HttpApplication
+    public class Application : HttpApplication
     {
-        private static IWindsorContainer container;
+        private static IWindsorContainer Container { get; set; }
 
-        public static void Configure(IWindsorContainer windsorContainer, HttpConfiguration configuration)
+        public static void Bootstrap(IWindsorContainer container, HttpConfiguration configuration)
         {
-            container = windsorContainer;
-            Configure(configuration);
+            WebApiConfig.Register(configuration);
+            Configure(container, configuration);
         }
 
         public static void Shutdown()
         {
-            GlobalFilters.Filters.Clear();
-            RouteTable.Routes.Clear();
-            ModelBinders.Binders.Clear();
-            if (container != null)
-                container.Dispose();
-            container = null;
+            Cleanup();
         }
 
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
-
-            Configure(GlobalConfiguration.Configuration);
+            TracingLogger.Information(EventIds.Informational_Preliminary_1XXX.Web_Starting_1000, "Starting application");
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+            var container = CreateContainer();
+            Configure(container, GlobalConfiguration.Configuration);
+            TracingLogger.Information(EventIds.Informational_Completion_2XXX.Web_Started_2000, "Application started");
         }
 
-        private static void Configure(HttpConfiguration configuration)
+        protected void Application_End()
         {
-            WebApiConfig.Register(configuration);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            ModelBinders.Binders.Add(typeof(Guid), new GuidBinder());
-
-            if (container == null)
-                container = CreateContainer();
-            DependencyResolver.SetResolver(new WindsorMvcDependencyResolver(container));
-            configuration.DependencyResolver =
-                new WindsorHttpDependencyResolver(container.Kernel);
-            DomainEvent.SetContainer(container);
+            TracingLogger.Information(EventIds.Information_Finalization_8XXX.Web_Stopping_8000, "Stopping application");
+            Cleanup();
+            TracingLogger.Information(EventIds.Information_Finalization_8XXX.Web_Stopped_8001, "Stopped application");
         }
 
+        private static void Cleanup()
+        {
+            RouteTable.Routes.Clear();
+            Container.Dispose();
+        }
+
+        private static void Configure(IWindsorContainer container, HttpConfiguration configuration)
+        {
+            ModelBinders.Binders[typeof(Guid)] = new GuidBinder();
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            DependencyResolver.SetResolver(new WindsorDependencyResolver(container));
+            configuration.DependencyResolver = new WindsorHttpDependencyResolver(container.Kernel);
+            DomainEvent.SetContainer(container);
+            Container = container;
+        }
+
+        // TODO Change Raven installer to use Web.config so that we can transform for deploy.
         private static IWindsorContainer CreateContainer()
         {
-            return new WindsorContainer().Install(
+            var container = new WindsorContainer();
+            container.Install(
                 new ControllerInstaller(),
                 new WindsorWebApiInstaller(),
-                new ControllerFactoryInstaller(),
-                new HandlersInstaller(),
-                new ContextInstaller());
+#if DEBUG
+ RavenInstaller.CreateForServer("RavenDB"),
+#else
+                RavenInstaller.CreateForEmbedded(),
+#endif
+ new HandlersInstaller());
+            return container;
         }
     }
 }
