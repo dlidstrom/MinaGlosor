@@ -10,14 +10,14 @@
 </div>
 <form ng-submit="practiceIndex.startNew()">
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-6">
             <button type="submit" class="btn btn-lg btn-primary btn-block">
-                starta ny övning
+                ny övning
                 <i class="glyphicon glyphicon-refresh mg-spin" ng-show="practiceIndex.saving"></i>
             </button>
-            <a href="/wordlist" class="btn btn-lg btn-default btn-block">
-                avbryt
-            </a>
+        </div>
+        <div class="col-xs-6">
+            <a href="/wordlist" class="btn btn-lg btn-default btn-block">avbryt</a>
         </div>
     </div>
 </form>
@@ -36,7 +36,7 @@
             <tr ng-repeat="item in practiceIndex.unfinishedPracticeSessions">
                 <td>{{item.practiceSessionId}}</td>
                 <td>
-                    <a href="{{'/wordlist/' + practiceIndex.wordListId + '/practice/' + item.practiceSessionId}}" class="btn btn-sm btn-primary">
+                    <a href="{{'/wordlist/' + practiceIndex.wordListId + '/practice/' + item.practiceSessionId}}" class="btn btn-primary">
                         fortsätt
                     </a>
                 </td>

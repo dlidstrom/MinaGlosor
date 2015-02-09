@@ -21,10 +21,10 @@
             <tr ng-repeat="item in wordLists.userWordLists">
                 <td>{{item.name + ' (' + item.numberOfWords + ' ord)'}}</td>
                 <td>
-                    <a ng-if="item.numberOfWords" href="{{'/wordlist/' + item.wordListId + '/practice/'}}" class="btn btn-xs btn-default">
+                    <a ng-if="item.numberOfWords" href="{{'/wordlist/' + item.wordListId + '/practice/'}}" class="btn btn-default">
                         öva
                     </a>
-                    <a href="{{'/wordlist/' + item.wordListId}}" class="btn btn-xs btn-default">
+                    <a href="{{'/wordlist/' + item.wordListId}}" class="btn btn-default">
                         visa
                     </a>
                 </td>
