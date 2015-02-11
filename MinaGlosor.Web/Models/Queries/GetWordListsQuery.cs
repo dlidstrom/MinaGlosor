@@ -26,7 +26,6 @@ namespace MinaGlosor.Web.Models.Queries
         {
             var wordLists = session.Query<WordListIndex.Result, WordListIndex>()
                                    .Where(x => x.OwnerId == user.Id)
-                                   .ProjectFromIndexFieldsInto<WordListIndex.Result>()
                                    .ToArray();
             var result = wordLists.Select(x => new Result(x)).ToArray();
             return result;
@@ -42,6 +41,7 @@ namespace MinaGlosor.Web.Models.Queries
                 OwnerId = User.FromId(wordList.OwnerId);
                 Name = wordList.Name;
                 NumberOfWords = wordList.NumberOfWords;
+                PercentDone = (int)Math.Round(100.0 * wordList.NumberOfWordScores / Math.Max(1, wordList.NumberOfWords));
             }
 
             public string WordListId { get; private set; }
@@ -51,6 +51,8 @@ namespace MinaGlosor.Web.Models.Queries
             public string Name { get; private set; }
 
             public int NumberOfWords { get; private set; }
+
+            public int PercentDone { get; private set; }
         }
     }
 }

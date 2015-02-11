@@ -71,7 +71,7 @@ namespace MinaGlosor.Test.Api
         {
         }
 
-        private void WaitForIndexing()
+        protected void WaitForIndexing()
         {
             var documentStore = Container.Resolve<IDocumentStore>();
             const int Timeout = 15000;

@@ -1,5 +1,7 @@
 ﻿using MinaGlosor.Web.Models;
+
 using Newtonsoft.Json;
+
 using NUnit.Framework;
 
 namespace MinaGlosor.Test.Api
@@ -32,7 +34,8 @@ namespace MinaGlosor.Test.Api
                     wordListId = "1",
                     ownerId = "1",
                     name = "list",
-                    numberOfWords = 0
+                    numberOfWords = 0,
+                    percentDone = 0
                 }
             };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
@@ -58,14 +61,16 @@ namespace MinaGlosor.Test.Api
                     wordListId = "1",
                     ownerId = "1",
                     name = "Some name",
-                    numberOfWords = 2
+                    numberOfWords = 2,
+                    percentDone = 0
                 },
                 new
                 {
                     wordListId = "2",
                     ownerId = "1",
                     name = "Then one more",
-                    numberOfWords = 3
+                    numberOfWords = 3,
+                    percentDone = 0
                 }
             };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
@@ -113,14 +118,6 @@ namespace MinaGlosor.Test.Api
                     session.Store(new Word("Word2", "Definition2", wordList2.Id));
                     session.Store(new Word("Word3", "Definition2", wordList2.Id));
                 });
-
-            //// third one, this is for another user
-            //var anotherOwner = new User("some_other_user@d.com", "pwd");
-            //context.Users.Add(anotherOwner);
-            //var wordList3 = new WordList("Again one more", anotherOwner) { Id = 3 };
-            //context.WordLists.Add(wordList3);
-            //wordList3.AddWord("Word1", "Definition1");
-            //});
         }
     }
 }
