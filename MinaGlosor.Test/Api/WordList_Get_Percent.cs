@@ -1,7 +1,9 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using MinaGlosor.Web.Models;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using Raven.Abstractions;
 
 namespace MinaGlosor.Test.Api
 {
@@ -13,6 +15,7 @@ namespace MinaGlosor.Test.Api
         {
             // Act
             WaitForIndexing();
+            SystemTime.UtcDateTime = () => new DateTime(2012, 1, 2, 0, 0, 5);
             var response = await Client.GetAsync("http://temp.uri/api/wordlist");
             var content = response.Content;
 
@@ -27,7 +30,8 @@ namespace MinaGlosor.Test.Api
                             ownerId = "1",
                             name = "list",
                             numberOfWords = 10,
-                            percentDone = 10
+                            percentDone = 20,
+                            percentExpired = 10
                         }
                 };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
@@ -36,6 +40,7 @@ namespace MinaGlosor.Test.Api
         protected override async void Act()
         {
             // Arrange
+            SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1);
             Transact(session =>
             {
                 var owner = new User("e@d.com", "pwd", "username");
@@ -58,21 +63,27 @@ namespace MinaGlosor.Test.Api
             var createSessionResponse = await Client.PostAsJsonAsync("http://temp.uri/api/practicesession", request);
             Assert.That(createSessionResponse.Content, Is.Not.Null);
             var createSessionContent = await createSessionResponse.Content.ReadAsAsync<CreateSessionContent>();
-            var getWordResponse = await Client.GetAsync("http://temp.uri/api/practiceword?practiceSessionId=" + createSessionContent.PracticeSessionId);
-            Assert.That(getWordResponse.Content, Is.Not.Null);
-            var getWordContent = await getWordResponse.Content.ReadAsAsync<GetWordContent>();
 
-            var postWordConfidenceRequest = new
+            for (var i = 0; i < 2; i++)
             {
-                createSessionContent.PracticeSessionId,
-                getWordContent.PracticeWordId,
-                ConfidenceLevel = "PerfectResponse"
-            };
-            var wordConfidenceResponse = await Client.PostAsJsonAsync(
-                "http://temp.uri/api/wordconfidence", postWordConfidenceRequest);
-            Assert.That(wordConfidenceResponse.Content, Is.Not.Null);
-            var wordConfidenceContent = await wordConfidenceResponse.Content.ReadAsAsync<WordConfidenceContent>();
-            Assert.That(wordConfidenceContent.IsFinished, Is.False);
+                var second = 10 * i;
+                SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1, 0, 0, second);
+                var getWordResponse1 = await Client.GetAsync("http://temp.uri/api/practiceword?practiceSessionId=" + createSessionContent.PracticeSessionId);
+                Assert.That(getWordResponse1.Content, Is.Not.Null);
+                var getWordContent = await getWordResponse1.Content.ReadAsAsync<GetWordContent>();
+
+                var postWordConfidenceRequest1 = new
+                {
+                    createSessionContent.PracticeSessionId,
+                    getWordContent.PracticeWordId,
+                    ConfidenceLevel = "PerfectResponse"
+                };
+                var wordConfidenceResponse = await Client.PostAsJsonAsync(
+                    "http://temp.uri/api/wordconfidence", postWordConfidenceRequest1);
+                Assert.That(wordConfidenceResponse.Content, Is.Not.Null);
+                var wordConfidenceContent = await wordConfidenceResponse.Content.ReadAsAsync<WordConfidenceContent>();
+                Assert.That(wordConfidenceContent.IsFinished, Is.False);
+            }
         }
 
         public class CreateSessionContent

@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Indexes;
+using Raven.Abstractions;
 using Raven.Client;
 using Raven.Client.Linq;
 
@@ -27,13 +29,22 @@ namespace MinaGlosor.Web.Models.Queries
             var wordLists = session.Query<WordListIndex.Result, WordListIndex>()
                                    .Where(x => x.OwnerId == user.Id)
                                    .ToArray();
-            var result = wordLists.Select(x => new Result(x)).ToArray();
-            return result;
+
+            var results = new List<Result>();
+            foreach (var wordList in wordLists)
+            {
+                var expiredCount = session.Query<WordScore, WordScoreIndex>()
+                                          .Count(x => x.RepeatAfterDate < SystemTime.UtcNow && x.WordListId == wordList.Id);
+                var result = new Result(wordList, expiredCount);
+                results.Add(result);
+            }
+
+            return results.ToArray();
         }
 
         public class Result
         {
-            public Result(WordListIndex.Result wordList)
+            public Result(WordListIndex.Result wordList, int expiredCount)
             {
                 if (wordList == null) throw new ArgumentNullException("wordList");
 
@@ -41,7 +52,8 @@ namespace MinaGlosor.Web.Models.Queries
                 OwnerId = User.FromId(wordList.OwnerId);
                 Name = wordList.Name;
                 NumberOfWords = wordList.NumberOfWords;
-                PercentDone = (int)Math.Round(100.0 * wordList.NumberOfWordScores / Math.Max(1, wordList.NumberOfWords));
+                PercentDone = (int)Math.Floor(100.0 * wordList.NumberOfWordScores / Math.Max(1, wordList.NumberOfWords));
+                PercentExpired = (int)Math.Floor(100.0 * expiredCount / Math.Max(1, wordList.NumberOfWords));
             }
 
             public string WordListId { get; private set; }
@@ -53,6 +65,8 @@ namespace MinaGlosor.Web.Models.Queries
             public int NumberOfWords { get; private set; }
 
             public int PercentDone { get; private set; }
+
+            public int PercentExpired { get; private set; }
         }
     }
 }
