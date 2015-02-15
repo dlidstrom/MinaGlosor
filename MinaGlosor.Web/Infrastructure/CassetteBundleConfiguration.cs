@@ -9,7 +9,7 @@ namespace MinaGlosor.Web.Infrastructure
         public void Configure(BundleCollection bundles)
         {
             bundles.Add<ScriptBundle>("wwwroot/app");
-            bundles.Add<StylesheetBundle>("wwwroot/main.less");
+            bundles.Add<StylesheetBundle>("wwwroot/");
         }
     }
 }
