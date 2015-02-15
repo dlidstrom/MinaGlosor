@@ -1,23 +1,19 @@
-﻿<div class="row">
-    <div class="col-xs-12">
-        <h1>Övningar</h1>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        Öva på ett urval av dina ord. Övningen fortsätter tills du har lärt dig orden. Du kan alltid avbryta en övning och fortsätta senare.
-    </div>
-</div>
+﻿<p class="lead">
+    Övningar
+</p>
+<p>
+    Öva på ett urval av dina ord. Övningen fortsätter tills du har lärt dig orden. Du kan alltid avbryta en övning och fortsätta senare.
+</p>
 <form ng-submit="practiceIndex.startNew()">
     <div class="row">
         <div class="col-xs-6">
-            <button type="submit" class="btn btn-lg btn-primary btn-block">
-                ny övning
+            <button type="submit" class="btn btn-primary btn-block">
+                starta
                 <i class="glyphicon glyphicon-refresh mg-spin" ng-show="practiceIndex.saving"></i>
             </button>
         </div>
         <div class="col-xs-6">
-            <a href="/wordlist" class="btn btn-lg btn-default btn-block">avbryt</a>
+            <a href="/wordlist" class="btn btn-default btn-block">avbryt</a>
         </div>
     </div>
 </form>
