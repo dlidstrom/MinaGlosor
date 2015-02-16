@@ -35,7 +35,8 @@ namespace MinaGlosor.Test.Api
                     ownerId = "1",
                     name = "list",
                     numberOfWords = 0,
-                    percentDone = 0
+                    percentDone = 0,
+                    percentExpired = 0
                 }
             };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
@@ -62,7 +63,8 @@ namespace MinaGlosor.Test.Api
                     ownerId = "1",
                     name = "Some name",
                     numberOfWords = 2,
-                    percentDone = 0
+                    percentDone = 0,
+                    percentExpired = 0
                 },
                 new
                 {
@@ -70,7 +72,8 @@ namespace MinaGlosor.Test.Api
                     ownerId = "1",
                     name = "Then one more",
                     numberOfWords = 3,
-                    percentDone = 0
+                    percentDone = 0,
+                    percentExpired = 0
                 }
             };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));

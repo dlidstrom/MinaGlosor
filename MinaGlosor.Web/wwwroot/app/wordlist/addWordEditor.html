@@ -60,16 +60,14 @@
                     Spara
                     <i class="glyphicon glyphicon-refresh mg-spin" ng-show="editor.saving"></i>
                 </button>
-                <a ng-href="/wordlist/{{wordList.id}}"
+                <a ng-href="./wordlist/{{editor.wordList.wordListId}}"
                    class="btn btn-default"
                    ng-disabled="saving">
                     Avsluta
                 </a>
-                <!--
-                    <a href="{{'/wordlist/' + item.wordListId + '/practice/'}}" class="btn btn-default">
-                        Öva
-                    </a>
-                    -->
+<!--                <a href="{{'./wordlist/' + editor.wordList.wordListId + '/practice/'}}" class="btn btn-default">
+                    Öva
+                </a>-->
             </div>
         </div>
     </fieldset>

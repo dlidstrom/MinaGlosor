@@ -13,7 +13,7 @@
             </button>
         </div>
         <div class="col-xs-6">
-            <a href="/wordlist" class="btn btn-default btn-block">avbryt</a>
+            <a href="./wordlist" class="btn btn-default btn-block">avbryt</a>
         </div>
     </div>
 </form>
@@ -32,7 +32,7 @@
             <tr ng-repeat="item in practiceIndex.unfinishedPracticeSessions">
                 <td>{{item.practiceSessionId}}</td>
                 <td>
-                    <a href="{{'/wordlist/' + practiceIndex.wordListId + '/practice/' + item.practiceSessionId}}" class="btn btn-primary">
+                    <a href="{{'./wordlist/' + practiceIndex.wordListId + '/practice/' + item.practiceSessionId}}" class="btn btn-primary">
                         fortsätt
                     </a>
                 </td>

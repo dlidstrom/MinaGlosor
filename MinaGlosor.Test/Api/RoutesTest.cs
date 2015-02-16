@@ -20,9 +20,15 @@ namespace MinaGlosor.Test.Api
         }
 
         [Test]
-        public void Login()
+        public void Logon()
         {
             RouteTable.Routes.Maps("GET", "~/logon", new { controller = "AccountLogon", action = "Logon" });
+        }
+
+        [Test]
+        public void Logoff()
+        {
+            RouteTable.Routes.Maps("GET", "~/logoff", new { controller = "AccountLogoff", action = "Logoff" });
         }
 
         [Test]

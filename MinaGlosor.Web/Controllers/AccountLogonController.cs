@@ -31,7 +31,7 @@ namespace MinaGlosor.Web.Controllers
                 return View();
 
             FormsAuthentication.SetAuthCookie(user.Email, true);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { username = user.Username });
         }
 
         public class LogonRequest

@@ -186,6 +186,7 @@
     <Content Include="wwwroot\app\wordlist\newWordListController.js" />
     <Content Include="wwwroot\app\wordlist\wordListController.js" />
     <Content Include="wwwroot\app\wordlist\index.html" />
+    <Compile Include="Controllers\AccountLogoffController.cs" />
     <Compile Include="Infrastructure\JetBrains.Annotations.cs" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

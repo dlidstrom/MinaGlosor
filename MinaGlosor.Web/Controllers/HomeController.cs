@@ -5,10 +5,17 @@ namespace MinaGlosor.Web.Controllers
 {
     public class HomeController : AbstractController
     {
-        public ActionResult Index()
+        public ActionResult Index(string username)
         {
             if (Request.IsAuthenticated)
-                return View("LoggedIn", new CurrentUserViewModel(CurrentUser != null && CurrentUser.IsAdmin));
+            {
+                if (username == null)
+                    return RedirectToAction("Index", new { username = CurrentUser.Username });
+
+                var isAdmin = CurrentUser != null && CurrentUser.IsAdmin;
+                var currentUserViewModel = new CurrentUserViewModel(isAdmin, CurrentUser != null ? CurrentUser.Username : string.Empty);
+                return View("LoggedIn", currentUserViewModel);
+            }
 
             return View("RegisterOrLogin");
         }

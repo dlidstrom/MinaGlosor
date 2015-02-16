@@ -7,7 +7,7 @@
                         Ordlista
                     </th>
                     <th>
-                        <a href="wordlist/new" class="btn btn-xs btn-primary">
+                        <a href="./wordlist/new" class="btn btn-xs btn-primary">
                             skapa ny ordlista
                         </a>
                     </th>
@@ -16,14 +16,14 @@
             <tbody ng-repeat="item in wordLists.userWordLists">
                 <tr>
                     <td colspan="2">
-                        <a href="{{'/wordlist/' + item.wordListId}}">
+                        <a href="{{'./wordlist/' + item.wordListId}}">
                             {{item.name + ' (' + item.numberOfWords + ' ord)'}}
                         </a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <a ng-if="item.numberOfWords" href="{{'/wordlist/' + item.wordListId + '/practice/'}}" class="btn btn-primary">
+                        <a ng-if="item.numberOfWords" href="{{'./wordlist/' + item.wordListId + '/practice/'}}" class="btn btn-primary">
                             öva
                         </a>
                     </td>

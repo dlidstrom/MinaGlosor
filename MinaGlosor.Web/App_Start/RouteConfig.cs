@@ -36,9 +36,14 @@ namespace MinaGlosor.Web
                 new { controller = "AccountLogon", action = "Logon" });
 
             routes.MapRoute(
+                "Logoff-route",
+                "logoff",
+                new { controller = "AccountLogoff", action = "Logoff" });
+
+            routes.MapRoute(
                 name: "Default",
-                url: string.Empty,
-                defaults: new { controller = "Home", action = "Index" });
+                url: "{username}",
+                defaults: new { controller = "Home", action = "Index", username = UrlParameter.Optional });
 
             // for angular routing
             routes.MapRoute(

@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="utf-8">
         <title>Mina Glosor</title>
-        <base href="/" />
+        <base href="@string.Format("http://localhost:49942/{0}/", Model.Username)" />
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-route.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.2/readable/bootstrap.min.css" />
@@ -19,23 +19,30 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-@*                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
-                    </button>*@
-                    <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                    </button>
+                    <a class="navbar-brand" href="./">
                         <i class="glyphicon glyphicon-home"></i>
                         Mina Glosor
                     </a>
                 </div>
-@*                <div class="collapse navbar-collapse" id="navbar-collapse">
+                @*                <div class="collapse navbar-collapse" id="navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="active">
                             @Html.ActionLink("Migrera", "Index", "Migrate")
                         </li>
                     </ul>
                 </div>*@
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav pull-right">
+                        <li>
+                            @Html.ActionLink("Logga ut", "Logoff", "AccountLogoff")
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
         <div class="container ng-cloak">
