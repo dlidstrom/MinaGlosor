@@ -40,7 +40,11 @@ namespace MinaGlosor.Web.Models.Queries
                 results.Add(result);
             }
 
-            return results.ToArray();
+            var orderedResults = results.OrderByDescending(x => x.PercentExpired)
+                                        .ThenBy(x => x.PercentDone)
+                                        .ThenBy(x => x.WordListId)
+                                        .ToArray();
+            return orderedResults;
         }
 
         public class Result
