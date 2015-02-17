@@ -17,7 +17,9 @@ namespace MinaGlosor.Web.Infrastructure.Attributes
 
             var documentSession = DependencyResolver.Current.GetService<IDocumentSession>();
             if (documentSession.Advanced.WhatChanged().Any())
+            {
                 documentSession.SaveChanges();
+            }
         }
     }
 }

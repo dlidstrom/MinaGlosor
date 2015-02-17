@@ -25,8 +25,10 @@ namespace MinaGlosor.Web.Controllers
                 CurrentUser = user;
 
             // make sure there's an admin user
-            // TODO Fix indexing here!
-            if (documentSession.Query<User, UserIndex>().FirstOrDefault(x => x.Role == UserRole.Admin) != null)
+            var firstAdminUser = documentSession.Query<User, UserIndex>()
+                                                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                                                .FirstOrDefault(x => x.Role == UserRole.Admin);
+            if (firstAdminUser != null)
                 return;
 
             // first launch
@@ -39,7 +41,10 @@ namespace MinaGlosor.Web.Controllers
             if (filterContext.IsChildAction || filterContext.Exception != null) return;
 
             var documentSession = GetDocumentSession();
-            if (documentSession.Advanced.WhatChanged().Any()) documentSession.SaveChanges();
+            if (documentSession.Advanced.WhatChanged().Any())
+            {
+                documentSession.SaveChanges();
+            }
         }
 
         protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)

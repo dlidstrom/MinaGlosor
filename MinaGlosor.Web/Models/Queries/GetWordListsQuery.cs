@@ -27,6 +27,7 @@ namespace MinaGlosor.Web.Models.Queries
         public Result[] Execute(IDocumentSession session)
         {
             var wordLists = session.Query<WordListIndex.Result, WordListIndex>()
+                                   .Customize(x => x.WaitForNonStaleResultsAsOfNow())
                                    .Where(x => x.OwnerId == user.Id)
                                    .ToArray();
 
