@@ -9,17 +9,13 @@ namespace MinaGlosor.Web.Controllers
     public class AccountInviteController : AbstractController
     {
         [HttpPost]
-        public ActionResult Index(RequestCreateAccount request)
+        public ActionResult Invite(RequestCreateAccount request)
         {
             if (request == null)
             {
                 ModelState.AddModelError("Request", "Invalid request");
             }
             else if (ExecuteQuery(new GetUserByEmailQuery(request.UserEmail)) != null)
-            {
-                ModelState.AddModelError("Email", "E-postadressen finns redan");
-            }
-            else if (ExecuteQuery(new GetUserByUsernameQuery(request.Username)) != null)
             {
                 ModelState.AddModelError("Email", "E-postadressen finns redan");
             }
@@ -42,9 +38,6 @@ namespace MinaGlosor.Web.Controllers
         {
             [Required, MaxLength(254)]
             public string UserEmail { get; set; }
-
-            [Required, MaxLength(20)]
-            public string Username { get; set; }
         }
     }
 }

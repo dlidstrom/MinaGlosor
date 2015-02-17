@@ -26,15 +26,18 @@ namespace MinaGlosor.Web.Controllers
         [HttpPost]
         public ActionResult Activate(ActivateAccountViewModel vm)
         {
-            if (ModelState.IsValid == false)
-                return View(vm);
-
             var createAccountRequest = ExecuteQuery(new GetCreateAccountRequestQuery(vm.ActivationCode));
             if (createAccountRequest == null)
                 throw new HttpException(404, "Not found");
 
             if (createAccountRequest.HasBeenUsed())
                 throw new HttpException(404, "Already used");
+
+            if (ExecuteQuery(new GetUserByUsernameQuery(vm.Username)) != null)
+                ModelState.AddModelError("Användarnamn", "Användarnamnet existerar redan");
+
+            if (ModelState.IsValid == false)
+                return View(vm);
 
             createAccountRequest.MarkAsUsed();
             ExecuteCommand(new CreateUserCommand(createAccountRequest.Email, vm.Password, vm.Username, UserRole.Basic));
@@ -47,14 +50,14 @@ namespace MinaGlosor.Web.Controllers
             [HiddenInput]
             public Guid ActivationCode { get; set; }
 
+            [Required, MaxLength(20)]
+            public string Username { get; set; }
+
             [Required]
             public string Password { get; set; }
 
             [Required, System.ComponentModel.DataAnnotations.Compare("Password")]
             public string PasswordConfirm { get; set; }
-
-            [Required]
-            public string Username { get; set; }
         }
     }
 }

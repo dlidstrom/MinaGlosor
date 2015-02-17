@@ -197,6 +197,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\MinaGlosor-Netcetera.pubxml" />
+    <Content Include="Views\Emails\InviteUser.cshtml" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap.css" />
