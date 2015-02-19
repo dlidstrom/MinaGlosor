@@ -1,5 +1,5 @@
 ﻿<p class="lead">
-    Övningar
+    Öva på {{practiceIndex.wordList.name}}
 </p>
 <p>
     Öva på ett urval av dina ord. Övningen fortsätter tills du har lärt dig orden. Du kan alltid avbryta en övning och fortsätta senare.
@@ -19,20 +19,20 @@
 </form>
 <div class="row" ng-show="practiceIndex.unfinishedPracticeSessions.length">
     <div class="col-xs-12">
-        <h3>Tidigare övningar</h3>
+        <h3>Pågående, ej avslutade övningar</h3>
     </div>
 </div>
 <div class="row" ng-show="practiceIndex.unfinishedPracticeSessions.length">
     <div class="col-xs-12">
         <table class="table table-bordered table-condensed">
             <tr>
-                <th>Övning #</th>
+                <th>Övning</th>
                 <th></th>
             </tr>
             <tr ng-repeat="item in practiceIndex.unfinishedPracticeSessions">
-                <td>{{item.practiceSessionId}}</td>
+                <td>{{practiceIndex.formatDate(item.createdDate)}}</td>
                 <td>
-                    <a href="{{'./wordlist/' + practiceIndex.wordListId + '/practice/' + item.practiceSessionId}}" class="btn btn-primary">
+                    <a href="{{'./wordlist/' + practiceIndex.wordList.wordListId + '/practice/' + item.practiceSessionId}}" class="btn btn-primary">
                         fortsätt
                     </a>
                 </td>

@@ -10,5 +10,6 @@
         viewer.wordListId = wordListId;
         viewer.wordListName = words.wordListName;
         viewer.words = words.words;
+        viewer.canPractice = words.words.length > 0;
     }
 })();

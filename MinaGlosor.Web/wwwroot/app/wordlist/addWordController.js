@@ -6,7 +6,9 @@
     AddWordController.$inject = [/*'toaster', 'ErrorHandler',*/'WordService', 'WordList'];
     function AddWordController(/*toaster, errorHandler,*/ wordService, wordList) {
         var editor = this;
+
         editor.wordList = wordList;
+        editor.canPractice = wordList.numberOfWords > 0;
 
         editor.add = add;
 
@@ -17,6 +19,7 @@
                     // success
                     //toaster.pop('success', 'Nytt ord', 'Ordet sparades i ' + wordList.name);
                     editor.saving = false;
+                    editor.canPractice = true;
                     entry.text = null;
                     entry.definition = null;
                     form.$setPristine();

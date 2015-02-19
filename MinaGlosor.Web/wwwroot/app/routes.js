@@ -100,11 +100,12 @@
                                     return practiceService.getUnfinished($route.current.params.wordListId);
                                 }
                             ],
-                        WordListId:
+                        WordList:
                             [
                                 '$route',
-                                function ($route) {
-                                    return $route.current.params.wordListId;
+                                'WordListService',
+                                function ($route, wordListService) {
+                                    return wordListService.getById($route.current.params.wordListId);
                                 }
                             ]
                     }

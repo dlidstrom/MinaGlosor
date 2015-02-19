@@ -8,14 +8,22 @@
                 <th>Ord</th>
                 <th>Betydelse</th>
                 <th>
-                    <a href="{{'wordlist/' + viewer.wordListId + '/add'}}" class="btn btn-xs btn-primary">
+                    <a href="{{'./wordlist/' + viewer.wordListId + '/add'}}" class="btn btn-xs btn-primary">
                         lägg till ord
+                    </a>
+                </th>
+                <th>
+                    <a href="{{'./wordlist/' + viewer.wordListId + '/practice'}}"
+                       class="btn btn-xs btn-primary"
+                       ng-show="viewer.canPractice">
+                        öva
                     </a>
                 </th>
             </tr>
             <tr ng-repeat="item in viewer.words">
                 <td>{{item.text}}</td>
                 <td>{{item.definition}}</td>
+                <td></td>
                 <td>
                     <a href="{{'./word/' + item.id + '/edit'}}" class="btn btn-xs btn-default">
                         redigera

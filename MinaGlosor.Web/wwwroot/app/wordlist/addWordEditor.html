@@ -65,9 +65,11 @@
                    ng-disabled="saving">
                     Avsluta
                 </a>
-<!--                <a href="{{'./wordlist/' + editor.wordList.wordListId + '/practice/'}}" class="btn btn-default">
+                <a href="{{'./wordlist/' + editor.wordList.wordListId + '/practice/'}}"
+                   class="btn btn-default"
+                   ng-show="{{editor.canPractice}}">
                     Öva
-                </a>-->
+                </a>
             </div>
         </div>
     </fieldset>
