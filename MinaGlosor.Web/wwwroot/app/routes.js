@@ -157,6 +157,11 @@
                             ]
                     }
                 })
+            .when(
+                '/help',
+                {
+                    templateUrl: '/wwwroot/app/help/index.html'
+                })
             .otherwise({
                 redirectTo: '/wordlist'
             });

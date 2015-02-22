@@ -40,7 +40,8 @@ namespace MinaGlosor.Web.Models.Queries
                 results.Add(result);
             }
 
-            var orderedResults = results.OrderByDescending(x => x.PercentExpired)
+            var orderedResults = results.OrderByDescending(x => x.NumberOfWords > 0 ? 1 : 0)
+                                        .ThenByDescending(x => x.PercentExpired)
                                         .ThenBy(x => x.PercentDone)
                                         .ThenBy(x => x.WordListId)
                                         .ToArray();

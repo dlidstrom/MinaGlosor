@@ -11,7 +11,7 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Controllers.Api
 {
-    [SaveChanges]
+    [CheckAppVersion, SaveChanges]
     public abstract class AbstractApiController : ApiController
     {
         private User currentUser;

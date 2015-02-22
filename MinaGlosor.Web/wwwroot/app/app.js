@@ -1,5 +1,12 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('mgApp', ['ngRoute']);
+    var appVersion = $('meta[name="appVersion"]').attr('content');
+    angular.module('mgApp', ['ngRoute', 'toaster']).config(Config).value('AppVersion', appVersion);
+
+    Config.$inject = ['$httpProvider'];
+
+    function Config($httpProvider) {
+        $httpProvider.interceptors.push('CustomHttpInterceptor');
+    }
 })();

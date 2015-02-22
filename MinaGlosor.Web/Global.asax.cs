@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -25,6 +26,13 @@ namespace MinaGlosor.Web
         public static void Shutdown()
         {
             Cleanup();
+        }
+
+        public static string GetAppVersion()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var version = assembly.GetName().Version;
+            return version.ToString();
         }
 
         protected void Application_Start()

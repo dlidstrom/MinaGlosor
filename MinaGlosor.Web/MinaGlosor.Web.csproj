@@ -156,8 +156,8 @@
   <ItemGroup>
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
-    <Content Include="cassette-cache\script\wwwroot\app\131a8b6feadd89f588bfcdb12f5864aa30525f9c.js" />
-    <Content Include="cassette-cache\stylesheet\wwwroot\364cb2668075eb525ae6e5da91ba9bff39665cda.css" />
+    <Content Include="cassette-cache\script\wwwroot\app\d60bff559334b867761f16eff28fd5e68ecb609c.js" />
+    <Content Include="cassette-cache\stylesheet\wwwroot\a6786780ef419bac1a3167f7e18378bbf2f3fb17.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
     <Content Include="Web.config" />
@@ -166,6 +166,8 @@
     <Content Include="wwwroot\app\app.js" />
     <Content Include="wwwroot\app\bundle.txt" />
     <Content Include="wwwroot\app\external\toaster.js" />
+    <Content Include="wwwroot\app\help\index.html" />
+    <Content Include="wwwroot\app\httpInterceptor.js" />
     <Content Include="wwwroot\app\practice\practiceSessionSummaryController.js" />
     <Content Include="wwwroot\app\practice\practiceSessionSummary.html" />
     <Content Include="wwwroot\app\practice\practiceSessionController.js" />
@@ -187,12 +189,12 @@
     <Content Include="wwwroot\app\wordlist\wordListController.js" />
     <Content Include="wwwroot\app\wordlist\index.html" />
     <Compile Include="Controllers\AccountLogoffController.cs" />
+    <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
     <Compile Include="Infrastructure\JetBrains.Annotations.cs" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\bundle.txt" />
-    <Content Include="wwwroot\toaster.css" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -320,7 +322,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\ReadModels\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
