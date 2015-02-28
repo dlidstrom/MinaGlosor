@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Raven.Abstractions;
 using Raven.Imports.Newtonsoft.Json;
 
@@ -30,7 +31,7 @@ namespace MinaGlosor.Web.Models
                 username = email.Substring(0, email.IndexOf("@", StringComparison.Ordinal));
             }
 
-            Username = username;
+            Username = Regex.Replace(username, @"(^-)|([^-a-zA-Z0-9])|(-$)", string.Empty);
         }
 
         private User()
