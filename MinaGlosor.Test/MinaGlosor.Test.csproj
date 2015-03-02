@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Domain\PracticeSessionTest.cs" />
+    <Compile Include="Api\Domain\UserTest.cs" />
     <Compile Include="Api\Domain\WordScoreTest.cs" />
     <Compile Include="Api\Domain\WordScore_WhenPracticingEarly.cs" />
     <Compile Include="Api\EventIdsMetaTests.cs" />

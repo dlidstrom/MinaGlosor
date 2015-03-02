@@ -17,12 +17,17 @@
                        class="form-control"
                        name="username"
                        ng-model="user.username"
-                       placeholder="Skriv ett användarnamn"
+                       placeholder="4-20 tecken"
                        autofocus="autofocus"
+                       minlength="4"
                        maxlength="20"
+                       pattern="^(?=.{4,20}$)(?![-])(?!.*[-]{2})[a-zA-Z0-9-]*[a-zA-Z]$"
+                       title="Användarnamn får bara innehålla alfanumeriska tecken eller bindestreck samt kan ej börja eller sluta med bindestreck"
                        required />
-                <span class="help-block" ng-show="form.username.$dirty && form.username.$invalid">
-                    Skriv ett användarnamn
+                <span ng-messages="form.username.$error" ng-show="form.username.$dirty">
+                    <div ng-message="required">Ange ett användarnamn</div>
+                    <div ng-message="minlength">Minst 4 tecken</div>
+                    <div ng-message="pattern">Användarnamn får enbart innehålla alfanumeriska tecken eller bindestreck samt kan ej börja eller sluta med bindestreck</div>
                 </span>
             </div>
         </div>

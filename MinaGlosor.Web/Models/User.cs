@@ -7,13 +7,20 @@ namespace MinaGlosor.Web.Models
 {
     public class User
     {
+        public const string UsernamePattern = "^(?=.{4,20}$)(?![-])(?!.*[-]{2})[a-zA-Z0-9-]+(?<![-])$";
+
         public User(string email, string password, string username, UserRole userRole = UserRole.Basic)
         {
             if (email == null) throw new ArgumentNullException("email");
             if (password == null) throw new ArgumentNullException("password");
             if (username == null) throw new ArgumentNullException("username");
             if (string.IsNullOrWhiteSpace(username)) throw new ArgumentException("Username is empty");
-            if (username.Length > 20) throw new ArgumentException("Username is too long (limited to 20 characters)");
+            if (Regex.IsMatch(username, UsernamePattern) == false)
+            {
+                throw new ArgumentException(
+                    "Username may be 4-20 characters, only contain alphanumeric characters or dashes, and cannot begin or end with a dash",
+                    "username");
+            }
 
             Email = email;
             Username = username;

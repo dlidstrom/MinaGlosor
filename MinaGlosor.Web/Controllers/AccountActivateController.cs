@@ -50,7 +50,7 @@ namespace MinaGlosor.Web.Controllers
             [HiddenInput]
             public Guid ActivationCode { get; set; }
 
-            [Required, MaxLength(20)]
+            [Required, RegularExpression(Models.User.UsernamePattern)]
             public string Username { get; set; }
 
             [Required]
