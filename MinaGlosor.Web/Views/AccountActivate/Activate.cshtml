@@ -9,7 +9,7 @@
     @Html.HiddenFor(x => x.ActivationCode)
     <div class="row">
         <div class="col-md-4">
-            <div class="form-group" ng-class="{'has-error': form.password.$dirty && form.username.$invalid}">
+            <div class="form-group" ng-class="{'has-error': form.username.$dirty && form.username.$invalid}">
                 <label class="control-label">
                     Ange användarnamn för din profil
                 </label>
@@ -23,12 +23,26 @@
                        maxlength="20"
                        pattern="^(?=.{4,20}$)(?![-])(?!.*[-]{2})[a-zA-Z0-9-]*[a-zA-Z]$"
                        title="Användarnamn får bara innehålla alfanumeriska tecken eller bindestreck samt kan ej börja eller sluta med bindestreck"
+                       ng-focus="showUsernamePrompt = true"
+                       ng-blur="showUsernamePrompt = false"
+                       ng-model-options="{ updateOn: 'default blur' }"
                        required />
-                <span ng-messages="form.username.$error" ng-show="form.username.$dirty">
-                    <div ng-message="required">Ange ett användarnamn</div>
-                    <div ng-message="minlength">Minst 4 tecken</div>
-                    <div ng-message="pattern">Användarnamn får enbart innehålla alfanumeriska tecken eller bindestreck samt kan ej börja eller sluta med bindestreck</div>
-                </span>
+                <div class="messages">
+                    <div class="message-animation" ng-if="showUsernamePrompt">
+                        Vad vill du ha som användarnamn?
+                    </div>
+                </div>
+                <div class="messages" ng-messages="form.username.$error" ng-show="form.username.$dirty">
+                    <div class="message-animation" ng-message="required">
+                        <strong>Ange ett användarnamn</strong>
+                    </div>
+                    <div class="message-animation" ng-message="minlength">
+                        <strong>Minst 4 tecken</strong>
+                    </div>
+                    <div class="message-animation" ng-message="pattern">
+                        <strong>Användarnamn får enbart innehålla alfanumeriska tecken eller bindestreck samt kan ej börja eller sluta med bindestreck</strong>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -43,10 +57,20 @@
                        name="password"
                        ng-model="user.password"
                        placeholder="Skriv ett lösenord"
+                       ng-focus="showPasswordPrompt = true"
+                       ng-blur="showPasswordPrompt = false"
+                       ng-model-options="{ updateOn: 'default blur' }"
                        required />
-                <span class="help-block" ng-show="form.password.$dirty && form.password.$invalid">
-                    Skriv ett lösenord
-                </span>
+                <div class="messages">
+                    <div class="message-animation" ng-if="showPasswordPrompt">
+                        Vad vill du ha som lösenord?
+                    </div>
+                </div>
+                <div class="messages" ng-show="form.password.$dirty && form.password.$invalid" ng-messages="form.password.$error">
+                    <div class="message-animation" ng-message="required">
+                        <strong>Skriv ett lösenord</strong>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -61,10 +85,20 @@
                        name="passwordConfirm"
                        ng-model="user.passwordConfirm"
                        placeholder="Upprepa lösenordet" 
+                       ng-focus="showRepeatPasswordPrompt = true"
+                       ng-blur="showRepeatPasswordPrompt = false"
+                       ng-model-options="{ updateOn: 'default blur' }"
                        required />
-                <span class="help-block" ng-show="form.passwordConfirm.$dirty && (form.passwordConfirm.$invalid || user.passwordConfirm != user.password)">
-                    Lösenorden måste vara lika
-                </span>
+                <div class="messages">
+                    <div class="message-animation" ng-if="showRepeatPasswordPrompt">
+                        Upprepa lösenordet för säkerhets skull.
+                    </div>
+                </div>
+                <div class="messages" ng-show="form.passwordConfirm.$dirty && (form.passwordConfirm.$invalid || user.passwordConfirm != user.password)" ng-messages>
+                    <div class="message-animation">
+                        <strong>Lösenorden måste vara lika</strong>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

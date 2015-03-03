@@ -157,7 +157,7 @@
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
     <Content Include="cassette-cache\script\wwwroot\app\d60bff559334b867761f16eff28fd5e68ecb609c.js" />
-    <Content Include="cassette-cache\stylesheet\wwwroot\a6786780ef419bac1a3167f7e18378bbf2f3fb17.css" />
+    <Content Include="cassette-cache\stylesheet\wwwroot\e82de084c6afd2fb2e31ba49df650cb38cda6ba2.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
     <Content Include="Web.config" />
