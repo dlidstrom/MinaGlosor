@@ -17,6 +17,11 @@
         <div class="container ng-cloak">
             @RenderBody()
         </div>
+        <footer>
+            <div class="container">
+                <p>@Application.ApplicationVersion()</p>
+            </div>
+        </footer>
         <script>
             angular.module("app", ["ngMessages", "ngAnimate"]);
         </script>

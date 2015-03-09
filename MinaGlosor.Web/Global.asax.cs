@@ -82,5 +82,13 @@ namespace MinaGlosor.Web
  new HandlersInstaller());
             return container;
         }
+
+        public static string ApplicationVersion()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var name = assembly.GetName();
+            var version = name.Version;
+            return version.ToString();
+        }
     }
 }
