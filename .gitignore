@@ -32,3 +32,4 @@ MinaGlosor.Web/App_Data/Database
 MinaGlosor.Web/Raven
 MinaGlosor.Web/Web.Release.config
 MinaGlosor.Web/App_Data
+MinaGlosor.Web/cassette-cache/**

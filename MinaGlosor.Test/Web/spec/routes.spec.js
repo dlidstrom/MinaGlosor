@@ -3,9 +3,7 @@
 
     var route;
 
-    beforeEach(function () {
-        module('App');
-    });
+    beforeEach(module('mgApp'));
 
     beforeEach(inject(function ($route) {
         route = $route;
@@ -16,10 +14,10 @@
     });
 
     it('should map wordlist route', function () {
-        expect(route.routes['/wordlist'].controller).toBe('WordListCtrl');
+        expect(route.routes['/wordlist'].controller).toBe('WordListController');
     });
 
     it('should map add word', function () {
-        expect(route.routes['/wordlist/:id/add'].controller).toBe('AddWordCtrl');
+        expect(route.routes['/wordlist/:id/add'].controller).toBe('AddWordController');
     });
 });

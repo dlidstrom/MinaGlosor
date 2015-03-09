@@ -4,9 +4,7 @@ describe('WordService', function () {
     var httpMock;
     var wordService;
 
-    beforeEach(function () {
-        module('App');
-    });
+    beforeEach(module('mgApp'));
 
     beforeEach(inject(function ($httpBackend) {
         httpMock = $httpBackend;
@@ -33,7 +31,7 @@ describe('WordService', function () {
         });
 
         it('should update word', function () {
-            httpMock.expectPUT('/api/word', { id: 2, text: 'new word', definition: 'new def' }).respond(201);
+            httpMock.expectPUT('/api/word', { wordId: 2, text: 'new word', definition: 'new def' }).respond(201);
             wordService.update(2, 'new word', 'new def');
         });
 
@@ -43,7 +41,7 @@ describe('WordService', function () {
         });
 
         it('should get word', function () {
-            httpMock.expectGET('/api/word?id=1').respond(200);
+            httpMock.expectGET('/api/word?wordId=1').respond(200);
             wordService.get(1);
         });
     });

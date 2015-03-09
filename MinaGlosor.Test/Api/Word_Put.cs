@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
-using System.Security.Principal;
-using System.Threading;
-using MinaGlosor.Web.Data.Models;
+using MinaGlosor.Web.Models;
 using NUnit.Framework;
 
 namespace MinaGlosor.Test.Api
@@ -15,32 +12,30 @@ namespace MinaGlosor.Test.Api
         public void UpdatesWord()
         {
             // Arrange
-            var owner = new User("e@d.com", "pwd") { Id = 1 };
-            Transact(context =>
+            Transact(session =>
                 {
-                    context.Users.Add(owner);
-                    var wordList = new WordList("list", owner) { Id = 2 };
-                    var word = wordList.AddWord("old text", "old def");
-                    word.Id = 3;
-                    context.Words.Add(word);
+                    var owner = new User("e@d.com", "pwd", "username");
+                    session.Store(owner);
+                    var wordList = new WordList("list", owner);
+                    session.Store(wordList);
+                    var word = new Word("old text", "old def", wordList.Id);
+                    session.Store(word);
                 });
-
-            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
 
             // Act
             var request = new
                 {
-                    id = 3,
+                    wordId = "1",
                     text = "new word",
                     definition = "new def"
                 };
             var response = Client.PutAsJsonAsync("http://temp.uri/api/word", request).Result;
 
             // Assert
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-            Transact(context =>
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
+            Transact(session =>
                 {
-                    var newWord = context.Words.Single();
+                    var newWord = session.Load<Word>("Words/1");
                     Assert.That(newWord.Text, Is.EqualTo("new word"));
                     Assert.That(newWord.Definition, Is.EqualTo("new def"));
                 });

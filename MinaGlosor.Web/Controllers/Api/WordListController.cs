@@ -1,55 +1,49 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
-using MinaGlosor.Web.Data.Commands;
-using MinaGlosor.Web.Data.Queries;
+using MinaGlosor.Web.Models.Commands;
+using MinaGlosor.Web.Models.Queries;
 
 namespace MinaGlosor.Web.Controllers.Api
 {
-    public class WordListController : ApiControllerBase
+    public class WordListController : AbstractApiController
     {
-        public async Task<HttpResponseMessage> Get()
+        public HttpResponseMessage GetAll()
         {
-            var query = new GetWordListsQuery(CurrentUser);
-            //var etag = ExecuteQueryForEtag(query);
-
-            //if (Request.Headers.IfNoneMatch.SingleOrDefault(x => x.Tag == etag) != null)
-            //    return Request.CreateResponse(HttpStatusCode.NotModified);
-
-            var wordLists = await ExecuteQueryAsync(query);
-            var response = Request.CreateResponse(HttpStatusCode.OK, wordLists);
-            //response.Headers.ETag = new EntityTagHeaderValue(etag);
-            return response;
+            var wordLists = ExecuteQuery(new GetWordListsQuery(CurrentUser));
+            return Request.CreateResponse(HttpStatusCode.OK, wordLists);
         }
 
-        public async Task<HttpResponseMessage> Get(int id)
+        public HttpResponseMessage GetById(string wordListId)
         {
-            var wordList = await ExecuteQueryAsync(new GetWordListByIdQuery(id));
-            if (wordList != null) return Request.CreateResponse(HttpStatusCode.OK, wordList);
-
-            ModelState.AddModelError("id", string.Format("No word list found with id {0}", id));
-            return Request.CreateErrorResponse(HttpStatusCode.NotFound, new HttpError(ModelState, true));
+            var wordList = ExecuteQuery(new GetWordListQuery(wordListId));
+            return Request.CreateResponse(HttpStatusCode.OK, wordList);
         }
 
-        public async Task<HttpResponseMessage> Post(CreateWordListRequest request)
+        public HttpResponseMessage Post(NewWordListRequest request)
         {
+            if (request == null) ModelState.AddModelError("Request", "Invalid request");
             if (ModelState.IsValid == false)
             {
-                return Request.CreateErrorResponse(
-                    HttpStatusCode.BadRequest,
-                    new HttpError(ModelState, true));
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
             }
 
-            await ExecuteCommandAsync(new CreateWordListCommand(request.WordListName, CurrentUser));
+            Debug.Assert(request != null, "request != null");
+            ExecuteCommand(new CreateWordListCommand(request.Name, CurrentUser));
             return Request.CreateResponse(HttpStatusCode.Created);
         }
 
-        public class CreateWordListRequest
+        public class NewWordListRequest
         {
+            public NewWordListRequest(string name)
+            {
+                Name = name;
+            }
+
             [Required, MaxLength(1024)]
-            public string WordListName { get; set; }
+            public string Name { get; private set; }
         }
     }
 }

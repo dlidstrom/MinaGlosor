@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net.Http;
+using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
-using Castle.MicroKernel.Registration;
+using Castle.MicroKernel.Lifestyle;
 using Castle.Windsor;
-using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web;
-using MinaGlosor.Web.Controllers.Api;
-using MinaGlosor.Web.Data;
-using MinaGlosor.Web.Infrastructure.IoC;
+using MinaGlosor.Web.Infrastructure.IoC.Installers;
 using NUnit.Framework;
+using Raven.Client;
 
 namespace MinaGlosor.Test.Api
 {
@@ -23,34 +25,42 @@ namespace MinaGlosor.Test.Api
         {
             var configuration = new HttpConfiguration();
             Container = new WindsorContainer();
-            Container.Register(
-                Component.For<IDbContext>()
-                         .ImplementedBy<InMemoryDbContext>()
-                         .LifestyleSingleton());
             Container.Install(
-                new ControllerInstaller(),
+                RavenInstaller.CreateForTests(),
                 new WindsorWebApiInstaller(),
-                new ControllerFactoryInstaller(),
                 new HandlersInstaller());
+            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
             OnSetUp(Container);
 
-            MvcApplication.Configure(Container, configuration);
+            Application.Bootstrap(Container, configuration);
             Client = new HttpClient(new HttpServer(configuration));
 
-            CustomAuthorizeAttribute.DisableAuthorize = true;
+            Act();
         }
 
         [TearDown]
         public void TearDown()
         {
             OnTearDown();
-            MvcApplication.Shutdown();
+            Application.Shutdown();
         }
 
-        protected void Transact(Action<IDbContext> action)
+        protected virtual void Act()
         {
-            var context = Container.Resolve<IDbContext>();
-            action.Invoke(context);
+        }
+
+        protected void Transact(Action<IDocumentSession> action)
+        {
+            WaitForIndexing();
+
+            using (Container.BeginScope())
+            using (var session = Container.Resolve<IDocumentSession>())
+            {
+                action.Invoke(session);
+                session.SaveChanges();
+            }
+
+            WaitForIndexing();
         }
 
         protected virtual void OnSetUp(IWindsorContainer container)
@@ -59,6 +69,29 @@ namespace MinaGlosor.Test.Api
 
         protected virtual void OnTearDown()
         {
+        }
+
+        protected void WaitForIndexing()
+        {
+            var documentStore = Container.Resolve<IDocumentStore>();
+            const int Timeout = 15000;
+            var indexingTask = Task.Factory.StartNew(
+                () =>
+                {
+                    var sw = Stopwatch.StartNew();
+                    while (sw.Elapsed.TotalMilliseconds < Timeout)
+                    {
+                        var s = documentStore.DatabaseCommands.GetStatistics()
+                                             .StaleIndexes;
+                        if (s.Length == 0)
+                        {
+                            break;
+                        }
+
+                        Task.Delay(500);
+                    }
+                });
+            indexingTask.Wait(Timeout);
         }
     }
 }

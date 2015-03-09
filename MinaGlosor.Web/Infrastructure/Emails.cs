@@ -3,7 +3,6 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
-using JetBrains.Annotations;
 using Postal;
 
 namespace MinaGlosor.Web.Infrastructure
@@ -23,7 +22,7 @@ namespace MinaGlosor.Web.Infrastructure
         }
 
         private static void Send(
-            [AspMvcView] string view,
+            string view,
             string recipient,
             string subject,
             Action<dynamic> action)
@@ -36,8 +35,8 @@ namespace MinaGlosor.Web.Infrastructure
             // add moderators
             var moderators = new MailAddressCollection();
             var moderatorEmails = ConfigurationManager.AppSettings["OwnerEmail"].Split(';')
-                                                                                .Select(e => new MailAddress(e.Trim()))
-                                                                                .ToList();
+                .Select(e => new MailAddress(e.Trim()))
+                .ToList();
             moderatorEmails.ForEach(moderators.Add);
             email.Bcc = moderators;
             action.Invoke(email);

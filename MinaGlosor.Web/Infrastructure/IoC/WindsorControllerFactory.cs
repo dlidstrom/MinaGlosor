@@ -1,5 +1,4 @@
-using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.MicroKernel;
 
@@ -21,11 +20,6 @@ namespace MinaGlosor.Web.Infrastructure.IoC
 
         public override IController CreateController(RequestContext requestContext, string controllerName)
         {
-            if (requestContext == null)
-                throw new ArgumentNullException("requestContext");
-            if (controllerName == null)
-                throw new ArgumentNullException("controllerName");
-
             return kernel.Resolve<IController>(controllerName + "Controller");
         }
     }

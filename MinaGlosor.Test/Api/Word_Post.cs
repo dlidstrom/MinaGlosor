@@ -1,12 +1,7 @@
 ﻿using System.Diagnostics;
-using System.Linq;
 using System.Net;
-
 using System.Net.Http;
-
-using System.Security.Principal;
-using System.Threading;
-using MinaGlosor.Web.Data.Models;
+using MinaGlosor.Web.Models;
 using NUnit.Framework;
 
 namespace MinaGlosor.Test.Api
@@ -15,36 +10,45 @@ namespace MinaGlosor.Test.Api
     public class Word_Post : WebApiIntegrationTest
     {
         [Test]
-        public void AddsWordToList()
+        public async void AddsWordToList()
         {
             // Arrange
-            var owner = new User("e@d.com", "pwd") { Id = 1 };
-            var wordList = new WordList("list", owner) { Id = 2 };
-            Transact(context =>
-            {
-                context.Users.Add(owner);
-                context.WordLists.Add(wordList);
-            });
-
-            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
+            Transact(session =>
+                {
+                    var owner = new User("e@d.com", "pwd", "username");
+                    session.Store(owner);
+                    var wordList = new WordList("list", owner);
+                    session.Store(wordList);
+                });
 
             // Act
             var request = new
-            {
-                wordListId = 2,
-                text = "Some word",
-                definition = "Some definition"
-            };
-            var response = Client.PostAsJsonAsync("http://temp.uri/api/word", request).Result;
+                {
+                    wordListId = "1",
+                    text = "Some word",
+                    definition = "Some definition"
+                };
+            var response = await Client.PostAsJsonAsync("http://temp.uri/api/word", request);
+            Assert.That(response.Content, Is.Not.Null);
+            var content = await response.Content.ReadAsAsync<ExpectedContent>();
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-            var word = wordList.Words.SingleOrDefault();
-            Assert.That(word, Is.Not.Null);
-            Debug.Assert(word != null, "task != null");
-            Assert.That(word.Text, Is.EqualTo("Some word"));
-            Assert.That(word.Definition, Is.EqualTo("Some definition"));
-            Assert.That(word.WordListId, Is.EqualTo(wordList.Id));
+            Word savedWord = null;
+            Transact(session =>
+            {
+                savedWord = session.Load<Word>(Word.ToId(content.WordId));
+            });
+            Assert.That(savedWord, Is.Not.Null);
+            Debug.Assert(savedWord != null, "task != null");
+            Assert.That(savedWord.Text, Is.EqualTo("Some word"));
+            Assert.That(savedWord.Definition, Is.EqualTo("Some definition"));
+            Assert.That(savedWord.WordListId, Is.EqualTo("WordLists/1"));
+        }
+
+        public class ExpectedContent
+        {
+            public string WordId { get; set; }
         }
     }
 }

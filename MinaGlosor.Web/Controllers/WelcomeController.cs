@@ -1,26 +1,25 @@
-﻿using System.Threading.Tasks;
-using System.Web.Mvc;
-using MinaGlosor.Web.Data.Commands;
-using MinaGlosor.Web.Data.Models;
-using MinaGlosor.Web.Data.Queries;
+﻿using System.Web.Mvc;
+using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
+using MinaGlosor.Web.Models.Queries;
 
 namespace MinaGlosor.Web.Controllers
 {
-    public class WelcomeController : ControllerBase
+    public class WelcomeController : AbstractController
     {
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            if (await ExecuteQueryAsync(new HasAdminUserQuery()))
+            if (ExecuteQuery(new HasAdminUserQuery()))
                 return RedirectToAction("Index", "Home");
 
             return View(new InitialData("admin@" + Request.ServerVariables["HTTP_HOST"]));
         }
 
         [HttpPost]
-        public async Task<ActionResult> Index(CreateAdminUserRequest request)
+        public ActionResult Index(CreateAdminUserRequest request)
         {
-            if (await ExecuteQueryAsync(new HasAdminUserQuery()) == false)
-                await ExecuteCommandAsync(new CreateUserCommand(request.UserEmail, request.Password, UserRole.Admin));
+            if (ExecuteQuery(new HasAdminUserQuery()) == false)
+                ExecuteCommand(new CreateUserCommand(request.UserEmail, request.Password, request.Username, UserRole.Admin));
 
             return RedirectToAction("Index", "Home");
         }
@@ -45,6 +44,8 @@ namespace MinaGlosor.Web.Controllers
             public string UserEmail { get; set; }
 
             public string Password { get; set; }
+
+            public string Username { get; set; }
         }
     }
 }

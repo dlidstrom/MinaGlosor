@@ -7,14 +7,13 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7B80F1E3-8F17-4E5C-B90B-496889D64F5D}</ProjectGuid>
-    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectGuid>{EF6FE2C7-6620-4026-8348-2FE927C873FB}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MinaGlosor.Web</RootNamespace>
     <AssemblyName>MinaGlosor.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -39,308 +38,290 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AjaxMin, Version=5.8.5172.27703, Culture=neutral, PublicKeyToken=21ef50ce11b5d80f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AjaxMin.5.8.5172.27710\lib\net40\AjaxMin.dll</HintPath>
+    <Reference Include="AjaxMin">
+      <HintPath>..\packages\AjaxMin.4.84.4790.14417\lib\net40\AjaxMin.dll</HintPath>
     </Reference>
     <Reference Include="BCrypt.Net">
       <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Cassette, Version=2.4.1.23586, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Cassette.2.4.1\lib\net40-client\Cassette.dll</HintPath>
+    <Reference Include="Cassette">
+      <HintPath>..\packages\Cassette.2.4.2\lib\net40-client\Cassette.dll</HintPath>
     </Reference>
-    <Reference Include="Cassette.Aspnet, Version=2.4.1.23587, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Cassette.Aspnet.2.4.1\lib\net40\Cassette.Aspnet.dll</HintPath>
+    <Reference Include="Cassette.Aspnet">
+      <HintPath>..\packages\Cassette.Aspnet.2.4.2\lib\net40\Cassette.Aspnet.dll</HintPath>
     </Reference>
-    <Reference Include="Cassette.Less, Version=2.4.1.23587, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Cassette.Less.2.4.1\lib\net40-client\Cassette.Less.dll</HintPath>
+    <Reference Include="Cassette.Less">
+      <HintPath>..\packages\Cassette.Less.2.4.2\lib\net40-client\Cassette.Less.dll</HintPath>
     </Reference>
-    <Reference Include="Cassette.Views, Version=2.4.1.23587, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Cassette.Views.2.4.1\lib\net40\Cassette.Views.dll</HintPath>
+    <Reference Include="Cassette.MSBuild">
+      <HintPath>..\packages\Cassette.MSBuild.2.4.2\lib\net40\Cassette.MSBuild.dll</HintPath>
+    </Reference>
+    <Reference Include="Cassette.Views">
+      <HintPath>..\packages\Cassette.Views.2.4.2\lib\net40\Cassette.Views.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core">
-      <HintPath>..\packages\Castle.Core.3.2.2\lib\net45\Castle.Core.dll</HintPath>
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Windsor">
-      <HintPath>..\packages\Castle.Windsor.3.2.1\lib\net45\Castle.Windsor.dll</HintPath>
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
     <Reference Include="dotless.ClientOnly">
       <HintPath>..\packages\DotlessClientOnly.1.4.0.0\lib\dotless.ClientOnly.dll</HintPath>
     </Reference>
-    <Reference Include="Elmah">
-      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="Essential.Diagnostics">
+      <HintPath>..\packages\Essential.Diagnostics.1.2.501.0\lib\Essential.Diagnostics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Postal, Version=0.9.2.0, Culture=neutral, PublicKeyToken=45719375b8b4d528, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\postal.0.9.2\lib\net40\Postal.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.Services.Client" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.1.2\lib\net45\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.1.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http">
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.WebRequest">
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="Postal">
+      <HintPath>..\packages\Postal.Mvc5.1.2.0\lib\net45\Postal.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Abstractions">
+      <HintPath>..\packages\RavenDB.Database.3.0.3528\lib\net45\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\packages\RavenDB.Client.3.0.3528\lib\net45\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Database">
+      <HintPath>..\packages\RavenDB.Database.3.0.3528\lib\net45\Raven.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorEngine">
+      <HintPath>..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationMode.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\Api\ApiControllerBase.cs" />
-    <Compile Include="Controllers\Api\CustomAuthorizeAttribute.cs" />
-    <Compile Include="Controllers\Api\LogErrorController.cs" />
-    <Compile Include="Controllers\Api\WordController.cs" />
+    <Content Include="cassette-cache\manifest.xml" />
+    <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
+    <Content Include="cassette-cache\script\wwwroot\app\080ae67dee59725338acb79d159e05e13cfe79d6.js" />
+    <Content Include="cassette-cache\stylesheet\wwwroot\e82de084c6afd2fb2e31ba49df650cb38cda6ba2.css" />
+    <Content Include="Global.asax" />
+    <Content Include="LICENSE.txt" />
+    <Content Include="Web.config" />
+    <Content Include="wwwroot\angular-route.js" />
+    <Content Include="wwwroot\angular.js" />
+    <Content Include="wwwroot\app\app.js" />
+    <Content Include="wwwroot\app\bundle.txt" />
+    <Content Include="wwwroot\app\external\toaster.js" />
+    <Content Include="wwwroot\app\help\index.html" />
+    <Content Include="wwwroot\app\httpInterceptor.js" />
+    <Content Include="wwwroot\app\practice\practiceSessionSummaryController.js" />
+    <Content Include="wwwroot\app\practice\practiceSessionSummary.html" />
+    <Content Include="wwwroot\app\practice\practiceSessionController.js" />
+    <Content Include="wwwroot\app\practice\index.html" />
+    <Content Include="wwwroot\app\practice\practiceSession.html" />
+    <Content Include="wwwroot\app\practice\practiceIndexController.js" />
+    <Content Include="wwwroot\app\routes.js" />
+    <Content Include="wwwroot\app\shared\practiceWordService.js" />
+    <Content Include="wwwroot\app\shared\practiceService.js" />
+    <Content Include="wwwroot\app\shared\wordService.js" />
+    <Content Include="wwwroot\app\shared\wordListService.js" />
+    <Content Include="wwwroot\app\wordlist\addWordEditor.html" />
+    <Content Include="wwwroot\app\wordlist\addWordController.js" />
+    <Content Include="wwwroot\app\word\editWordController.js" />
+    <Content Include="wwwroot\app\wordlist\viewWordListController.js" />
+    <Content Include="wwwroot\app\wordlist\view.html" />
+    <Content Include="wwwroot\app\wordlist\new.html" />
+    <Content Include="wwwroot\app\wordlist\newWordListController.js" />
+    <Content Include="wwwroot\app\wordlist\wordListController.js" />
+    <Content Include="wwwroot\app\wordlist\index.html" />
+    <Compile Include="Controllers\AccountLogoffController.cs" />
+    <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
+    <Compile Include="Infrastructure\JetBrains.Annotations.cs" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\bundle.txt" />
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\PublishProfiles\MinaGlosor-Netcetera.pubxml" />
+    <Content Include="Views\Emails\InviteUser.cshtml" />
+    <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />
+    <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
+    <None Include="wwwroot\bootstrap\css\bootstrap.css" />
+    <None Include="wwwroot\bootstrap\css\bootstrap.min.css" />
+    <Content Include="wwwroot\app\word\edit.html" />
+    <Content Include="wwwroot\main.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\Api\MigrateUserController.cs" />
+    <Compile Include="Controllers\Api\MigrateWordController.cs" />
+    <Compile Include="Controllers\Api\MigrateWordListController.cs" />
+    <Compile Include="Controllers\Api\PracticeSessionController.cs" />
+    <Compile Include="Controllers\Api\PracticeWordController.cs" />
+    <Compile Include="Controllers\Api\UnfinishedPracticeSessionController.cs" />
+    <Compile Include="Controllers\Api\WordConfidenceController.cs" />
     <Compile Include="Controllers\Api\WordListController.cs" />
-    <Compile Include="Controllers\ControllerBase.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ListController.cs" />
-    <Compile Include="Controllers\PracticeController.cs" />
     <Compile Include="Controllers\RedirectController.cs" />
+    <Compile Include="Infrastructure\CassetteBundleConfiguration.cs" />
+    <Compile Include="Controllers\AbstractController.cs" />
+    <Compile Include="Controllers\AccountActivateController.cs" />
+    <Compile Include="Controllers\AccountInviteController.cs" />
+    <Compile Include="Controllers\AccountLogonController.cs" />
+    <Compile Include="Controllers\Api\AbstractApiController.cs" />
+    <Compile Include="Controllers\Api\WordController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\WelcomeController.cs" />
-    <Compile Include="Controllers\WordController.cs" />
-    <Compile Include="Data\Commands\UpdateWordCommand.cs" />
-    <Compile Include="Data\IDbContext.cs" />
-    <Compile Include="Data\Commands\AnswerWordCommand.cs" />
-    <Compile Include="Data\Commands\CreateAccountRequestCommand.cs" />
-    <Compile Include="Data\Commands\CreateUserCommand.cs" />
-    <Compile Include="Data\Commands\CreateWordCommand.cs" />
-    <Compile Include="Data\Commands\CreateWordListCommand.cs" />
-    <Compile Include="Data\Context.cs" />
-    <Compile Include="Data\Events\CreateAcountRequestCreated.cs" />
-    <Compile Include="Data\Events\DomainEvent.cs" />
-    <Compile Include="Data\Events\DomainEventReset.cs" />
-    <Compile Include="Data\Events\IDomainEvent.cs" />
-    <Compile Include="Data\Handlers\CreateAcountRequestCreatedHandler.cs" />
-    <Compile Include="Data\Handlers\IHandle.cs" />
-    <Compile Include="Data\ICommand.cs" />
-    <Compile Include="Data\IQuery.cs" />
-    <Compile Include="Data\Migrations\201403102011308_User_CreatedDate.cs" />
-    <Compile Include="Data\Migrations\201403102011308_User_CreatedDate.Designer.cs">
-      <DependentUpon>201403102011308_User_CreatedDate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Models\UserRole.cs" />
-    <Compile Include="Data\Queries\GetWordListByIdQuery.cs" />
-    <Compile Include="Data\Queries\HasAdminUserQuery.cs" />
-    <Compile Include="Data\QueryForEtagBase.cs" />
-    <Compile Include="Data\Models\CreateAccountRequest.cs" />
-    <Compile Include="Data\Models\Word.cs" />
-    <Compile Include="Data\Models\WordAnswer.cs" />
-    <Compile Include="Data\Models\WordList.cs" />
-    <Compile Include="Data\Queries\GetCreateAccountRequest.cs" />
-    <Compile Include="Data\Queries\GetCreateAccountRequestQuery.cs" />
-    <Compile Include="Data\Queries\GetPracticeWordQuery.cs" />
-    <Compile Include="Data\Queries\GetUserByEmailQuery.cs" />
-    <Compile Include="Data\Queries\GetUserQuery.cs" />
-    <Compile Include="Data\Queries\GetWordListsQuery.cs" />
-    <Compile Include="Data\Queries\GetWordQuery.cs" />
-    <Compile Include="Data\Queries\GetWordsQuery.cs" />
-    <Compile Include="Data\SaveChangesAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\AsyncFilter.cs" />
-    <Compile Include="Infrastructure\CassetteBundleConfiguration.cs" />
-    <Compile Include="Infrastructure\Annotations.cs" />
+    <Compile Include="Infrastructure\Attributes\SaveChangesAttribute.cs" />
     <Compile Include="Infrastructure\Emails.cs" />
     <Compile Include="Infrastructure\GuidBinder.cs" />
-    <Compile Include="Infrastructure\IoC\ContextInstaller.cs" />
-    <Compile Include="Infrastructure\IoC\HandlersInstaller.cs" />
-    <Compile Include="Infrastructure\IoC\WindsorWebApiInstaller.cs" />
-    <Compile Include="Infrastructure\IoC\ControllerFactoryInstaller.cs" />
-    <Compile Include="Infrastructure\IoC\ControllerInstaller.cs" />
+    <Compile Include="Infrastructure\ICommand.cs" />
+    <Compile Include="Infrastructure\IoC\Installers\ControllerInstaller.cs" />
+    <Compile Include="Infrastructure\IoC\Installers\HandlersInstaller.cs" />
+    <Compile Include="Infrastructure\IoC\Installers\RavenInstaller.cs" />
     <Compile Include="Infrastructure\IoC\WindsorControllerFactory.cs" />
+    <Compile Include="Infrastructure\IoC\Installers\WindsorWebApiInstaller.cs" />
+    <Compile Include="Infrastructure\IQuery.cs" />
+    <Compile Include="Infrastructure\Tracing\ActivityScope.cs" />
+    <Compile Include="Infrastructure\Tracing\EventIds.cs" />
+    <Compile Include="Infrastructure\Tracing\TracingLogger.cs" />
+    <Compile Include="Models\Commands\CreateAccountRequestCommand.cs" />
+    <Compile Include="Models\Commands\CreatePracticeSessionCommand.cs" />
+    <Compile Include="Models\Commands\CreateUserCommand.cs" />
+    <Compile Include="Models\Commands\CreateWordCommand.cs" />
+    <Compile Include="Models\Commands\CreateWordListCommand.cs" />
+    <Compile Include="Models\Commands\AddWordToWordListCommand.cs" />
+    <Compile Include="Models\Commands\UpdateWordCommand.cs" />
+    <Compile Include="Models\Commands\UpdateWordConfidenceCommand.cs" />
+    <Compile Include="Models\Commands\UpdateWordScoreCommand.cs" />
+    <Compile Include="Models\ConfidenceLevel.cs" />
+    <Compile Include="Models\CreateAccountRequest.cs" />
+    <Compile Include="Models\DomainEvents\AbstractHandle.cs" />
+    <Compile Include="Models\DomainEvents\CreateAccountRequestCreated.cs" />
+    <Compile Include="Models\DomainEvents\CreateAccountRequestCreatedHandler.cs" />
+    <Compile Include="Models\DomainEvents\DomainEvent.cs" />
+    <Compile Include="Models\DomainEvents\DomainEventReset.cs" />
+    <Compile Include="Models\DomainEvents\IHandle.cs" />
+    <Compile Include="Models\DomainEvents\WordConfidenceUpdated.cs" />
+    <Compile Include="Models\DomainEvents\WordConfidenceUpdatedHandler.cs" />
+    <Compile Include="Models\DomainEvents\WordRegisteredEvent.cs" />
+    <Compile Include="Models\DomainEvents\WordRegisteredEventHandler.cs" />
+    <Compile Include="Models\Indexes\CreateAccountRequestIndex.cs" />
+    <Compile Include="Models\Indexes\PracticeSessionIndex.cs" />
+    <Compile Include="Models\Indexes\UserIndex.cs" />
+    <Compile Include="Models\Indexes\WordIndex.cs" />
+    <Compile Include="Models\Indexes\WordListIndexReadModelIndex.cs" />
+    <Compile Include="Models\Indexes\WordScoreIndex.cs" />
+    <Compile Include="Models\PracticeSession.cs" />
+    <Compile Include="Models\PracticeWord.cs" />
+    <Compile Include="Models\Queries\GetCreateAccountRequestQuery.cs" />
+    <Compile Include="Models\Queries\GetNextPracticeWordQuery.cs" />
+    <Compile Include="Models\Queries\GetUnfinishedPracticeSessionsQuery.cs" />
+    <Compile Include="Models\Queries\GetUserByEmailQuery.cs" />
+    <Compile Include="Models\Queries\GetUserByUsernameQuery.cs" />
+    <Compile Include="Models\Queries\GetWordListQuery.cs" />
+    <Compile Include="Models\Queries\GetWordListsQuery.cs" />
+    <Compile Include="Models\Queries\GetWordQuery.cs" />
+    <Compile Include="Models\Queries\GetWordsQuery.cs" />
+    <Compile Include="Models\Queries\HasAdminUserQuery.cs" />
+    <Compile Include="Models\Queries\IsPracticeSessionFinishedQuery.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserRole.cs" />
+    <Compile Include="Models\Word.cs" />
+    <Compile Include="Models\WordList.cs" />
+    <Compile Include="Models\WordScore.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Infrastructure\IoC\WindsorDependencyResolver.cs" />
     <Compile Include="Infrastructure\IoC\WindsorDependencyScope.cs" />
     <Compile Include="Infrastructure\IoC\WindsorHttpDependencyResolver.cs" />
-    <Compile Include="Infrastructure\IoC\WindsorMvcDependencyResolver.cs" />
-    <Compile Include="Data\Models\User.cs" />
-    <Compile Include="Data\Migrations\201403091213424_InitialCreate.cs" />
-    <Compile Include="Data\Migrations\201403091213424_InitialCreate.Designer.cs">
-      <DependentUpon>201403091213424_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Migrations\Configuration.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="App_Readme\Elmah.txt" />
-    <Content Include="Content\about\about.html" />
-    <Content Include="Content\app\app\app.js" />
-    <Content Include="Content\app\infrastructure\config.js" />
-    <Content Include="Content\app\infrastructure\errorHandler.js" />
-    <Content Include="Content\app\infrastructure\errorParser.js" />
-    <Content Include="Content\app\infrastructure\exceptionHandler.js" />
-    <Content Include="Content\app\app\once.js" />
-    <Content Include="Content\app\app\toaster.js" />
-    <Content Include="Content\app\practice\view.html" />
-    <Content Include="Content\app\practice\index.html" />
-    <Content Include="Content\app\shared\wordservice.js" />
-    <Content Include="Content\app\shared\wordlistservice.js" />
-    <Content Include="Content\app\infrastructure\stacktrace.js" />
-    <Content Include="Content\app\wordlist\addword.html" />
-    <Content Include="Content\app\wordlist\addwordctrl.js" />
-    <Content Include="Content\app\wordlist\viewlistctrl.js" />
-    <Content Include="Content\app\wordlist\view.html" />
-    <Content Include="Content\app\wordlist\new.html" />
-    <Content Include="Content\app\wordlist\index.html" />
-    <Content Include="Content\app\wordlist\newctrl.js" />
-    <Content Include="Content\app\wordlist\wordlistctrl.js" />
-    <Content Include="Content\app\word\edit.html" />
-    <Content Include="Content\app\word\editwordctrl.js" />
-    <None Include="Content\external\angularjs-1.2.8\angular-animate.js" />
-    <None Include="Content\external\angularjs-1.2.8\angular-route.js" />
-    <Content Include="Content\main.less" />
-    <Content Include="Content\readable.min.css" />
-    <Content Include="Content\toastr.css" />
-    <Content Include="LICENSE.txt" />
-    <Content Include="Views\Account\Activate.cshtml" />
-    <Content Include="Views\Account\InviteSuccess.cshtml" />
-    <Content Include="Views\Account\Logon.cshtml" />
-    <None Include="Properties\PublishProfiles\MinaGlosor-Netcetera.pubxml" />
-    <Content Include="Views\Emails\InviteUser.cshtml" />
-    <Content Include="Views\List\Stored.cshtml" />
-    <Content Include="Views\Word\ViewWords.cshtml" />
-    <Content Include="Views\Word\Add.cshtml" />
-    <Content Include="Views\Practice\Index.cshtml" />
-    <Content Include="Views\Practice\Show.cshtml" />
-    <Content Include="Views\Home\RegisterOrLogin.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\ValidationSummary.cshtml" />
-    <Content Include="Views\Emails\_ViewStart.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
-    <Content Include="Content\app\infrastructure\routes.js" />
-    <Content Include="Content\app\infrastructure\initialdata.js" />
-    <None Include="Content\external\angularjs-1.2.8\angular.js" />
-    <Content Include="Global.asax" />
-    <None Include="Content\external\bootstrap-3.0.3\css\bootstrap-theme.css" />
-    <None Include="Content\external\bootstrap-3.0.3\css\bootstrap-theme.min.css" />
-    <None Include="Content\external\bootstrap-3.0.3\css\bootstrap.css" />
-    <None Include="Content\external\bootstrap-3.0.3\css\bootstrap.min.css" />
-    <None Include="Content\external\bootstrap-3.0.3\fonts\glyphicons-halflings-regular.svg" />
-    <None Include="Content\external\bootstrap-3.0.3\js\bootstrap.js" />
-    <None Include="Content\external\bootstrap-3.0.3\js\bootstrap.min.js" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Views\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Compile Include="ViewModels\CurrentUserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\LoggedIn.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\_ViewStart.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\_Layout.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\external\bootstrap-3.0.3\fonts\glyphicons-halflings-regular.eot" />
-    <None Include="Content\external\bootstrap-3.0.3\fonts\glyphicons-halflings-regular.ttf" />
-    <None Include="Content\external\bootstrap-3.0.3\fonts\glyphicons-halflings-regular.woff" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Welcome\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\List\Create.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Account\Invite.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="Cassette.targets" />
     <Content Include="Views\Emails\Web.config" />
+    <Content Include="Views\Emails\_ViewStart.cshtml" />
+    <Content Include="Views\Home\RegisterOrLogin.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\AccountActivate\Activate.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ValidationSummary.cshtml" />
+    <Content Include="Views\AccountInvite\InviteSuccess.cshtml" />
+    <Content Include="Views\AccountLogon\Logon.cshtml" />
+    <Content Include="Views\Shared\LoggedIn.cshtml" />
+    <Content Include="Views\Welcome\Index.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="wwwroot\bootstrap\css\bootstrap-theme.css.map" />
+    <None Include="wwwroot\bootstrap\css\bootstrap.css.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\Migrations\201403091213424_InitialCreate.resx">
-      <DependentUpon>201403091213424_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Data\Migrations\201403102011308_User_CreatedDate.resx">
-      <DependentUpon>201403102011308_User_CreatedDate.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -349,18 +330,15 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
-  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
-    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
-  </Target>
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>50891</DevelopmentServerPort>
+          <DevelopmentServerPort>52251</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50646/</IISUrl>
+          <IISUrl>http://localhost:49942/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -370,10 +348,14 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Target Name="Bundle" AfterTargets="Build" Condition="'$(NCrunch)' != '1'">
+    <Exec Command="$(msbuildtoolspath)\msbuild.exe $(ProjectDirectory)cassette.targets /p:OutputPath=$(OutputPath) /t:Bundle /nr:false" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
-  </Target> -->
+  </Target>
+  -->
 </Project>

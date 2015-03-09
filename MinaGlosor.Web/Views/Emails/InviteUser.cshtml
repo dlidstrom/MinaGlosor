@@ -6,13 +6,13 @@ Content-Type: text/html; charset=utf-8
 
 <p>
     Du får det här brevet för att du har blivit inbjuden till MinaGlosor.se.
-    Det innebär att du kan skapa egna gloslistor och öva själv.
+    Det innebär att du kan skapa egna ordlistor och öva själv!
 </p>
 <p>
     Klicka här för att aktivera ditt konto:
     <a href="@Url.Action(
         "Activate",
-        "Account",
+        "AccountActivate",
         new
         {
             activationCode = Model.ActivationCode

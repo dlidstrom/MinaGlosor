@@ -1,56 +1,101 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
-using MinaGlosor.Web.Data.Commands;
-using MinaGlosor.Web.Data.Queries;
+using MinaGlosor.Web.Models.Commands;
+using MinaGlosor.Web.Models.Queries;
 
 namespace MinaGlosor.Web.Controllers.Api
 {
-    public class WordController : ApiControllerBase
+    public class WordController : AbstractApiController
     {
-        public async Task<HttpResponseMessage> GetAll(int wordListId)
+        public HttpResponseMessage Get(string wordId)
         {
-            var words = await ExecuteQueryAsync(new GetWordsQuery(wordListId));
-            return Request.CreateResponse(HttpStatusCode.OK, words);
-        }
+            if (wordId == null)
+                ModelState.AddModelError("wordId", "Not specified");
 
-        public async Task<HttpResponseMessage> Get(int id)
-        {
-            var word = await ExecuteQueryAsync(new GetWordQuery(id));
+            if (ModelState.IsValid == false)
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
+
+            var word = ExecuteQuery(new GetWordQuery(wordId));
             return Request.CreateResponse(HttpStatusCode.OK, word);
         }
 
-        public async Task<HttpResponseMessage> Post(NewWordRequest request)
+        public HttpResponseMessage GetAll(string wordListId)
         {
+            if (wordListId == null)
+                ModelState.AddModelError("wordListId", "Not specified");
+
             if (ModelState.IsValid == false)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
 
-            await ExecuteCommandAsync(new CreateWordCommand(request.WordListId, request.Text, request.Definition));
-            return Request.CreateResponse(HttpStatusCode.Created);
+            var words = ExecuteQuery(new GetWordsQuery(wordListId));
+            return Request.CreateResponse(HttpStatusCode.OK, words);
         }
 
-        public async Task<HttpResponseMessage> Put(NewWordRequest request)
+        public HttpResponseMessage Post(PostWordRequest request)
         {
+            if (request == null)
+                ModelState.AddModelError("request", "Not specified");
+
             if (ModelState.IsValid == false)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
 
-            await ExecuteCommandAsync(new UpdateWordCommand(request.Id, request.Text, request.Definition));
-            return Request.CreateResponse(HttpStatusCode.Created);
+            Debug.Assert(request != null, "request != null");
+            var wordList = ExecuteQuery(new GetWordListQuery(request.WordListId));
+            var wordId = ExecuteCommand(new CreateWordCommand(request.Text, request.Definition, wordList));
+            return Request.CreateResponse(HttpStatusCode.Created, new { wordId });
         }
 
-        public class NewWordRequest
+        public HttpResponseMessage Put(PutWordRequest request)
         {
-            public int Id { get; set; }
+            if (request == null)
+                ModelState.AddModelError("request", "Not specified");
 
-            public int WordListId { get; set; }
+            if (ModelState.IsValid == false)
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
+
+            ExecuteCommand(new UpdateWordCommand(request.WordId, request.Text, request.Definition));
+            return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
+
+        public class PutWordRequest
+        {
+            public PutWordRequest(string wordId, string text, string definition)
+            {
+                Definition = definition;
+                Text = text;
+                WordId = wordId;
+            }
+
+            [Required]
+            public string WordId { get; private set; }
 
             [Required, MaxLength(1024)]
-            public string Text { get; set; }
+            public string Text { get; private set; }
 
             [Required, MaxLength(1024)]
-            public string Definition { get; set; }
+            public string Definition { get; private set; }
+        }
+
+        public class PostWordRequest
+        {
+            public PostWordRequest(string text, string definition, string wordListId)
+            {
+                WordListId = wordListId;
+                Definition = definition;
+                Text = text;
+            }
+
+            [Required, MaxLength(1024)]
+            public string Text { get; private set; }
+
+            [Required, MaxLength(1024)]
+            public string Definition { get; private set; }
+
+            [Required]
+            public string WordListId { get; private set; }
         }
     }
 }
