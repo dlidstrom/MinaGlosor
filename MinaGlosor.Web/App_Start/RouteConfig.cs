@@ -42,7 +42,7 @@ namespace MinaGlosor.Web
 
             routes.MapRoute(
                 name: "Default",
-                url: "{username}",
+                url: "{*username}",
                 defaults: new { controller = "Home", action = "Index", username = UrlParameter.Optional });
 
             // for angular routing
