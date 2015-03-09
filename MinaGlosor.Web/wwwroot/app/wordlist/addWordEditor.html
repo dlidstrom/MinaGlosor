@@ -13,21 +13,21 @@
                     <label class="control-label">
                         Ange ett ord eller en fras
                     </label>
-                    <input type="text"
-                           class="form-control"
-                           name="word"
-                           ng-model="entry.text"
-                           placeholder="Skriv ett ord eller fras"
-                           maxlength="1024"
-                           ng-disabled="saving"
-                           autofocus="autofocus"
-                           autocapitalize="off"
-                           autocomplete="off"
-                           autocorrect="off"
-                           ng-focus="showPrompt1 = true"
-                           ng-blur="showPrompt1 = false"
-                           ng-model-options="{ updateOn: 'default blur' }"
-                           required />
+                    <textarea type="text"
+                              class="form-control vertical"
+                              name="word"
+                              ng-model="entry.text"
+                              placeholder="Skriv ett ord eller fras"
+                              maxlength="1024"
+                              ng-disabled="saving"
+                              autofocus="autofocus"
+                              autocapitalize="off"
+                              autocomplete="off"
+                              autocorrect="off"
+                              ng-focus="showPrompt1 = true"
+                              ng-blur="showPrompt1 = false"
+                              ng-model-options="{ updateOn: 'default blur' }"
+                              required />
                     <div class="messages">
                         <div class="message-animation" ng-if="showPrompt1">
                             Skriv ett ord eller en fras
@@ -47,20 +47,20 @@
                     <label class="control-label">
                         Ange ordet eller frasens betydelse
                     </label>
-                    <input type="text"
-                           class="form-control"
-                           name="definition"
-                           ng-model="entry.definition"
-                           placeholder="Skriv betydelsen"
-                           maxlength="1024"
-                           autocapitalize="off"
-                           autocomplete="off"
-                           autocorrect="off"
-                           ng-disabled="saving"
-                           ng-focus="showPrompt2 = true"
-                           ng-blur="showPrompt2 = false"
-                           ng-model-options="{ updateOn: 'default blur' }"
-                           required />
+                    <textarea type="text"
+                              class="form-control vertical"
+                              name="definition"
+                              ng-model="entry.definition"
+                              placeholder="Skriv betydelsen"
+                              maxlength="1024"
+                              autocapitalize="off"
+                              autocomplete="off"
+                              autocorrect="off"
+                              ng-disabled="saving"
+                              ng-focus="showPrompt2 = true"
+                              ng-blur="showPrompt2 = false"
+                              ng-model-options="{ updateOn: 'default blur' }"
+                              required />
                     <div class="messages">
                         <div class="message-animation" ng-if="showPrompt2">
                             Skriv ordet eller frasens betydelse
