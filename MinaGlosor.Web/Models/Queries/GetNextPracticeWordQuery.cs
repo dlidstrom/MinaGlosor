@@ -54,6 +54,7 @@ namespace MinaGlosor.Web.Models.Queries
                 Definition = word.Definition;
                 PracticeWordId = practiceWord.PracticeWordId;
                 PracticeSessionId = PracticeSession.FromId(practiceSessionId.Id);
+                WordListId = WordList.FromId(wordList.Id);
                 WordListName = wordList.Name;
             }
 
@@ -64,6 +65,8 @@ namespace MinaGlosor.Web.Models.Queries
             public string Definition { get; private set; }
 
             public string PracticeWordId { get; private set; }
+
+            public string WordListId { get; private set; }
 
             public string WordListName { get; private set; }
         }
