@@ -1,6 +1,4 @@
-﻿<p class="lead">
-    Övning: {{practiceSession.wordListName}}
-</p>
+﻿<h4>Övning: {{practiceSession.wordListName}}</h4>
 
 <form ng-submit="practiceSession.showMeaning()" ng-show="practiceSession.showWord">
     <fieldset>
@@ -8,11 +6,9 @@
             {{practiceSession.practiceWord.text}}
         </legend>
         <div class="row">
-            <div class="col-xs-6">
-                <input class="btn btn-primary btn-block" type="submit" value="visa betydelse" />
-            </div>
-            <div class="col-xs-6">
-                <a class="btn btn-default btn-block" href="./wordlist">avbryt</a>
+            <div class="col-xs-12">
+                <input class="btn btn-primary btn-sm" type="submit" value="visa betydelse" />
+                <a class="btn btn-default btn-sm" href="./wordlist">avbryt</a>
             </div>
         </div>
     </fieldset>
@@ -27,35 +23,46 @@
             {{practiceSession.practiceWord.definition}}
         </div>
     </div>
-    <hr/>
+    <hr class="spacer1" />
     <fieldset ng-disabled="practiceSession.saving || practiceSession.redirecting">
         <legend>Hur väl kunde du?</legend>
         <div class="row">
             <div class="col-xs-12">
-                <button type="button" class="btn btn-success btn-block" ng-click="practiceSession.submit('PerfectResponse')">
+                <button type="button" class="btn btn-success btn-xs btn-block" ng-click="practiceSession.submit('PerfectResponse')">
                     Rätt svar
                     <i class="glyphicon glyphicon-refresh mg-spin" ng-show="practiceSession.saving == 'PerfectResponse'"></i>
                 </button>
-                <button type="button" class="btn btn-success btn-block" ng-click="practiceSession.submit('CorrectAfterHesitation')">
+                <button type="button" class="btn btn-success btn-xs btn-block" ng-click="practiceSession.submit('CorrectAfterHesitation')">
                     Rätt svar efter viss tvekan
                     <i class="glyphicon glyphicon-refresh mg-spin" ng-show="practiceSession.saving == 'CorrectAfterHesitation'"></i>
                 </button>
-                <button type="button" class="btn btn-info btn-block" ng-click="practiceSession.submit('RecalledWithSeriousDifficulty')">
+                <button type="button" class="btn btn-info btn-xs btn-block" ng-click="practiceSession.submit('RecalledWithSeriousDifficulty')">
                     Rätt svar men svårt
                     <i class="glyphicon glyphicon-refresh mg-spin" ng-show="practiceSession.saving == 'RecalledWithSeriousDifficulty'"></i>
                 </button>
-                <button type="button" class="btn btn-warning btn-block" ng-click="practiceSession.submit('IncorrectWithEasyRecall')">
+                <button type="button" class="btn btn-warning btn-xs btn-block" ng-click="practiceSession.submit('IncorrectWithEasyRecall')">
                     Fel svar, lätt när svaret visades
                     <i class="glyphicon glyphicon-refresh mg-spin" ng-show="practiceSession.saving == 'IncorrectWithEasyRecall'"></i>
                 </button>
-                <button type="button" class="btn btn-warning btn-block" ng-click="practiceSession.submit('IncorrectButRemembered')">
+                <button type="button" class="btn btn-warning btn-xs btn-block" ng-click="practiceSession.submit('IncorrectButRemembered')">
                     Fel svar, påmindes om rätt svar
                     <i class="glyphicon glyphicon-refresh mg-spin" ng-show="practiceSession.saving == 'IncorrectButRemembered'"></i>
                 </button>
-                <button type="button" class="btn btn-danger btn-block" ng-click="practiceSession.submit('CompleteBlackout')">
+                <button type="button" class="btn btn-danger btn-xs btn-block" ng-click="practiceSession.submit('CompleteBlackout')">
                     Total blackout!
                     <i class="glyphicon glyphicon-refresh mg-spin" ng-show="practiceSession.saving == 'CompleteBlackout'"></i>
                 </button>
+            </div>
+        </div>
+        <hr class="spacer5" />
+        <div class="row">
+            <div class="col-xs-12">
+                <small>
+                    Svara <span class="label label-success">&nbsp;</span>
+                    på ord du verkligen kan. Då återkommer det inte inom övningen. Svarar du
+                    <span class="label label-info">&nbsp;</span>, <span class="label label-warning">&nbsp;</span>
+                    eller <span class="label label-danger">&nbsp;</span> så repeteras ordet tills du kan det.
+                </small>
             </div>
         </div>
     </fieldset>
