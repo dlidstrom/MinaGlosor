@@ -21,10 +21,23 @@
                        ng-model="user.email"
                        placeholder="Skriv e-postadress"
                        autofocus="autofocus"
+                       ng-focus="showPrompt = true"
+                       ng-blur="showPrompt = false"
+                       ng-model-options="{ updateOn: 'default blur' }"
                        required />
-                <span class="help-block" ng-show="inviteform.useremail.$dirty && inviteform.useremail.$invalid">
-                    Skriv din e-postadress
-                </span>
+                <div class="messages">
+                    <div class="message-animation" ng-if="showPrompt">
+                        Ange din e-postadress
+                    </div>
+                </div>
+                <div class="messages" ng-messages="inviteform.useremail.$error" ng-show="inviteform.useremail.$dirty">
+                    <div class="message-animation" ng-message="required">
+                        <strong>Skriv din e-postadress</strong>
+                    </div>
+                    <div class="message-animation" ng-message="email">
+                        <strong>Du måste ange en e-postadress</strong>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
