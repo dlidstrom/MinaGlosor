@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Web;
+using System.Diagnostics;
 using System.Web.Mvc;
 using System.Web.Security;
 using MinaGlosor.Web.Models.Queries;
@@ -18,18 +18,18 @@ namespace MinaGlosor.Web.Controllers
         {
             if (ModelState.IsValid == false)
                 return View();
-            var user = ExecuteQuery(new GetUserByEmailQuery(request.Email));
 
-            // TODO Fix this!
+            var user = ExecuteQuery(new GetUserByEmailQuery(request.Email)) ?? ExecuteQuery(new GetUserByUsernameQuery(request.Email));
+
             if (user == null)
-                throw new HttpException(404, "Not found");
-
-            if (user.ValidatePassword(request.Password) == false)
-                ModelState.AddModelError("Password", "Felaktigt lösenord");
+                ModelState.AddModelError("Användarnamn", "Ingen användare återfanns");
+            else if (user.ValidatePassword(request.Password) == false)
+                ModelState.AddModelError("Lösenord", "Felaktigt lösenord");
 
             if (ModelState.IsValid == false)
                 return View();
 
+            Debug.Assert(user != null, "user != null");
             FormsAuthentication.SetAuthCookie(user.Email, true);
             return RedirectToAction("Index", "Home", new { username = user.Username });
         }
