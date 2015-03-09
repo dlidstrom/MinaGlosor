@@ -27,7 +27,7 @@
             var fullYear = date.getFullYear();
             var month = date.getMonth() + 1;
             var d = date.getDate();
-            var formattedDate = fullYear + '-' + (month < 9 ? '0' + month : month) + '-' + d;
+            var formattedDate = fullYear + '-' + (month < 10 ? '0' + month : month) + '-' + (d < 10 ? '0' + d : d);
             return formattedDate;
         }
     };
