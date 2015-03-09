@@ -57,36 +57,37 @@ namespace MinaGlosor.Web.Models.Commands
             var wordIdsForPractice = new HashSet<string>(wordScoreIdsQuery.Take(WordsToTake).ToArray());
 
             // while less than 10, fill up with new words that have never been practiced
-            var alreadyPracticedWordIdsQuery = from wordScore in session.Query<WordScore, WordScoreIndex>()
-                                               where wordScore.WordListId == wordListId
-                                                     && wordScore.OwnerId == currentUserId
-                                               select wordScore.WordId;
-            var alreadyPracticedWordIds = new HashSet<string>();
-            var currentWordScoreWordId = 0;
-            while (true)
+            if (wordIdsForPractice.Count < WordsToTake)
             {
-                var practicedWordIdsSubset = alreadyPracticedWordIdsQuery.Skip(currentWordScoreWordId)
-                                                                         .Take(128)
-                                                                         .ToArray();
-                if (practicedWordIdsSubset.Length == 0) break;
-                foreach (var practicedWordId in practicedWordIdsSubset)
-                {
-                    alreadyPracticedWordIds.Add(practicedWordId);
-                }
-
-                currentWordScoreWordId += practicedWordIdsSubset.Length;
+                FillWithNewWords(session, wordIdsForPractice);
             }
 
+            var words = session.Load<Word>(wordIdsForPractice).ToDictionary(x => x.Id);
+            var practiceWords = wordIdsForPractice.Select(x => new PracticeWord(words[x], wordListId, currentUserId)).ToArray();
+            if (practiceWords.Length == 0)
+            {
+                practiceWords = GetRandomPracticeWords(session);
+            }
+
+            var practiceSession = new PracticeSession(wordListId, practiceWords, currentUserId);
+            session.Store(practiceSession);
+            return new Result(practiceSession.Id);
+        }
+
+        private void FillWithNewWords(IDocumentSession session, ISet<string> wordIdsForPractice)
+        {
+            var alreadyPracticedWordIds = GetAlreadyPracticedWordIds(session);
+            var current = 0;
             var newWordIdsQuery = from word in session.Query<Word, WordIndex>()
                                   where word.WordListId == wordListId
                                   orderby word.CreatedDate
                                   select word.Id;
-
-            var current = 0;
             while (wordIdsForPractice.Count < WordsToTake)
             {
-                const int WordIdsToPreload = 100;
-                var newWordIds = newWordIdsQuery.Skip(current).Take(WordIdsToPreload).ToArray();
+                const int WordIdsToPreload = 128;
+                var newWordIds = newWordIdsQuery.Skip(current)
+                                                .Take(WordIdsToPreload)
+                                                .ToArray();
                 if (newWordIds.Length == 0) break;
 
                 var wordsNotAlreadyPracticed = newWordIds.Where(x => alreadyPracticedWordIds.Contains(x) == false);
@@ -98,19 +99,41 @@ namespace MinaGlosor.Web.Models.Commands
 
                 current += newWordIds.Length;
             }
+        }
 
-            var words = session.Load<Word>(wordIdsForPractice).ToDictionary(x => x.Id);
-            var practiceWords = wordIdsForPractice.Select(x => new PracticeWord(words[x], wordListId, currentUserId)).ToArray();
-            if (practiceWords.Length == 0)
+        private PracticeWord[] GetRandomPracticeWords(IDocumentSession session)
+        {
+            var alreadyPracticedWordIds = GetAlreadyPracticedWordIds(session);
+            var idsOfRandomWords = alreadyPracticedWordIds.OrderBy(x => Rng.Next()).Take(WordsToTake);
+            var anyWords = session.Load<Word>(idsOfRandomWords);
+            var practiceWords = anyWords.Select(x => new PracticeWord(x, wordListId, currentUserId)).ToArray();
+            return practiceWords;
+        }
+
+        private HashSet<string> GetAlreadyPracticedWordIds(IDocumentSession session)
+        {
+            var alreadyPracticedWordIdsQuery = from wordScore in session.Query<WordScore, WordScoreIndex>()
+                                               where wordScore.WordListId == wordListId
+                                                     && wordScore.OwnerId == currentUserId
+                                               select wordScore.WordId;
+            var alreadyPracticedWordIds = new HashSet<string>();
+            var currentWordScoreWordId = 0;
+            while (true)
             {
-                var idsOfRandomWords = alreadyPracticedWordIds.OrderBy(x => Rng.Next()).Take(WordsToTake);
-                var anyWords = session.Load<Word>(idsOfRandomWords);
-                practiceWords = anyWords.Select(x => new PracticeWord(x, wordListId, currentUserId)).ToArray();
+                const int WordIdsToPreload = 128;
+                var practicedWordIdsSubset = alreadyPracticedWordIdsQuery.Skip(currentWordScoreWordId)
+                                                                         .Take(WordIdsToPreload)
+                                                                         .ToArray();
+                if (practicedWordIdsSubset.Length == 0) break;
+                foreach (var practicedWordId in practicedWordIdsSubset)
+                {
+                    alreadyPracticedWordIds.Add(practicedWordId);
+                }
+
+                currentWordScoreWordId += practicedWordIdsSubset.Length;
             }
 
-            var practiceSession = new PracticeSession(wordListId, practiceWords, currentUserId);
-            session.Store(practiceSession);
-            return new Result(practiceSession.Id);
+            return alreadyPracticedWordIds;
         }
 
         public class Result
