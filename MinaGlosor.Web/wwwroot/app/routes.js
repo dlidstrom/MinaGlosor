@@ -124,20 +124,6 @@
                                 function ($route, practiceWordService) {
                                     return practiceWordService.getNext($route.current.params.practiceSessionId);
                                 }
-                            ],
-                        WordListId:
-                            [
-                                '$route',
-                                function ($route) {
-                                    return $route.current.params.wordListId;
-                                }
-                            ],
-                        PracticeSessionId:
-                            [
-                                '$route',
-                                function ($route) {
-                                    return $route.current.params.practiceSessionId;
-                                }
                             ]
                     }
                 })

@@ -51,6 +51,8 @@ namespace MinaGlosor.Test.Api
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(content.PracticeSessionId, Is.EqualTo("1"));
+            Assert.That(content.WordListName, Is.EqualTo("list"));
             Assert.That(content.Text, Is.EqualTo("1t"));
             Assert.That(content.Definition, Is.EqualTo("1d"));
             Assert.That(content.PracticeWordId, Is.EqualTo(expectedPracticeWordId));
@@ -63,6 +65,10 @@ namespace MinaGlosor.Test.Api
             public string Definition { get; set; }
 
             public string PracticeWordId { get; set; }
+
+            public string PracticeSessionId { get; set; }
+
+            public string WordListName { get; set; }
         }
     }
 }

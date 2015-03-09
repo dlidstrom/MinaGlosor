@@ -36,27 +36,36 @@ namespace MinaGlosor.Web.Models.Queries
             var practiceSession = session.Load<PracticeSession>(practiceSessionId);
             var practiceWord = practiceSession.GetNextWord();
             var word = session.Load<Word>(practiceWord.WordId);
-            var result = new Result(practiceWord, word);
+            var wordList = session.Load<WordList>(word.WordListId);
+            var result = new Result(practiceWord, word, practiceSession, wordList);
             return result;
         }
 
         public class Result
         {
-            public Result(PracticeWord practiceWord, Word word)
+            public Result(PracticeWord practiceWord, Word word, PracticeSession practiceSessionId, WordList wordList)
             {
                 if (practiceWord == null) throw new ArgumentNullException("practiceWord");
                 if (word == null) throw new ArgumentNullException("word");
+                if (practiceSessionId == null) throw new ArgumentNullException("practiceSessionId");
+                if (wordList == null) throw new ArgumentNullException("wordList");
 
                 Text = word.Text;
                 Definition = word.Definition;
                 PracticeWordId = practiceWord.PracticeWordId;
+                PracticeSessionId = PracticeSession.FromId(practiceSessionId.Id);
+                WordListName = wordList.Name;
             }
+
+            public string PracticeSessionId { get; private set; }
 
             public string Text { get; private set; }
 
             public string Definition { get; private set; }
 
             public string PracticeWordId { get; private set; }
+
+            public string WordListName { get; private set; }
         }
     }
 }

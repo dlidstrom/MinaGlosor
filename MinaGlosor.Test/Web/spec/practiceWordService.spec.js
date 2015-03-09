@@ -52,7 +52,11 @@ describe('PracticeWordService', function () {
                         practiceWordId: 'abc123',
                         confidenceLevel: 'PerfectResponse'
                     }).respond(201, { isFinished: true });
-                practiceWordService.submit('1', 'abc123', 'PerfectResponse')
+                var practiceWord = {
+                    practiceSessionId: '1',
+                    practiceWordId: 'abc123'
+                };
+                practiceWordService.submit(practiceWord, 'PerfectResponse')
                     .then(function (data) {
                         expect(data.isFinished).toBe(true);
                     });

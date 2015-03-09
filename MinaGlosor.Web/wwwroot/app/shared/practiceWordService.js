@@ -17,13 +17,13 @@
                     });
                 return deferred.promise;
             },
-            submit: function (practiceSessionId, practiceWordId, confidenceLevel) {
+            submit: function (practiceWord, confidenceLevel) {
                 var deferred = $q.defer();
                 $http.post(
                     '/api/wordconfidence',
                     {
-                        practiceSessionId: practiceSessionId,
-                        practiceWordId: practiceWordId,
+                        practiceSessionId: practiceWord.practiceSessionId,
+                        practiceWordId: practiceWord.practiceWordId,
                         confidenceLevel: confidenceLevel
                     }).success(function (data) {
                         deferred.resolve(data);

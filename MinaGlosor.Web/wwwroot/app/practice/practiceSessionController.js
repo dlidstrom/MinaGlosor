@@ -3,14 +3,17 @@
 
     angular.module('mgApp').controller('PracticeSessionController', PracticeSessionController);
 
-    PracticeSessionController.$inject = ['$location', 'PracticeWordService', 'WordListId', 'PracticeSessionId', 'PracticeWord'];
-    function PracticeSessionController($location, practiceWordService, wordListId, practiceSessionId, practiceWord) {
+    PracticeSessionController.$inject = ['$location', 'PracticeWordService', 'PracticeWord'];
+    function PracticeSessionController($location, practiceWordService, practiceWord) {
         var practiceSession = this;
 
         // variables
         practiceSession.saving = null;
         practiceSession.showWord = true;
         practiceSession.practiceWord = practiceWord;
+        practiceSession.practiceSessionId = practiceWord.practiceSessionId;
+        practiceSession.wordListId = practiceWord.wordListId;
+        practiceSession.wordListName = practiceWord.wordListName;
 
         // functions
         practiceSession.showMeaning = showMeaning;
@@ -23,13 +26,14 @@
         function submit(confidenceLevel) {
             practiceSession.saving = confidenceLevel;
             practiceSession.redirecting = false;
-            practiceWordService.submit(practiceSessionId, practiceSession.practiceWord.practiceWordId, confidenceLevel)
+            practiceWordService.submit(practiceSession.practiceWord, confidenceLevel)
                 .then(function (data) {
                     if (data.isFinished) {
-                        $location.path('/wordlist/' + wordListId + '/practice/' + practiceSessionId + '/summary');
+                        var path = '/wordlist/' + practiceSession.wordListId + '/practice/' + practiceSession.practiceSessionId + '/summary';
+                        $location.path(path);
                         practiceSession.redirecting = true;
                     } else {
-                        practiceWordService.getNext(practiceSessionId).then(function (newPracticeWord) {
+                        practiceWordService.getNext(practiceSession.practiceSessionId).then(function (newPracticeWord) {
                             practiceSession.practiceWord = newPracticeWord;
                             practiceSession.showWord = true;
                         });
