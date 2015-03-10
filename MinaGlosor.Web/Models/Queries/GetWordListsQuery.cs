@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Indexes;
+using Newtonsoft.Json;
 using Raven.Abstractions;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -43,7 +44,7 @@ namespace MinaGlosor.Web.Models.Queries
             var orderedResults = results.OrderByDescending(x => x.NumberOfWords > 0 ? 1 : 0)
                                         .ThenByDescending(x => x.PercentExpired)
                                         .ThenBy(x => x.PercentDone == 100 ? 1 : 0)
-                                        .ThenBy(x => x.WordListId)
+                                        .ThenBy(x => x.Rank)
                                         .ToArray();
             return orderedResults;
         }
@@ -60,6 +61,7 @@ namespace MinaGlosor.Web.Models.Queries
                 NumberOfWords = wordList.NumberOfWords;
                 PercentDone = (int)Math.Floor(100.0 * wordList.NumberOfWordScores / Math.Max(1, wordList.NumberOfWords));
                 PercentExpired = (int)Math.Floor(100.0 * expiredCount / Math.Max(1, wordList.NumberOfWords));
+                Rank = int.Parse(WordListId);
             }
 
             public string WordListId { get; private set; }
@@ -73,6 +75,9 @@ namespace MinaGlosor.Web.Models.Queries
             public int PercentDone { get; private set; }
 
             public int PercentExpired { get; private set; }
+
+            [JsonIgnore]
+            public int Rank { get; private set; }
         }
     }
 }
