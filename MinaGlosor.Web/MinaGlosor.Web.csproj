@@ -156,7 +156,7 @@
   <ItemGroup>
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
-    <Content Include="cassette-cache\script\wwwroot\app\32c9665f6ab52e15e539653de5edbc1b32164bc1.js" />
+    <Content Include="cassette-cache\script\wwwroot\app\8ba79959309585af5ee9babc84e78205c8494862.js" />
     <Content Include="cassette-cache\stylesheet\wwwroot\ee89ae835774ddde7c2c2853379a9a6bc635d18b.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
@@ -168,6 +168,8 @@
     <Content Include="wwwroot\app\external\toaster.js" />
     <Content Include="wwwroot\app\help\index.html" />
     <Content Include="wwwroot\app\httpInterceptor.js" />
+    <Content Include="wwwroot\app\practice\practiceSessionMeaningController.js" />
+    <Content Include="wwwroot\app\practice\practiceSessionMeaning.html" />
     <Content Include="wwwroot\app\practice\practiceSessionSummaryController.js" />
     <Content Include="wwwroot\app\practice\practiceSessionSummary.html" />
     <Content Include="wwwroot\app\practice\practiceSessionController.js" />

@@ -128,6 +128,23 @@
                     }
                 })
             .when(
+                '/wordlist/:wordListId/practice/:practiceSessionId/meaning',
+                {
+                    templateUrl: '/wwwroot/app/practice/practiceSessionMeaning.html',
+                    controller: 'PracticeSessionMeaningController',
+                    controllerAs: 'practiceSession',
+                    resolve: {
+                        PracticeWord:
+                            [
+                                '$route',
+                                'PracticeWordService',
+                                function ($route, practiceWordService) {
+                                    return practiceWordService.getNext($route.current.params.practiceSessionId);
+                                }
+                            ]
+                    }
+                })
+            .when(
                 '/wordlist/:wordListId/practice/:practiceSessionId/summary',
                 {
                     templateUrl: '/wwwroot/app/practice/practiceSessionSummary.html',
