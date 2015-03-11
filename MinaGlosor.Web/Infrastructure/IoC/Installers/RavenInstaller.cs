@@ -5,6 +5,7 @@ using Castle.Core;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using MinaGlosor.Web.Infrastructure.Tracing;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
@@ -22,12 +23,15 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
 
         private Func<IDocumentStore> CreateDocumentStore { get; set; }
 
+        private bool InitializeIndexes { get; set; }
+
         public static RavenInstaller CreateForTests()
         {
             return new RavenInstaller
                 {
                     CreateDocumentStore = () => new EmbeddableDocumentStore { RunInMemory = true },
-                    Lifestyle = LifestyleType.Scoped
+                    Lifestyle = LifestyleType.Scoped,
+                    InitializeIndexes = true
                 };
         }
 
@@ -59,10 +63,18 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
 
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            TracingLogger.Information("Initializing document store");
             var documentStore = CreateDocumentStore().Initialize();
+            TracingLogger.Information("Initializing document store done");
             documentStore.Conventions.DefaultQueryingConsistency = ConsistencyOptions.AlwaysWaitForNonStaleResultsAsOfLastWrite;
             documentStore.Conventions.MaxNumberOfRequestsPerSession = 1024;
-            IndexCreation.CreateIndexes(Assembly.GetExecutingAssembly(), documentStore);
+            if (InitializeIndexes)
+            {
+                TracingLogger.Information("Initializing indexes");
+                IndexCreation.CreateIndexes(Assembly.GetExecutingAssembly(), documentStore);
+                TracingLogger.Information("Initializing indexes done");
+            }
+
             container.Register(Component.For<IDocumentStore>().Instance(documentStore));
             container.Register(
                 Component.For<IDocumentSession>()
