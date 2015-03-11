@@ -111,6 +111,22 @@
                     }
                 })
             .when(
+                '/wordlist/:wordListId/practice/:practiceSessionId/summary',
+                {
+                    templateUrl: '/wwwroot/app/practice/practiceSessionSummary.html',
+                    controller: 'PracticeSessionSummaryController',
+                    controllerAs: 'summary',
+                    resolve: {
+                        WordListId:
+                            [
+                                '$route',
+                                function ($route) {
+                                    return $route.current.params.wordListId;
+                                }
+                            ]
+                    }
+                })
+            .when(
                 '/wordlist/:wordListId/practice/:practiceSessionId',
                 {
                     templateUrl: '/wwwroot/app/practice/practiceSession.html',
@@ -128,7 +144,7 @@
                     }
                 })
             .when(
-                '/wordlist/:wordListId/practice/:practiceSessionId/meaning',
+                '/wordlist/:wordListId/practice/:practiceSessionId/:practiceWordId',
                 {
                     templateUrl: '/wwwroot/app/practice/practiceSessionMeaning.html',
                     controller: 'PracticeSessionMeaningController',
@@ -139,23 +155,7 @@
                                 '$route',
                                 'PracticeWordService',
                                 function ($route, practiceWordService) {
-                                    return practiceWordService.getNext($route.current.params.practiceSessionId);
-                                }
-                            ]
-                    }
-                })
-            .when(
-                '/wordlist/:wordListId/practice/:practiceSessionId/summary',
-                {
-                    templateUrl: '/wwwroot/app/practice/practiceSessionSummary.html',
-                    controller: 'PracticeSessionSummaryController',
-                    controllerAs: 'summary',
-                    resolve: {
-                        WordListId:
-                            [
-                                '$route',
-                                function ($route) {
-                                    return $route.current.params.wordListId;
+                                    return practiceWordService.getById($route.current.params.practiceSessionId, $route.current.params.practiceWordId);
                                 }
                             ]
                     }

@@ -13,31 +13,6 @@ namespace MinaGlosor.Test.Api
         [Test]
         public async void ReturnsFirstWordForPractice()
         {
-            // Arrange
-            Transact(session =>
-                {
-                    var owner = new User("e@d.com", "pwd", "username");
-                    session.Store(owner);
-
-                    var wordList = new WordList("list", owner);
-                    session.Store(wordList);
-
-                    // add some words to the word list
-                    var currentDate = new DateTime(2012, 1, 1);
-                    for (var i = 0; i < 15; i++)
-                    {
-                        var newCurrentDate = currentDate.AddSeconds(i);
-                        SystemTime.UtcDateTime = () => newCurrentDate;
-                        session.Store(new Word(1 + i + "t", 1 + i + "d", wordList.Id));
-                    }
-                });
-
-            var request = new
-                {
-                    wordListId = "1"
-                };
-            await Client.PostAsJsonAsync("http://temp.uri/api/practicesession", request);
-
             string expectedPracticeWordId = null;
             Transact(session =>
                 {
@@ -57,6 +32,59 @@ namespace MinaGlosor.Test.Api
             Assert.That(content.Text, Is.EqualTo("1t"));
             Assert.That(content.Definition, Is.EqualTo("1d"));
             Assert.That(content.PracticeWordId, Is.EqualTo(expectedPracticeWordId));
+        }
+
+        [Test]
+        public async void GetsById()
+        {
+            string practiceWordId = null;
+            Transact(session =>
+            {
+                practiceWordId = session.Load<PracticeSession>("PracticeSessions/1").Words[0].PracticeWordId;
+            });
+
+            // Act
+            var response = await Client.GetAsync("http://temp.uri/api/practiceword?practiceSessionId=1&practiceWordId=" + practiceWordId);
+            Assert.That(response.Content, Is.Not.Null);
+            var content = await response.Content.ReadAsAsync<ExpectedContent>();
+
+            // Assert
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(content.PracticeSessionId, Is.EqualTo("1"));
+            Assert.That(content.WordListId, Is.EqualTo("1"));
+            Assert.That(content.WordListName, Is.EqualTo("list"));
+            Assert.That(content.Text, Is.EqualTo("1t"));
+            Assert.That(content.Definition, Is.EqualTo("1d"));
+            Assert.That(content.PracticeWordId, Is.EqualTo(practiceWordId));
+        }
+
+        protected override void Arrange()
+        {
+            // Arrange
+            Transact(session =>
+            {
+                var owner = new User("e@d.com", "pwd", "username");
+                session.Store(owner);
+
+                var wordList = new WordList("list", owner);
+                session.Store(wordList);
+
+                // add some words to the word list
+                var currentDate = new DateTime(2012, 1, 1);
+                for (var i = 0; i < 15; i++)
+                {
+                    var newCurrentDate = currentDate.AddSeconds(i);
+                    SystemTime.UtcDateTime = () => newCurrentDate;
+                    session.Store(new Word(1 + i + "t", 1 + i + "d", wordList.Id));
+                }
+            });
+
+            var request = new
+            {
+                wordListId = "1"
+            };
+            var result = Client.PostAsJsonAsync("http://temp.uri/api/practicesession", request).Result;
+            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.Created));
         }
 
         public class ExpectedContent

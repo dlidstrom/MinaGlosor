@@ -35,6 +35,7 @@ namespace MinaGlosor.Test.Api
             Application.Bootstrap(Container, configuration);
             Client = new HttpClient(new HttpServer(configuration));
 
+            Arrange();
             Act();
         }
 
@@ -43,6 +44,10 @@ namespace MinaGlosor.Test.Api
         {
             OnTearDown();
             Application.Shutdown();
+        }
+
+        protected virtual void Arrange()
+        {
         }
 
         protected virtual void Act()

@@ -17,6 +17,17 @@
                     });
                 return deferred.promise;
             },
+            getById: function (practiceSessionId, practiceWordId) {
+                var deferred = $q.defer();
+                $http.get('/api/practiceword', { params: { practiceSessionId: practiceSessionId, practiceWordId: practiceWordId } })
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    })
+                    .error(function (response) {
+                        deferred.reject(response);
+                    });
+                return deferred.promise;
+            },
             submit: function (practiceWord, confidenceLevel) {
                 var deferred = $q.defer();
                 $http.post(

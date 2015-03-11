@@ -83,5 +83,11 @@ namespace MinaGlosor.Web.Models
 
             return OwnerId == userId;
         }
+
+        public PracticeWord GetWordById(string practiceWordId)
+        {
+            var practiceWord = Words.Single(x => x.PracticeWordId == practiceWordId);
+            return practiceWord;
+        }
     }
 }

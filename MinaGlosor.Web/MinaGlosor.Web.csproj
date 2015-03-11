@@ -278,6 +278,8 @@
     <Compile Include="Models\PracticeWord.cs" />
     <Compile Include="Models\Queries\GetCreateAccountRequestQuery.cs" />
     <Compile Include="Models\Queries\GetNextPracticeWordQuery.cs" />
+    <Compile Include="Models\Queries\GetPracticeWordQuery.cs" />
+    <Compile Include="Models\Queries\GetPracticeWordQueryBase.cs" />
     <Compile Include="Models\Queries\GetUnfinishedPracticeSessionsQuery.cs" />
     <Compile Include="Models\Queries\GetUserByEmailQuery.cs" />
     <Compile Include="Models\Queries\GetUserByUsernameQuery.cs" />
@@ -287,6 +289,7 @@
     <Compile Include="Models\Queries\GetWordsQuery.cs" />
     <Compile Include="Models\Queries\HasAdminUserQuery.cs" />
     <Compile Include="Models\Queries\IsPracticeSessionFinishedQuery.cs" />
+    <Compile Include="Models\Queries\PracticeWordResult.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Models\Word.cs" />

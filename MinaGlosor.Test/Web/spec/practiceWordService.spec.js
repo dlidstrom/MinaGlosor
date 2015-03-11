@@ -21,12 +21,34 @@ describe('PracticeWordService', function () {
     });
 
     describe('api', function () {
-        describe('get word', function () {
+        describe('getNext', function () {
             var practiceWord;
             beforeEach(function () {
                 httpMock.expectGET('/api/practiceword?practiceSessionId=1')
                     .respond(200, { text: 'ari', definition: 'ja' });
                 practiceWordService.getNext('1').then(function (data) {
+                    practiceWord = data;
+                });
+
+                rootScope.$apply();
+                httpMock.flush();
+            });
+
+            it('should get word text', function () {
+                expect(practiceWord.text).toBe('ari');
+            });
+
+            it('should get word definition', function () {
+                expect(practiceWord.definition).toBe('ja');
+            });
+        });
+
+        describe('getById', function () {
+            var practiceWord;
+            beforeEach(function () {
+                httpMock.expectGET('/api/practiceword?practiceSessionId=1&practiceWordId=abc')
+                    .respond(200, { text: 'ari', definition: 'ja' });
+                practiceWordService.getById('1', 'abc').then(function (data) {
                     practiceWord = data;
                 });
 

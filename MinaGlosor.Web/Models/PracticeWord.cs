@@ -17,7 +17,7 @@ namespace MinaGlosor.Web.Models
             WordListId = wordListId;
             CreatedDate = word.CreatedDate;
             Confidence = -1;
-            PracticeWordId = Guid.NewGuid().ToString("N");
+            PracticeWordId = Guid.NewGuid().ToString("N").Substring(0, 7);
             OwnerId = ownerId;
         }
 

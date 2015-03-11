@@ -17,7 +17,13 @@
         practiceSession.showMeaning = showMeaning;
 
         function showMeaning() {
-            $location.path('/wordlist/' + practiceSession.wordListId + '/practice/' + practiceSession.practiceSessionId + '/meaning');
+            var path = '/wordlist/' +
+                practiceSession.wordListId +
+                '/practice/' +
+                practiceSession.practiceSessionId +
+                '/' +
+                practiceWord.practiceWordId;
+            $location.path(path);
         }
     };
 })();
