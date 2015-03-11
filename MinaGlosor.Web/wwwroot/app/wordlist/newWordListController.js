@@ -11,9 +11,9 @@
 
         function create(wordListName) {
             wordListService.create(wordListName)
-                .then(function () {
+                .then(function (result) {
                     // success
-                    $location.path('/wordlist');
+                    $location.path('/wordlist/' + result.data.wordListId);
                 });
         }
     }

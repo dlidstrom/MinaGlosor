@@ -31,8 +31,8 @@ namespace MinaGlosor.Web.Controllers.Api
             }
 
             Debug.Assert(request != null, "request != null");
-            ExecuteCommand(new CreateWordListCommand(request.Name, CurrentUser));
-            return Request.CreateResponse(HttpStatusCode.Created);
+            var result = ExecuteCommand(new CreateWordListCommand(request.Name, CurrentUser));
+            return Request.CreateResponse(HttpStatusCode.Created, result);
         }
 
         public class NewWordListRequest

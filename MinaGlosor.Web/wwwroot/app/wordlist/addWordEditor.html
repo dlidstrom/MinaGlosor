@@ -85,7 +85,7 @@
                 </a>
                 <a href="{{'./wordlist/' + editor.wordList.wordListId + '/practice/'}}"
                    class="btn btn-default"
-                   ng-show="{{editor.canPractice}}">
+                   ng-if="editor.canPractice">
                     Öva
                 </a>
             </div>

@@ -4,9 +4,10 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands
 {
-    public class CreateWordListCommand : ICommand
+    public class CreateWordListCommand : ICommand<CreateWordListCommand.Result>
     {
         private readonly string name;
+
         private readonly User owner;
 
         public CreateWordListCommand(string name, User owner)
@@ -23,10 +24,23 @@ namespace MinaGlosor.Web.Models.Commands
             return true;
         }
 
-        public void Execute(IDocumentSession session)
+        public Result Execute(IDocumentSession session)
         {
             var wordList = new WordList(name, owner);
             session.Store(wordList);
+            return new Result(wordList);
+        }
+
+        public class Result
+        {
+            public Result(WordList wordList)
+            {
+                if (wordList == null) throw new ArgumentNullException("wordList");
+
+                WordListId = WordList.FromId(wordList.Id);
+            }
+
+            public string WordListId { get; private set; }
         }
     }
 }

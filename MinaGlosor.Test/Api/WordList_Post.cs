@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace MinaGlosor.Test.Api
@@ -25,9 +26,13 @@ namespace MinaGlosor.Test.Api
                 name = "Some name"
             };
             var response = await Client.PostAsJsonAsync("http://temp.uri/api/wordlist", request);
+            var content = response.Content;
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+            Assert.That(content, Is.Not.Null);
+            var result = await content.ReadAsStringAsync();
+            Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(new { wordListId = "1" })));
             Transact(session =>
                 {
                     var wordList = session.Load<WordList>("WordLists/1");
