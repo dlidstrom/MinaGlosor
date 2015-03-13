@@ -272,7 +272,7 @@
     <Compile Include="Models\Indexes\PracticeSessionIndex.cs" />
     <Compile Include="Models\Indexes\UserIndex.cs" />
     <Compile Include="Models\Indexes\WordIndex.cs" />
-    <Compile Include="Models\Indexes\WordListIndexReadModelIndex.cs" />
+    <Compile Include="Models\Indexes\WordListIndex.cs" />
     <Compile Include="Models\Indexes\WordScoreIndex.cs" />
     <Compile Include="Models\PracticeSession.cs" />
     <Compile Include="Models\PracticeWord.cs" />
