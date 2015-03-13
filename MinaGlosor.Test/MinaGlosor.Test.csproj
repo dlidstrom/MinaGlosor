@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\DetectsCharacterClass.cs" />
     <Compile Include="Api\Domain\PracticeSessionTest.cs" />
     <Compile Include="Api\Domain\UserTest.cs" />
     <Compile Include="Api\Domain\WordScoreTest.cs" />
