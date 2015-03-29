@@ -45,6 +45,9 @@ namespace MinaGlosor.Web.Models
             if (confidenceLevel < ConfidenceLevel.CompleteBlackout || confidenceLevel > ConfidenceLevel.PerfectResponse)
                 throw new ArgumentException("Unknown confidence level", "confidenceLevel");
 
+            if (Confidence >= (int)ConfidenceLevel.CorrectAfterHesitation)
+                throw new ApplicationException("Cannot score word twice");
+
             Confidence = (int)confidenceLevel;
             DomainEvent.Raise(new WordConfidenceUpdated(WordId, WordListId, confidenceLevel, OwnerId));
         }
