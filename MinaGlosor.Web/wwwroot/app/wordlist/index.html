@@ -41,11 +41,9 @@
                         </a>
                     </td>
                     <td>
-                        <div class="progress progress-flat">
-                            <div class="progress-bar progress-bar-success" style="{{'width:' + (item.percentDone - item.percentExpired) + '%'}}"></div>
-                            <div class="progress-bar progress-bar-warning" style="{{'width:' + item.percentExpired + '%'}}"></div>
-                            <span class="progress-bar-label">{{item.percentDone + '%'}}</span>
-                        </div>
+                        <progress green="{{item.percentDone - item.percentExpired}}"
+                                  yellow="{{item.percentExpired}}"
+                                  done="{{item.percentDone}}" />
                     </td>
                 </tr>
             </tbody>

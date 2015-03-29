@@ -7,6 +7,7 @@ practice\practiceSessionMeaningController.js
 practice\practiceSessionSummaryController.js
 shared\practiceService.js
 shared\practiceWordService.js
+shared\progressDirective.js
 shared\wordListService.js
 shared\wordService.js
 word\editWordController.js
