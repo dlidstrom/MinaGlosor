@@ -84,5 +84,40 @@ namespace MinaGlosor.Test.Api.Domain
             // Assert
             Assert.That(wordScore.RepeatAfterDate, Is.EqualTo(new DateTime(2012, 1, 9)));
         }
+
+        [TestCase(ConfidenceLevel.PerfectResponse)]
+        [TestCase(ConfidenceLevel.CorrectAfterHesitation)]
+        public void GreenScoreSignalsEvent(ConfidenceLevel confidenceLevel)
+        {
+            // Arrange
+            var wordScore = new WordScore("users/1", "words/1", "WordLists/1");
+
+            // Act
+            object raisedEvent = null;
+            using (DomainEvent.TestWith(x => raisedEvent = x))
+                wordScore.ScoreWord(confidenceLevel);
+
+            // Assert
+            Assert.That(raisedEvent, Is.Not.Null);
+            Assert.That(raisedEvent, Is.AssignableTo<WordRememberedEvent>());
+        }
+
+        [TestCase(ConfidenceLevel.RecalledWithSeriousDifficulty)]
+        [TestCase(ConfidenceLevel.IncorrectWithEasyRecall)]
+        [TestCase(ConfidenceLevel.IncorrectButRemembered)]
+        [TestCase(ConfidenceLevel.CompleteBlackout)]
+        public void OtherScoreSignalsNoEvents(ConfidenceLevel confidenceLevel)
+        {
+            // Arrange
+            var wordScore = new WordScore("users/1", "words/1", "WordLists/1");
+
+            // Act
+            object raisedEvent = null;
+            using (DomainEvent.TestWith(x => raisedEvent = x))
+                wordScore.ScoreWord(confidenceLevel);
+
+            // Assert
+            Assert.That(raisedEvent, Is.Null);
+        }
     }
 }

@@ -269,6 +269,8 @@
     <Compile Include="Models\DomainEvents\WordConfidenceUpdatedHandler.cs" />
     <Compile Include="Models\DomainEvents\WordRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordRegisteredEventHandler.cs" />
+    <Compile Include="Models\DomainEvents\WordRememberedEvent.cs" />
+    <Compile Include="Models\DomainEvents\WordRememberedEventHandler.cs" />
     <Compile Include="Models\Indexes\CreateAccountRequestIndex.cs" />
     <Compile Include="Models\Indexes\PracticeSessionIndex.cs" />
     <Compile Include="Models\Indexes\UserIndex.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Abstractions;
 using Raven.Imports.Newtonsoft.Json;
 
@@ -59,6 +60,9 @@ namespace MinaGlosor.Web.Models
                         }
                         else
                         {
+                            if (level >= 4)
+                                DomainEvent.Raise(new WordRememberedEvent(OwnerId));
+
                             if (Count > 0 && SystemTime.UtcNow < RepeatAfterDate)
                             {
                                 if (level >= 4) return;

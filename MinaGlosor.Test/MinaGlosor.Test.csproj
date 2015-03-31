@@ -94,6 +94,7 @@
     <Compile Include="Api\WebApiIntegrationTest.cs" />
     <Compile Include="Api\WordList_Get_Percent.cs" />
     <Compile Include="Api\WordList_Post.cs" />
+    <Compile Include="Api\WordRememberedEventHandlerTest.cs" />
     <Compile Include="Api\Word_GetAll.cs" />
     <Compile Include="Api\Word_Put.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
