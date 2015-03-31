@@ -4,19 +4,27 @@ namespace MinaGlosor.Web.Models.Queries
 {
     public class PracticeWordResult
     {
-        public PracticeWordResult(PracticeWord practiceWord, Word word, PracticeSession practiceSessionId, WordList wordList)
+        public PracticeWordResult(
+            PracticeWord practiceWord,
+            Word word,
+            PracticeSession practiceSession,
+            WordList wordList)
         {
             if (practiceWord == null) throw new ArgumentNullException("practiceWord");
             if (word == null) throw new ArgumentNullException("word");
-            if (practiceSessionId == null) throw new ArgumentNullException("practiceSessionId");
+            if (practiceSession == null) throw new ArgumentNullException("practiceSession");
             if (wordList == null) throw new ArgumentNullException("wordList");
 
             Text = word.Text;
             Definition = word.Definition;
             PracticeWordId = practiceWord.PracticeWordId;
-            PracticeSessionId = PracticeSession.FromId(practiceSessionId.Id);
+            PracticeSessionId = PracticeSession.FromId(practiceSession.Id);
             WordListId = WordList.FromId(wordList.Id);
             WordListName = wordList.Name;
+            var statistics = practiceSession.GetStatistics();
+            Green = statistics.Green;
+            Blue = statistics.Blue;
+            Yellow = statistics.Yellow;
         }
 
         public string PracticeSessionId { get; private set; }
@@ -30,5 +38,11 @@ namespace MinaGlosor.Web.Models.Queries
         public string WordListId { get; private set; }
 
         public string WordListName { get; private set; }
+
+        public int Green { get; private set; }
+
+        public int Blue { get; private set; }
+
+        public int Yellow { get; private set; }
     }
 }

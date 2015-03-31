@@ -35,7 +35,25 @@ namespace MinaGlosor.Web.Models
 
         public DateTime CreatedDate { get; private set; }
 
-        public bool IsFinished { get { return Words.Any(x => x.Confidence < 4) == false; } }
+        public bool IsFinished
+        {
+            get { return Words.Any(x => x.Confidence < (int)ConfidenceLevel.CorrectAfterHesitation) == false; }
+        }
+
+        private int NumberOfWordsEasilyLearnt
+        {
+            get { return Words.Count(x => x.Confidence >= (int)ConfidenceLevel.CorrectAfterHesitation); }
+        }
+
+        private int NumberOfWordsRecalledWithDifficulty
+        {
+            get { return Words.Count(x => x.Confidence == (int)ConfidenceLevel.RecalledWithSeriousDifficulty); }
+        }
+
+        private int NumberOfWordsForgotten
+        {
+            get { return Words.Count(x => x.Confidence < (int)ConfidenceLevel.RecalledWithSeriousDifficulty && x.Confidence > (int)ConfidenceLevel.CompleteBlackout); }
+        }
 
         public static string ToId(string practiceSessionId)
         {
@@ -49,6 +67,16 @@ namespace MinaGlosor.Web.Models
             if (practiceSessionId == null) throw new ArgumentNullException("practiceSessionId");
 
             return practiceSessionId.Substring(17);
+        }
+
+        public PracticeSessionStatistics GetStatistics()
+        {
+            return new PracticeSessionStatistics(
+                IsFinished,
+                Words.Length,
+                NumberOfWordsEasilyLearnt,
+                NumberOfWordsRecalledWithDifficulty,
+                NumberOfWordsForgotten);
         }
 
         public PracticeWord GetNextWord()

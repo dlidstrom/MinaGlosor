@@ -156,8 +156,8 @@
   <ItemGroup>
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
-    <Content Include="cassette-cache\script\wwwroot\app\01a58e073d77613738f62f2289d854414902bdb6.js" />
-    <Content Include="cassette-cache\stylesheet\wwwroot\ee89ae835774ddde7c2c2853379a9a6bc635d18b.css" />
+    <Content Include="cassette-cache\script\wwwroot\app\0f643c155b5560ce825f4e1f07a60a3ae16f4f6f.js" />
+    <Content Include="cassette-cache\stylesheet\wwwroot\63ba473450a5ef7478e2c59f2b3443bd496e765e.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
     <Content Include="Web.config" />
@@ -177,6 +177,7 @@
     <Content Include="wwwroot\app\practice\practiceSession.html" />
     <Content Include="wwwroot\app\practice\practiceIndexController.js" />
     <Content Include="wwwroot\app\routes.js" />
+    <Content Include="wwwroot\app\shared\practiceProgressDirective.js" />
     <Content Include="wwwroot\app\shared\practiceWordService.js" />
     <Content Include="wwwroot\app\shared\practiceService.js" />
     <Content Include="wwwroot\app\shared\progressDirective.js" />
@@ -276,6 +277,7 @@
     <Compile Include="Models\Indexes\WordListIndex.cs" />
     <Compile Include="Models\Indexes\WordScoreIndex.cs" />
     <Compile Include="Models\PracticeSession.cs" />
+    <Compile Include="Models\PracticeSessionStatistics.cs" />
     <Compile Include="Models\PracticeWord.cs" />
     <Compile Include="Models\Queries\GetCreateAccountRequestQuery.cs" />
     <Compile Include="Models\Queries\GetNextPracticeWordQuery.cs" />

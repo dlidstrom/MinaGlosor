@@ -31,19 +31,28 @@ namespace MinaGlosor.Web.Models.Commands
         {
             var practiceSession = session.Load<PracticeSession>(practiceSessionId);
             practiceSession.UpdateConfidence(practiceWordId, confidenceLevel);
-            return new Result(practiceSession);
+            return new Result(practiceSession.GetStatistics());
         }
 
         public class Result
         {
-            public Result(PracticeSession practiceSession)
+            public Result(PracticeSessionStatistics statistics)
             {
-                if (practiceSession == null) throw new ArgumentNullException("practiceSession");
+                if (statistics == null) throw new ArgumentNullException("statistics");
 
-                IsFinished = practiceSession.IsFinished;
+                IsFinished = statistics.IsFinished;
+                Green = statistics.Green;
+                Blue = statistics.Blue;
+                Yellow = statistics.Yellow;
             }
 
             public bool IsFinished { get; private set; }
+
+            public int Green { get; private set; }
+
+            public int Blue { get; private set; }
+
+            public int Yellow { get; private set; }
         }
     }
 }

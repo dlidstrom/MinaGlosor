@@ -32,6 +32,9 @@ namespace MinaGlosor.Test.Api
             Assert.That(content.Text, Is.EqualTo("1t"));
             Assert.That(content.Definition, Is.EqualTo("1d"));
             Assert.That(content.PracticeWordId, Is.EqualTo(expectedPracticeWordId));
+            Assert.That(content.Green, Is.EqualTo(0));
+            Assert.That(content.Blue, Is.EqualTo(0));
+            Assert.That(content.Yellow, Is.EqualTo(0));
         }
 
         [Test]
@@ -44,6 +47,13 @@ namespace MinaGlosor.Test.Api
             });
 
             // Act
+            var postWordConfidenceRequest = new
+            {
+                PracticeSessionId = "1",
+                PracticeWordId = practiceWordId,
+                ConfidenceLevel = "RecalledWithSeriousDifficulty"
+            };
+            await Client.PostAsJsonAsync("http://temp.uri/api/wordconfidence", postWordConfidenceRequest);
             var response = await Client.GetAsync("http://temp.uri/api/practiceword?practiceSessionId=1&practiceWordId=" + practiceWordId);
             Assert.That(response.Content, Is.Not.Null);
             var content = await response.Content.ReadAsAsync<ExpectedContent>();
@@ -56,6 +66,9 @@ namespace MinaGlosor.Test.Api
             Assert.That(content.Text, Is.EqualTo("1t"));
             Assert.That(content.Definition, Is.EqualTo("1d"));
             Assert.That(content.PracticeWordId, Is.EqualTo(practiceWordId));
+            Assert.That(content.Green, Is.EqualTo(0));
+            Assert.That(content.Blue, Is.EqualTo(10));
+            Assert.That(content.Yellow, Is.EqualTo(0));
         }
 
         protected override void Arrange()
@@ -100,6 +113,12 @@ namespace MinaGlosor.Test.Api
             public string WordListId { get; set; }
 
             public string WordListName { get; set; }
+
+            public int Green { get; set; }
+
+            public int Blue { get; set; }
+
+            public int Yellow { get; set; }
         }
     }
 }

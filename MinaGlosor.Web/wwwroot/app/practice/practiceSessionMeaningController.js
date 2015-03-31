@@ -14,6 +14,9 @@
         practiceSession.practiceSessionId = practiceWord.practiceSessionId;
         practiceSession.wordListId = practiceWord.wordListId;
         practiceSession.wordListName = practiceWord.wordListName;
+        practiceSession.green = practiceWord.green;
+        practiceSession.blue = practiceWord.blue;
+        practiceSession.yellow = practiceWord.yellow;
 
         // functions
         practiceSession.submit = submit;
