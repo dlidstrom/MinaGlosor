@@ -57,7 +57,8 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
             return new RavenInstaller
                 {
                     CreateDocumentStore = () => new DocumentStore { ConnectionStringName = connectionStringName },
-                    Lifestyle = LifestyleType.PerWebRequest
+                    Lifestyle = LifestyleType.PerWebRequest,
+                    InitializeIndexes = true
                 };
         }
 
