@@ -24,6 +24,42 @@ footer {
     margin-bottom: 0;
 }
 
+.navbar-default .navbar-brand {
+    color: black;
+}
+
+.logo {
+    position: relative;
+    margin-right: 10px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+
+    span {
+        font-size: 0.4em;
+
+        &.label-success {
+            position: absolute;
+        }
+
+        &.label-info {
+            position: absolute;
+            left: 16px;
+        }
+
+        &.label-warning {
+            position: absolute;
+            top: 16px;
+        }
+
+        &.label-danger {
+            position: absolute;
+            left: 16px;
+            top: 16px;
+        }
+    }
+}
+
 form legend {
     font-size: 20px;
 }
@@ -143,6 +179,6 @@ textarea.vertical {
 }
 
 .progress.practice {
-    height: 4px;
+    height: 6px;
     margin-bottom: 10px;
 }
