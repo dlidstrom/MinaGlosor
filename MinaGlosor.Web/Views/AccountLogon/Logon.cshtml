@@ -7,10 +7,14 @@
                     Ange användarnamn eller e-postadress
                 </label>
                 <input class="form-control"
+                       type="text"
                        name="email"
                        ng-model="user.email"
                        placeholder="Användarnamn eller e-postadress"
                        autofocus="autofocus"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       autocomplete="off"
                        ng-focus="showUsernamePrompt = true"
                        ng-blur="showUsernamePrompt = false"
                        ng-model-options="{ updateOn: 'default blur' }"
