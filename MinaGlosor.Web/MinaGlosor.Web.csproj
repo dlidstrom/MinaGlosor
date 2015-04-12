@@ -156,7 +156,7 @@
   <ItemGroup>
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
-    <Content Include="cassette-cache\script\wwwroot\app\0f643c155b5560ce825f4e1f07a60a3ae16f4f6f.js" />
+    <Content Include="cassette-cache\script\wwwroot\app\9b951b36382abc60a36a8baa8628045674b2e141.js" />
     <Content Include="cassette-cache\stylesheet\wwwroot\4cca26bb33e32aa8b03470a109ffe10ae7963480.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
@@ -371,5 +371,4 @@
   <Target Name="BeforeBuild" Condition="'$(Configuration)' == 'Release'">
     <Exec Command="del /F /S /Q bin" />
   </Target>
-
 </Project>
