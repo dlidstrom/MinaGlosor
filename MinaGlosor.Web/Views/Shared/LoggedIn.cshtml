@@ -8,7 +8,8 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="utf-8">
-        <meta name="appVersion" content="@Application.GetAppVersion()"/>
+        <meta name="appVersion" content="@Application.GetAppVersion()" />
+        <meta name="isDebuggingEnabled" content="@Html.ViewContext.HttpContext.IsDebuggingEnabled.ToString().ToLowerInvariant()" />
         <title>Mina Glosor</title>
         <base href="@string.Format("{0}://{1}:{2}/{3}/", Request.Url.Scheme, Request.Url.Host, Request.Url.Port, Model.Username)" />
         <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
