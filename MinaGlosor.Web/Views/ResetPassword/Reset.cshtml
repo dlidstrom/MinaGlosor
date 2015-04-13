@@ -1,0 +1,40 @@
+﻿<form method="POST" name="form" action="@Url.Action("Reset")">
+    @Html.DisplayFor(model => Html.ViewData.ModelState, "ValidationSummary", new { message = "Försök igen." })
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group" ng-class="{'has-error': form.email.$dirty && form.email.$invalid}">
+                <label class="control-label">
+                    Ange e-postadress
+                </label>
+                <input class="form-control"
+                       type="email"
+                       name="email"
+                       ng-model="user.email"
+                       placeholder="Användarnamn eller e-postadress"
+                       autofocus="autofocus"
+                       ng-focus="showUsernamePrompt = true"
+                       ng-blur="showUsernamePrompt = false"
+                       ng-model-options="{ updateOn: 'default blur' }"
+                       required />
+                <div class="messages">
+                    <div class="message-animation" ng-if="showUsernamePrompt">
+                        Ange din e-postadress
+                    </div>
+                </div>
+                <div class="messages" ng-messages="form.email.$error" ng-show="form.email.$dirty">
+                    <div class="message-animation" ng-message="required">
+                        <strong>Ange din e-postadress</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <input class="btn btn-primary"
+                   type="submit"
+                   value="Begär nytt lösenord"
+                   ng-disabled="form.$invalid" />
+        </div>
+    </div>
+</form>

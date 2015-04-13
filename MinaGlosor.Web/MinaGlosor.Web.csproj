@@ -193,6 +193,7 @@
     <Content Include="wwwroot\app\wordlist\wordListController.js" />
     <Content Include="wwwroot\app\wordlist\index.html" />
     <Compile Include="Controllers\AccountLogoffController.cs" />
+    <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
     <Compile Include="Infrastructure\JetBrains.Annotations.cs" />
     <Content Include="NLog.config">
@@ -204,6 +205,8 @@
     </None>
     <None Include="Properties\PublishProfiles\MinaGlosor-Netcetera.pubxml" />
     <Content Include="Views\Emails\InviteUser.cshtml" />
+    <Content Include="Views\ResetPassword\Reset.cshtml" />
+    <Content Include="Views\Emails\ResetPassword.cshtml" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap.css" />
@@ -251,6 +254,7 @@
     <Compile Include="Infrastructure\Tracing\TracingLogger.cs" />
     <Compile Include="Models\Commands\CreateAccountRequestCommand.cs" />
     <Compile Include="Models\Commands\CreatePracticeSessionCommand.cs" />
+    <Compile Include="Models\Commands\CreateResetPasswordRequestCommand.cs" />
     <Compile Include="Models\Commands\CreateUserCommand.cs" />
     <Compile Include="Models\Commands\CreateWordCommand.cs" />
     <Compile Include="Models\Commands\CreateWordListCommand.cs" />
@@ -266,6 +270,8 @@
     <Compile Include="Models\DomainEvents\DomainEvent.cs" />
     <Compile Include="Models\DomainEvents\DomainEventReset.cs" />
     <Compile Include="Models\DomainEvents\IHandle.cs" />
+    <Compile Include="Models\DomainEvents\ResetPasswordRequested.cs" />
+    <Compile Include="Models\DomainEvents\ResetPasswordHandler.cs" />
     <Compile Include="Models\DomainEvents\WordConfidenceUpdated.cs" />
     <Compile Include="Models\DomainEvents\WordConfidenceUpdatedHandler.cs" />
     <Compile Include="Models\DomainEvents\WordRegisteredEvent.cs" />
@@ -293,6 +299,7 @@
     <Compile Include="Models\Queries\HasAdminUserQuery.cs" />
     <Compile Include="Models\Queries\IsPracticeSessionFinishedQuery.cs" />
     <Compile Include="Models\Queries\PracticeWordResult.cs" />
+    <Compile Include="Models\ResetPasswordRequest.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Models\Word.cs" />

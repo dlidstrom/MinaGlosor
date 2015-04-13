@@ -41,6 +41,11 @@ namespace MinaGlosor.Web
                 new { controller = "AccountLogoff", action = "Logoff" });
 
             routes.MapRoute(
+                "PasswordReset-route",
+                "resetpassword",
+                new { controller = "ResetPassword", action = "Reset" });
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{*username}",
                 defaults: new { controller = "Home", action = "Index", username = UrlParameter.Optional });
