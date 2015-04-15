@@ -1,6 +1,7 @@
 using System;
 using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Abstractions;
+using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models
 {
@@ -9,10 +10,16 @@ namespace MinaGlosor.Web.Models
         public ResetPasswordRequest(string email)
         {
             if (email == null) throw new ArgumentNullException("email");
+
             Email = email;
             ActivationCode = Guid.NewGuid().ToString("N");
 
             DomainEvent.Raise(new ResetPasswordRequested(Email, ActivationCode));
+        }
+
+        [JsonConstructor]
+        private ResetPasswordRequest()
+        {
         }
 
         public string Email { get; private set; }
