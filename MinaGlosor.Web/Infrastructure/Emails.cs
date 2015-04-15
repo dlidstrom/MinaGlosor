@@ -21,6 +21,18 @@ namespace MinaGlosor.Web.Infrastructure
                 });
         }
 
+        public static void ResetPassword(string email, string activationCode)
+        {
+            Send(
+                "ResetPassword",
+                email,
+                "Återställ lösenord",
+                o =>
+                {
+                    o.ActivationCode = activationCode;
+                });
+        }
+
         private static void Send(
             string view,
             string recipient,

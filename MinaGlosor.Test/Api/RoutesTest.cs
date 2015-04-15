@@ -48,5 +48,23 @@ namespace MinaGlosor.Test.Api
         {
             RouteTable.Routes.Maps("GET", "~/activate", new { controller = "AccountActivate", action = "Activate" });
         }
+
+        [Test]
+        public void SetPassword()
+        {
+            RouteTable.Routes.Maps("GET", "~/setpassword", new { controller = "AccountPassword", action = "Set" });
+        }
+
+        [Test]
+        public void ResetPassword()
+        {
+            RouteTable.Routes.Maps("GET", "~/resetpassword", new { controller = "ResetPassword", action = "Reset" });
+        }
+
+        [Test]
+        public void ResetPasswordSuccess()
+        {
+            RouteTable.Routes.Maps("GET", "~/resetpasswordrequested", new { controller = "ResetPassword", action = "Success" });
+        }
     }
 }

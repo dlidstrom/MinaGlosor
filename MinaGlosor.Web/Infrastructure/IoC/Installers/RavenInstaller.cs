@@ -6,6 +6,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using MinaGlosor.Web.Infrastructure.Tracing;
+using MinaGlosor.Web.Models;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
@@ -69,7 +70,7 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
             TracingLogger.Information("Initializing document store done");
             documentStore.Conventions.DefaultQueryingConsistency = ConsistencyOptions.AlwaysWaitForNonStaleResultsAsOfLastWrite;
             documentStore.Conventions.MaxNumberOfRequestsPerSession = 1024;
-            if (InitializeIndexes)
+            if (InitializeIndexes || ShouldInitializeIndexes(documentStore, Application.GetAppVersion()))
             {
                 TracingLogger.Information("Initializing indexes");
                 IndexCreation.CreateIndexes(Assembly.GetExecutingAssembly(), documentStore);
@@ -88,6 +89,25 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
             var documentSession = documentStore.OpenSession();
             documentSession.Advanced.UseOptimisticConcurrency = true;
             return documentSession;
+        }
+
+        private static bool ShouldInitializeIndexes(IDocumentStore documentStore, string version)
+        {
+            using (var session = documentStore.OpenSession())
+            {
+                var config = session.Load<WebsiteConfig>(WebsiteConfig.GlobalId);
+                if (config == null)
+                {
+                    config = new WebsiteConfig();
+                    session.Store(config);
+                }
+
+                var newVersion = config.IndexCreatedVersion != version;
+                config.SetIndexCreatedVersion(version);
+                session.SaveChanges();
+
+                return newVersion;
+            }
         }
     }
 }

@@ -95,5 +95,10 @@ namespace MinaGlosor.Web.Models
         {
             Role = role;
         }
+
+        public void SetPassword(string password)
+        {
+            HashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+        }
     }
 }
