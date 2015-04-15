@@ -1,5 +1,6 @@
 using System;
 using MinaGlosor.Web.Models.DomainEvents;
+using Raven.Abstractions;
 
 namespace MinaGlosor.Web.Models
 {
@@ -17,5 +18,17 @@ namespace MinaGlosor.Web.Models
         public string Email { get; private set; }
 
         public string ActivationCode { get; private set; }
+
+        public DateTime? UsedDate { get; private set; }
+
+        public bool HasBeenUsed()
+        {
+            return UsedDate.HasValue;
+        }
+
+        public void MarkAsUsed()
+        {
+            UsedDate = SystemTime.UtcNow;
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
         {
             if (email == null) throw new ArgumentNullException("email");
             if (activationCode == null) throw new ArgumentNullException("activationCode");
+
             Email = email;
             ActivationCode = activationCode;
         }

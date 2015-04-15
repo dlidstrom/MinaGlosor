@@ -64,7 +64,7 @@ namespace MinaGlosor.Test.Api
                     isFinished = false,
                     green = 10,
                     blue = 0,
-                    red = 0
+                    yellow = 0
                 };
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
             Assert.That(content, Is.EqualTo(JsonConvert.SerializeObject(expectedResponse)));

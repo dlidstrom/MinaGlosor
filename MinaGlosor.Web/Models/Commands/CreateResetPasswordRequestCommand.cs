@@ -6,12 +6,12 @@ namespace MinaGlosor.Web.Models.Commands
 {
     public class CreateResetPasswordRequestCommand : ICommand
     {
-        private readonly string userId;
+        private readonly string email;
 
-        public CreateResetPasswordRequestCommand(string userId)
+        public CreateResetPasswordRequestCommand(string email)
         {
-            if (userId == null) throw new ArgumentNullException("userId");
-            this.userId = userId;
+            if (email == null) throw new ArgumentNullException("email");
+            this.email = email;
         }
 
         public bool CanExecute(IDocumentSession session, User currentUser)
@@ -21,7 +21,7 @@ namespace MinaGlosor.Web.Models.Commands
 
         public void Execute(IDocumentSession session)
         {
-            session.Store(new ResetPasswordRequest(userId));
+            session.Store(new ResetPasswordRequest(email));
         }
     }
 }

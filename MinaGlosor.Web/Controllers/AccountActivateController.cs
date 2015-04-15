@@ -9,21 +9,6 @@ using MinaGlosor.Web.Models.Queries;
 
 namespace MinaGlosor.Web.Controllers
 {
-    public class AccountPassword : AbstractController
-    {
-        public ActionResult Set(Guid activationCode)
-        {
-            var resetPasswordRequest = ExecuteQuery(new GetResetPasswordRequest(activationCode));
-            if (resetPasswordRequest == null)
-                throw new HttpException(404, "Not found");
-
-            if (resetPasswordRequest.HasBeenUser())
-                throw new HttpException(401, "Already used");
-
-            return View(new ResetPasswordViewModel { ActivationCode = activationCode });
-        }
-    }
-
     public class AccountActivateController : AbstractController
     {
         public ActionResult Activate(Guid activationCode)

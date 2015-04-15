@@ -27,8 +27,13 @@ namespace MinaGlosor.Web.Controllers
                 return View();
 
             Debug.Assert(user != null, "user != null");
-            ExecuteCommand(new CreateResetPasswordRequestCommand(user.Id));
+            ExecuteCommand(new CreateResetPasswordRequestCommand(user.Email));
 
+            return RedirectToAction("Success");
+        }
+
+        public ActionResult Success()
+        {
             return View();
         }
 

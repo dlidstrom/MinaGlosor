@@ -60,5 +60,11 @@ namespace MinaGlosor.Test.Api
         {
             RouteTable.Routes.Maps("GET", "~/resetpassword", new { controller = "ResetPassword", action = "Reset" });
         }
+
+        [Test]
+        public void ResetPasswordSuccess()
+        {
+            RouteTable.Routes.Maps("GET", "~/resetpasswordrequested", new { controller = "ResetPassword", action = "Success" });
+        }
     }
 }
