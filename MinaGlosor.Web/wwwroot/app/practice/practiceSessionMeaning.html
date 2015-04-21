@@ -5,13 +5,16 @@
         <div class="col-xs-6">
             {{practiceSession.practiceWord.text}}
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-5">
             {{practiceSession.practiceWord.definition}}
         </div>
     </div>
     <hr class="spacer1" />
     <fieldset ng-disabled="practiceSession.saving">
-        <legend>Hur väl kunde du?</legend>
+        <legend>
+            Hur väl kunde du?
+            <word-favourite word-id="practiceSession.practiceWord.wordId" is-favourite="false"></word-favourite>
+        </legend>
         <div class="row">
             <div class="col-xs-12">
                 <button type="button" class="btn btn-success btn-xs btn-block" ng-click="practiceSession.submit('PerfectResponse')">

@@ -96,6 +96,7 @@ namespace MinaGlosor.Test.Api
                 var getWordResponse = await Client.GetAsync("http://temp.uri/api/practiceword?practiceSessionId=1");
                 Assert.That(getWordResponse.Content, Is.Not.Null);
                 var getWordContent = await getWordResponse.Content.ReadAsAsync<GetWordContent>();
+                Assert.That(getWordContent.WordId, Is.EqualTo((i + 1).ToString()));
 
                 var postWordConfidenceRequest = new
                 {
@@ -124,6 +125,8 @@ namespace MinaGlosor.Test.Api
         public class GetWordContent
         {
             public string PracticeWordId { get; set; }
+
+            public string WordId { get; set; }
         }
 
         public class WordConfidenceContent

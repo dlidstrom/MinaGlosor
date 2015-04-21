@@ -91,6 +91,7 @@
     <Compile Include="Api\RouteTestHelper.cs" />
     <Compile Include="Api\UnfinishedPracticeSession_Get.cs" />
     <Compile Include="Api\WordConfidence_Post.cs" />
+    <Compile Include="Api\WordFavourite_Post.cs" />
     <Compile Include="Api\WordList_Get.cs" />
     <Compile Include="Api\WebApiIntegrationTest.cs" />
     <Compile Include="Api\WordList_Get_Percent.cs" />

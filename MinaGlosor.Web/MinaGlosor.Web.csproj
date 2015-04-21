@@ -168,6 +168,8 @@
     <Content Include="wwwroot\app\external\toaster.js" />
     <Content Include="wwwroot\app\help\index.html" />
     <Content Include="wwwroot\app\httpInterceptor.js" />
+    <Content Include="wwwroot\app\shared\wordFavouriteService.js" />
+    <Content Include="wwwroot\app\shared\wordFavouriteDirective.js" />
     <Content Include="wwwroot\app\practice\practiceSessionMeaningController.js" />
     <Content Include="wwwroot\app\practice\practiceSessionMeaning.html" />
     <Content Include="wwwroot\app\practice\practiceSessionSummaryController.js" />
