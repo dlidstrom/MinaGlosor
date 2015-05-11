@@ -24,7 +24,7 @@ namespace MinaGlosor.Web.Controllers.Api
             if (ModelState.IsValid == false)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
 
-            var practiceWord = ExecuteQuery(new GetNextPracticeWordQuery(practiceSessionId));
+            var practiceWord = ExecuteQuery(new GetNextPracticeWordQuery(practiceSessionId, CurrentUser.Id));
             return Request.CreateResponse(HttpStatusCode.OK, practiceWord);
         }
 
@@ -47,7 +47,7 @@ namespace MinaGlosor.Web.Controllers.Api
             if (ModelState.IsValid == false)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
 
-            var practiceWord = ExecuteQuery(new GetPracticeWordQuery(practiceSessionId, practiceWordId));
+            var practiceWord = ExecuteQuery(new GetPracticeWordQuery(practiceSessionId, practiceWordId, CurrentUser.Id));
             return Request.CreateResponse(HttpStatusCode.OK, practiceWord);
         }
     }
