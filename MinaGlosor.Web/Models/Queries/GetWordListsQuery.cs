@@ -10,13 +10,14 @@ using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Models.Queries
 {
-    public class GetWordListsQuery : IQuery<GetWordListsQuery.Result[]>
+    public class GetWordListsQuery : IQuery<GetWordListsQuery.Result>
     {
         private readonly User user;
 
         public GetWordListsQuery(User user)
         {
             if (user == null) throw new ArgumentNullException("user");
+
             this.user = user;
         }
 
@@ -25,33 +26,52 @@ namespace MinaGlosor.Web.Models.Queries
             return true;
         }
 
-        public Result[] Execute(IDocumentSession session)
+        public Result Execute(IDocumentSession session)
         {
             var wordLists = session.Query<WordListIndex.Result, WordListIndex>()
                                    .Customize(x => x.WaitForNonStaleResultsAsOfNow())
                                    .Where(x => x.OwnerId == user.Id)
                                    .ToArray();
 
-            var results = new List<Result>();
+            var wordListResults = new List<WordListResult>();
             foreach (var wordList in wordLists)
             {
                 var expiredCount = session.Query<WordScore, WordScoreIndex>()
                                           .Count(x => x.RepeatAfterDate < SystemTime.UtcNow && x.WordListId == wordList.Id);
-                var result = new Result(wordList, expiredCount);
-                results.Add(result);
+                var wordListResult = new WordListResult(wordList, expiredCount);
+                wordListResults.Add(wordListResult);
             }
 
-            var orderedResults = results.OrderByDescending(x => x.NumberOfWords > 0 ? 1 : 0)
-                                        .ThenByDescending(x => x.PercentExpired)
-                                        .ThenBy(x => x.PercentDone == 100 ? 1 : 0)
-                                        .ThenBy(x => x.Rank)
-                                        .ToArray();
-            return orderedResults;
+            var orderedResults = wordListResults.OrderByDescending(x => x.NumberOfWords > 0 ? 1 : 0)
+                                                .ThenByDescending(x => x.PercentExpired)
+                                                .ThenBy(x => x.PercentDone == 100 ? 1 : 0)
+                                                .ThenBy(x => x.Rank)
+                                                .ToArray();
+
+            // favourites
+            var numberOfFavourites = session.Query<WordFavourite, WordFavouriteIndex>().Count(x => x.IsFavourite);
+            var result = new Result(orderedResults, numberOfFavourites);
+
+            return result;
         }
 
         public class Result
         {
-            public Result(WordListIndex.Result wordList, int expiredCount)
+            public Result(WordListResult[] wordLists, int numberOfFavourites)
+            {
+                if (wordLists == null) throw new ArgumentNullException("wordLists");
+                WordLists = wordLists;
+                NumberOfFavourites = numberOfFavourites;
+            }
+
+            public WordListResult[] WordLists { get; private set; }
+
+            public int NumberOfFavourites { get; private set; }
+        }
+
+        public class WordListResult
+        {
+            public WordListResult(WordListIndex.Result wordList, int expiredCount)
             {
                 if (wordList == null) throw new ArgumentNullException("wordList");
 

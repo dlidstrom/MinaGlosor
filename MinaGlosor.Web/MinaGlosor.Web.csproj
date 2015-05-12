@@ -156,8 +156,8 @@
   <ItemGroup>
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
-    <Content Include="cassette-cache\script\wwwroot\app\9b951b36382abc60a36a8baa8628045674b2e141.js" />
-    <Content Include="cassette-cache\stylesheet\wwwroot\4cca26bb33e32aa8b03470a109ffe10ae7963480.css" />
+    <Content Include="cassette-cache\script\wwwroot\app\eeb1888c957def4f3c2a68d0efc5b95e8f8ee5e8.js" />
+    <Content Include="cassette-cache\stylesheet\wwwroot\7d9d39947fdf857164fb7f57caee21c8b1832529.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
     <Content Include="Web.config" />
@@ -287,6 +287,7 @@
     <Compile Include="Models\Indexes\PracticeSessionIndex.cs" />
     <Compile Include="Models\Indexes\ResetPasswordRequestIndex.cs" />
     <Compile Include="Models\Indexes\UserIndex.cs" />
+    <Compile Include="Models\Indexes\WordFavouriteIndex.cs" />
     <Compile Include="Models\Indexes\WordIndex.cs" />
     <Compile Include="Models\Indexes\WordListIndex.cs" />
     <Compile Include="Models\Indexes\WordScoreIndex.cs" />

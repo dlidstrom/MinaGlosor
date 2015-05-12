@@ -13,7 +13,7 @@
     <fieldset ng-disabled="practiceSession.saving">
         <legend>
             Hur väl kunde du?
-            <word-favourite word-id="practiceSession.practiceWord.wordId" is-favourite="false"></word-favourite>
+            <word-favourite word-id="practiceSession.practiceWord.wordId" is-favourite="practiceSession.isFavourite"></word-favourite>
         </legend>
         <div class="row">
             <div class="col-xs-12">

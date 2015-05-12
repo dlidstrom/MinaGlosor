@@ -1,7 +1,5 @@
 ﻿using MinaGlosor.Web.Models;
-
 using Newtonsoft.Json;
-
 using NUnit.Framework;
 
 namespace MinaGlosor.Test.Api
@@ -27,18 +25,22 @@ namespace MinaGlosor.Test.Api
             // Assert
             Assert.That(content, Is.Not.Null);
             var result = await content.ReadAsStringAsync();
-            var expected = new[]
-            {
-                new
+            var expected = new
                 {
-                    wordListId = "1",
-                    ownerId = "1",
-                    name = "list",
-                    numberOfWords = 0,
-                    percentDone = 0,
-                    percentExpired = 0
-                }
-            };
+                    wordLists = new[]
+                        {
+                            new
+                                {
+                                    wordListId = "1",
+                                    ownerId = "1",
+                                    name = "list",
+                                    numberOfWords = 0,
+                                    percentDone = 0,
+                                    percentExpired = 0
+                                }
+                        },
+                    numberOfFavourites = 0
+                };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
         }
 
@@ -55,27 +57,31 @@ namespace MinaGlosor.Test.Api
             // Assert
             Assert.That(content, Is.Not.Null);
             var result = await content.ReadAsStringAsync();
-            var expected = new[]
-            {
-                new
+            var expected = new
                 {
-                    wordListId = "1",
-                    ownerId = "1",
-                    name = "Some name",
-                    numberOfWords = 2,
-                    percentDone = 0,
-                    percentExpired = 0
-                },
-                new
-                {
-                    wordListId = "2",
-                    ownerId = "1",
-                    name = "Then one more",
-                    numberOfWords = 3,
-                    percentDone = 0,
-                    percentExpired = 0
-                }
-            };
+                    wordLists = new[]
+                        {
+                            new
+                                {
+                                    wordListId = "1",
+                                    ownerId = "1",
+                                    name = "Some name",
+                                    numberOfWords = 2,
+                                    percentDone = 0,
+                                    percentExpired = 0
+                                },
+                            new
+                                {
+                                    wordListId = "2",
+                                    ownerId = "1",
+                                    name = "Then one more",
+                                    numberOfWords = 3,
+                                    percentDone = 0,
+                                    percentExpired = 0
+                                }
+                        },
+                    numberOfFavourites = 0
+                };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
         }
 
