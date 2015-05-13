@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Web.Http;
 using MinaGlosor.Web.Models.Commands;
+using MinaGlosor.Web.Models.Queries;
 
 namespace MinaGlosor.Web.Controllers.Api
 {
@@ -21,6 +22,12 @@ namespace MinaGlosor.Web.Controllers.Api
 
             Debug.Assert(request != null, "request != null");
             var result = ExecuteCommand(new ToggleWordFavouriteCommand(request.WordId, CurrentUser.Id));
+            return Ok(result);
+        }
+
+        public IHttpActionResult GetAll()
+        {
+            var result = ExecuteQuery(new GetWordFavouritesQuery(CurrentUser.Id));
             return Ok(result);
         }
 

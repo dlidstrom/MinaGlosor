@@ -13,6 +13,7 @@ namespace MinaGlosor.Web.Models
             Id = GetId(wordId, userId);
             UserId = userId;
             WordId = wordId;
+            IsFavourite = true;
         }
 
         [JsonConstructor]

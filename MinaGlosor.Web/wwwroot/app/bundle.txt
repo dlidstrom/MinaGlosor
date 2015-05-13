@@ -16,5 +16,6 @@ shared\wordService.js
 word\editWordController.js
 wordlist\addWordController.js
 wordlist\newWordListController.js
+wordlist\viewFavouritesController.js
 wordlist\viewWordListController.js
 wordlist\wordListController.js

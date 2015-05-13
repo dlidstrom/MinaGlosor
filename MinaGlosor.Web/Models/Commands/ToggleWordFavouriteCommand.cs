@@ -30,11 +30,15 @@ namespace MinaGlosor.Web.Models.Commands
             var wordFavourite = session.Load<WordFavourite>(id);
             if (wordFavourite == null)
             {
+                // is favourite by default
                 wordFavourite = new WordFavourite(wordId, userId);
                 session.Store(wordFavourite);
             }
+            else
+            {
+                wordFavourite.Toggle();
+            }
 
-            wordFavourite.Toggle();
             return new Result(wordFavourite.IsFavourite);
         }
 

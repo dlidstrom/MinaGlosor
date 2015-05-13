@@ -46,6 +46,23 @@
                     templateUrl: '/wwwroot/app/wordlist/new.html'
                 })
             .when(
+                '/wordlist/favourites',
+                {
+                    templateUrl: '/wwwroot/app/wordlist/view.html',
+                    controller: 'ViewFavouritesController',
+                    controllerAs: 'viewer',
+                    resolve: {
+                        Words:
+                        [
+                            '$route',
+                            'WordFavouriteService',
+                            function ($route, wordFavouriteService) {
+                                return wordFavouriteService.getAll($route.current.params.id);
+                            }
+                        ]
+                    }
+                })
+            .when(
                 '/wordlist/:id',
                 {
                     templateUrl: '/wwwroot/app/wordlist/view.html',
@@ -81,6 +98,13 @@
                             'WordService',
                             function ($route, wordService) {
                                 return wordService.get($route.current.params.id);
+                            }
+                        ],
+                        ReturnUrl:
+                        [
+                            '$route',
+                            function ($route) {
+                                return $route.current.params.returnUrl;
                             }
                         ]
                     }

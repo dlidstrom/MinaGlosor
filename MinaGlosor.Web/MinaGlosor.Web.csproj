@@ -156,7 +156,7 @@
   <ItemGroup>
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
-    <Content Include="cassette-cache\script\wwwroot\app\eeb1888c957def4f3c2a68d0efc5b95e8f8ee5e8.js" />
+    <Content Include="cassette-cache\script\wwwroot\app\49b3f3a686be996fd798e6c1df554e38634febd8.js" />
     <Content Include="cassette-cache\stylesheet\wwwroot\7d9d39947fdf857164fb7f57caee21c8b1832529.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
@@ -187,6 +187,7 @@
     <Content Include="wwwroot\app\shared\wordListService.js" />
     <Content Include="wwwroot\app\wordlist\addWordEditor.html" />
     <Content Include="wwwroot\app\wordlist\addWordController.js" />
+    <Content Include="wwwroot\app\wordlist\viewFavouritesController.js" />
     <Content Include="wwwroot\app\word\editWordController.js" />
     <Content Include="wwwroot\app\wordlist\viewWordListController.js" />
     <Content Include="wwwroot\app\wordlist\view.html" />
@@ -294,6 +295,7 @@
     <Compile Include="Models\PracticeSession.cs" />
     <Compile Include="Models\PracticeSessionStatistics.cs" />
     <Compile Include="Models\PracticeWord.cs" />
+    <Compile Include="Models\Queries\DocumentSessionExtensions.cs" />
     <Compile Include="Models\Queries\GetCreateAccountRequestQuery.cs" />
     <Compile Include="Models\Queries\GetNextPracticeWordQuery.cs" />
     <Compile Include="Models\Queries\GetPracticeWordQuery.cs" />
@@ -302,10 +304,12 @@
     <Compile Include="Models\Queries\GetUnfinishedPracticeSessionsQuery.cs" />
     <Compile Include="Models\Queries\GetUserByEmailQuery.cs" />
     <Compile Include="Models\Queries\GetUserByUsernameQuery.cs" />
+    <Compile Include="Models\Queries\GetWordFavouritesQuery.cs" />
     <Compile Include="Models\Queries\GetWordListQuery.cs" />
     <Compile Include="Models\Queries\GetWordListsQuery.cs" />
     <Compile Include="Models\Queries\GetWordQuery.cs" />
     <Compile Include="Models\Queries\GetWordsQuery.cs" />
+    <Compile Include="Models\Queries\GetWordsResult.cs" />
     <Compile Include="Models\Queries\HasAdminUserQuery.cs" />
     <Compile Include="Models\Queries\IsPracticeSessionFinishedQuery.cs" />
     <Compile Include="Models\Queries\PracticeWordResult.cs" />
