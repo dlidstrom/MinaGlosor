@@ -9,10 +9,13 @@ shared\practiceService.js
 shared\practiceWordService.js
 shared\progressDirective.js
 shared\practiceProgressDirective.js
+shared\wordFavouriteDirective.js
+shared\wordFavouriteService.js
 shared\wordListService.js
 shared\wordService.js
 word\editWordController.js
 wordlist\addWordController.js
 wordlist\newWordListController.js
+wordlist\viewFavouritesController.js
 wordlist\viewWordListController.js
 wordlist\wordListController.js

@@ -12,6 +12,7 @@
         practiceSession.showWord = true;
         practiceSession.practiceWord = practiceWord;
         practiceSession.practiceSessionId = practiceWord.practiceSessionId;
+        practiceSession.isFavourite = practiceWord.isFavourite;
         practiceSession.wordListId = practiceWord.wordListId;
         practiceSession.wordListName = practiceWord.wordListName;
         practiceSession.green = practiceWord.green;

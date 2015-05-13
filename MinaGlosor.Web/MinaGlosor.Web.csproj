@@ -156,8 +156,8 @@
   <ItemGroup>
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
-    <Content Include="cassette-cache\script\wwwroot\app\9b951b36382abc60a36a8baa8628045674b2e141.js" />
-    <Content Include="cassette-cache\stylesheet\wwwroot\4cca26bb33e32aa8b03470a109ffe10ae7963480.css" />
+    <Content Include="cassette-cache\script\wwwroot\app\49b3f3a686be996fd798e6c1df554e38634febd8.js" />
+    <Content Include="cassette-cache\stylesheet\wwwroot\7d9d39947fdf857164fb7f57caee21c8b1832529.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
     <Content Include="Web.config" />
@@ -168,6 +168,8 @@
     <Content Include="wwwroot\app\external\toaster.js" />
     <Content Include="wwwroot\app\help\index.html" />
     <Content Include="wwwroot\app\httpInterceptor.js" />
+    <Content Include="wwwroot\app\shared\wordFavouriteService.js" />
+    <Content Include="wwwroot\app\shared\wordFavouriteDirective.js" />
     <Content Include="wwwroot\app\practice\practiceSessionMeaningController.js" />
     <Content Include="wwwroot\app\practice\practiceSessionMeaning.html" />
     <Content Include="wwwroot\app\practice\practiceSessionSummaryController.js" />
@@ -185,6 +187,7 @@
     <Content Include="wwwroot\app\shared\wordListService.js" />
     <Content Include="wwwroot\app\wordlist\addWordEditor.html" />
     <Content Include="wwwroot\app\wordlist\addWordController.js" />
+    <Content Include="wwwroot\app\wordlist\viewFavouritesController.js" />
     <Content Include="wwwroot\app\word\editWordController.js" />
     <Content Include="wwwroot\app\wordlist\viewWordListController.js" />
     <Content Include="wwwroot\app\wordlist\view.html" />
@@ -194,6 +197,7 @@
     <Content Include="wwwroot\app\wordlist\index.html" />
     <Compile Include="Controllers\AccountLogoffController.cs" />
     <Compile Include="Controllers\AccountPasswordController.cs" />
+    <Compile Include="Controllers\Api\WordFavouriteController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
     <Compile Include="Infrastructure\JetBrains.Annotations.cs" />
@@ -262,6 +266,7 @@
     <Compile Include="Models\Commands\CreateWordCommand.cs" />
     <Compile Include="Models\Commands\CreateWordListCommand.cs" />
     <Compile Include="Models\Commands\AddWordToWordListCommand.cs" />
+    <Compile Include="Models\Commands\ToggleWordFavouriteCommand.cs" />
     <Compile Include="Models\Commands\UpdateWordCommand.cs" />
     <Compile Include="Models\Commands\UpdateWordConfidenceCommand.cs" />
     <Compile Include="Models\Commands\UpdateWordScoreCommand.cs" />
@@ -283,12 +288,14 @@
     <Compile Include="Models\Indexes\PracticeSessionIndex.cs" />
     <Compile Include="Models\Indexes\ResetPasswordRequestIndex.cs" />
     <Compile Include="Models\Indexes\UserIndex.cs" />
+    <Compile Include="Models\Indexes\WordFavouriteIndex.cs" />
     <Compile Include="Models\Indexes\WordIndex.cs" />
     <Compile Include="Models\Indexes\WordListIndex.cs" />
     <Compile Include="Models\Indexes\WordScoreIndex.cs" />
     <Compile Include="Models\PracticeSession.cs" />
     <Compile Include="Models\PracticeSessionStatistics.cs" />
     <Compile Include="Models\PracticeWord.cs" />
+    <Compile Include="Models\Queries\DocumentSessionExtensions.cs" />
     <Compile Include="Models\Queries\GetCreateAccountRequestQuery.cs" />
     <Compile Include="Models\Queries\GetNextPracticeWordQuery.cs" />
     <Compile Include="Models\Queries\GetPracticeWordQuery.cs" />
@@ -297,10 +304,12 @@
     <Compile Include="Models\Queries\GetUnfinishedPracticeSessionsQuery.cs" />
     <Compile Include="Models\Queries\GetUserByEmailQuery.cs" />
     <Compile Include="Models\Queries\GetUserByUsernameQuery.cs" />
+    <Compile Include="Models\Queries\GetWordFavouritesQuery.cs" />
     <Compile Include="Models\Queries\GetWordListQuery.cs" />
     <Compile Include="Models\Queries\GetWordListsQuery.cs" />
     <Compile Include="Models\Queries\GetWordQuery.cs" />
     <Compile Include="Models\Queries\GetWordsQuery.cs" />
+    <Compile Include="Models\Queries\GetWordsResult.cs" />
     <Compile Include="Models\Queries\HasAdminUserQuery.cs" />
     <Compile Include="Models\Queries\IsPracticeSessionFinishedQuery.cs" />
     <Compile Include="Models\Queries\PracticeWordResult.cs" />
@@ -309,6 +318,7 @@
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Models\WebsiteConfig.cs" />
     <Compile Include="Models\Word.cs" />
+    <Compile Include="Models\WordFavourite.cs" />
     <Compile Include="Models\WordList.cs" />
     <Compile Include="Models\WordScore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

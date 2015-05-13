@@ -7,6 +7,7 @@
     function WordListController(userWordLists) {
         var wordLists = this;
 
-        wordLists.userWordLists = userWordLists;
+        wordLists.userWordLists = userWordLists.wordLists;
+        wordLists.numberOfFavourites = userWordLists.numberOfFavourites;
     };
 })();

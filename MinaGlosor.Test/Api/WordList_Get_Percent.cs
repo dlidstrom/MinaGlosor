@@ -22,17 +22,21 @@ namespace MinaGlosor.Test.Api
             // Assert
             Assert.That(content, Is.Not.Null);
             var result = await content.ReadAsStringAsync();
-            var expected = new[]
+            var expected = new
                 {
-                    new
+                    wordLists = new[]
                         {
-                            wordListId = "1",
-                            ownerId = "1",
-                            name = "list",
-                            numberOfWords = 10,
-                            percentDone = 20,
-                            percentExpired = 10
-                        }
+                            new
+                                {
+                                    wordListId = "1",
+                                    ownerId = "1",
+                                    name = "list",
+                                    numberOfWords = 10,
+                                    percentDone = 20,
+                                    percentExpired = 10
+                                }
+                        },
+                    numberOfFavourites = 0
                 };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
         }

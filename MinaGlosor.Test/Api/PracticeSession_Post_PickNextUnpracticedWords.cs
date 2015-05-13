@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
+using System.Net;
 using System.Net.Http;
 using System.Security.Principal;
 using System.Threading;
@@ -81,6 +83,10 @@ namespace MinaGlosor.Test.Api
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("first@d.com"), new string[0]);
 
+            // mark first word as favourite
+            var wordFavouriteResponse = await Client.PostAsJsonAsync("http://temp.uri/api/wordfavourite", new { wordId = 1 });
+            Assert.That(wordFavouriteResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+
             // practice the first 10
             var request = new
             {
@@ -96,6 +102,15 @@ namespace MinaGlosor.Test.Api
                 var getWordResponse = await Client.GetAsync("http://temp.uri/api/practiceword?practiceSessionId=1");
                 Assert.That(getWordResponse.Content, Is.Not.Null);
                 var getWordContent = await getWordResponse.Content.ReadAsAsync<GetWordContent>();
+                Assert.That(getWordContent.WordId, Is.EqualTo((i + 1).ToString(CultureInfo.InvariantCulture)));
+                if (i == 0)
+                {
+                    Assert.That(getWordContent.IsFavourite, Is.True);
+                }
+                else
+                {
+                    Assert.That(getWordContent.IsFavourite, Is.False);
+                }
 
                 var postWordConfidenceRequest = new
                 {
@@ -124,6 +139,10 @@ namespace MinaGlosor.Test.Api
         public class GetWordContent
         {
             public string PracticeWordId { get; set; }
+
+            public string WordId { get; set; }
+
+            public bool IsFavourite { get; set; }
         }
 
         public class WordConfidenceContent

@@ -3,32 +3,21 @@
 
     angular.module('mgApp').controller('EditWordController', EditWordController);
 
-    EditWordController.$inject = [
-        '$location',
-        //'toaster',
-        //'ErrorHandler',
-        'WordService',
-        'Word'];
-
-    function EditWordController(/*toaster, errorHandler,*/ $location, wordService, word) {
+    EditWordController.$inject = ['$location', '$routeParams', 'ReturnUrl', 'WordService', 'Word'];
+    function EditWordController($location, $routeParams, returnUrl, wordService, word) {
         var editor = this;
 
         editor.saving = false;
         editor.entry = word;
-
         editor.update = update;
 
         function update(entry) {
             editor.saving = true;
             wordService.update(word.wordId, entry.text, entry.definition)
                 .then(function () {
-                    // success
-                    //toaster.pop('success', 'Ändra ord', 'Uppdateringen genomfördes');
-                    $location.path('/wordlist/' + word.wordListId);
-                }, function (/*response*/) {
-                    // failure
+                    $location.url(returnUrl);
+                }, function () {
                     editor.saving = false;
-                    //errorHandler(response);
                 });
         };
     }

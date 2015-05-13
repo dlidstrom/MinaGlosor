@@ -91,8 +91,11 @@
     <Compile Include="Api\RouteTestHelper.cs" />
     <Compile Include="Api\UnfinishedPracticeSession_Get.cs" />
     <Compile Include="Api\WordConfidence_Post.cs" />
+    <Compile Include="Api\WordFavourite_GetAll.cs" />
+    <Compile Include="Api\WordFavourite_Post.cs" />
     <Compile Include="Api\WordList_Get.cs" />
     <Compile Include="Api\WebApiIntegrationTest.cs" />
+    <Compile Include="Api\WordList_Get_Favourite.cs" />
     <Compile Include="Api\WordList_Get_Percent.cs" />
     <Compile Include="Api\WordList_Post.cs" />
     <Compile Include="Api\Word_GetAll.cs" />
@@ -123,6 +126,7 @@
     <Content Include="Web\run-jasmine.js" />
     <Content Include="Web\SpecRunner.html" />
     <Content Include="Web\spec\addWordController.spec.js" />
+    <Content Include="Web\spec\wordFavouriteService.spec.js" />
     <Content Include="Web\spec\practiceWordService.spec.js" />
     <Content Include="Web\spec\practiceService.spec.js" />
     <Content Include="Web\spec\routes.spec.js" />

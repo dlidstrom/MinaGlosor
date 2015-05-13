@@ -8,7 +8,8 @@ namespace MinaGlosor.Web.Models.Queries
             PracticeWord practiceWord,
             Word word,
             PracticeSession practiceSession,
-            WordList wordList)
+            WordList wordList,
+            bool isFavourite)
         {
             if (practiceWord == null) throw new ArgumentNullException("practiceWord");
             if (word == null) throw new ArgumentNullException("word");
@@ -19,6 +20,8 @@ namespace MinaGlosor.Web.Models.Queries
             Definition = word.Definition;
             PracticeWordId = practiceWord.PracticeWordId;
             PracticeSessionId = PracticeSession.FromId(practiceSession.Id);
+            IsFavourite = isFavourite;
+            WordId = Word.FromId(word.Id);
             WordListId = WordList.FromId(wordList.Id);
             WordListName = wordList.Name;
             var statistics = practiceSession.GetStatistics();
@@ -34,6 +37,10 @@ namespace MinaGlosor.Web.Models.Queries
         public string Definition { get; private set; }
 
         public string PracticeWordId { get; private set; }
+
+        public bool IsFavourite { get; private set; }
+
+        public string WordId { get; private set; }
 
         public string WordListId { get; private set; }
 
