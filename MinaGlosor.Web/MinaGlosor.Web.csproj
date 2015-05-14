@@ -386,12 +386,12 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="AfterBuild">
   </Target>
   -->
   <Target Name="BeforeBuild" Condition="'$(Configuration)' == 'Release'">
-    <Exec Command="del /F /S /Q bin" />
+    <Exec Command="del /F /S /Q bin\MinaGlosor.Web.dll" />
   </Target>
 </Project>
