@@ -45,15 +45,22 @@ namespace MinaGlosor.Test.Api
             Transact(session =>
                 {
                     var owner = new User("e@d.com", "pwd", "username");
+                    var anotherUser = new User("f@d.com", "pwd", "username");
                     session.Store(owner);
+                    session.Store(anotherUser);
                     var wordList = new WordList("list", owner);
                     session.Store(wordList);
 
                     // add some words to the word list
-                    for (var i = 0; i < 10; i++)
+                    var firstWord = new Word(1 + 1 + "t", 1 + 1 + "d", wordList.Id);
+                    session.Store(firstWord);
+                    for (var i = 1; i < 10; i++)
                     {
                         session.Store(new Word(1 + i + "t", 1 + i + "d", wordList.Id));
                     }
+
+                    // store favourite for another user
+                    session.Store(new WordFavourite(firstWord.Id, anotherUser.Id));
                 });
 
             // mark first word favourite

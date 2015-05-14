@@ -11,6 +11,7 @@
         viewer.wordListName = words.wordListName;
         viewer.words = words.words;
         viewer.canPractice = words.words.length > 0;
+        viewer.canAdd = true;
         viewer.returnUrl = $location.url();
     }
 })();

@@ -12,13 +12,12 @@ namespace MinaGlosor.Web.Models.Queries
 {
     public class GetWordListsQuery : IQuery<GetWordListsQuery.Result>
     {
-        private readonly User user;
+        private readonly string userId;
 
-        public GetWordListsQuery(User user)
+        public GetWordListsQuery(string userId)
         {
-            if (user == null) throw new ArgumentNullException("user");
-
-            this.user = user;
+            if (userId == null) throw new ArgumentNullException("userId");
+            this.userId = userId;
         }
 
         public bool CanExecute(IDocumentSession session, User currentUser)
@@ -30,7 +29,7 @@ namespace MinaGlosor.Web.Models.Queries
         {
             var wordLists = session.Query<WordListIndex.Result, WordListIndex>()
                                    .Customize(x => x.WaitForNonStaleResultsAsOfNow())
-                                   .Where(x => x.OwnerId == user.Id)
+                                   .Where(x => x.OwnerId == userId)
                                    .ToArray();
 
             var wordListResults = new List<WordListResult>();
@@ -49,7 +48,9 @@ namespace MinaGlosor.Web.Models.Queries
                                                 .ToArray();
 
             // favourites
-            var numberOfFavourites = session.Query<WordFavourite, WordFavouriteIndex>().Count(x => x.IsFavourite);
+            var numberOfFavourites = session.Query<WordFavourite, WordFavouriteIndex>()
+                .Where(x => x.UserId == userId)
+                .Count(x => x.IsFavourite);
             var result = new Result(orderedResults, numberOfFavourites);
 
             return result;

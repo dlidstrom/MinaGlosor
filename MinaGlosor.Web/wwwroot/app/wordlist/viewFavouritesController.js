@@ -11,6 +11,7 @@
         viewer.wordListName = words.wordListName || 'Favoriter';
         viewer.words = words.words;
         viewer.canPractice = false;
+        viewer.canAdd = false;
         viewer.returnUrl = $location.url();
     }
 })();

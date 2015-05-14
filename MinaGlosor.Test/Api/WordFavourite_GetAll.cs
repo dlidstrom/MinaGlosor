@@ -37,9 +37,11 @@ namespace MinaGlosor.Test.Api
         {
             // Arrange
             var owner = new User("e@d.com", "pwd", "username");
+            var anotherUser = new User("f@d.com", "pwd", "username");
             Transact(session =>
                 {
                     session.Store(owner);
+                    session.Store(anotherUser);
                     var wordList = new WordList("list name", owner);
                     session.Store(wordList);
 
@@ -49,6 +51,9 @@ namespace MinaGlosor.Test.Api
 
                     // make one word favourite
                     session.Store(new WordFavourite(word.Id, owner.Id));
+
+                    // store another favourite, for someone else
+                    session.Store(new WordFavourite(word.Id, anotherUser.Id));
                 });
         }
     }

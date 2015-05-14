@@ -18,7 +18,7 @@
                 <th>Ord</th>
                 <th>Betydelse</th>
                 <th>
-                    <a href="{{'./wordlist/' + viewer.wordListId + '/add'}}" class="btn btn-xs btn-primary">
+                    <a href="{{'./wordlist/' + viewer.wordListId + '/add'}}" class="btn btn-xs btn-primary" ng-show="viewer.canAdd">
                         <i class="glyphicon glyphicon-plus"></i>
                         ord
                     </a>

@@ -8,8 +8,7 @@
     function WordFavouriteDirective() {
         var template
             = '<span class="favourite" style="float: right">'
-            + '  <i class="glyphicon glyphicon-star yes" ng-show="isFavourite" ng-class="{\'mg-spin\': inProgress}" ng-click="toggle()"></i>'
-            + '  <i class="glyphicon glyphicon-star-empty no" ng-hide="isFavourite" ng-class="{\'mg-spin\': inProgress}" ng-click="toggle()"></i>'
+            + '  <i class="glyphicon glyphicon-star" ng-class="{\'mg-spin\': inProgress, \'glyphicon-star\': isFavourite, \'glyphicon-star-empty\': !isFavourite,  yes: isFavourite, no: !isFavourite}" ng-click="toggle()"></i>'
             + '</span>';
         return {
             restrict: 'E',
