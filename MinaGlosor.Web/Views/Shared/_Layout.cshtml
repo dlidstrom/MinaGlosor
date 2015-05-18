@@ -1,16 +1,15 @@
 ﻿@{
     Bundles.Reference("wwwroot/main.less");
+    Bundles.Reference("wwwroot/external/head_js", "head");
+    Bundles.Reference("wwwroot/external/footer_js", "footer");
 }<!DOCTYPE HTML>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <title>Mina Glosor</title>
-    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-messages.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.2/readable/bootstrap.min.css" />
+    @Bundles.RenderScripts("head")
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/readable/bootstrap.min.css" rel="stylesheet">
     @Bundles.RenderStylesheets()
 </head>
     <body ng-app="app">
@@ -25,8 +24,6 @@
         <script>
             angular.module("app", ["ngMessages", "ngAnimate"]);
         </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+        @Bundles.RenderScripts("footer")
     </body>
 </html>

@@ -157,7 +157,9 @@
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
     <Content Include="cassette-cache\script\wwwroot\app\207740dee0b917f59227fdfc58ef49dea278e38c.js" />
-    <Content Include="cassette-cache\stylesheet\wwwroot\7d9d39947fdf857164fb7f57caee21c8b1832529.css" />
+    <Content Include="cassette-cache\script\wwwroot\external\footer_js\4e8a7d0a2c6112eda3ef0b855940257bcdb5231d.js" />
+    <Content Include="cassette-cache\script\wwwroot\external\head_js\418ce6d51743c7016d100802b0a0ae91cbd19836.js" />
+    <Content Include="cassette-cache\stylesheet\wwwroot\a452c85d0a60bf8e49c3a7d7689ccc1e6177d8e4.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
     <Content Include="Web.config" />
@@ -165,7 +167,17 @@
     <Content Include="wwwroot\angular.js" />
     <Content Include="wwwroot\app\app.js" />
     <Content Include="wwwroot\app\bundle.txt" />
-    <Content Include="wwwroot\app\external\toaster.js" />
+    <Content Include="wwwroot\external\footer_js\bootstrap.min.js" />
+    <Content Include="wwwroot\external\footer_js\bundle.txt" />
+    <Content Include="wwwroot\external\footer_js\fastclick.min.js" />
+    <Content Include="wwwroot\external\footer_js\json3.min.js" />
+    <Content Include="wwwroot\external\footer_js\toaster.min.js" />
+    <Content Include="wwwroot\external\head_js\angular-animate.min.js" />
+    <Content Include="wwwroot\external\head_js\angular-messages.min.js" />
+    <Content Include="wwwroot\external\head_js\angular-route.min.js" />
+    <Content Include="wwwroot\external\head_js\angular.min.js" />
+    <Content Include="wwwroot\external\head_js\bundle.txt" />
+    <Content Include="wwwroot\external\head_js\jquery-2.1.3.min.js" />
     <Content Include="wwwroot\app\help\index.html" />
     <Content Include="wwwroot\app\httpInterceptor.js" />
     <Content Include="wwwroot\app\shared\wordFavouriteService.js" />
@@ -205,6 +217,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\bundle.txt" />
+    <Content Include="wwwroot\toaster.min.css" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
