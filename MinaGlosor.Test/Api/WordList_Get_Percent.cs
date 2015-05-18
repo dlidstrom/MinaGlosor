@@ -55,7 +55,7 @@ namespace MinaGlosor.Test.Api
                 // add some words to the word list
                 for (var i = 0; i < 10; i++)
                 {
-                    session.Store(new Word(1 + i + "t", 1 + i + "d", wordList.Id));
+                    session.Store(new Word("Words/" + (1 + i), 1 + i + "t", 1 + i + "d", wordList.Id, Guid.NewGuid(), null));
                 }
             });
 

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
 using NUnit.Framework;
@@ -18,7 +19,13 @@ namespace MinaGlosor.Test.Api
                 session.Store(owner);
                 var wordList = new WordList("list", owner);
                 session.Store(wordList);
-                var word = new Word("some text", "some def", wordList.Id);
+                var word = new Word(
+                    "Words/1",
+                    "some text",
+                    "some def",
+                    wordList.Id,
+                    Guid.NewGuid(),
+                    null);
                 session.Store(word);
             });
 

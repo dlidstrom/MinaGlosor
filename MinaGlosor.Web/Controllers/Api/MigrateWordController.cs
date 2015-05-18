@@ -49,7 +49,15 @@ namespace MinaGlosor.Web.Controllers.Api
                 return Request.CreateResponse(HttpStatusCode.OK);
 
             Debug.Assert(request.CreatedDate != null, "request.CreatedDate != null");
-            session.Store(Word.CreateFromMigration(request.Text, request.Definition, request.CreatedDate.Value, wordList.Id));
+            var word = Word.CreateFromMigration(
+                "Words/1",
+                request.Text,
+                request.Definition,
+                request.CreatedDate.Value,
+                wordList.Id,
+                Guid.NewGuid(),
+                null);
+            session.Store(word);
 
             return Request.CreateResponse(HttpStatusCode.Created);
         }

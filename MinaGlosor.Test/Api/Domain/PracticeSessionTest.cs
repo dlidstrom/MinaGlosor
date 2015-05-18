@@ -21,10 +21,7 @@ namespace MinaGlosor.Test.Api.Domain
             var practiceWords = Enumerable.Range(1, 10).Select(i =>
                 {
                     SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1).AddDays(i);
-                    var word = new Word("t" + i, "d" + i, "WordLists/1")
-                        {
-                            Id = "words/" + i
-                        };
+                    var word = new Word("words/" + i, "t" + i, "d" + i, "WordLists/1", Guid.NewGuid(), null);
                     var practiceWord = new PracticeWord(word, "WordLists/1", "users/1");
                     return practiceWord;
                 }).ToArray();
@@ -88,7 +85,8 @@ namespace MinaGlosor.Test.Api.Domain
             // Arrange
             for (var i = 0; i < 10; i++)
             {
-                SystemTime.UtcDateTime = () => new DateTime(2013, 1, 1).AddDays(i);
+                int i1 = i;
+                SystemTime.UtcDateTime = () => new DateTime(2013, 1, 1).AddDays(i1);
                 var word = practiceSession.GetNextWord();
                 practiceSession.UpdateConfidence(word.PracticeWordId, ConfidenceLevel.IncorrectButRemembered);
             }

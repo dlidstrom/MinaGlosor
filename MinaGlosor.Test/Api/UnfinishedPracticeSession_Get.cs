@@ -24,7 +24,13 @@ namespace MinaGlosor.Test.Api
                     session.Store(wordList);
                     var practiceWords = Enumerable.Range(1, 10).Select(i =>
                         {
-                            var word = new Word("t" + i, "d" + i, wordList.Id);
+                            var word = new Word(
+                                "Words/" + i,
+                                "t" + i,
+                                "d" + i,
+                                wordList.Id,
+                                Guid.NewGuid(),
+                                null);
                             session.Store(word);
                             var practiceWord = new PracticeWord(word, wordList.Id, owner.Id);
                             return practiceWord;

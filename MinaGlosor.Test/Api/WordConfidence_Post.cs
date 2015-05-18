@@ -31,7 +31,9 @@ namespace MinaGlosor.Test.Api
                     {
                         var newCurrentDate = currentDate.AddSeconds(i);
                         SystemTime.UtcDateTime = () => newCurrentDate;
-                        session.Store(new Word(1 + i + "t", 1 + i + "d", wordList.Id));
+
+                        // TODO Fix all these unnecessary 1 + i
+                        session.Store(new Word("Words/" + (1 + i), 1 + i + "t", 1 + i + "d", wordList.Id, Guid.NewGuid(), null));
                     }
                 });
 

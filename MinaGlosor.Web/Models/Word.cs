@@ -7,15 +7,16 @@ namespace MinaGlosor.Web.Models
 {
     public class Word
     {
-        public Word(string text, string definition, string wordListId)
+        public Word(string id, string text, string definition, string wordListId, Guid correlationId, Guid? causationId)
         {
+            if (id == null) throw new ArgumentNullException("id");
             Verify(text, definition, wordListId);
             CreatedDate = SystemTime.UtcNow;
             Text = text;
             Definition = definition;
             WordListId = wordListId;
 
-            DomainEvent.Raise(new WordRegisteredEvent(wordListId));
+            DomainEvent.Raise(new WordRegisteredEvent(wordListId, id, correlationId, causationId));
         }
 
         [JsonConstructor]
@@ -23,7 +24,7 @@ namespace MinaGlosor.Web.Models
         {
         }
 
-        public string Id { get; set; }
+        public string Id { get; private set; }
 
         public DateTime CreatedDate { get; private set; }
 
@@ -45,7 +46,14 @@ namespace MinaGlosor.Web.Models
             return "Words/" + wordId;
         }
 
-        public static Word CreateFromMigration(string text, string definition, DateTime createdDate, string wordListId)
+        public static Word CreateFromMigration(
+            string id,
+            string text,
+            string definition,
+            DateTime createdDate,
+            string wordListId,
+            Guid correlationId,
+            Guid? causationId)
         {
             if (text == null) throw new ArgumentNullException("text");
             if (definition == null) throw new ArgumentNullException("definition");
@@ -53,13 +61,14 @@ namespace MinaGlosor.Web.Models
 
             var word = new Word
                 {
+                    Id = id,
                     CreatedDate = createdDate,
                     Definition = definition,
                     Text = text,
                     WordListId = wordListId
                 };
 
-            DomainEvent.Raise(new WordRegisteredEvent(wordListId));
+            DomainEvent.Raise(new WordRegisteredEvent(wordListId, id, correlationId, causationId));
             return word;
         }
 

@@ -44,7 +44,7 @@ namespace MinaGlosor.Web.Controllers.Api
 
             Debug.Assert(request != null, "request != null");
             var wordList = ExecuteQuery(new GetWordListQuery(request.WordListId));
-            var wordId = ExecuteCommand(new CreateWordCommand(request.Text, request.Definition, wordList));
+            var wordId = ExecuteCommand(new CreateWordCommand(request.Text, request.Definition, wordList, CorrelationId, null));
             return Request.CreateResponse(HttpStatusCode.Created, new { wordId });
         }
 
@@ -56,6 +56,7 @@ namespace MinaGlosor.Web.Controllers.Api
             if (ModelState.IsValid == false)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
 
+            Debug.Assert(request != null, "request != null");
             ExecuteCommand(new UpdateWordCommand(request.WordId, request.Text, request.Definition));
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }

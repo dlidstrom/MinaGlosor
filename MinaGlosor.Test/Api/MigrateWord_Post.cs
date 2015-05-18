@@ -67,7 +67,7 @@ namespace MinaGlosor.Test.Api
                 session.Store(user);
                 var wordList = new WordList("English", user);
                 session.Store(wordList);
-                var word = new Word("t1", "d1", wordList.Id);
+                var word = new Word("Words/1", "t1", "d1", wordList.Id, Guid.NewGuid(), null);
                 session.Store(word);
             });
 
@@ -103,7 +103,7 @@ namespace MinaGlosor.Test.Api
                 session.Store(user1);
                 var wordList1 = new WordList("English", user1);
                 session.Store(wordList1);
-                var word = new Word("t1", "d1", wordList1.Id);
+                var word = new Word("Words/1", "t1", "d1", wordList1.Id, Guid.NewGuid(), null);
                 session.Store(word);
 
                 var user2 = new User("someone@d.com", "theirpwd", "username2");

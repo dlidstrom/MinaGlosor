@@ -60,7 +60,14 @@ namespace MinaGlosor.Test.Api
                     {
                         var newCurrentDate = currentDate.AddSeconds(i);
                         SystemTime.UtcDateTime = () => newCurrentDate;
-                        session.Store(new Word(1 + i + "t", 1 + i + "d", wordList.Id));
+                        var word = new Word(
+                            "Words/" + (1 + i),
+                            1 + i + "t",
+                            1 + i + "d",
+                            wordList.Id,
+                            Guid.NewGuid(),
+                            null);
+                        session.Store(word);
                     }
 
                     // last should be practiced already (these should be selected)
@@ -68,7 +75,13 @@ namespace MinaGlosor.Test.Api
                     {
                         var newCurrentDate = currentDate.AddSeconds(i);
                         SystemTime.UtcDateTime = () => newCurrentDate;
-                        var word = new Word(1 + i + "t", 1 + i + "d", wordList.Id);
+                        var word = new Word(
+                            "Words/" + i,
+                            1 + i + "t",
+                            1 + i + "d",
+                            wordList.Id,
+                            Guid.NewGuid(),
+                            null);
                         session.Store(word);
                         var wordScore = new WordScore(owner.Id, word.Id, wordList.Id);
                         wordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
@@ -76,7 +89,13 @@ namespace MinaGlosor.Test.Api
                     }
 
                     // add some practice word that is for the far future (this should not be selected)
-                    var futureWord = new Word("future", "future", wordList.Id);
+                    var futureWord = new Word(
+                        "Words/21",
+                        "future",
+                        "future",
+                        wordList.Id,
+                        Guid.NewGuid(),
+                        null);
                     session.Store(futureWord);
                     var futureWordScore = new WordScore(owner.Id, futureWord.Id, wordList.Id);
                     futureWordScore.ScoreWord(ConfidenceLevel.PerfectResponse);

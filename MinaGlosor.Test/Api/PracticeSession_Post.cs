@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Globalization;
+using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
 using NUnit.Framework;
@@ -53,7 +55,14 @@ namespace MinaGlosor.Test.Api
                 // add some words to the word list
                 for (var i = 0; i < 20; i++)
                 {
-                    session.Store(new Word(i.ToString(), i.ToString(), wordList.Id));
+                    var word = new Word(
+                        "Words/" + (i + 1),
+                        i.ToString(CultureInfo.InvariantCulture),
+                        i.ToString(CultureInfo.InvariantCulture),
+                        wordList.Id,
+                        Guid.NewGuid(),
+                        null);
+                    session.Store(word);
                 }
             });
 

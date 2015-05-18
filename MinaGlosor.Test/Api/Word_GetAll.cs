@@ -22,9 +22,9 @@ namespace MinaGlosor.Test.Api
 
                 // make sure listed in date order
                 SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1);
-                session.Store(new Word("w2", "d2", wordList.Id));
+                session.Store(new Word("Words/1", "w2", "d2", wordList.Id, Guid.NewGuid(), null));
                 SystemTime.UtcDateTime = () => new DateTime(2010, 1, 1);
-                session.Store(new Word("w1", "d1", wordList.Id));
+                session.Store(new Word("Words/2", "w1", "d1", wordList.Id, Guid.NewGuid(), null));
             });
 
             // Act

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
 using Newtonsoft.Json;
@@ -52,11 +53,11 @@ namespace MinaGlosor.Test.Api
                     session.Store(wordList);
 
                     // add some words to the word list
-                    var firstWord = new Word(1 + 1 + "t", 1 + 1 + "d", wordList.Id);
+                    var firstWord = new Word("Words/1", 1 + 1 + "t", 1 + 1 + "d", wordList.Id, Guid.NewGuid(), null);
                     session.Store(firstWord);
                     for (var i = 1; i < 10; i++)
                     {
-                        session.Store(new Word(1 + i + "t", 1 + i + "d", wordList.Id));
+                        session.Store(new Word("Words/" + (1 + i), 1 + i + "t", 1 + i + "d", wordList.Id, Guid.NewGuid(), null));
                     }
 
                     // store favourite for another user

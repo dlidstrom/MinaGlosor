@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Security;
 using System.Web.Http;
@@ -11,7 +12,7 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Controllers.Api
 {
-    [CheckAppVersion, SaveChanges]
+    [CheckAppVersion, SaveChanges, CorrelationId]
     public abstract class AbstractApiController : ApiController
     {
         private User currentUser;
@@ -31,6 +32,11 @@ namespace MinaGlosor.Web.Controllers.Api
 
                 return currentUser;
             }
+        }
+
+        protected Guid CorrelationId
+        {
+            get { return Trace.CorrelationManager.ActivityId; }
         }
 
         protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)
