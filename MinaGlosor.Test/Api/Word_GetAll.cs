@@ -1,5 +1,6 @@
 ﻿using System;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Raven.Abstractions;
@@ -22,9 +23,10 @@ namespace MinaGlosor.Test.Api
 
                 // make sure listed in date order
                 SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1);
-                session.Store(new Word("Words/1", "w2", "d2", wordList.Id, Guid.NewGuid(), null));
+                var generator = new KeyGenerator<Word>(session);
+                session.Store(new Word(generator.Generate(), "w2", "d2", wordList.Id, Guid.NewGuid(), null));
                 SystemTime.UtcDateTime = () => new DateTime(2010, 1, 1);
-                session.Store(new Word("Words/2", "w1", "d1", wordList.Id, Guid.NewGuid(), null));
+                session.Store(new Word(generator.Generate(), "w1", "d1", wordList.Id, Guid.NewGuid(), null));
             });
 
             // Act

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using MinaGlosor.Web.Models.Indexes;
 using NUnit.Framework;
 using Raven.Client.Linq;
@@ -52,6 +53,7 @@ namespace MinaGlosor.Test.Api
                     Debug.Assert(newWord != null, "newWord != null");
                     Assert.That(newWord.Text, Is.EqualTo("t1"));
                     Assert.That(newWord.Definition, Is.EqualTo("d1"));
+                    Assert.That(newWord.CreatedDate, Is.EqualTo(new DateTime(2012, 1, 1)));
                     var wordList = session.Load<WordList>("WordLists/1");
                     Assert.That(wordList.NumberOfWords, Is.EqualTo(1));
                 });
@@ -67,7 +69,8 @@ namespace MinaGlosor.Test.Api
                 session.Store(user);
                 var wordList = new WordList("English", user);
                 session.Store(wordList);
-                var word = new Word("Words/1", "t1", "d1", wordList.Id, Guid.NewGuid(), null);
+                var generator = new KeyGenerator<Word>(session);
+                var word = new Word(generator.Generate(), "t1", "d1", wordList.Id, Guid.NewGuid(), null);
                 session.Store(word);
             });
 
@@ -103,7 +106,8 @@ namespace MinaGlosor.Test.Api
                 session.Store(user1);
                 var wordList1 = new WordList("English", user1);
                 session.Store(wordList1);
-                var word = new Word("Words/1", "t1", "d1", wordList1.Id, Guid.NewGuid(), null);
+                var generator = new KeyGenerator<Word>(session);
+                var word = new Word(generator.Generate(), "t1", "d1", wordList1.Id, Guid.NewGuid(), null);
                 session.Store(word);
 
                 var user2 = new User("someone@d.com", "theirpwd", "username2");

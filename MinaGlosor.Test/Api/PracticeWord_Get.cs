@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using NUnit.Framework;
 using Raven.Abstractions;
 
@@ -84,12 +85,13 @@ namespace MinaGlosor.Test.Api
 
                 // add some words to the word list
                 var currentDate = new DateTime(2012, 1, 1);
+                var generator = new KeyGenerator<Word>(session);
                 for (var i = 0; i < 15; i++)
                 {
                     var newCurrentDate = currentDate.AddSeconds(i);
                     SystemTime.UtcDateTime = () => newCurrentDate;
                     var word = new Word(
-                        "Words/" + (1 + i),
+                        generator.Generate(),
                         1 + i + "t",
                         1 + i + "d",
                         wordList.Id,

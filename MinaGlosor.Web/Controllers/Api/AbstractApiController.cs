@@ -7,6 +7,7 @@ using Castle.MicroKernel;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.Attributes;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.DomainEvents;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Client;
 
@@ -52,7 +53,11 @@ namespace MinaGlosor.Web.Controllers.Api
             if (command == null) throw new ArgumentNullException("command");
             var documentSession = GetDocumentSession();
             if (!command.CanExecute(documentSession, CurrentUser)) throw new SecurityException("Operation not allowed");
-            command.Execute(documentSession);
+
+            using (DomainEvent.Correlate(SystemGuid.NewSequential))
+            {
+                command.Execute(documentSession);
+            }
         }
 
         protected TResult ExecuteCommand<TResult>(ICommand<TResult> command)
@@ -60,7 +65,10 @@ namespace MinaGlosor.Web.Controllers.Api
             if (command == null) throw new ArgumentNullException("command");
             var documentSession = GetDocumentSession();
             if (!command.CanExecute(documentSession, CurrentUser)) throw new SecurityException("Operation not allowed");
-            return command.Execute(documentSession);
+            using (DomainEvent.Correlate(SystemGuid.NewSequential))
+            {
+                return command.Execute(documentSession);
+            }
         }
 
         protected IDocumentSession GetDocumentSession()

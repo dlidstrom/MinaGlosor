@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Raven.Abstractions;
@@ -53,9 +54,10 @@ namespace MinaGlosor.Test.Api
                 session.Store(wordList);
 
                 // add some words to the word list
+                var generator = new KeyGenerator<Word>(session);
                 for (var i = 0; i < 10; i++)
                 {
-                    session.Store(new Word("Words/" + (1 + i), 1 + i + "t", 1 + i + "d", wordList.Id, Guid.NewGuid(), null));
+                    session.Store(new Word(generator.Generate(), 1 + i + "t", 1 + i + "d", wordList.Id, Guid.NewGuid(), null));
                 }
             });
 

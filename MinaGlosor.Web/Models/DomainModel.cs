@@ -14,7 +14,12 @@ namespace MinaGlosor.Web.Models
             Events = new List<object>();
         }
 
-        public string Id { get; private set; }
+        protected DomainModel()
+        {
+            Events = new List<object>();
+        }
+
+        public string Id { get; protected set; }
 
         public List<object> Events { get; protected set; }
 
@@ -32,7 +37,7 @@ namespace MinaGlosor.Web.Models
             methodInfo.Invoke(this, new[] { @event });
             Events.Add(@event);
 
-            // signal event using DomainEvent class
+            // raise global event
             DomainEvent.Raise(@event);
         }
     }

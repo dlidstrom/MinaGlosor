@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Raven.Abstractions;
@@ -22,10 +23,11 @@ namespace MinaGlosor.Test.Api
                     session.Store(owner);
                     var wordList = new WordList("wl1", owner);
                     session.Store(wordList);
+                    var generator = new KeyGenerator<Word>(session);
                     var practiceWords = Enumerable.Range(1, 10).Select(i =>
                         {
                             var word = new Word(
-                                "Words/" + i,
+                                generator.Generate(),
                                 "t" + i,
                                 "d" + i,
                                 wordList.Id,

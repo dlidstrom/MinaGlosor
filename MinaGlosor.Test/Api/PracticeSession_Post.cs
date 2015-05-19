@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using NUnit.Framework;
 
 namespace MinaGlosor.Test.Api
@@ -53,10 +54,11 @@ namespace MinaGlosor.Test.Api
                 session.Store(wordList);
 
                 // add some words to the word list
+                var generator = new KeyGenerator<Word>(session);
                 for (var i = 0; i < 20; i++)
                 {
                     var word = new Word(
-                        "Words/" + (i + 1),
+                        generator.Generate(),
                         i.ToString(CultureInfo.InvariantCulture),
                         i.ToString(CultureInfo.InvariantCulture),
                         wordList.Id,

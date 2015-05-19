@@ -2,13 +2,11 @@ using System;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Queries;
 using Raven.Client;
-using Raven.Client.Document;
 
 namespace MinaGlosor.Web.Models.Commands
 {
     public class CreateWordCommand : ICommand<string>
     {
-        private readonly HiLoKeyGenerator keyGenerator = new HiLoKeyGenerator("Words", 4);
         private readonly string text;
         private readonly string definition;
         private readonly string wordListId;
@@ -42,9 +40,8 @@ namespace MinaGlosor.Web.Models.Commands
 
         public string Execute(IDocumentSession session)
         {
-            var documentSession = (DocumentSession)session;
-            var documentStore = documentSession.DocumentStore;
-            var id = keyGenerator.GenerateDocumentKey(documentStore.DatabaseCommands, documentStore.Conventions, null);
+            var generator = new KeyGenerator<Word>(session);
+            var id = generator.Generate();
             var word = new Word(id, text, definition, wordListId, correlationId, causationId);
             session.Store(word);
             return Word.FromId(word.Id);

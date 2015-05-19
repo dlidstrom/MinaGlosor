@@ -13,7 +13,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
         {
             if (modelId == null) throw new ArgumentNullException("modelId");
             ModelId = modelId;
-            CorrelationId = correlationId;
+            CorrelationId = DomainEvent.CorrelationId;
             CausationId = causationId.GetValueOrDefault();
             EventId = Guid.NewGuid();
             CreatedDateTime = SystemTime.UtcNow;

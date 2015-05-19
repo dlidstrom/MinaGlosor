@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using NUnit.Framework;
 
 namespace MinaGlosor.Test.Api
@@ -19,7 +20,8 @@ namespace MinaGlosor.Test.Api
                     session.Store(owner);
                     var wordList = new WordList("list", owner);
                     session.Store(wordList);
-                    var word = new Word("Words/1", "old text", "old def", wordList.Id, Guid.NewGuid(), null);
+                    var generator = new KeyGenerator<Word>(session);
+                    var word = new Word(generator.Generate(), "old text", "old def", wordList.Id, Guid.NewGuid(), null);
                     session.Store(word);
                 });
 
@@ -36,7 +38,7 @@ namespace MinaGlosor.Test.Api
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
             Transact(session =>
                 {
-                    var newWord = session.Load<Word>("Words/1");
+                    var newWord = session.Load<Word>("words/1");
                     Assert.That(newWord.Text, Is.EqualTo("new word"));
                     Assert.That(newWord.Definition, Is.EqualTo("new def"));
                 });

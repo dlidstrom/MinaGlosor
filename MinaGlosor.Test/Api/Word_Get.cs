@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using NUnit.Framework;
 
 namespace MinaGlosor.Test.Api
@@ -19,8 +20,9 @@ namespace MinaGlosor.Test.Api
                 session.Store(owner);
                 var wordList = new WordList("list", owner);
                 session.Store(wordList);
+                var generator = new KeyGenerator<Word>(session);
                 var word = new Word(
-                    "Words/1",
+                    generator.Generate(),
                     "some text",
                     "some def",
                     wordList.Id,
