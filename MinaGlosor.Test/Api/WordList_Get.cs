@@ -1,5 +1,4 @@
-﻿using System;
-using MinaGlosor.Web.Models;
+﻿using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -120,15 +119,15 @@ namespace MinaGlosor.Test.Api
                     session.Store(wordList1);
 
                     var generator = new KeyGenerator<Word>(session);
-                    session.Store(new Word(generator.Generate(), "Word1", "Def1", wordList1.Id, Guid.NewGuid(), null));
-                    session.Store(new Word(generator.Generate(), "Word1", "Def1", wordList1.Id, Guid.NewGuid(), null));
+                    session.Store(new Word(generator.Generate(), "Word1", "Def1", wordList1.Id));
+                    session.Store(new Word(generator.Generate(), "Word1", "Def1", wordList1.Id));
 
                     // second word list
                     var wordList2 = new WordList("Then one more", owner);
                     session.Store(wordList2);
-                    session.Store(new Word(generator.Generate(), "Word1", "Definition1", wordList2.Id, Guid.NewGuid(), null));
-                    session.Store(new Word(generator.Generate(), "Word2", "Definition2", wordList2.Id, Guid.NewGuid(), null));
-                    session.Store(new Word(generator.Generate(), "Word3", "Definition2", wordList2.Id, Guid.NewGuid(), null));
+                    session.Store(new Word(generator.Generate(), "Word1", "Definition1", wordList2.Id));
+                    session.Store(new Word(generator.Generate(), "Word2", "Definition2", wordList2.Id));
+                    session.Store(new Word(generator.Generate(), "Word3", "Definition2", wordList2.Id));
                 });
         }
     }

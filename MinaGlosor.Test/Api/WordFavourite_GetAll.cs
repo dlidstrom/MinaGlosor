@@ -1,5 +1,4 @@
-﻿using System;
-using MinaGlosor.Web.Models;
+﻿using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -48,9 +47,9 @@ namespace MinaGlosor.Test.Api
                     session.Store(wordList);
 
                     var generator = new KeyGenerator<Word>(session);
-                    var word = new Word(generator.Generate(), "w2", "d2", wordList.Id, Guid.NewGuid(), null);
+                    var word = new Word(generator.Generate(), "w2", "d2", wordList.Id);
                     session.Store(word);
-                    session.Store(new Word(generator.Generate(), "w1", "d1", wordList.Id, Guid.NewGuid(), null));
+                    session.Store(new Word(generator.Generate(), "w1", "d1", wordList.Id));
 
                     // make one word favourite
                     session.Store(new WordFavourite(word.Id, owner.Id));

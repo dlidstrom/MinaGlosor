@@ -17,16 +17,24 @@ namespace MinaGlosor.Web.Models.DomainEvents
             return query.Execute(GetDocumentSession());
         }
 
-        protected void ExecuteCommand(ICommand command)
+        protected void ExecuteCommand(ICommand command, ModelEvent causedByEvent)
         {
             if (command == null) throw new ArgumentNullException("command");
-            command.Execute(GetDocumentSession());
+            if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
+            using (new ModelContext(ModelContext.CorrelationId, causedByEvent.EventId))
+            {
+                command.Execute(GetDocumentSession());
+            }
         }
 
-        protected TResult ExecuteCommand<TResult>(ICommand<TResult> command)
+        protected TResult ExecuteCommand<TResult>(ICommand<TResult> command, ModelEvent causedByEvent)
         {
             if (command == null) throw new ArgumentNullException("command");
-            return command.Execute(GetDocumentSession());
+            if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
+            using (new ModelContext(ModelContext.CorrelationId, causedByEvent.EventId))
+            {
+                return command.Execute(GetDocumentSession());
+            }
         }
 
         private IDocumentSession GetDocumentSession()

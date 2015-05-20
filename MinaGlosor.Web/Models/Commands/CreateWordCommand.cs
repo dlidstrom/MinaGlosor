@@ -10,15 +10,11 @@ namespace MinaGlosor.Web.Models.Commands
         private readonly string text;
         private readonly string definition;
         private readonly string wordListId;
-        private readonly Guid correlationId;
-        private readonly Guid? causationId;
 
         public CreateWordCommand(
             string text,
             string definition,
-            GetWordListQuery.Result wordListResult,
-            Guid correlationId,
-            Guid? causationId)
+            GetWordListQuery.Result wordListResult)
         {
             if (text == null) throw new ArgumentNullException("text");
             if (definition == null) throw new ArgumentNullException("definition");
@@ -26,8 +22,6 @@ namespace MinaGlosor.Web.Models.Commands
 
             this.text = text;
             this.definition = definition;
-            this.correlationId = correlationId;
-            this.causationId = causationId;
             wordListId = WordList.ToId(wordListResult.WordListId);
         }
 
@@ -42,7 +36,7 @@ namespace MinaGlosor.Web.Models.Commands
         {
             var generator = new KeyGenerator<Word>(session);
             var id = generator.Generate();
-            var word = new Word(id, text, definition, wordListId, correlationId, causationId);
+            var word = new Word(id, text, definition, wordListId);
             session.Store(word);
             return Word.FromId(word.Id);
         }

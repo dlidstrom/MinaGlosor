@@ -1,11 +1,9 @@
-using System;
-
 namespace MinaGlosor.Web.Models.DomainEvents
 {
     public class WordRegisteredEvent : ModelEvent
     {
-        public WordRegisteredEvent(string wordListId, string modelId, string text, string definition, Guid correlationId, Guid? causationId)
-            : base(modelId, correlationId, causationId)
+        public WordRegisteredEvent(string wordListId, string modelId, string text, string definition)
+            : base(modelId)
         {
             WordListId = wordListId;
             Text = text;

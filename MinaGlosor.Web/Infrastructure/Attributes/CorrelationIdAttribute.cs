@@ -11,7 +11,7 @@ namespace MinaGlosor.Web.Infrastructure.Attributes
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            Trace.CorrelationManager.ActivityId = Guid.NewGuid();
+            Trace.CorrelationManager.ActivityId = SystemGuid.NewSequential;
         }
 
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
@@ -21,7 +21,7 @@ namespace MinaGlosor.Web.Infrastructure.Attributes
 
         public override Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
-            Trace.CorrelationManager.ActivityId = Guid.NewGuid();
+            Trace.CorrelationManager.ActivityId = SystemGuid.NewSequential;
             return Task.FromResult(0);
         }
 

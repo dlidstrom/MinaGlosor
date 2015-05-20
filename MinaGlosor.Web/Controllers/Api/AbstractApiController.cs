@@ -7,7 +7,6 @@ using Castle.MicroKernel;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.Attributes;
 using MinaGlosor.Web.Models;
-using MinaGlosor.Web.Models.DomainEvents;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Client;
 
@@ -35,11 +34,6 @@ namespace MinaGlosor.Web.Controllers.Api
             }
         }
 
-        protected Guid CorrelationId
-        {
-            get { return Trace.CorrelationManager.ActivityId; }
-        }
-
         protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)
         {
             if (query == null) throw new ArgumentNullException("query");
@@ -54,7 +48,7 @@ namespace MinaGlosor.Web.Controllers.Api
             var documentSession = GetDocumentSession();
             if (!command.CanExecute(documentSession, CurrentUser)) throw new SecurityException("Operation not allowed");
 
-            using (DomainEvent.Correlate(SystemGuid.NewSequential))
+            using (new ModelContext(Trace.CorrelationManager.ActivityId))
             {
                 command.Execute(documentSession);
             }
@@ -65,7 +59,7 @@ namespace MinaGlosor.Web.Controllers.Api
             if (command == null) throw new ArgumentNullException("command");
             var documentSession = GetDocumentSession();
             if (!command.CanExecute(documentSession, CurrentUser)) throw new SecurityException("Operation not allowed");
-            using (DomainEvent.Correlate(SystemGuid.NewSequential))
+            using (new ModelContext(Trace.CorrelationManager.ActivityId))
             {
                 return command.Execute(documentSession);
             }

@@ -4,8 +4,8 @@ namespace MinaGlosor.Web.Models.DomainEvents
 {
     public class SetCreatedDateFromMigrationEvent : ModelEvent
     {
-        public SetCreatedDateFromMigrationEvent(string modelId, DateTime createdDate, Guid correlationId, Guid? causationId)
-            : base(modelId, correlationId, causationId)
+        public SetCreatedDateFromMigrationEvent(string modelId, DateTime createdDate)
+            : base(modelId)
         {
             CreatedDateFromMigration = createdDate;
         }

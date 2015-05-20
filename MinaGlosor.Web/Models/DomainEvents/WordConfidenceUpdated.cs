@@ -2,9 +2,10 @@ using System;
 
 namespace MinaGlosor.Web.Models.DomainEvents
 {
-    public class WordConfidenceUpdated
+    public class WordConfidenceUpdated : ModelEvent
     {
         public WordConfidenceUpdated(string wordId, string wordListId, ConfidenceLevel confidenceLevel, string ownerId)
+            : base(wordId)
         {
             if (wordId == null) throw new ArgumentNullException("wordId");
             if (wordListId == null) throw new ArgumentNullException("wordListId");

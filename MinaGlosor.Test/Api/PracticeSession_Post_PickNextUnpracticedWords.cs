@@ -83,9 +83,7 @@ namespace MinaGlosor.Test.Api
                             generator.Generate(),
                             1 + i + "t",
                             1 + i + "d",
-                            wordList.Id,
-                            Guid.NewGuid(),
-                            null);
+                            wordList.Id);
                         session.Store(word);
                     }
                 });

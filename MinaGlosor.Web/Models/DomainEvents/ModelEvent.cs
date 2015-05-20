@@ -9,12 +9,12 @@ namespace MinaGlosor.Web.Models.DomainEvents
         /// If you are responding to a message, you copy its correlation id as your correlation id, its message id is your
         /// causation id. This allows you to see an entire conversation (correlation id) or to see what causes what (causation id).
         /// </summary>
-        protected ModelEvent(string modelId, Guid correlationId, Guid? causationId)
+        protected ModelEvent(string modelId)
         {
             if (modelId == null) throw new ArgumentNullException("modelId");
             ModelId = modelId;
-            CorrelationId = DomainEvent.CorrelationId;
-            CausationId = causationId.GetValueOrDefault();
+            CorrelationId = ModelContext.CorrelationId;
+            CausationId = ModelContext.CausationId;
             EventId = Guid.NewGuid();
             CreatedDateTime = SystemTime.UtcNow;
         }

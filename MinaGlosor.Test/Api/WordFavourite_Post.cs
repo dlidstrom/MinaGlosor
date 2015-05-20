@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands;
@@ -55,7 +54,7 @@ namespace MinaGlosor.Test.Api
                 var wordList = new WordList("list", owner);
                 session.Store(wordList);
                 var generator = new KeyGenerator<Word>(session);
-                word = new Word(generator.Generate(), "some text", "some def", wordList.Id, Guid.NewGuid(), null);
+                word = new Word(generator.Generate(), "some text", "some def", wordList.Id);
                 session.Store(word);
             });
 

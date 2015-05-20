@@ -56,9 +56,7 @@ namespace MinaGlosor.Web.Controllers.Api
                 request.Text,
                 request.Definition,
                 request.CreatedDate.Value,
-                wordList.Id,
-                Guid.NewGuid(),
-                null);
+                wordList.Id);
             session.Store(word);
 
             return Request.CreateResponse(HttpStatusCode.Created);

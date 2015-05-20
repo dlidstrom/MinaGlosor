@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
@@ -61,9 +60,7 @@ namespace MinaGlosor.Test.Api
                         generator.Generate(),
                         i.ToString(CultureInfo.InvariantCulture),
                         i.ToString(CultureInfo.InvariantCulture),
-                        wordList.Id,
-                        Guid.NewGuid(),
-                        null);
+                        wordList.Id);
                     session.Store(word);
                 }
             });

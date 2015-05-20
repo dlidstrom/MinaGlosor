@@ -6,11 +6,11 @@ namespace MinaGlosor.Web.Models
 {
     public class Word : DomainModel
     {
-        public Word(string id, string text, string definition, string wordListId, Guid correlationId, Guid? causationId)
+        public Word(string id, string text, string definition, string wordListId)
             : base(id)
         {
             Verify(text, definition, wordListId);
-            Apply(new WordRegisteredEvent(wordListId, id, text, definition, correlationId, causationId));
+            Apply(new WordRegisteredEvent(wordListId, id, text, definition));
         }
 
         [JsonConstructor]
@@ -43,17 +43,15 @@ namespace MinaGlosor.Web.Models
             string text,
             string definition,
             DateTime createdDate,
-            string wordListId,
-            Guid correlationId,
-            Guid? causationId)
+            string wordListId)
         {
             if (text == null) throw new ArgumentNullException("text");
             if (definition == null) throw new ArgumentNullException("definition");
             if (wordListId == null) throw new ArgumentNullException("wordListId");
 
             var word = new Word();
-            word.Apply(new WordRegisteredEvent(wordListId, id, text, definition, correlationId, causationId));
-            word.Apply(new SetCreatedDateFromMigrationEvent(id, createdDate, correlationId, causationId));
+            word.Apply(new WordRegisteredEvent(wordListId, id, text, definition));
+            word.Apply(new SetCreatedDateFromMigrationEvent(id, createdDate));
             return word;
         }
 

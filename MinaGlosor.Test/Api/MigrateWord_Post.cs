@@ -70,7 +70,7 @@ namespace MinaGlosor.Test.Api
                 var wordList = new WordList("English", user);
                 session.Store(wordList);
                 var generator = new KeyGenerator<Word>(session);
-                var word = new Word(generator.Generate(), "t1", "d1", wordList.Id, Guid.NewGuid(), null);
+                var word = new Word(generator.Generate(), "t1", "d1", wordList.Id);
                 session.Store(word);
             });
 
@@ -107,7 +107,7 @@ namespace MinaGlosor.Test.Api
                 var wordList1 = new WordList("English", user1);
                 session.Store(wordList1);
                 var generator = new KeyGenerator<Word>(session);
-                var word = new Word(generator.Generate(), "t1", "d1", wordList1.Id, Guid.NewGuid(), null);
+                var word = new Word(generator.Generate(), "t1", "d1", wordList1.Id);
                 session.Store(word);
 
                 var user2 = new User("someone@d.com", "theirpwd", "username2");

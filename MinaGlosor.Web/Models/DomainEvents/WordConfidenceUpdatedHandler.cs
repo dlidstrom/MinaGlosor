@@ -6,7 +6,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
     {
         public override void Handle(WordConfidenceUpdated ev)
         {
-            ExecuteCommand(new UpdateWordScoreCommand(ev.WordId, ev.WordListId, ev.ConfidenceLevel, ev.OwnerId));
+            ExecuteCommand(new UpdateWordScoreCommand(ev.WordId, ev.WordListId, ev.ConfidenceLevel, ev.OwnerId), ev);
         }
     }
 }

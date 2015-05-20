@@ -1,5 +1,4 @@
 using System;
-using System.Web;
 using Castle.Windsor;
 
 namespace MinaGlosor.Web.Models.DomainEvents
@@ -9,43 +8,6 @@ namespace MinaGlosor.Web.Models.DomainEvents
     /// </summary>
     public static class DomainEvent
     {
-        private static Guid correlationId;
-
-        public static Guid CorrelationId
-        {
-            get
-            {
-                Guid? id;
-                if (HttpContext.Current != null)
-                {
-                    id = HttpContext.Current.Items["CorrelationId"] as Guid?;
-                }
-                else
-                {
-                    id = correlationId;
-                }
-
-                if (id.GetValueOrDefault() == default(Guid))
-                {
-                    throw new ApplicationException("Forgot to call DomainEvent.Correlate?");
-                }
-
-                return id.GetValueOrDefault();
-            }
-
-            set
-            {
-                if (HttpContext.Current != null)
-                {
-                    HttpContext.Current.Items["CorrelationId"] = value;
-                }
-                else
-                {
-                    correlationId = value;
-                }
-            }
-        }
-
         /// <summary>
         /// Gets or sets an action used to raise events.
         /// Used for testing purposes.
@@ -124,30 +86,6 @@ namespace MinaGlosor.Web.Models.DomainEvents
             RaiseAction = e => { };
 
             return new DomainEventReset();
-        }
-
-        public static IDisposable Correlate(Guid correlationId)
-        {
-            var previous = HttpContext.Current.Items["CorrelationId"] as Guid?;
-            HttpContext.Current.Items["CorrelationId"] = correlationId;
-            return new Reverter("CorrelationId", previous);
-        }
-
-        private class Reverter : IDisposable
-        {
-            private readonly string key;
-            private readonly Guid? previous;
-
-            public Reverter(string key, Guid? previous)
-            {
-                this.key = key;
-                this.previous = previous;
-            }
-
-            public void Dispose()
-            {
-                HttpContext.Current.Items[key] = previous;
-            }
         }
     }
 }
