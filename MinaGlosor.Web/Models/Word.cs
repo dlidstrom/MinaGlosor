@@ -63,9 +63,7 @@ namespace MinaGlosor.Web.Models
         public void Update(string text, string definition, string wordListId)
         {
             Verify(text, definition, wordListId);
-            Text = text;
-            Definition = definition;
-            WordListId = wordListId;
+            Apply(new WordUpdatedEvent(Id, text, definition, wordListId));
         }
 
         private static void Verify(string text, string definition, string wordListId)
@@ -78,6 +76,13 @@ namespace MinaGlosor.Web.Models
                 throw new ArgumentOutOfRangeException("text", "Max 1024 characters");
             if (definition.Length > 1024)
                 throw new ArgumentOutOfRangeException("definition", "Max 1024 characters");
+        }
+
+        private void ApplyEvent(WordUpdatedEvent @event)
+        {
+            Text = @event.Text;
+            Definition = @event.Definition;
+            WordListId = @event.WordListId;
         }
 
         private void ApplyEvent(WordRegisteredEvent @event)

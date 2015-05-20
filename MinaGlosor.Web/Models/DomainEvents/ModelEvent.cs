@@ -19,6 +19,10 @@ namespace MinaGlosor.Web.Models.DomainEvents
             CreatedDateTime = SystemTime.UtcNow;
         }
 
+        protected ModelEvent()
+        {
+        }
+
         public string ModelId { get; private set; }
 
         public Guid CorrelationId { get; private set; }

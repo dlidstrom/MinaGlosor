@@ -1,4 +1,5 @@
 using System;
+using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models.DomainEvents
 {
@@ -8,6 +9,11 @@ namespace MinaGlosor.Web.Models.DomainEvents
             : base(modelId)
         {
             CreatedDateFromMigration = createdDate;
+        }
+
+        [JsonConstructor]
+        private SetCreatedDateFromMigrationEvent()
+        {
         }
 
         public DateTime CreatedDateFromMigration { get; private set; }

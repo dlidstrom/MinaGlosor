@@ -2,25 +2,25 @@ using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models.DomainEvents
 {
-    public class WordRegisteredEvent : ModelEvent
+    public class WordUpdatedEvent : ModelEvent
     {
-        public WordRegisteredEvent(string wordListId, string modelId, string text, string definition)
-            : base(modelId)
+        public WordUpdatedEvent(string wordId, string text, string definition, string wordListId)
+            : base(wordId)
         {
-            WordListId = wordListId;
             Text = text;
             Definition = definition;
+            WordListId = wordListId;
         }
 
         [JsonConstructor]
-        private WordRegisteredEvent()
+        public WordUpdatedEvent()
         {
         }
-
-        public string WordListId { get; private set; }
 
         public string Text { get; private set; }
 
         public string Definition { get; private set; }
+
+        public string WordListId { get; private set; }
     }
 }

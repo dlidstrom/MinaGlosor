@@ -1,4 +1,5 @@
 using System;
+using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models.DomainEvents
 {
@@ -15,6 +16,11 @@ namespace MinaGlosor.Web.Models.DomainEvents
             WordListId = wordListId;
             ConfidenceLevel = confidenceLevel;
             OwnerId = ownerId;
+        }
+
+        [JsonConstructor]
+        private WordConfidenceUpdated()
+        {
         }
 
         public string WordId { get; private set; }
