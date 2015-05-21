@@ -11,7 +11,6 @@ namespace MinaGlosor.Web.Models.Commands
         public CreateAccountRequestCommand(string email)
         {
             if (email == null) throw new ArgumentNullException("email");
-
             this.email = email;
         }
 
@@ -22,7 +21,9 @@ namespace MinaGlosor.Web.Models.Commands
 
         public void Execute(IDocumentSession session)
         {
-            session.Store(new CreateAccountRequest(email));
+            var generator = new KeyGenerator<CreateAccountRequest>(session);
+            var id = generator.Generate();
+            session.Store(new CreateAccountRequest(id, email));
         }
     }
 }

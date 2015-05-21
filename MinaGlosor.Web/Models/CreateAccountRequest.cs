@@ -1,28 +1,26 @@
 ﻿using System;
 using MinaGlosor.Web.Models.DomainEvents;
+using Raven.Abstractions;
 using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models
 {
-    public class CreateAccountRequest
+    public class CreateAccountRequest : DomainModel
     {
-        public CreateAccountRequest(string email)
+        public CreateAccountRequest(string id, string email)
+            : base(id)
         {
             if (email == null) throw new ArgumentNullException("email");
             if (email.Length > 254)
                 throw new ArgumentException("Email can be at most 254 characters", "email");
-            Email = email;
-            ActivationCode = Guid.NewGuid();
 
-            DomainEvent.Raise(new CreateAccountRequestCreated(email, ActivationCode));
+            Apply(new CreateAccountRequestCreatedEvent(email, Guid.NewGuid()));
         }
 
         [JsonConstructor]
         private CreateAccountRequest()
         {
         }
-
-        public string Id { get; set; }
 
         public string Email { get; private set; }
 
@@ -32,12 +30,23 @@ namespace MinaGlosor.Web.Models
 
         public void MarkAsUsed()
         {
-            Used = DateTime.Now;
+            Apply(new MarkCreateAccountRequestUsedEvent(SystemTime.UtcNow));
         }
 
         public bool HasBeenUsed()
         {
             return Used.HasValue;
+        }
+
+        private void ApplyEvent(CreateAccountRequestCreatedEvent @event)
+        {
+            Email = @event.Email;
+            ActivationCode = @event.ActivationCode;
+        }
+
+        private void ApplyEvent(MarkCreateAccountRequestUsedEvent @event)
+        {
+            Used = @event.Date;
         }
     }
 }
