@@ -275,6 +275,7 @@
     <Compile Include="Infrastructure\Tracing\ActivityScope.cs" />
     <Compile Include="Infrastructure\Tracing\EventIds.cs" />
     <Compile Include="Infrastructure\Tracing\TracingLogger.cs" />
+    <Compile Include="Models\ChangeLogEntry.cs" />
     <Compile Include="Models\DomainEvents\WordUpdatedEvent.cs" />
     <Compile Include="Models\ModelContext.cs" />
     <Compile Include="Models\Commands\KeyGeneratorBase.cs" />

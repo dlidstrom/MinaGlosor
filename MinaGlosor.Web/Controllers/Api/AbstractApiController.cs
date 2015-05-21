@@ -16,6 +16,7 @@ namespace MinaGlosor.Web.Controllers.Api
     public abstract class AbstractApiController : ApiController
     {
         private User currentUser;
+        private bool storeChangeLogEntry = true;
 
         public IKernel Kernel { get; set; }
 
@@ -50,6 +51,12 @@ namespace MinaGlosor.Web.Controllers.Api
 
             using (new ModelContext(Trace.CorrelationManager.ActivityId))
             {
+                if (storeChangeLogEntry)
+                {
+                    documentSession.Store(new ChangeLogEntry(CurrentUser.Id, CurrentUser.Email, Trace.CorrelationManager.ActivityId));
+                    storeChangeLogEntry = false;
+                }
+
                 command.Execute(documentSession);
             }
         }
@@ -61,10 +68,17 @@ namespace MinaGlosor.Web.Controllers.Api
             if (!command.CanExecute(documentSession, CurrentUser)) throw new SecurityException("Operation not allowed");
             using (new ModelContext(Trace.CorrelationManager.ActivityId))
             {
+                if (storeChangeLogEntry)
+                {
+                    documentSession.Store(new ChangeLogEntry(CurrentUser.Id, CurrentUser.Email, Trace.CorrelationManager.ActivityId));
+                    storeChangeLogEntry = false;
+                }
+
                 return command.Execute(documentSession);
             }
         }
 
+        [DebuggerStepThrough]
         protected IDocumentSession GetDocumentSession()
         {
             return Kernel.Resolve<IDocumentSession>();
