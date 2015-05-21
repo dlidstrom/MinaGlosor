@@ -13,6 +13,8 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             // Web starts at 1000
             public const int Web_Starting_1000 = 1000;
 
+            public const int Web_Request_Executing_1001 = 1001;
+
             // Notification service starts at 1100
         }
 
@@ -26,6 +28,8 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             // Web starts at 2000
             public const int Web_Started_2000 = 2000;
 
+            public const int Web_Request_Executed_2001 = 2001;
+
             // Notification service starts at 2100
         }
 
@@ -37,7 +41,9 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
         public static class Informational_ApplicationLog_3XXX
         {
             // Web starts at 3000
-            public const int Web_UpdatingOrder_3000 = 3000;
+            public const int Web_ExecuteCommand_3000 = 3000;
+
+            public const int Web_ExecuteDependenCommand_3001 = 3001;
 
             // Notification service starts at 3100
         }

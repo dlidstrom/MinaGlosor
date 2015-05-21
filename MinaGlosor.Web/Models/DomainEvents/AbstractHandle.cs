@@ -1,6 +1,7 @@
 ﻿using System;
 using Castle.MicroKernel;
 using MinaGlosor.Web.Infrastructure;
+using MinaGlosor.Web.Infrastructure.Tracing;
 using Raven.Client;
 
 namespace MinaGlosor.Web.Models.DomainEvents
@@ -23,17 +24,12 @@ namespace MinaGlosor.Web.Models.DomainEvents
             if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
             using (new ModelContext(ModelContext.CorrelationId, causedByEvent.EventId))
             {
+                TracingLogger.Information(
+                    EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteDependenCommand_3001,
+                    "{0} <- {1}",
+                    command.GetType().Name,
+                    causedByEvent.GetType().Name);
                 command.Execute(GetDocumentSession());
-            }
-        }
-
-        protected TResult ExecuteCommand<TResult>(ICommand<TResult> command, ModelEvent causedByEvent)
-        {
-            if (command == null) throw new ArgumentNullException("command");
-            if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
-            using (new ModelContext(ModelContext.CorrelationId, causedByEvent.EventId))
-            {
-                return command.Execute(GetDocumentSession());
             }
         }
 

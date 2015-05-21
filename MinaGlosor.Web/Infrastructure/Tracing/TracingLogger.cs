@@ -36,6 +36,11 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             TraceData(TraceEventType.Information, id, string.Format(format, args));
         }
 
+        public static void Start(int id)
+        {
+            TraceData(TraceEventType.Start, id, string.Empty);
+        }
+
         public static void Start(int id, string message)
         {
             TraceData(TraceEventType.Start, id, message);
@@ -45,6 +50,11 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
         public static void Start(int id, string format, params object[] args)
         {
             TraceData(TraceEventType.Start, id, string.Format(format, args));
+        }
+
+        public static void Stop(int id)
+        {
+            TraceData(TraceEventType.Stop, id, string.Empty);
         }
 
         public static void Stop(int id, string message)

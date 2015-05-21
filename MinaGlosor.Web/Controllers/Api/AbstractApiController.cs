@@ -6,13 +6,14 @@ using System.Web.Http;
 using Castle.MicroKernel;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.Attributes;
+using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Client;
 
 namespace MinaGlosor.Web.Controllers.Api
 {
-    [CheckAppVersion, SaveChanges, CorrelationId]
+    [CheckAppVersion, SaveChanges]
     public abstract class AbstractApiController : ApiController
     {
         private User currentUser;
@@ -57,6 +58,7 @@ namespace MinaGlosor.Web.Controllers.Api
                     storeChangeLogEntry = false;
                 }
 
+                TracingLogger.Information(EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteCommand_3000, command.GetType().Name);
                 command.Execute(documentSession);
             }
         }
@@ -66,6 +68,7 @@ namespace MinaGlosor.Web.Controllers.Api
             if (command == null) throw new ArgumentNullException("command");
             var documentSession = GetDocumentSession();
             if (!command.CanExecute(documentSession, CurrentUser)) throw new SecurityException("Operation not allowed");
+
             using (new ModelContext(Trace.CorrelationManager.ActivityId))
             {
                 if (storeChangeLogEntry)
@@ -74,6 +77,7 @@ namespace MinaGlosor.Web.Controllers.Api
                     storeChangeLogEntry = false;
                 }
 
+                TracingLogger.Information(EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteCommand_3000, command.GetType().Name);
                 return command.Execute(documentSession);
             }
         }
