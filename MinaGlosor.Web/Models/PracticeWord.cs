@@ -49,7 +49,7 @@ namespace MinaGlosor.Web.Models
                 throw new ApplicationException("Cannot score word twice");
 
             Confidence = (int)confidenceLevel;
-            DomainEvent.Raise(new WordConfidenceUpdated(WordId, WordListId, confidenceLevel, OwnerId));
+            DomainEvent.Raise(new WordConfidenceUpdatedEvent(WordId, WordListId, confidenceLevel, OwnerId));
         }
 
         public void UpdateLastPickedDate()

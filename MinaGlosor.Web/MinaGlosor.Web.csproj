@@ -295,7 +295,7 @@
     <Compile Include="Models\ConfidenceLevel.cs" />
     <Compile Include="Models\CreateAccountRequest.cs" />
     <Compile Include="Models\DomainEvents\AbstractHandle.cs" />
-    <Compile Include="Models\DomainEvents\CreateAccountRequestCreated.cs" />
+    <Compile Include="Models\DomainEvents\CreateAccountRequestCreatedEvent.cs" />
     <Compile Include="Models\DomainEvents\CreateAccountRequestCreatedHandler.cs" />
     <Compile Include="Models\DomainEvents\DomainEvent.cs" />
     <Compile Include="Models\DomainEvents\DomainEventReset.cs" />
@@ -303,7 +303,7 @@
     <Compile Include="Models\DomainEvents\ModelEvent.cs" />
     <Compile Include="Models\DomainEvents\ResetPasswordRequested.cs" />
     <Compile Include="Models\DomainEvents\ResetPasswordHandler.cs" />
-    <Compile Include="Models\DomainEvents\WordConfidenceUpdated.cs" />
+    <Compile Include="Models\DomainEvents\WordConfidenceUpdatedEvent.cs" />
     <Compile Include="Models\DomainEvents\WordConfidenceUpdatedHandler.cs" />
     <Compile Include="Models\DomainEvents\WordRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordRegisteredEventHandler.cs" />

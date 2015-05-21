@@ -23,7 +23,7 @@ namespace MinaGlosor.Web.Models
 
         public List<object> Events { get; protected set; }
 
-        protected void Apply(object @event)
+        protected void Apply(ModelEvent @event)
         {
             if (@event == null) throw new ArgumentNullException("event");
 

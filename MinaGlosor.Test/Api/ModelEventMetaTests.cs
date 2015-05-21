@@ -36,6 +36,8 @@ namespace MinaGlosor.Test.Api
                 ctor.GetCustomAttribute<JsonConstructorAttribute>(),
                 Is.Not.Null,
                 eventType.Name + " constructor must be decorated with JsonConstructor attribute");
+            Assert.That(eventType.Name, Is.StringEnding("Event"));
+            Assert.That(eventType.Namespace, Is.EqualTo("MinaGlosor.Web.Models.DomainEvents"));
         }
     }
 }

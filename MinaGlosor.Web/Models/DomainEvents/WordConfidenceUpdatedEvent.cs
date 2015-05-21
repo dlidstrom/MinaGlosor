@@ -3,9 +3,9 @@ using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models.DomainEvents
 {
-    public class WordConfidenceUpdated : ModelEvent
+    public class WordConfidenceUpdatedEvent : ModelEvent
     {
-        public WordConfidenceUpdated(string wordId, string wordListId, ConfidenceLevel confidenceLevel, string ownerId)
+        public WordConfidenceUpdatedEvent(string wordId, string wordListId, ConfidenceLevel confidenceLevel, string ownerId)
             : base(wordId)
         {
             if (wordId == null) throw new ArgumentNullException("wordId");
@@ -19,7 +19,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
         }
 
         [JsonConstructor]
-        private WordConfidenceUpdated()
+        private WordConfidenceUpdatedEvent()
         {
         }
 
