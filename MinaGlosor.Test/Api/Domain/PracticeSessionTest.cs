@@ -25,7 +25,7 @@ namespace MinaGlosor.Test.Api.Domain
                     var practiceWord = new PracticeWord(word, "WordLists/1", "users/1");
                     return practiceWord;
                 }).ToArray();
-            practiceSession = new PracticeSession("WordLists/1", practiceWords, "users/1");
+            practiceSession = new PracticeSession("PracticeSession/1", "WordLists/1", practiceWords, "users/1");
         }
 
         [TearDown]

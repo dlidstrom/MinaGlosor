@@ -35,7 +35,7 @@ namespace MinaGlosor.Test.Api
                             var practiceWord = new PracticeWord(word, wordList.Id, owner.Id);
                             return practiceWord;
                         }).ToArray();
-                    session.Store(new PracticeSession(wordList.Id, practiceWords, "users/1"));
+                    session.Store(new PracticeSession(KeyGeneratorBase.Generate<PracticeSession>(session), wordList.Id, practiceWords, "users/1"));
                 });
 
             // Act

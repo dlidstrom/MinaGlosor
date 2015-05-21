@@ -277,6 +277,9 @@
     <Compile Include="Infrastructure\Tracing\TracingLogger.cs" />
     <Compile Include="Models\ChangeLogEntry.cs" />
     <Compile Include="Models\DomainEvents\MarkCreateAccountRequestUsedEvent.cs" />
+    <Compile Include="Models\DomainEvents\PracticeSessionCreatedEvent.cs" />
+    <Compile Include="Models\DomainEvents\UpdateConfidenceEvent.cs" />
+    <Compile Include="Models\DomainEvents\UpdateLastPickedDateEvent.cs" />
     <Compile Include="Models\DomainEvents\WordUpdatedEvent.cs" />
     <Compile Include="Models\Indexes\ChangeLogEntryIndex.cs" />
     <Compile Include="Models\ModelContext.cs" />

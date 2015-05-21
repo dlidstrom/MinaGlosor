@@ -1,31 +1,27 @@
 ﻿using System;
 using System.Linq;
-using Raven.Abstractions;
+using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models
 {
-    public class PracticeSession
+    public class PracticeSession : DomainModel
     {
-        public PracticeSession(string wordListId, PracticeWord[] words, string ownerId)
+        public PracticeSession(string id, string wordListId, PracticeWord[] words, string ownerId)
+            : base(id)
         {
             if (wordListId == null) throw new ArgumentNullException("wordListId");
             if (words == null) throw new ArgumentNullException("words");
             if (ownerId == null) throw new ArgumentNullException("ownerId");
             if (words.Length == 0) throw new ArgumentException("No words to practice", "words");
 
-            WordListId = wordListId;
-            Words = words;
-            OwnerId = ownerId;
-            CreatedDate = SystemTime.UtcNow;
+            Apply(new PracticeSessionCreatedEvent(id, wordListId, words, ownerId));
         }
 
         [JsonConstructor]
         private PracticeSession()
         {
         }
-
-        public string Id { get; private set; }
 
         public string WordListId { get; private set; }
 
@@ -82,7 +78,7 @@ namespace MinaGlosor.Web.Models
         public PracticeWord GetNextWord()
         {
             if (IsFinished)
-                throw new ApplicationException("Practice session is finishe");
+                throw new ApplicationException("Practice session is finished");
 
             var firstUnscored = Words.FirstOrDefault(x => x.Confidence < 0);
             if (firstUnscored != null)
@@ -93,7 +89,7 @@ namespace MinaGlosor.Web.Models
 
             var nextWord = Words.Where(x => x.Confidence < 4).OrderBy(x => x.LastPickedDate).FirstOrDefault();
             if (nextWord == null) throw new ApplicationException("No more words to practice");
-            nextWord.UpdateLastPickedDate();
+            Apply(new UpdateLastPickedDateEvent(Id, nextWord.PracticeWordId));
             return nextWord;
         }
 
@@ -101,8 +97,7 @@ namespace MinaGlosor.Web.Models
         {
             if (practiceWordId == null) throw new ArgumentNullException("practiceWordId");
 
-            var practiceWord = Words.Single(x => x.PracticeWordId == practiceWordId);
-            practiceWord.UpdateConfidence(confidenceLevel);
+            Apply(new UpdateConfidenceEvent(Id, practiceWordId, confidenceLevel));
         }
 
         public bool HasAccess(string userId)
@@ -114,8 +109,29 @@ namespace MinaGlosor.Web.Models
 
         public PracticeWord GetWordById(string practiceWordId)
         {
+            if (practiceWordId == null) throw new ArgumentNullException("practiceWordId");
             var practiceWord = Words.Single(x => x.PracticeWordId == practiceWordId);
             return practiceWord;
+        }
+
+        private void ApplyEvent(UpdateConfidenceEvent @event)
+        {
+            var practiceWord = Words.Single(x => x.PracticeWordId == @event.PracticeWordId);
+            practiceWord.UpdateConfidence(@event.ConfidenceLevel);
+        }
+
+        private void ApplyEvent(UpdateLastPickedDateEvent @event)
+        {
+            var nextWord = Words.Single(x => x.PracticeWordId == @event.PracticeWordId);
+            nextWord.UpdateLastPickedDate();
+        }
+
+        private void ApplyEvent(PracticeSessionCreatedEvent @event)
+        {
+            WordListId = @event.WordListId;
+            Words = @event.Words;
+            OwnerId = @event.OwnerId;
+            CreatedDate = @event.CreatedDateTime;
         }
     }
 }

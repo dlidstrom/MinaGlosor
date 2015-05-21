@@ -21,9 +21,10 @@ namespace MinaGlosor.Web.Models.Commands
 
         public void Execute(IDocumentSession session)
         {
-            var generator = new KeyGenerator<CreateAccountRequest>(session);
-            var id = generator.Generate();
-            session.Store(new CreateAccountRequest(id, email));
+            var request = new CreateAccountRequest(
+                KeyGeneratorBase.Generate<CreateAccountRequest>(session),
+                email);
+            session.Store(request);
         }
     }
 }

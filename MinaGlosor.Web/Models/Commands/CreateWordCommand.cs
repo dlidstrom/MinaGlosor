@@ -34,9 +34,11 @@ namespace MinaGlosor.Web.Models.Commands
 
         public string Execute(IDocumentSession session)
         {
-            var generator = new KeyGenerator<Word>(session);
-            var id = generator.Generate();
-            var word = new Word(id, text, definition, wordListId);
+            var word = new Word(
+                KeyGeneratorBase.Generate<Word>(session),
+                text,
+                definition,
+                wordListId);
             session.Store(word);
             return Word.FromId(word.Id);
         }

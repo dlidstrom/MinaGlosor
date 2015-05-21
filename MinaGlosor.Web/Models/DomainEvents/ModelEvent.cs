@@ -19,6 +19,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
             CreatedDateTime = SystemTime.UtcNow;
         }
 
+        [Obsolete("Use ModelEvent(string modelId)")]
         protected ModelEvent()
         {
         }
