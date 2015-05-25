@@ -1,13 +1,15 @@
+using System;
 using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models.DomainEvents
 {
     public class UpdateLastPickedDateEvent : ModelEvent
     {
-        public UpdateLastPickedDateEvent(string id, string practiceWordId)
+        public UpdateLastPickedDateEvent(string id, string practiceWordId, DateTime date)
             : base(id)
         {
             PracticeWordId = practiceWordId;
+            Date = date;
         }
 
         [JsonConstructor]
@@ -16,5 +18,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
         }
 
         public string PracticeWordId { get; private set; }
+
+        public DateTime Date { get; private set; }
     }
 }

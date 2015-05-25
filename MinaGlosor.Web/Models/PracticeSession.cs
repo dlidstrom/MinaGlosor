@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using MinaGlosor.Web.Models.DomainEvents;
+using Raven.Abstractions;
 using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models
@@ -83,14 +84,18 @@ namespace MinaGlosor.Web.Models
             var firstUnscored = Words.FirstOrDefault(x => x.Confidence < 0);
             if (firstUnscored != null)
             {
-                firstUnscored.UpdateLastPickedDate();
                 return firstUnscored;
             }
 
             var nextWord = Words.Where(x => x.Confidence < 4).OrderBy(x => x.LastPickedDate).FirstOrDefault();
             if (nextWord == null) throw new ApplicationException("No more words to practice");
-            Apply(new UpdateLastPickedDateEvent(Id, nextWord.PracticeWordId));
             return nextWord;
+        }
+
+        public void UpdateLastPickedDate(string practiceWordId)
+        {
+            if (practiceWordId == null) throw new ArgumentNullException("practiceWordId");
+            Apply(new UpdateLastPickedDateEvent(Id, practiceWordId, SystemTime.UtcNow));
         }
 
         public void UpdateConfidence(string practiceWordId, ConfidenceLevel confidenceLevel)
@@ -123,7 +128,7 @@ namespace MinaGlosor.Web.Models
         private void ApplyEvent(UpdateLastPickedDateEvent @event)
         {
             var nextWord = Words.Single(x => x.PracticeWordId == @event.PracticeWordId);
-            nextWord.UpdateLastPickedDate();
+            nextWord.UpdateLastPickedDate(@event.Date);
         }
 
         private void ApplyEvent(PracticeSessionCreatedEvent @event)

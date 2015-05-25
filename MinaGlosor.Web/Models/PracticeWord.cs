@@ -1,6 +1,5 @@
 ﻿using System;
 using MinaGlosor.Web.Models.DomainEvents;
-using Raven.Abstractions;
 using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models
@@ -52,9 +51,9 @@ namespace MinaGlosor.Web.Models
             DomainEvent.Raise(new WordConfidenceUpdatedEvent(WordId, WordListId, confidenceLevel, OwnerId));
         }
 
-        public void UpdateLastPickedDate()
+        public void UpdateLastPickedDate(DateTime date)
         {
-            LastPickedDate = SystemTime.UtcNow;
+            LastPickedDate = date;
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using MinaGlosor.Web.Infrastructure.Tracing;
+using MinaGlosor.Web.Models.Commands;
 using MinaGlosor.Web.Models.Queries;
 
 namespace MinaGlosor.Web.Controllers.Api
@@ -25,6 +26,7 @@ namespace MinaGlosor.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
 
             var practiceWord = ExecuteQuery(new GetNextPracticeWordQuery(practiceSessionId, CurrentUser.Id));
+            ExecuteCommand(new UpdateLastPickedDateCommand(practiceSessionId, practiceWord.PracticeWordId));
             return Request.CreateResponse(HttpStatusCode.OK, practiceWord);
         }
 

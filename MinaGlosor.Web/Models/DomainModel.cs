@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models.DomainEvents;
+using Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models
 {
@@ -27,6 +29,9 @@ namespace MinaGlosor.Web.Models
         {
             if (@event == null) throw new ArgumentNullException("event");
 
+            TracingLogger.Information(
+                EventIds.Informational_ApplicationLog_3XXX.Web_RaiseEvent_3002,
+                JsonConvert.SerializeObject(@event, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }));
             var type = GetType();
             var methodInfo = type.GetMethod(
                 "ApplyEvent",
@@ -34,7 +39,7 @@ namespace MinaGlosor.Web.Models
                 null,
                 new[] { @event.GetType() },
                 null);
-            methodInfo.Invoke(this, new[] { @event });
+            methodInfo.Invoke(this, new[] { (object)@event });
             Events.Add(@event);
 
             // raise global event

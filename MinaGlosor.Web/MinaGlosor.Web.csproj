@@ -271,11 +271,13 @@
     <Compile Include="Infrastructure\IoC\WindsorControllerFactory.cs" />
     <Compile Include="Infrastructure\IoC\Installers\WindsorWebApiInstaller.cs" />
     <Compile Include="Infrastructure\IQuery.cs" />
+    <Compile Include="Infrastructure\PrivateMembersContractResolver.cs" />
     <Compile Include="Infrastructure\SystemGuid.cs" />
     <Compile Include="Infrastructure\Tracing\ActivityScope.cs" />
     <Compile Include="Infrastructure\Tracing\EventIds.cs" />
     <Compile Include="Infrastructure\Tracing\TracingLogger.cs" />
     <Compile Include="Models\ChangeLogEntry.cs" />
+    <Compile Include="Models\Commands\UpdateLastPickedDateCommand.cs" />
     <Compile Include="Models\DomainEvents\MarkCreateAccountRequestUsedEvent.cs" />
     <Compile Include="Models\DomainEvents\PracticeSessionCreatedEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateConfidenceEvent.cs" />

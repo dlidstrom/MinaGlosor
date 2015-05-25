@@ -45,6 +45,8 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
 
             public const int Web_ExecuteDependenCommand_3001 = 3001;
 
+            public const int Web_RaiseEvent_3002 = 3002;
+
             // Notification service starts at 3100
         }
 

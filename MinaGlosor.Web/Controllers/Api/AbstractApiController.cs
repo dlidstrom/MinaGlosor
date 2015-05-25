@@ -9,6 +9,7 @@ using MinaGlosor.Web.Infrastructure.Attributes;
 using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Indexes;
+using Newtonsoft.Json;
 using Raven.Client;
 
 namespace MinaGlosor.Web.Controllers.Api
@@ -17,7 +18,6 @@ namespace MinaGlosor.Web.Controllers.Api
     public abstract class AbstractApiController : ApiController
     {
         private User currentUser;
-        private bool storeChangeLogEntry = true;
 
         public IKernel Kernel { get; set; }
 
@@ -40,8 +40,18 @@ namespace MinaGlosor.Web.Controllers.Api
         {
             if (query == null) throw new ArgumentNullException("query");
             var documentSession = GetDocumentSession();
-            if (!query.CanExecute(documentSession, CurrentUser)) throw new SecurityException("Operation not allowed");
-            return query.Execute(documentSession);
+            if (!query.CanExecute(documentSession, CurrentUser))
+            {
+                throw new SecurityException("Operation not allowed");
+            }
+
+            var result = query.Execute(documentSession);
+            if (documentSession.Advanced.WhatChanged().Any())
+            {
+                throw new ApplicationException("No changes allowed from queries");
+            }
+
+            return result;
         }
 
         protected void ExecuteCommand(ICommand command)
@@ -50,17 +60,11 @@ namespace MinaGlosor.Web.Controllers.Api
             var documentSession = GetDocumentSession();
             if (!command.CanExecute(documentSession, CurrentUser)) throw new SecurityException("Operation not allowed");
 
-            using (new ModelContext(Trace.CorrelationManager.ActivityId))
-            {
-                if (storeChangeLogEntry)
+            DoExecuteCommand(documentSession, command, session =>
                 {
-                    documentSession.Store(new ChangeLogEntry(CurrentUser.Id, CurrentUser.Email, Trace.CorrelationManager.ActivityId));
-                    storeChangeLogEntry = false;
-                }
-
-                TracingLogger.Information(EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteCommand_3000, command.GetType().Name);
-                command.Execute(documentSession);
-            }
+                    command.Execute(session);
+                    return false;
+                });
         }
 
         protected TResult ExecuteCommand<TResult>(ICommand<TResult> command)
@@ -69,23 +73,46 @@ namespace MinaGlosor.Web.Controllers.Api
             var documentSession = GetDocumentSession();
             if (!command.CanExecute(documentSession, CurrentUser)) throw new SecurityException("Operation not allowed");
 
-            using (new ModelContext(Trace.CorrelationManager.ActivityId))
-            {
-                if (storeChangeLogEntry)
-                {
-                    documentSession.Store(new ChangeLogEntry(CurrentUser.Id, CurrentUser.Email, Trace.CorrelationManager.ActivityId));
-                    storeChangeLogEntry = false;
-                }
-
-                TracingLogger.Information(EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteCommand_3000, command.GetType().Name);
-                return command.Execute(documentSession);
-            }
+            return DoExecuteCommand(documentSession, command, command.Execute);
         }
 
         [DebuggerStepThrough]
         protected IDocumentSession GetDocumentSession()
         {
             return Kernel.Resolve<IDocumentSession>();
+        }
+
+        private TResult DoExecuteCommand<TResult, TCommand>(
+            IDocumentSession documentSession,
+            TCommand command,
+            Func<IDocumentSession, TResult> func)
+        {
+            if (documentSession.Advanced.WhatChanged().Any())
+            {
+                throw new ApplicationException("Detected changes, did you run more than one command?");
+            }
+
+            using (new ModelContext(Trace.CorrelationManager.ActivityId))
+            {
+                var settings = new JsonSerializerSettings
+                    {
+                        ContractResolver = new PrivateMembersContractResolver(),
+                        TypeNameHandling = TypeNameHandling.All
+                    };
+                var commandAsJson = JsonConvert.SerializeObject(command, Formatting.Indented, settings);
+                var changeLogEntry = new ChangeLogEntry(
+                    CurrentUser.Id,
+                    CurrentUser.Email,
+                    Trace.CorrelationManager.ActivityId,
+                    command.GetType(),
+                    commandAsJson);
+                documentSession.Store(changeLogEntry);
+
+                TracingLogger.Information(
+                    EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteCommand_3000,
+                    commandAsJson);
+                return func.Invoke(documentSession);
+            }
         }
     }
 }
