@@ -46,9 +46,13 @@ namespace MinaGlosor.Web.Controllers.Api
             }
 
             var result = query.Execute(documentSession);
-            if (documentSession.Advanced.WhatChanged().Any())
+            var whatChanged = documentSession.Advanced.WhatChanged();
+            if (whatChanged.Any())
             {
-                throw new ApplicationException("No changes allowed from queries");
+                TracingLogger.Warning(
+                    EventIds.Warning_Transient_4XXX.Web_ChangesFromQuery_4002,
+                    "Change detected from query: {0}",
+                    JsonConvert.SerializeObject(whatChanged, Formatting.Indented));
             }
 
             return result;

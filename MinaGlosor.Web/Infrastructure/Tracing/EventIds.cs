@@ -62,6 +62,8 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
 
             public const int Web_PracticeSession_Finished_4001 = 4001;
 
+            public const int Web_ChangesFromQuery_4002 = 4002;
+
             // Notification service starts at 4100
         }
 
