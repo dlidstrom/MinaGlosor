@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using MinaGlosor.Web.Models.Indexes;
 using NUnit.Framework;
 using Raven.Client.Linq;
@@ -19,7 +20,7 @@ namespace MinaGlosor.Test.Api
             string userId = null;
             Transact(session =>
                 {
-                    var user = new User("e@d.com", "pwd", "username", UserRole.Admin);
+                    var user = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username", UserRole.Admin);
                     session.Store(user);
                     userId = user.Id;
                 });
@@ -54,9 +55,9 @@ namespace MinaGlosor.Test.Api
             // Arrange
             Transact(session =>
                 {
-                    var user = new User("e@d.com", "pwd", "username", UserRole.Admin);
+                    var user = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username", UserRole.Admin);
                     session.Store(user);
-                    session.Store(new WordList("English", user));
+                    session.Store(new WordList(KeyGeneratorBase.Generate<WordList>(session), "English", user.Id));
                 });
 
             // Act
@@ -86,10 +87,10 @@ namespace MinaGlosor.Test.Api
             // Arrange
             Transact(session =>
             {
-                var user = new User("e@d.com", "pwd", "username", UserRole.Admin);
+                var user = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username", UserRole.Admin);
                 session.Store(user);
-                session.Store(new WordList("English", user));
-                session.Store(new User("someone@d.com", "theirpwd", "username2"));
+                session.Store(new WordList(KeyGeneratorBase.Generate<WordList>(session), "English", user.Id));
+                session.Store(new User(KeyGeneratorBase.Generate<User>(session), "someone@d.com", "theirpwd", "username2"));
             });
 
             // Act

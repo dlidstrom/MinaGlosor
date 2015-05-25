@@ -37,13 +37,13 @@ namespace MinaGlosor.Test.Api
         protected override void Arrange()
         {
             // Arrange
-            var owner = new User("e@d.com", "pwd", "username");
-            var anotherUser = new User("f@d.com", "pwd", "username");
             Transact(session =>
                 {
+                    var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
+                    var anotherUser = new User(KeyGeneratorBase.Generate<User>(session), "f@d.com", "pwd", "username");
                     session.Store(owner);
                     session.Store(anotherUser);
-                    var wordList = new WordList("list name", owner);
+                    var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list name", owner.Id);
                     session.Store(wordList);
 
                     var generator = new KeyGenerator<Word>(session);

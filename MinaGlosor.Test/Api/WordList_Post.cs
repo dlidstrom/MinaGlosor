@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -16,7 +17,7 @@ namespace MinaGlosor.Test.Api
             // Arrange
             Transact(session =>
                 {
-                    var user = new User("e@d.com", "pwd", "username");
+                    var user = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                     session.Store(user);
                 });
 

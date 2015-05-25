@@ -16,6 +16,7 @@ namespace MinaGlosor.Web.Models
             Events = new List<object>();
         }
 
+        [Obsolete("Use DomainModel(string id)")]
         protected DomainModel()
         {
             Events = new List<object>();

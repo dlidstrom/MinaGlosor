@@ -21,9 +21,9 @@ namespace MinaGlosor.Test.Api
             string wordListId = null;
             Transact(session =>
                 {
-                    var user = new User("e@d.com", "pwd", "username", UserRole.Admin);
+                    var user = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username", UserRole.Admin);
                     session.Store(user);
-                    var wordList = new WordList("English", user);
+                    var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "English", user.Id);
                     session.Store(wordList);
                     wordListId = wordList.Id;
                 });
@@ -65,9 +65,9 @@ namespace MinaGlosor.Test.Api
             // Arrange
             Transact(session =>
             {
-                var user = new User("e@d.com", "pwd", "username", UserRole.Admin);
+                var user = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username", UserRole.Admin);
                 session.Store(user);
-                var wordList = new WordList("English", user);
+                var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "English", user.Id);
                 session.Store(wordList);
                 var generator = new KeyGenerator<Word>(session);
                 var word = new Word(generator.Generate(), "t1", "d1", wordList.Id);
@@ -102,17 +102,17 @@ namespace MinaGlosor.Test.Api
             // Arrange
             Transact(session =>
             {
-                var user1 = new User("e@d.com", "pwd", "username", UserRole.Admin);
+                var user1 = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username", UserRole.Admin);
                 session.Store(user1);
-                var wordList1 = new WordList("English", user1);
+                var wordList1 = new WordList(KeyGeneratorBase.Generate<WordList>(session), "English", user1.Id);
                 session.Store(wordList1);
                 var generator = new KeyGenerator<Word>(session);
                 var word = new Word(generator.Generate(), "t1", "d1", wordList1.Id);
                 session.Store(word);
 
-                var user2 = new User("someone@d.com", "theirpwd", "username2");
+                var user2 = new User(KeyGeneratorBase.Generate<User>(session), "someone@d.com", "theirpwd", "username2");
                 session.Store(user2);
-                var wordList2 = new WordList("English", user2);
+                var wordList2 = new WordList(KeyGeneratorBase.Generate<WordList>(session), "English", user2.Id);
                 session.Store(wordList2);
             });
 

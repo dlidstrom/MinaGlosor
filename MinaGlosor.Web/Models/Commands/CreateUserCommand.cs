@@ -40,7 +40,8 @@ namespace MinaGlosor.Web.Models.Commands
                 throw new ApplicationException(message);
             }
 
-            session.Store(new User(email, password, username, userRole));
+            var id = KeyGeneratorBase.Generate<User>(session);
+            session.Store(new User(id, email, password, username, userRole));
         }
     }
 }

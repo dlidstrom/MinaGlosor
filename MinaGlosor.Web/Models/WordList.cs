@@ -1,30 +1,29 @@
 ﻿using System;
+using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models
 {
-    public class WordList
+    public class WordList : DomainModel
     {
-        public WordList(string name, User owner)
+        public WordList(string id, string name, string ownerId)
+            : base(id)
         {
             if (name == null) throw new ArgumentNullException("name");
-            if (owner == null) throw new ArgumentNullException("owner");
+            if (ownerId == null) throw new ArgumentNullException("ownerId");
 
             if (name.Length > 1024)
             {
                 throw new ArgumentOutOfRangeException("name", "Name cannot be longer than 1024 characters");
             }
 
-            Name = name;
-            OwnerId = owner.Id;
+            Apply(new WordListRegisteredEvent(id, name, ownerId));
         }
 
         [JsonConstructor]
         private WordList()
         {
         }
-
-        public string Id { get; private set; }
 
         public string Name { get; private set; }
 
@@ -44,16 +43,26 @@ namespace MinaGlosor.Web.Models
             return "WordLists/" + wordListId;
         }
 
-        public void AddWord()
-        {
-            NumberOfWords++;
-        }
-
         public bool HasAccess(string userId)
         {
             if (userId == null) throw new ArgumentNullException("userId");
-
             return OwnerId == userId;
+        }
+
+        public void AddWord()
+        {
+            Apply(new AddWordEvent(Id, NumberOfWords + 1));
+        }
+
+        private void ApplyEvent(AddWordEvent @event)
+        {
+            NumberOfWords = @event.NumberOfWords;
+        }
+
+        private void ApplyEvent(WordListRegisteredEvent @event)
+        {
+            Name = @event.Name;
+            OwnerId = @event.OwnerId;
         }
     }
 }

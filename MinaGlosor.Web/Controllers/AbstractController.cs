@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Castle.MicroKernel;
 using MinaGlosor.Web.Infrastructure;
+using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Indexes;
+using Newtonsoft.Json;
 using Raven.Client;
 
 namespace MinaGlosor.Web.Controllers
@@ -17,6 +20,8 @@ namespace MinaGlosor.Web.Controllers
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            Trace.CorrelationManager.ActivityId = SystemGuid.NewSequential;
+            TracingLogger.Start(EventIds.Informational_Preliminary_1XXX.Web_Request_Executing_1001);
             if (Response.IsRequestBeingRedirected) return;
 
             var documentSession = GetDocumentSession();
@@ -38,13 +43,19 @@ namespace MinaGlosor.Web.Controllers
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            if (filterContext.IsChildAction || filterContext.Exception != null) return;
-
-            var documentSession = GetDocumentSession();
-            if (documentSession.Advanced.WhatChanged().Any())
+            if (!filterContext.IsChildAction && filterContext.Exception == null)
             {
-                documentSession.SaveChanges();
+                var documentSession = GetDocumentSession();
+                var whatChanged = documentSession.Advanced.WhatChanged();
+                if (whatChanged.Any())
+                {
+                    TracingLogger.Information("Saving {0} changes", whatChanged.Count);
+                    documentSession.SaveChanges();
+                }
             }
+
+            TracingLogger.Stop(EventIds.Informational_Completion_2XXX.Web_Request_Executed_2001);
+            Trace.CorrelationManager.ActivityId = default(Guid);
         }
 
         protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)
@@ -56,13 +67,34 @@ namespace MinaGlosor.Web.Controllers
         protected void ExecuteCommand(ICommand command)
         {
             if (command == null) throw new ArgumentNullException("command");
-            command.Execute(GetDocumentSession());
-        }
 
-        protected TResult ExecuteCommand<TResult>(ICommand<TResult> command)
-        {
-            if (command == null) throw new ArgumentNullException("command");
-            return command.Execute(GetDocumentSession());
+            var documentSession = GetDocumentSession();
+            if (documentSession.Advanced.WhatChanged().Any())
+            {
+                throw new ApplicationException("Detected changes, did you run more than one command?");
+            }
+
+            using (new ModelContext(Trace.CorrelationManager.ActivityId))
+            {
+                var settings = new JsonSerializerSettings
+                {
+                    ContractResolver = new PrivateMembersContractResolver(),
+                    TypeNameHandling = TypeNameHandling.All
+                };
+                var commandAsJson = JsonConvert.SerializeObject(command, Formatting.Indented, settings);
+                var changeLogEntry = new ChangeLogEntry(
+                    CurrentUser.Id,
+                    CurrentUser.Email,
+                    Trace.CorrelationManager.ActivityId,
+                    command.GetType(),
+                    commandAsJson);
+                documentSession.Store(changeLogEntry);
+
+                TracingLogger.Information(
+                    EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteCommand_3000,
+                    commandAsJson);
+                command.Execute(documentSession);
+            }
         }
 
         private IDocumentSession GetDocumentSession()

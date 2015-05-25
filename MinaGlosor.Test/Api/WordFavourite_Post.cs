@@ -47,11 +47,11 @@ namespace MinaGlosor.Test.Api
         protected override async void Act()
         {
             // Arrange
-            owner = new User("e@d.com", "pwd", "username");
             Transact(session =>
             {
+                owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(owner);
-                var wordList = new WordList("list", owner);
+                var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
                 session.Store(wordList);
                 var generator = new KeyGenerator<Word>(session);
                 word = new Word(generator.Generate(), "some text", "some def", wordList.Id);

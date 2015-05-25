@@ -11,7 +11,7 @@ namespace MinaGlosor.Web.Models.Commands
     {
         protected static readonly PluralizationService PluralizationService = PluralizationService.CreateService(new CultureInfo("en"));
 
-        public static string Generate<TModel>(IDocumentSession session)
+        public static string Generate<TModel>(IDocumentSession session) where TModel : DomainModel
         {
             var tag = TransformTypeTagNameToDocumentKeyPrefix(typeof(TModel).Name);
             var keyGenerator = new HiLoKeyGenerator(tag, 4);
@@ -30,7 +30,7 @@ namespace MinaGlosor.Web.Models.Commands
         }
     }
 
-    public class KeyGenerator<TModel> : KeyGeneratorBase
+    public class KeyGenerator<TModel> : KeyGeneratorBase where TModel : DomainModel
     {
         private readonly HiLoKeyGenerator keyGenerator;
         private readonly IDocumentStore documentStore;

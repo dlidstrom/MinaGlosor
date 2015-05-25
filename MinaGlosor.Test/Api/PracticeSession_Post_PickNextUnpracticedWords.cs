@@ -66,10 +66,10 @@ namespace MinaGlosor.Test.Api
             // Arrange
             Transact(session =>
                 {
-                    var firstUser = new User("first@d.com", "pwd", "username");
+                    var firstUser = new User(KeyGeneratorBase.Generate<User>(session), "first@d.com", "pwd", "username");
                     session.Store(firstUser);
 
-                    var wordList = new WordList("list", firstUser);
+                    var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", firstUser.Id);
                     session.Store(wordList);
 
                     // add some words to the word list

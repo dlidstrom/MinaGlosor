@@ -278,11 +278,18 @@
     <Compile Include="Infrastructure\Tracing\TracingLogger.cs" />
     <Compile Include="Models\ChangeLogEntry.cs" />
     <Compile Include="Models\Commands\UpdateLastPickedDateCommand.cs" />
+    <Compile Include="Models\DomainEvents\AddWordEvent.cs" />
     <Compile Include="Models\DomainEvents\MarkCreateAccountRequestUsedEvent.cs" />
+    <Compile Include="Models\DomainEvents\MarkResetPasswordRequestUsedEvent.cs" />
     <Compile Include="Models\DomainEvents\PracticeSessionCreatedEvent.cs" />
+    <Compile Include="Models\DomainEvents\SetPasswordEvent.cs" />
+    <Compile Include="Models\DomainEvents\SetRoleEvent.cs" />
+    <Compile Include="Models\DomainEvents\SetUserCreatedEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateConfidenceEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateConfidenceEventHandler.cs" />
     <Compile Include="Models\DomainEvents\UpdateLastPickedDateEvent.cs" />
+    <Compile Include="Models\DomainEvents\UserRegisteredEvent.cs" />
+    <Compile Include="Models\DomainEvents\WordListRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordUpdatedEvent.cs" />
     <Compile Include="Models\Indexes\ChangeLogEntryIndex.cs" />
     <Compile Include="Models\ModelContext.cs" />
@@ -309,7 +316,7 @@
     <Compile Include="Models\DomainEvents\DomainEventReset.cs" />
     <Compile Include="Models\DomainEvents\IHandle.cs" />
     <Compile Include="Models\DomainEvents\ModelEvent.cs" />
-    <Compile Include="Models\DomainEvents\ResetPasswordRequested.cs" />
+    <Compile Include="Models\DomainEvents\ResetPasswordRequestedEvent.cs" />
     <Compile Include="Models\DomainEvents\ResetPasswordHandler.cs" />
     <Compile Include="Models\DomainEvents\WordRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordRegisteredEventHandler.cs" />

@@ -48,9 +48,9 @@ namespace MinaGlosor.Test.Api
             SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1);
             Transact(session =>
             {
-                var owner = new User("e@d.com", "pwd", "username");
+                var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(owner);
-                var wordList = new WordList("list", owner);
+                var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
                 session.Store(wordList);
 
                 // add some words to the word list

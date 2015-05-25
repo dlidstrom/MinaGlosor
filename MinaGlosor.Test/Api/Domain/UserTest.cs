@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.DomainEvents;
 using NUnit.Framework;
 
 namespace MinaGlosor.Test.Api.Domain
@@ -39,13 +40,15 @@ namespace MinaGlosor.Test.Api.Domain
         [TestCaseSource("Valid")]
         public void ValidUsername(string username)
         {
-            Assert.DoesNotThrow(() => new User("e@d.com", "pwd", username));
+            using (DomainEvent.Disable())
+                Assert.DoesNotThrow(() => new User("1", "e@d.com", "pwd", username));
         }
 
         [TestCaseSource("Invalid")]
         public void VerifiesUsername(string username)
         {
-            Assert.Throws<ArgumentException>(() => new User("e@d.com", "pwd", username));
+            using (DomainEvent.Disable())
+                Assert.Throws<ArgumentException>(() => new User("1", "e@d.com", "pwd", username));
         }
     }
 }

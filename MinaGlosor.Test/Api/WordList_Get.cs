@@ -12,11 +12,12 @@ namespace MinaGlosor.Test.Api
         public async void GetsEmptyWordList()
         {
             // Arrange
+            User owner = null;
             Transact(session =>
             {
-                var owner = new User("e@d.com", "pwd", "username");
+                owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(owner);
-                session.Store(new WordList("list", owner));
+                session.Store(new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id));
             });
 
             // Act
@@ -33,7 +34,7 @@ namespace MinaGlosor.Test.Api
                             new
                                 {
                                     wordListId = "1",
-                                    ownerId = "1",
+                                    ownerId = User.FromId(owner.Id),
                                     name = "list",
                                     numberOfWords = 0,
                                     percentDone = 0,
@@ -113,9 +114,10 @@ namespace MinaGlosor.Test.Api
             Transact(session =>
                 {
                     // first word list
-                    var owner = new User("e@d.com", "pwd", "username");
+                    var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                     session.Store(owner);
-                    var wordList1 = new WordList("Some name", owner);
+                    var wordListGenerator = new KeyGenerator<WordList>(session);
+                    var wordList1 = new WordList(wordListGenerator.Generate(), "Some name", owner.Id);
                     session.Store(wordList1);
 
                     var generator = new KeyGenerator<Word>(session);
@@ -123,7 +125,7 @@ namespace MinaGlosor.Test.Api
                     session.Store(new Word(generator.Generate(), "Word1", "Def1", wordList1.Id));
 
                     // second word list
-                    var wordList2 = new WordList("Then one more", owner);
+                    var wordList2 = new WordList(wordListGenerator.Generate(), "Then one more", owner.Id);
                     session.Store(wordList2);
                     session.Store(new Word(generator.Generate(), "Word1", "Definition1", wordList2.Id));
                     session.Store(new Word(generator.Generate(), "Word2", "Definition2", wordList2.Id));

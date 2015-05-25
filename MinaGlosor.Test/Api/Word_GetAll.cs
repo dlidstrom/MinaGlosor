@@ -14,11 +14,11 @@ namespace MinaGlosor.Test.Api
         public async void GetsWordsForWordList()
         {
             // Arrange
-            var owner = new User("e@d.com", "pwd", "username");
             Transact(session =>
             {
+                var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(owner);
-                var wordList = new WordList("list name", owner);
+                var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list name", owner.Id);
                 session.Store(wordList);
 
                 // make sure listed in date order

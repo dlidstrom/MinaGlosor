@@ -5,16 +5,14 @@ using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models
 {
-    public class ResetPasswordRequest
+    public class ResetPasswordRequest : DomainModel
     {
-        public ResetPasswordRequest(string email)
+        public ResetPasswordRequest(string id, string email)
+            : base(id)
         {
             if (email == null) throw new ArgumentNullException("email");
 
-            Email = email;
-            ActivationCode = Guid.NewGuid().ToString("N");
-
-            DomainEvent.Raise(new ResetPasswordRequested(Email, ActivationCode));
+            Apply(new ResetPasswordRequestedEvent(id, Email, ActivationCode));
         }
 
         [JsonConstructor]
@@ -35,7 +33,18 @@ namespace MinaGlosor.Web.Models
 
         public void MarkAsUsed()
         {
-            UsedDate = SystemTime.UtcNow;
+            Apply(new MarkResetPasswordRequestUsedEvent(Id, SystemTime.UtcNow));
+        }
+
+        private void ApplyEvent(ResetPasswordRequestedEvent @event)
+        {
+            Email = @event.Email;
+            ActivationCode = @event.ActivationCode;
+        }
+
+        private void ApplyEvent(MarkResetPasswordRequestUsedEvent @event)
+        {
+            UsedDate = @event.Date;
         }
     }
 }

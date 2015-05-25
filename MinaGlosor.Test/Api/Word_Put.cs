@@ -15,9 +15,9 @@ namespace MinaGlosor.Test.Api
             // Arrange
             Transact(session =>
                 {
-                    var owner = new User("e@d.com", "pwd", "username");
+                    var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                     session.Store(owner);
-                    var wordList = new WordList("list", owner);
+                    var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
                     session.Store(wordList);
                     var generator = new KeyGenerator<Word>(session);
                     var word = new Word(generator.Generate(), "old text", "old def", wordList.Id);
