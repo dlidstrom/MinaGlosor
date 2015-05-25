@@ -281,6 +281,7 @@
     <Compile Include="Models\DomainEvents\MarkCreateAccountRequestUsedEvent.cs" />
     <Compile Include="Models\DomainEvents\PracticeSessionCreatedEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateConfidenceEvent.cs" />
+    <Compile Include="Models\DomainEvents\UpdateConfidenceEventHandler.cs" />
     <Compile Include="Models\DomainEvents\UpdateLastPickedDateEvent.cs" />
     <Compile Include="Models\DomainEvents\WordUpdatedEvent.cs" />
     <Compile Include="Models\Indexes\ChangeLogEntryIndex.cs" />
@@ -310,8 +311,6 @@
     <Compile Include="Models\DomainEvents\ModelEvent.cs" />
     <Compile Include="Models\DomainEvents\ResetPasswordRequested.cs" />
     <Compile Include="Models\DomainEvents\ResetPasswordHandler.cs" />
-    <Compile Include="Models\DomainEvents\WordConfidenceUpdatedEvent.cs" />
-    <Compile Include="Models\DomainEvents\WordConfidenceUpdatedHandler.cs" />
     <Compile Include="Models\DomainEvents\WordRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordRegisteredEventHandler.cs" />
     <Compile Include="Models\Indexes\CreateAccountRequestIndex.cs" />

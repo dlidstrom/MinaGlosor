@@ -28,14 +28,14 @@ namespace MinaGlosor.Web.Models
 
         public DateTime? Used { get; private set; }
 
-        public void MarkAsUsed()
-        {
-            Apply(new MarkCreateAccountRequestUsedEvent(SystemTime.UtcNow));
-        }
-
         public bool HasBeenUsed()
         {
             return Used.HasValue;
+        }
+
+        public void MarkAsUsed()
+        {
+            Apply(new MarkCreateAccountRequestUsedEvent(SystemTime.UtcNow));
         }
 
         private void ApplyEvent(CreateAccountRequestCreatedEvent @event)

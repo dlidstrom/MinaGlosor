@@ -66,6 +66,13 @@ namespace MinaGlosor.Web.Models
             return practiceSessionId.Substring(17);
         }
 
+        public bool HasAccess(string userId)
+        {
+            if (userId == null) throw new ArgumentNullException("userId");
+
+            return OwnerId == userId;
+        }
+
         public PracticeSessionStatistics GetStatistics()
         {
             return new PracticeSessionStatistics(
@@ -101,15 +108,8 @@ namespace MinaGlosor.Web.Models
         public void UpdateConfidence(string practiceWordId, ConfidenceLevel confidenceLevel)
         {
             if (practiceWordId == null) throw new ArgumentNullException("practiceWordId");
-
-            Apply(new UpdateConfidenceEvent(Id, practiceWordId, confidenceLevel));
-        }
-
-        public bool HasAccess(string userId)
-        {
-            if (userId == null) throw new ArgumentNullException("userId");
-
-            return OwnerId == userId;
+            var practiceWord = Words.Single(x => x.PracticeWordId == practiceWordId);
+            Apply(new UpdateConfidenceEvent(Id, practiceWordId, confidenceLevel, practiceWord.WordId, practiceWord.WordListId, OwnerId));
         }
 
         public PracticeWord GetWordById(string practiceWordId)
