@@ -40,6 +40,15 @@ namespace MinaGlosor.Web.Models
                 null,
                 new[] { @event.GetType() },
                 null);
+            if (methodInfo == null)
+            {
+                TracingLogger.Error(
+                    EventIds.Error_Permanent_5XXX.Web_MissingApplyEvent_5003,
+                    "ApplyEvent({0}) not found",
+                    @event.GetType());
+                throw new ApplicationException(string.Format("ApplyEvent({0}) not found", @event.GetType().Name));
+            }
+
             methodInfo.Invoke(this, new[] { (object)@event });
             Events.Add(@event);
 

@@ -81,6 +81,8 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
 
             public const int Web_GetNextPracticeWord_Unauthorized_5002 = 5002;
 
+            public const int Web_MissingApplyEvent_5003 = 5003;
+
             // Notification service starts at 5100
         }
 

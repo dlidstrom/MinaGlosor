@@ -91,11 +91,6 @@ namespace MinaGlosor.Web.Controllers.Api
             TCommand command,
             Func<IDocumentSession, TResult> func)
         {
-            if (documentSession.Advanced.WhatChanged().Any())
-            {
-                throw new ApplicationException("Detected changes, did you run more than one command?");
-            }
-
             using (new ModelContext(Trace.CorrelationManager.ActivityId))
             {
                 var settings = new JsonSerializerSettings
