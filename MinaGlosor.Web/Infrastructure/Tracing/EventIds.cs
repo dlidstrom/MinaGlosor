@@ -13,6 +13,8 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             // Web starts at 1000
             public const int Web_Starting_1000 = 1000;
 
+            public const int Web_Request_Executing_1001 = 1001;
+
             // Notification service starts at 1100
         }
 
@@ -26,6 +28,8 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             // Web starts at 2000
             public const int Web_Started_2000 = 2000;
 
+            public const int Web_Request_Executed_2001 = 2001;
+
             // Notification service starts at 2100
         }
 
@@ -37,7 +41,11 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
         public static class Informational_ApplicationLog_3XXX
         {
             // Web starts at 3000
-            public const int Web_UpdatingOrder_3000 = 3000;
+            public const int Web_ExecuteCommand_3000 = 3000;
+
+            public const int Web_ExecuteDependenCommand_3001 = 3001;
+
+            public const int Web_RaiseEvent_3002 = 3002;
 
             // Notification service starts at 3100
         }
@@ -53,6 +61,8 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             public const int Web_Message_Timeout_4000 = 4000;
 
             public const int Web_PracticeSession_Finished_4001 = 4001;
+
+            public const int Web_ChangesFromQuery_4002 = 4002;
 
             // Notification service starts at 4100
         }
@@ -70,6 +80,8 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             public const int Web_CreatePracticeSession_Unauthorized_5001 = 5001;
 
             public const int Web_GetNextPracticeWord_Unauthorized_5002 = 5002;
+
+            public const int Web_MissingApplyEvent_5003 = 5003;
 
             // Notification service starts at 5100
         }

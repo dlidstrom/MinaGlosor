@@ -6,7 +6,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
     {
         public override void Handle(WordRegisteredEvent ev)
         {
-            ExecuteCommand(new AddWordToWordListCommand(ev.WordListId));
+            ExecuteCommand(new AddWordToWordListCommand(ev.WordListId), ev);
         }
     }
 }

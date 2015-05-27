@@ -56,6 +56,7 @@ namespace MinaGlosor.Web.Controllers.Api
             if (ModelState.IsValid == false)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
 
+            Debug.Assert(request != null, "request != null");
             ExecuteCommand(new UpdateWordCommand(request.WordId, request.Text, request.Definition));
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }

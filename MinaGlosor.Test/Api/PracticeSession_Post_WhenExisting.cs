@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using NUnit.Framework;
 using Raven.Abstractions;
 
@@ -48,19 +49,25 @@ namespace MinaGlosor.Test.Api
             // Arrange
             Transact(session =>
                 {
-                    var owner = new User("e@d.com", "pwd", "username");
+                    var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                     session.Store(owner);
 
-                    var wordList = new WordList("list", owner);
+                    var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
                     session.Store(wordList);
 
                     // add some words to the word list
                     var currentDate = new DateTime(2012, 1, 1);
+                    var generator = new KeyGenerator<Word>(session);
                     for (var i = 0; i < 15; i++)
                     {
                         var newCurrentDate = currentDate.AddSeconds(i);
                         SystemTime.UtcDateTime = () => newCurrentDate;
-                        session.Store(new Word(1 + i + "t", 1 + i + "d", wordList.Id));
+                        var word = new Word(
+                            generator.Generate(),
+                            1 + i + "t",
+                            1 + i + "d",
+                            wordList.Id);
+                        session.Store(word);
                     }
 
                     // last should be practiced already (these should be selected)
@@ -68,17 +75,25 @@ namespace MinaGlosor.Test.Api
                     {
                         var newCurrentDate = currentDate.AddSeconds(i);
                         SystemTime.UtcDateTime = () => newCurrentDate;
-                        var word = new Word(1 + i + "t", 1 + i + "d", wordList.Id);
+                        var word = new Word(
+                            generator.Generate(),
+                            1 + i + "t",
+                            1 + i + "d",
+                            wordList.Id);
                         session.Store(word);
-                        var wordScore = new WordScore(owner.Id, word.Id, wordList.Id);
+                        var wordScore = new WordScore(KeyGeneratorBase.Generate<WordScore>(session), owner.Id, word.Id, wordList.Id);
                         wordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
                         session.Store(wordScore);
                     }
 
                     // add some practice word that is for the far future (this should not be selected)
-                    var futureWord = new Word("future", "future", wordList.Id);
+                    var futureWord = new Word(
+                        generator.Generate(),
+                        "future",
+                        "future",
+                        wordList.Id);
                     session.Store(futureWord);
-                    var futureWordScore = new WordScore(owner.Id, futureWord.Id, wordList.Id);
+                    var futureWordScore = new WordScore(KeyGeneratorBase.Generate<WordScore>(session), owner.Id, futureWord.Id, wordList.Id);
                     futureWordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
                     SystemTime.UtcDateTime = () => new DateTime(2012, 1, 2, 1, 0, 0);
                     futureWordScore.ScoreWord(ConfidenceLevel.PerfectResponse);

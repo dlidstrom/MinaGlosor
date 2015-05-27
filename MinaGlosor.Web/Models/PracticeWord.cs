@@ -1,6 +1,4 @@
 ﻿using System;
-using MinaGlosor.Web.Models.DomainEvents;
-using Raven.Abstractions;
 using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models
@@ -49,12 +47,11 @@ namespace MinaGlosor.Web.Models
                 throw new ApplicationException("Cannot score word twice");
 
             Confidence = (int)confidenceLevel;
-            DomainEvent.Raise(new WordConfidenceUpdated(WordId, WordListId, confidenceLevel, OwnerId));
         }
 
-        public void UpdateLastPickedDate()
+        public void UpdateLastPickedDate(DateTime date)
         {
-            LastPickedDate = SystemTime.UtcNow;
+            LastPickedDate = date;
         }
     }
 }

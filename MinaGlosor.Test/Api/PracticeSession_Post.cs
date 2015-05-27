@@ -1,6 +1,8 @@
-﻿using System.Net;
+﻿using System.Globalization;
+using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using NUnit.Framework;
 
 namespace MinaGlosor.Test.Api
@@ -44,16 +46,22 @@ namespace MinaGlosor.Test.Api
             // Arrange
             Transact(session =>
             {
-                var owner = new User("e@d.com", "pwd", "username");
+                var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(owner);
 
-                var wordList = new WordList("list", owner);
+                var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
                 session.Store(wordList);
 
                 // add some words to the word list
+                var generator = new KeyGenerator<Word>(session);
                 for (var i = 0; i < 20; i++)
                 {
-                    session.Store(new Word(i.ToString(), i.ToString(), wordList.Id));
+                    var word = new Word(
+                        generator.Generate(),
+                        i.ToString(CultureInfo.InvariantCulture),
+                        i.ToString(CultureInfo.InvariantCulture),
+                        wordList.Id);
+                    session.Store(word);
                 }
             });
 

@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Client.Linq;
 
@@ -49,7 +50,14 @@ namespace MinaGlosor.Web.Controllers.Api
                 return Request.CreateResponse(HttpStatusCode.OK);
 
             Debug.Assert(request.CreatedDate != null, "request.CreatedDate != null");
-            session.Store(Word.CreateFromMigration(request.Text, request.Definition, request.CreatedDate.Value, wordList.Id));
+            var generator = new KeyGenerator<Word>(session);
+            var word = Word.CreateFromMigration(
+                generator.Generate(),
+                request.Text,
+                request.Definition,
+                request.CreatedDate.Value,
+                wordList.Id);
+            session.Store(word);
 
             return Request.CreateResponse(HttpStatusCode.Created);
         }

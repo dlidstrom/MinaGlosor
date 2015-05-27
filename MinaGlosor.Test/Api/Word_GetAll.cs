@@ -1,5 +1,6 @@
 ﻿using System;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Raven.Abstractions;
@@ -13,18 +14,19 @@ namespace MinaGlosor.Test.Api
         public async void GetsWordsForWordList()
         {
             // Arrange
-            var owner = new User("e@d.com", "pwd", "username");
             Transact(session =>
             {
+                var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(owner);
-                var wordList = new WordList("list name", owner);
+                var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list name", owner.Id);
                 session.Store(wordList);
 
                 // make sure listed in date order
                 SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1);
-                session.Store(new Word("w2", "d2", wordList.Id));
+                var generator = new KeyGenerator<Word>(session);
+                session.Store(new Word(generator.Generate(), "w2", "d2", wordList.Id));
                 SystemTime.UtcDateTime = () => new DateTime(2010, 1, 1);
-                session.Store(new Word("w1", "d1", wordList.Id));
+                session.Store(new Word(generator.Generate(), "w1", "d1", wordList.Id));
             });
 
             // Act

@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using NUnit.Framework;
 
 namespace MinaGlosor.Test.Api
@@ -14,11 +15,12 @@ namespace MinaGlosor.Test.Api
             // Arrange
             Transact(session =>
                 {
-                    var owner = new User("e@d.com", "pwd", "username");
+                    var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                     session.Store(owner);
-                    var wordList = new WordList("list", owner);
+                    var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
                     session.Store(wordList);
-                    var word = new Word("old text", "old def", wordList.Id);
+                    var generator = new KeyGenerator<Word>(session);
+                    var word = new Word(generator.Generate(), "old text", "old def", wordList.Id);
                     session.Store(word);
                 });
 
@@ -35,7 +37,7 @@ namespace MinaGlosor.Test.Api
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
             Transact(session =>
                 {
-                    var newWord = session.Load<Word>("Words/1");
+                    var newWord = session.Load<Word>("words/1");
                     Assert.That(newWord.Text, Is.EqualTo("new word"));
                     Assert.That(newWord.Definition, Is.EqualTo("new def"));
                 });

@@ -69,7 +69,11 @@ namespace MinaGlosor.Web.Models.Commands
                 practiceWords = GetRandomPracticeWords(session);
             }
 
-            var practiceSession = new PracticeSession(wordListId, practiceWords, currentUserId);
+            var practiceSession = new PracticeSession(
+                KeyGeneratorBase.Generate<PracticeSession>(session),
+                wordListId,
+                practiceWords,
+                currentUserId);
             session.Store(practiceSession);
             return new Result(practiceSession.Id);
         }

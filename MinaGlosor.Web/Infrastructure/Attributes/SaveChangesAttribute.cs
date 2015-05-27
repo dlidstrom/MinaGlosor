@@ -2,6 +2,7 @@ using System.Linq;
 using System.Web.Http.Filters;
 using System.Web.Mvc;
 using MinaGlosor.Web.Controllers.Api;
+using MinaGlosor.Web.Infrastructure.Tracing;
 using Raven.Client;
 using ActionFilterAttribute = System.Web.Http.Filters.ActionFilterAttribute;
 
@@ -16,8 +17,10 @@ namespace MinaGlosor.Web.Infrastructure.Attributes
                 return;
 
             var documentSession = DependencyResolver.Current.GetService<IDocumentSession>();
-            if (documentSession.Advanced.WhatChanged().Any())
+            var whatChanged = documentSession.Advanced.WhatChanged();
+            if (whatChanged.Any())
             {
+                TracingLogger.Information("Saving {0} changes", whatChanged.Count);
                 documentSession.SaveChanges();
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -46,13 +47,14 @@ namespace MinaGlosor.Test.Api
         protected override async void Act()
         {
             // Arrange
-            owner = new User("e@d.com", "pwd", "username");
             Transact(session =>
             {
+                owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(owner);
-                var wordList = new WordList("list", owner);
+                var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
                 session.Store(wordList);
-                word = new Word("some text", "some def", wordList.Id);
+                var generator = new KeyGenerator<Word>(session);
+                word = new Word(generator.Generate(), "some text", "some def", wordList.Id);
                 session.Store(word);
             });
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Raven.Abstractions;
@@ -47,15 +48,16 @@ namespace MinaGlosor.Test.Api
             SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1);
             Transact(session =>
             {
-                var owner = new User("e@d.com", "pwd", "username");
+                var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(owner);
-                var wordList = new WordList("list", owner);
+                var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
                 session.Store(wordList);
 
                 // add some words to the word list
+                var generator = new KeyGenerator<Word>(session);
                 for (var i = 0; i < 10; i++)
                 {
-                    session.Store(new Word(1 + i + "t", 1 + i + "d", wordList.Id));
+                    session.Store(new Word(generator.Generate(), 1 + i + "t", 1 + i + "d", wordList.Id));
                 }
             });
 

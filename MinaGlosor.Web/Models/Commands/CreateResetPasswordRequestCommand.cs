@@ -21,7 +21,8 @@ namespace MinaGlosor.Web.Models.Commands
 
         public void Execute(IDocumentSession session)
         {
-            session.Store(new ResetPasswordRequest(email));
+            var id = KeyGeneratorBase.Generate<ResetPasswordRequest>(session);
+            session.Store(new ResetPasswordRequest(id, email));
         }
     }
 }

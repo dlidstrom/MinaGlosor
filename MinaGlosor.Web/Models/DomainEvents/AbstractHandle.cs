@@ -1,6 +1,7 @@
 ﻿using System;
 using Castle.MicroKernel;
 using MinaGlosor.Web.Infrastructure;
+using MinaGlosor.Web.Infrastructure.Tracing;
 using Raven.Client;
 
 namespace MinaGlosor.Web.Models.DomainEvents
@@ -17,16 +18,19 @@ namespace MinaGlosor.Web.Models.DomainEvents
             return query.Execute(GetDocumentSession());
         }
 
-        protected void ExecuteCommand(ICommand command)
+        protected void ExecuteCommand(ICommand command, ModelEvent causedByEvent)
         {
             if (command == null) throw new ArgumentNullException("command");
-            command.Execute(GetDocumentSession());
-        }
-
-        protected TResult ExecuteCommand<TResult>(ICommand<TResult> command)
-        {
-            if (command == null) throw new ArgumentNullException("command");
-            return command.Execute(GetDocumentSession());
+            if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
+            using (new ModelContext(ModelContext.CorrelationId, causedByEvent.EventId))
+            {
+                TracingLogger.Information(
+                    EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteDependenCommand_3001,
+                    "{0} <- {1}",
+                    command.GetType().Name,
+                    causedByEvent.GetType().Name);
+                command.Execute(GetDocumentSession());
+            }
         }
 
         private IDocumentSession GetDocumentSession()

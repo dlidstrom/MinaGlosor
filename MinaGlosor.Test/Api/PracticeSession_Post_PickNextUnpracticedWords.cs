@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Security.Principal;
 using System.Threading;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using NUnit.Framework;
 using Raven.Abstractions;
 
@@ -65,19 +66,25 @@ namespace MinaGlosor.Test.Api
             // Arrange
             Transact(session =>
                 {
-                    var firstUser = new User("first@d.com", "pwd", "username");
+                    var firstUser = new User(KeyGeneratorBase.Generate<User>(session), "first@d.com", "pwd", "username");
                     session.Store(firstUser);
 
-                    var wordList = new WordList("list", firstUser);
+                    var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", firstUser.Id);
                     session.Store(wordList);
 
                     // add some words to the word list
                     var currentDate = new DateTime(2012, 1, 1);
+                    var generator = new KeyGenerator<Word>(session);
                     for (var i = 0; i < 25; i++)
                     {
                         var newCurrentDate = currentDate.AddSeconds(i);
                         SystemTime.UtcDateTime = () => newCurrentDate;
-                        session.Store(new Word(1 + i + "t", 1 + i + "d", wordList.Id));
+                        var word = new Word(
+                            generator.Generate(),
+                            1 + i + "t",
+                            1 + i + "d",
+                            wordList.Id);
+                        session.Store(word);
                     }
                 });
 

@@ -11,7 +11,10 @@ namespace MinaGlosor.Web.Models.Commands
         private readonly string definition;
         private readonly string wordListId;
 
-        public CreateWordCommand(string text, string definition, GetWordListQuery.Result wordListResult)
+        public CreateWordCommand(
+            string text,
+            string definition,
+            GetWordListQuery.Result wordListResult)
         {
             if (text == null) throw new ArgumentNullException("text");
             if (definition == null) throw new ArgumentNullException("definition");
@@ -31,7 +34,11 @@ namespace MinaGlosor.Web.Models.Commands
 
         public string Execute(IDocumentSession session)
         {
-            var word = new Word(text, definition, wordListId);
+            var word = new Word(
+                KeyGeneratorBase.Generate<Word>(session),
+                text,
+                definition,
+                wordListId);
             session.Store(word);
             return Word.FromId(word.Id);
         }

@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using MinaGlosor.Web.Infrastructure.Attributes;
 using Newtonsoft.Json.Serialization;
 
 // ReSharper disable CheckNamespace
@@ -9,6 +10,7 @@ namespace MinaGlosor.Web
         public static void Register(HttpConfiguration configuration)
         {
             //configuration.Services.Add(typeof(IExceptionLogger), new CustomExceptionLogger());
+            configuration.Filters.Add(new CorrelationIdAttribute());
 
             // camelCase by default
             var formatter = configuration.Formatters.JsonFormatter;

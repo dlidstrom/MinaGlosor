@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Raven.Abstractions;
+using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models
 {
-    public class User
+    public class User : DomainModel
     {
         public const string UsernamePattern = "^(?=.{4,20}$)(?![-])(?!.*[-]{2})[a-zA-Z0-9-]+(?<![-])$";
 
-        public User(string email, string password, string username, UserRole userRole = UserRole.Basic)
+        public User(string id, string email, string password, string username, UserRole userRole = UserRole.Basic)
+            : base(id)
         {
             if (email == null) throw new ArgumentNullException("email");
             if (password == null) throw new ArgumentNullException("password");
@@ -22,11 +23,8 @@ namespace MinaGlosor.Web.Models
                     "username");
             }
 
-            Email = email;
-            Username = username;
-            Role = userRole;
-            HashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
-            CreatedDate = SystemTime.UtcNow;
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+            Apply(new UserRegisteredEvent(id, email, hashedPassword, username, userRole));
         }
 
         [JsonConstructor]
@@ -44,8 +42,6 @@ namespace MinaGlosor.Web.Models
         private User()
         {
         }
-
-        public string Id { get; private set; }
 
         public string Email { get; private set; }
 
@@ -69,20 +65,16 @@ namespace MinaGlosor.Web.Models
             return userId.Substring(6);
         }
 
-        public static User CreateFromMigration(DateTime createdDate, string email, string hashedPassword, string username)
+        public static User CreateFromMigration(string id, DateTime createdDate, string email, string hashedPassword, string username)
         {
+            if (id == null) throw new ArgumentNullException("id");
             if (email == null) throw new ArgumentNullException("email");
             if (hashedPassword == null) throw new ArgumentNullException("hashedPassword");
             if (username == null) throw new ArgumentNullException("username");
 
-            var user = new User
-                {
-                    CreatedDate = createdDate,
-                    Email = email,
-                    HashedPassword = hashedPassword,
-                    Username = username,
-                    Role = UserRole.Basic
-                };
+            var user = new User();
+            user.Apply(new UserRegisteredEvent(id, email, hashedPassword, username, UserRole.Basic));
+            user.Apply(new SetUserCreatedEvent(id, createdDate));
             return user;
         }
 
@@ -93,12 +85,37 @@ namespace MinaGlosor.Web.Models
 
         public void SetRole(UserRole role)
         {
-            Role = role;
+            Apply(new SetRoleEvent(Id, role));
         }
 
         public void SetPassword(string password)
         {
-            HashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+            Apply(new SetPasswordEvent(Id, hashedPassword));
+        }
+
+        private void ApplyEvent(SetRoleEvent @event)
+        {
+            Role = @event.Role;
+        }
+
+        private void ApplyEvent(UserRegisteredEvent @event)
+        {
+            Email = @event.Email;
+            HashedPassword = @event.HashedPassword;
+            Username = @event.Username;
+            Role = @event.UserRole;
+            CreatedDate = @event.CreatedDateTime;
+        }
+
+        private void ApplyEvent(SetUserCreatedEvent @event)
+        {
+            CreatedDate = @event.CreatedDate;
+        }
+
+        private void ApplyEvent(SetPasswordEvent @event)
+        {
+            HashedPassword = @event.HashedPassword;
         }
     }
 }

@@ -26,7 +26,8 @@ namespace MinaGlosor.Web.Models.Commands
 
         public Result Execute(IDocumentSession session)
         {
-            var wordList = new WordList(name, owner);
+            var id = KeyGeneratorBase.Generate<WordList>(session);
+            var wordList = new WordList(id, name, owner.Id);
             session.Store(wordList);
             return new Result(wordList);
         }

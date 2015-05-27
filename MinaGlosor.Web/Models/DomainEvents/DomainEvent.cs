@@ -41,11 +41,13 @@ namespace MinaGlosor.Web.Models.DomainEvents
 
             var container = ReturnContainer.Invoke();
             if (container == null) throw new InvalidOperationException("container is null");
-            var handlers = container.ResolveAll<IHandle<TEvent>>();
+            var handlerType = typeof(IHandle<>).MakeGenericType(@event.GetType());
+            var handlers = container.ResolveAll(handlerType);
 
             foreach (var handle in handlers)
             {
-                handle.Handle(@event);
+                var method = handle.GetType().GetMethod("Handle");
+                method.Invoke(handle, new[] { (object)@event });
                 container.Release(handle);
             }
         }

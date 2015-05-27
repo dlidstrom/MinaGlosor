@@ -99,6 +99,7 @@
       <HintPath>..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data.Entity.Design" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -212,6 +213,7 @@
     <Compile Include="Controllers\Api\WordFavouriteController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\CorrelationIdAttribute.cs" />
     <Compile Include="Infrastructure\JetBrains.Annotations.cs" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -269,9 +271,36 @@
     <Compile Include="Infrastructure\IoC\WindsorControllerFactory.cs" />
     <Compile Include="Infrastructure\IoC\Installers\WindsorWebApiInstaller.cs" />
     <Compile Include="Infrastructure\IQuery.cs" />
+    <Compile Include="Infrastructure\PrivateMembersContractResolver.cs" />
+    <Compile Include="Infrastructure\SystemGuid.cs" />
     <Compile Include="Infrastructure\Tracing\ActivityScope.cs" />
     <Compile Include="Infrastructure\Tracing\EventIds.cs" />
     <Compile Include="Infrastructure\Tracing\TracingLogger.cs" />
+    <Compile Include="Models\ChangeLogEntry.cs" />
+    <Compile Include="Models\Commands\UpdateLastPickedDateCommand.cs" />
+    <Compile Include="Models\DomainEvents\AddWordEvent.cs" />
+    <Compile Include="Models\DomainEvents\MarkCreateAccountRequestUsedEvent.cs" />
+    <Compile Include="Models\DomainEvents\MarkResetPasswordRequestUsedEvent.cs" />
+    <Compile Include="Models\DomainEvents\PracticeSessionCreatedEvent.cs" />
+    <Compile Include="Models\DomainEvents\RestartWordScoreEvent.cs" />
+    <Compile Include="Models\DomainEvents\SetPasswordEvent.cs" />
+    <Compile Include="Models\DomainEvents\SetRoleEvent.cs" />
+    <Compile Include="Models\DomainEvents\SetUserCreatedEvent.cs" />
+    <Compile Include="Models\DomainEvents\ToggleWordFavouriteEvent.cs" />
+    <Compile Include="Models\DomainEvents\UpdateConfidenceEvent.cs" />
+    <Compile Include="Models\DomainEvents\UpdateConfidenceEventHandler.cs" />
+    <Compile Include="Models\DomainEvents\UpdateLastPickedDateEvent.cs" />
+    <Compile Include="Models\DomainEvents\UpdateWordScoreEvent.cs" />
+    <Compile Include="Models\DomainEvents\UserRegisteredEvent.cs" />
+    <Compile Include="Models\DomainEvents\WordFavouriteRegisteredEvent.cs" />
+    <Compile Include="Models\DomainEvents\WordListRegisteredEvent.cs" />
+    <Compile Include="Models\DomainEvents\WordScoreRegisteredEvent.cs" />
+    <Compile Include="Models\DomainEvents\WordUpdatedEvent.cs" />
+    <Compile Include="Models\Indexes\ChangeLogEntryIndex.cs" />
+    <Compile Include="Models\ModelContext.cs" />
+    <Compile Include="Models\Commands\KeyGeneratorBase.cs" />
+    <Compile Include="Models\DomainEvents\SetCreatedDateFromMigrationEvent.cs" />
+    <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Models\Commands\CreateAccountRequestCommand.cs" />
     <Compile Include="Models\Commands\CreatePracticeSessionCommand.cs" />
     <Compile Include="Models\Commands\CreateResetPasswordRequestCommand.cs" />
@@ -286,15 +315,14 @@
     <Compile Include="Models\ConfidenceLevel.cs" />
     <Compile Include="Models\CreateAccountRequest.cs" />
     <Compile Include="Models\DomainEvents\AbstractHandle.cs" />
-    <Compile Include="Models\DomainEvents\CreateAccountRequestCreated.cs" />
+    <Compile Include="Models\DomainEvents\CreateAccountRequestCreatedEvent.cs" />
     <Compile Include="Models\DomainEvents\CreateAccountRequestCreatedHandler.cs" />
     <Compile Include="Models\DomainEvents\DomainEvent.cs" />
     <Compile Include="Models\DomainEvents\DomainEventReset.cs" />
     <Compile Include="Models\DomainEvents\IHandle.cs" />
-    <Compile Include="Models\DomainEvents\ResetPasswordRequested.cs" />
+    <Compile Include="Models\DomainEvents\ModelEvent.cs" />
+    <Compile Include="Models\DomainEvents\ResetPasswordRequestedEvent.cs" />
     <Compile Include="Models\DomainEvents\ResetPasswordHandler.cs" />
-    <Compile Include="Models\DomainEvents\WordConfidenceUpdated.cs" />
-    <Compile Include="Models\DomainEvents\WordConfidenceUpdatedHandler.cs" />
     <Compile Include="Models\DomainEvents\WordRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordRegisteredEventHandler.cs" />
     <Compile Include="Models\Indexes\CreateAccountRequestIndex.cs" />

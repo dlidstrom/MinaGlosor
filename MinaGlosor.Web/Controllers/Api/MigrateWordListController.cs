@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Client.Linq;
 
@@ -44,7 +45,7 @@ namespace MinaGlosor.Web.Controllers.Api
                 return Request.CreateResponse(HttpStatusCode.OK);
 
             // store wordlist
-            session.Store(new WordList(request.Name, wordListOwner));
+            session.Store(new WordList(KeyGeneratorBase.Generate<WordList>(session), request.Name, wordListOwner.Id));
 
             return Request.CreateResponse(HttpStatusCode.Created);
         }

@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Client.Linq;
 
@@ -46,6 +47,7 @@ namespace MinaGlosor.Web.Controllers.Api
 
             Debug.Assert(request.CreatedDate != null, "request.CreatedDate != null");
             var newUser = Models.User.CreateFromMigration(
+                KeyGeneratorBase.Generate<User>(session),
                 request.CreatedDate.Value,
                 request.Email,
                 request.HashedPassword,

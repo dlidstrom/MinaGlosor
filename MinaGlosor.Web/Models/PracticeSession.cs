@@ -1,31 +1,28 @@
 ﻿using System;
 using System.Linq;
+using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Abstractions;
 using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models
 {
-    public class PracticeSession
+    public class PracticeSession : DomainModel
     {
-        public PracticeSession(string wordListId, PracticeWord[] words, string ownerId)
+        public PracticeSession(string id, string wordListId, PracticeWord[] words, string ownerId)
+            : base(id)
         {
             if (wordListId == null) throw new ArgumentNullException("wordListId");
             if (words == null) throw new ArgumentNullException("words");
             if (ownerId == null) throw new ArgumentNullException("ownerId");
             if (words.Length == 0) throw new ArgumentException("No words to practice", "words");
 
-            WordListId = wordListId;
-            Words = words;
-            OwnerId = ownerId;
-            CreatedDate = SystemTime.UtcNow;
+            Apply(new PracticeSessionCreatedEvent(id, wordListId, words, ownerId));
         }
 
         [JsonConstructor]
         private PracticeSession()
         {
         }
-
-        public string Id { get; private set; }
 
         public string WordListId { get; private set; }
 
@@ -69,6 +66,13 @@ namespace MinaGlosor.Web.Models
             return practiceSessionId.Substring(17);
         }
 
+        public bool HasAccess(string userId)
+        {
+            if (userId == null) throw new ArgumentNullException("userId");
+
+            return OwnerId == userId;
+        }
+
         public PracticeSessionStatistics GetStatistics()
         {
             return new PracticeSessionStatistics(
@@ -82,40 +86,57 @@ namespace MinaGlosor.Web.Models
         public PracticeWord GetNextWord()
         {
             if (IsFinished)
-                throw new ApplicationException("Practice session is finishe");
+                throw new ApplicationException("Practice session is finished");
 
             var firstUnscored = Words.FirstOrDefault(x => x.Confidence < 0);
             if (firstUnscored != null)
             {
-                firstUnscored.UpdateLastPickedDate();
                 return firstUnscored;
             }
 
             var nextWord = Words.Where(x => x.Confidence < 4).OrderBy(x => x.LastPickedDate).FirstOrDefault();
             if (nextWord == null) throw new ApplicationException("No more words to practice");
-            nextWord.UpdateLastPickedDate();
             return nextWord;
+        }
+
+        public void UpdateLastPickedDate(string practiceWordId)
+        {
+            if (practiceWordId == null) throw new ArgumentNullException("practiceWordId");
+            Apply(new UpdateLastPickedDateEvent(Id, practiceWordId, SystemTime.UtcNow));
         }
 
         public void UpdateConfidence(string practiceWordId, ConfidenceLevel confidenceLevel)
         {
             if (practiceWordId == null) throw new ArgumentNullException("practiceWordId");
-
             var practiceWord = Words.Single(x => x.PracticeWordId == practiceWordId);
-            practiceWord.UpdateConfidence(confidenceLevel);
-        }
-
-        public bool HasAccess(string userId)
-        {
-            if (userId == null) throw new ArgumentNullException("userId");
-
-            return OwnerId == userId;
+            Apply(new UpdateConfidenceEvent(Id, practiceWordId, confidenceLevel, practiceWord.WordId, practiceWord.WordListId, OwnerId));
         }
 
         public PracticeWord GetWordById(string practiceWordId)
         {
+            if (practiceWordId == null) throw new ArgumentNullException("practiceWordId");
             var practiceWord = Words.Single(x => x.PracticeWordId == practiceWordId);
             return practiceWord;
+        }
+
+        private void ApplyEvent(UpdateConfidenceEvent @event)
+        {
+            var practiceWord = Words.Single(x => x.PracticeWordId == @event.PracticeWordId);
+            practiceWord.UpdateConfidence(@event.ConfidenceLevel);
+        }
+
+        private void ApplyEvent(UpdateLastPickedDateEvent @event)
+        {
+            var nextWord = Words.Single(x => x.PracticeWordId == @event.PracticeWordId);
+            nextWord.UpdateLastPickedDate(@event.Date);
+        }
+
+        private void ApplyEvent(PracticeSessionCreatedEvent @event)
+        {
+            WordListId = @event.WordListId;
+            Words = @event.Words;
+            OwnerId = @event.OwnerId;
+            CreatedDate = @event.CreatedDateTime;
         }
     }
 }

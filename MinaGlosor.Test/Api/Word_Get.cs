@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using NUnit.Framework;
 
 namespace MinaGlosor.Test.Api
@@ -12,13 +13,19 @@ namespace MinaGlosor.Test.Api
         public async void GetsSingleWord()
         {
             // Arrange
-            var owner = new User("e@d.com", "pwd", "username");
+            User owner;
             Transact(session =>
             {
+                owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(owner);
-                var wordList = new WordList("list", owner);
+                var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
                 session.Store(wordList);
-                var word = new Word("some text", "some def", wordList.Id);
+                var generator = new KeyGenerator<Word>(session);
+                var word = new Word(
+                    generator.Generate(),
+                    "some text",
+                    "some def",
+                    wordList.Id);
                 session.Store(word);
             });
 

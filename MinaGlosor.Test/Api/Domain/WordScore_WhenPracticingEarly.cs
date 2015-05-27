@@ -17,7 +17,7 @@ namespace MinaGlosor.Test.Api.Domain
         {
             SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1);
             disabler = DomainEvent.Disable();
-            wordScore = new WordScore("users/1", "words/1", "WordLists/1");
+            wordScore = new WordScore("WordScores/1", "users/1", "words/1", "WordLists/1");
             wordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
         }
 

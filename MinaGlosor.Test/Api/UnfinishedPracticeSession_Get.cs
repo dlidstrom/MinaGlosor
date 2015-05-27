@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Raven.Abstractions;
@@ -18,18 +19,23 @@ namespace MinaGlosor.Test.Api
             SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1);
             Transact(session =>
                 {
-                    var owner = new User("e@d.com", "pwd", "username");
+                    var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                     session.Store(owner);
-                    var wordList = new WordList("wl1", owner);
+                    var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "wl1", owner.Id);
                     session.Store(wordList);
+                    var generator = new KeyGenerator<Word>(session);
                     var practiceWords = Enumerable.Range(1, 10).Select(i =>
                         {
-                            var word = new Word("t" + i, "d" + i, wordList.Id);
+                            var word = new Word(
+                                generator.Generate(),
+                                "t" + i,
+                                "d" + i,
+                                wordList.Id);
                             session.Store(word);
                             var practiceWord = new PracticeWord(word, wordList.Id, owner.Id);
                             return practiceWord;
                         }).ToArray();
-                    session.Store(new PracticeSession(wordList.Id, practiceWords, "users/1"));
+                    session.Store(new PracticeSession(KeyGeneratorBase.Generate<PracticeSession>(session), wordList.Id, practiceWords, owner.Id));
                 });
 
             // Act

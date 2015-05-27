@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands;
 using MinaGlosor.Web.Models.Indexes;
 using NUnit.Framework;
 using Raven.Client.Linq;
@@ -17,7 +18,7 @@ namespace MinaGlosor.Test.Api
         public async void CreatesTheUser()
         {
             // Arrange
-            Transact(session => session.Store(new User("e@d.com", "pwd", "username", UserRole.Admin)));
+            Transact(session => session.Store(new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username", UserRole.Admin)));
 
             // Act
             var request = new
@@ -51,8 +52,9 @@ namespace MinaGlosor.Test.Api
             // Arrange
             Transact(session =>
                 {
-                    session.Store(new User("e@d.com", "pwd", "username", UserRole.Admin));
-                    session.Store(new User("someone@d.com", "correctbatteryhorsesstapler", "username2"));
+                    var generator = new KeyGenerator<User>(session);
+                    session.Store(new User(generator.Generate(), "e@d.com", "pwd", "username", UserRole.Admin));
+                    session.Store(new User(generator.Generate(), "someone@d.com", "correctbatteryhorsesstapler", "username2"));
                 });
 
             // Act
