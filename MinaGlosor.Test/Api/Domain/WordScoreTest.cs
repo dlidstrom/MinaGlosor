@@ -29,7 +29,7 @@ namespace MinaGlosor.Test.Api.Domain
         public void RepeatsNextDay()
         {
             // Act
-            var wordScore = new WordScore("users/1", "words/1", "WordLists/1");
+            var wordScore = new WordScore("WordScores/1", "users/1", "words/1", "WordLists/1");
             wordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
 
             // Assert
@@ -40,7 +40,7 @@ namespace MinaGlosor.Test.Api.Domain
         public void ScoredWordRepeatsInSixDays()
         {
             // Arrange
-            var wordScore = new WordScore("users/1", "words/1", "WordLists/1");
+            var wordScore = new WordScore("WordScores/1", "users/1", "words/1", "WordLists/1");
             wordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
             SystemTime.UtcDateTime = () => wordScore.RepeatAfterDate;
 
@@ -55,7 +55,7 @@ namespace MinaGlosor.Test.Api.Domain
         public void DoubleScoredWordRepeatsInManyDays()
         {
             // Arrange
-            var wordScore = new WordScore("users/1", "words/1", "WordLists/1");
+            var wordScore = new WordScore("WordScores/1", "users/1", "words/1", "WordLists/1");
 
             // Act
             wordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
@@ -72,7 +72,7 @@ namespace MinaGlosor.Test.Api.Domain
         public void DoubleScoredForgottenRepeatsSoon()
         {
             // Arrange
-            var wordScore = new WordScore("users/1", "words/1", "WordLists/1");
+            var wordScore = new WordScore("WordScores/1", "users/1", "words/1", "WordLists/1");
 
             // Act
             wordScore.ScoreWord(ConfidenceLevel.PerfectResponse);

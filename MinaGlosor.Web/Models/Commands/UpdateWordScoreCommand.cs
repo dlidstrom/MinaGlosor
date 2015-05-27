@@ -36,7 +36,8 @@ namespace MinaGlosor.Web.Models.Commands
                                    .SingleOrDefault(x => x.OwnerId == ownerId && x.WordId == wordId);
             if (wordScore == null)
             {
-                wordScore = new WordScore(ownerId, wordId, wordListId);
+                var id = KeyGeneratorBase.Generate<WordScore>(session);
+                wordScore = new WordScore(id, ownerId, wordId, wordListId);
                 session.Store(wordScore);
             }
 

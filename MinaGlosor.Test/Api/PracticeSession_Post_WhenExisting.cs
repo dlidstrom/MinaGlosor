@@ -81,7 +81,7 @@ namespace MinaGlosor.Test.Api
                             1 + i + "d",
                             wordList.Id);
                         session.Store(word);
-                        var wordScore = new WordScore(owner.Id, word.Id, wordList.Id);
+                        var wordScore = new WordScore(KeyGeneratorBase.Generate<WordScore>(session), owner.Id, word.Id, wordList.Id);
                         wordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
                         session.Store(wordScore);
                     }
@@ -93,7 +93,7 @@ namespace MinaGlosor.Test.Api
                         "future",
                         wordList.Id);
                     session.Store(futureWord);
-                    var futureWordScore = new WordScore(owner.Id, futureWord.Id, wordList.Id);
+                    var futureWordScore = new WordScore(KeyGeneratorBase.Generate<WordScore>(session), owner.Id, futureWord.Id, wordList.Id);
                     futureWordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
                     SystemTime.UtcDateTime = () => new DateTime(2012, 1, 2, 1, 0, 0);
                     futureWordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
