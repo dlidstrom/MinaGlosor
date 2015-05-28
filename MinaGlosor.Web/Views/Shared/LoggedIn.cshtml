@@ -12,6 +12,8 @@
         <meta charset="utf-8">
         <meta name="appVersion" content="@Application.GetAppVersion()" />
         <meta name="isDebuggingEnabled" content="@Html.ViewContext.HttpContext.IsDebuggingEnabled.ToString().ToLowerInvariant()" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <title>Mina Glosor</title>
         <base href="@string.Format("{0}://{1}:{2}/{3}/", Request.Url.Scheme, Request.Url.Host, Request.Url.Port, Model.Username)" />
         @Bundles.RenderScripts("head")
