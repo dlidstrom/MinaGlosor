@@ -75,7 +75,7 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
         public static class Error_Permanent_5XXX
         {
             // Web starts at 5000
-            public const int Web_WrongConfiguration_5000 = 5000;
+            public const int Web_UnhandledException_5000 = 5000;
 
             public const int Web_CreatePracticeSession_Unauthorized_5001 = 5001;
 

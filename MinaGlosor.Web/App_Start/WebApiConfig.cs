@@ -1,4 +1,6 @@
 ﻿using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
+using Elmah.Contrib.WebApi;
 using MinaGlosor.Web.Infrastructure.Attributes;
 using Newtonsoft.Json.Serialization;
 
@@ -9,7 +11,7 @@ namespace MinaGlosor.Web
     {
         public static void Register(HttpConfiguration configuration)
         {
-            //configuration.Services.Add(typeof(IExceptionLogger), new CustomExceptionLogger());
+            configuration.Services.Add(typeof(IExceptionLogger), new ElmahExceptionLogger());
             configuration.Filters.Add(new CorrelationIdAttribute());
 
             // camelCase by default

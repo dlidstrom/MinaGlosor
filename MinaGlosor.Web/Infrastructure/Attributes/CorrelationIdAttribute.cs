@@ -18,6 +18,11 @@ namespace MinaGlosor.Web.Infrastructure.Attributes
 
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
+            if (actionExecutedContext.Exception != null)
+            {
+                TracingLogger.Error(EventIds.Error_Permanent_5XXX.Web_UnhandledException_5000, actionExecutedContext.Exception);
+            }
+
             TracingLogger.Stop(EventIds.Informational_Completion_2XXX.Web_Request_Executed_2001);
             Trace.CorrelationManager.ActivityId = default(Guid);
         }
@@ -31,6 +36,11 @@ namespace MinaGlosor.Web.Infrastructure.Attributes
 
         public override Task OnActionExecutedAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)
         {
+            if (actionExecutedContext.Exception != null)
+            {
+                TracingLogger.Error(EventIds.Error_Permanent_5XXX.Web_UnhandledException_5000, actionExecutedContext.Exception);
+            }
+
             TracingLogger.Stop(EventIds.Informational_Completion_2XXX.Web_Request_Executed_2001);
             Trace.CorrelationManager.ActivityId = default(Guid);
             return Task.FromResult(0);
