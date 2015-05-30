@@ -1,4 +1,5 @@
 ﻿using System;
+using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Abstractions;
 using Raven.Imports.Newtonsoft.Json;
@@ -57,6 +58,7 @@ namespace MinaGlosor.Web.Models
             var count = Count;
             int intervalInDays;
             var level = (int)confidenceLevel;
+            var utcNow = SystemTime.UtcNow;
             if (level < 3)
             {
                 intervalInDays = 1;
@@ -65,9 +67,18 @@ namespace MinaGlosor.Web.Models
             }
             else
             {
-                if (count > 0 && SystemTime.UtcNow < RepeatAfterDate)
+                if (count > 0 && utcNow < RepeatAfterDate)
                 {
-                    if (level >= 4) return;
+                    if (level >= 4)
+                    {
+                        TracingLogger.Information(
+                            EventIds.Informational_ApplicationLog_3XXX.Web_ScoreNotUpdated_3003,
+                            "Not updated due to: Now {0} < RepeatAfterDate {1}",
+                            utcNow,
+                            RepeatAfterDate);
+                        return;
+                    }
+
                     count = 0;
                 }
 
@@ -87,7 +98,7 @@ namespace MinaGlosor.Web.Models
                 }
             }
 
-            var repeatAfterDate = SystemTime.UtcNow.AddDays(intervalInDays);
+            var repeatAfterDate = utcNow.AddDays(intervalInDays);
             var score = Math.Max(1.3, Score + (0.1 - (5 - level) * (0.08 + (5 - level) * 0.02)));
             Apply(new UpdateWordScoreEvent(Id, count, intervalInDays, repeatAfterDate, score));
         }
