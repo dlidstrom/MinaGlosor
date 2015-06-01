@@ -189,6 +189,11 @@
                 {
                     templateUrl: '/wwwroot/app/help/index.html'
                 })
+            .when(
+                '/search',
+                {
+                    templateUrl: '/wwwroot/app/search/index.html'
+                })
             .otherwise({
                 redirectTo: '/wordlist'
             });
