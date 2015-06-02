@@ -192,7 +192,18 @@
             .when(
                 '/search',
                 {
-                    templateUrl: '/wwwroot/app/search/index.html'
+                    templateUrl: '/wwwroot/app/search/index.html',
+                    controller: 'SearchIndexController',
+                    controllerAs: 'searchIndex',
+                    resolve: {
+                        q:
+                        [
+                            '$route',
+                            function ($route) {
+                                return $route.current.params.q;
+                            }
+                        ]
+                    }
                 })
             .otherwise({
                 redirectTo: '/wordlist'

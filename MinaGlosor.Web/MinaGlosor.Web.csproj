@@ -178,7 +178,9 @@
     <Content Include="wwwroot\app\app.js" />
     <Content Include="wwwroot\app\bundle.txt" />
     <Content Include="wwwroot\app\exceptionHandler.js" />
+    <Content Include="wwwroot\app\search\searchIndexController.js" />
     <Content Include="wwwroot\app\search\index.html" />
+    <Content Include="wwwroot\app\search\searchRedirectController.js" />
     <Content Include="wwwroot\external\footer_js\bootstrap.min.js" />
     <Content Include="wwwroot\external\footer_js\bundle.txt" />
     <Content Include="wwwroot\external\footer_js\fastclick.min.js" />
