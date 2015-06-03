@@ -202,6 +202,13 @@
                             function ($route) {
                                 return $route.current.params.q;
                             }
+                        ],
+                        result: [
+                            '$route',
+                            'SearchService',
+                            function ($route, searchService) {
+                                return searchService.search($route.current.params.q);
+                            }
                         ]
                     }
                 })

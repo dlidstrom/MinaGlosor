@@ -166,7 +166,7 @@
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
-    <Content Include="cassette-cache\script\wwwroot\app\adb319894441d9693d595074413bca06829baff3.js" />
+    <Content Include="cassette-cache\script\wwwroot\app\0e8890defcb69c3d07c71e407fbb591b3867e8d1.js" />
     <Content Include="cassette-cache\script\wwwroot\external\footer_js\4e8a7d0a2c6112eda3ef0b855940257bcdb5231d.js" />
     <Content Include="cassette-cache\script\wwwroot\external\head_js\418ce6d51743c7016d100802b0a0ae91cbd19836.js" />
     <Content Include="cassette-cache\stylesheet\wwwroot\a452c85d0a60bf8e49c3a7d7689ccc1e6177d8e4.css" />
@@ -181,6 +181,7 @@
     <Content Include="wwwroot\app\search\searchIndexController.js" />
     <Content Include="wwwroot\app\search\index.html" />
     <Content Include="wwwroot\app\search\searchRedirectController.js" />
+    <Content Include="wwwroot\app\shared\searchService.js" />
     <Content Include="wwwroot\external\footer_js\bootstrap.min.js" />
     <Content Include="wwwroot\external\footer_js\bundle.txt" />
     <Content Include="wwwroot\external\footer_js\fastclick.min.js" />
@@ -224,6 +225,7 @@
     <Compile Include="Controllers\AccountLogoffController.cs" />
     <Compile Include="Controllers\AccountPasswordController.cs" />
     <Compile Include="Controllers\Api\LogErrorController.cs" />
+    <Compile Include="Controllers\Api\Search2Controller.cs" />
     <Compile Include="Controllers\Api\WordFavouriteController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
@@ -368,6 +370,7 @@
     <Compile Include="Models\Queries\HasAdminUserQuery.cs" />
     <Compile Include="Models\Queries\IsPracticeSessionFinishedQuery.cs" />
     <Compile Include="Models\Queries\PracticeWordResult.cs" />
+    <Compile Include="Models\Queries\SearchQuery.cs" />
     <Compile Include="Models\ResetPasswordRequest.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRole.cs" />

@@ -13,10 +13,9 @@ namespace MinaGlosor.Test.Api
         public async void GetsSingleWord()
         {
             // Arrange
-            User owner;
             Transact(session =>
             {
-                owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
+                var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(owner);
                 var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
                 session.Store(wordList);

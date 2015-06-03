@@ -11,6 +11,7 @@
 
         function submit(q) {
             $location.path('/search').search('q', q);
+            search.q = '';
         };
     }
 })();

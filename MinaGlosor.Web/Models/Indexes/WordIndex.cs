@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
 
 namespace MinaGlosor.Web.Models.Indexes
@@ -15,6 +16,10 @@ namespace MinaGlosor.Web.Models.Indexes
                                    word.Text,
                                    word.Definition
                                };
+
+            Stores.Add(x => x.Text, FieldStorage.Yes);
+
+            Indexes.Add(x => x.Text, FieldIndexing.Analyzed);
         }
     }
 }

@@ -90,6 +90,7 @@
     <Compile Include="Api\PracticeSession_Post_WhenExisting.cs" />
     <Compile Include="Api\RoutesTest.cs" />
     <Compile Include="Api\RouteTestHelper.cs" />
+    <Compile Include="Api\Search_Get.cs" />
     <Compile Include="Api\UnfinishedPracticeSession_Get.cs" />
     <Compile Include="Api\WordConfidence_Post.cs" />
     <Compile Include="Api\WordFavourite_GetAll.cs" />
