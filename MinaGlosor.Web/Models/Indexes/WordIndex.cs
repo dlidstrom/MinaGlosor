@@ -17,9 +17,10 @@ namespace MinaGlosor.Web.Models.Indexes
                                    word.Definition
                                };
 
-            Stores.Add(x => x.Text, FieldStorage.Yes);
-
             Indexes.Add(x => x.Text, FieldIndexing.Analyzed);
+            Indexes.Add(x => x.Definition, FieldIndexing.Analyzed);
+            //IndexSuggestions.Add(x => x.Text, new SuggestionOptions { Distance = StringDistanceTypes.Levenshtein, Accuracy = 0.5f });
+            //IndexSuggestions.Add(x => x.Definition, new SuggestionOptions { Distance = StringDistanceTypes.Levenshtein, Accuracy = 0.5f });
         }
     }
 }
