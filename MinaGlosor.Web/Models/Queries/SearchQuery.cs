@@ -33,18 +33,18 @@ namespace MinaGlosor.Web.Models.Queries
             var results = new SortedSet<WordResult>(query.ToArray(), WordResult.Comparer);
             if (results.Count < MaxResults)
             {
-                //var suggestionQueryResults = query.Suggest();
+                var suggestionQueryResults = query.Suggest();
                 var suggestedResults = session.Query<Word, WordIndex>()
                                               .Search(
-                                                x => x.Text,
-                                                string.Format("{0}*", q),
-                                                escapeQueryOptions: EscapeQueryOptions.AllowPostfixWildcard)
+                                                  x => x.Text,
+                                                  string.Format("{0}*", q),
+                                                  escapeQueryOptions: EscapeQueryOptions.AllowPostfixWildcard)
                                               .Search(
-                                                x => x.Definition,
-                                                string.Format("{0}*", q),
-                                                escapeQueryOptions: EscapeQueryOptions.AllowPostfixWildcard)
-                    //.Search(x => x.Text, string.Join(" ", suggestionQueryResults.Suggestions))
-                    //.Search(x => x.Definition, string.Join(" ", suggestionQueryResults.Suggestions))
+                                                  x => x.Definition,
+                                                  string.Format("{0}*", q),
+                                                  escapeQueryOptions: EscapeQueryOptions.AllowPostfixWildcard)
+                                              .Search(x => x.Text, string.Join(" ", suggestionQueryResults.Suggestions))
+                                              .Search(x => x.Definition, string.Join(" ", suggestionQueryResults.Suggestions))
                                               .ProjectFromIndexFieldsInto<WordResult>()
                                               .Take(MaxResults - results.Count)
                                               .ToArray();

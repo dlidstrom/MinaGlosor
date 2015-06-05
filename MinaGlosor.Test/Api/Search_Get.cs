@@ -12,6 +12,35 @@ namespace MinaGlosor.Test.Api
         [Test]
         public async void GetsMatchingWords()
         {
+            // Act
+            var response = await Client.GetAsync("http://temp.uri/api/search2?q=word");
+            response.EnsureSuccessStatusCode();
+
+            // Assert
+            Assert.That(response.Content, Is.Not.Null);
+            var searchResult = await response.Content.ReadAsAsync<SearchResult>();
+            Assert.That(searchResult.Words, Has.Length.EqualTo(1));
+            Assert.That(searchResult.Words[0].Text, Is.EqualTo("some word"));
+            Assert.That(searchResult.Words[0].Definition, Is.EqualTo("some definition"));
+        }
+
+        [Test]
+        public async void GetsSimilarWords()
+        {
+            // Act
+            var response = await Client.GetAsync("http://temp.uri/api/search2?q=björn");
+            response.EnsureSuccessStatusCode();
+
+            // Assert
+            Assert.That(response.Content, Is.Not.Null);
+            var searchResult = await response.Content.ReadAsAsync<SearchResult>();
+            Assert.That(searchResult.Words, Has.Length.EqualTo(1));
+            Assert.That(searchResult.Words[0].Text, Is.EqualTo("isbjörn"));
+            Assert.That(searchResult.Words[0].Definition, Is.EqualTo("khers ghotbi"));
+        }
+
+        protected override async void Act()
+        {
             // Arrange
             Transact(session =>
             {
@@ -21,18 +50,7 @@ namespace MinaGlosor.Test.Api
 
             var wordListId = await PostWordList();
             PostWord("some word", "some definition", wordListId);
-
-            // Act
-            var response = await Client.GetAsync("http://temp.uri/api/search2?q=word");
-            response.EnsureSuccessStatusCode();
-
-            // Assert
-            Assert.That(response.Content, Is.Not.Null);
-            var searchResult = await response.Content.ReadAsAsync<SearchResult>();
-            Assert.That(searchResult.Words, Has.Length.EqualTo(1));
-            Assert.That(searchResult.Words[0].Id, Is.EqualTo("words/1"));
-            Assert.That(searchResult.Words[0].Text, Is.EqualTo("some word"));
-            Assert.That(searchResult.Words[0].Definition, Is.EqualTo("some definition"));
+            PostWord("isbjörn", "khers ghotbi", wordListId);
         }
 
         protected async void PostWord(string text, string definition, string wordListId)
