@@ -195,6 +195,7 @@
                     templateUrl: '/wwwroot/app/search/index.html',
                     controller: 'SearchIndexController',
                     controllerAs: 'searchIndex',
+                    reloadOnSearch: false,
                     resolve: {
                         q:
                         [
