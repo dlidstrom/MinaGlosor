@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Client;
@@ -25,37 +26,39 @@ namespace MinaGlosor.Web.Models.Queries
 
         public Result Execute(IDocumentSession session)
         {
+            var allResults = SearchTerm(session, word => word.Text);
+            var resultsForDefinition = SearchTerm(session, word => word.Definition);
+            foreach (var wordResult in resultsForDefinition)
+            {
+                allResults.Add(wordResult);
+            }
+
+            var result = new Result(allResults.ToArray());
+            return result;
+        }
+
+        private SortedSet<WordResult> SearchTerm(IDocumentSession session, Expression<Func<Word, object>> expression)
+        {
             var query = session.Query<Word, WordIndex>()
-                               .Search(x => x.Text, q)
-                               .Search(x => x.Definition, q)
-                               .ProjectFromIndexFieldsInto<WordResult>()
+                               .Search(expression, q).ProjectFromIndexFieldsInto<WordResult>()
                                .Take(MaxResults);
-            var results = new SortedSet<WordResult>(query.ToArray(), WordResult.Comparer);
-            if (results.Count < MaxResults)
+            var resultSet = new SortedSet<WordResult>(query.ToArray(), WordResult.Comparer);
+            if (resultSet.Count < MaxResults)
             {
                 var suggestionQueryResults = query.Suggest();
-                var suggestedResults = session.Query<Word, WordIndex>()
-                                              .Search(
-                                                  x => x.Text,
-                                                  string.Format("{0}*", q),
-                                                  escapeQueryOptions: EscapeQueryOptions.AllowPostfixWildcard)
-                                              .Search(
-                                                  x => x.Definition,
-                                                  string.Format("{0}*", q),
-                                                  escapeQueryOptions: EscapeQueryOptions.AllowPostfixWildcard)
-                                              .Search(x => x.Text, string.Join(" ", suggestionQueryResults.Suggestions))
-                                              .Search(x => x.Definition, string.Join(" ", suggestionQueryResults.Suggestions))
-                                              .ProjectFromIndexFieldsInto<WordResult>()
-                                              .Take(MaxResults - results.Count)
-                                              .ToArray();
-                foreach (var suggestedResult in suggestedResults)
+                var results = session.Query<Word, WordIndex>()
+                                     .Search(expression, string.Format("{0}*", q), escapeQueryOptions: EscapeQueryOptions.AllowPostfixWildcard)
+                                     .Search(expression, string.Join(" ", suggestionQueryResults.Suggestions))
+                                     .ProjectFromIndexFieldsInto<WordResult>()
+                                     .Take(MaxResults - resultSet.Count)
+                                     .ToArray();
+                foreach (var suggestedResult in results.Concat(results))
                 {
-                    results.Add(suggestedResult);
+                    resultSet.Add(suggestedResult);
                 }
             }
 
-            var result = new Result(results.ToArray());
-            return result;
+            return resultSet;
         }
 
         public class WordResult

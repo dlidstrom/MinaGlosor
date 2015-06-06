@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands;
@@ -9,6 +10,15 @@ namespace MinaGlosor.Test.Api
     [TestFixture]
     public class Search_Get : WebApiIntegrationTest
     {
+        private static IEnumerable<Result> Results
+        {
+            get
+            {
+                yield return new Result("björn", "isbjörn", "khers ghotbi");
+                yield return new Result("hotbi", "isbjörn", "khers ghotbi");
+            }
+        }
+
         [Test]
         public async void GetsMatchingWords()
         {
@@ -24,19 +34,19 @@ namespace MinaGlosor.Test.Api
             Assert.That(searchResult.Words[0].Definition, Is.EqualTo("some definition"));
         }
 
-        [Test]
-        public async void GetsSimilarWords()
+        [TestCaseSource("Results")]
+        public async void GetsSimilarWords(Result result)
         {
             // Act
-            var response = await Client.GetAsync("http://temp.uri/api/search2?q=björn");
+            var response = await Client.GetAsync(string.Format("http://temp.uri/api/search2?q={0}", result.Q));
             response.EnsureSuccessStatusCode();
 
             // Assert
             Assert.That(response.Content, Is.Not.Null);
             var searchResult = await response.Content.ReadAsAsync<SearchResult>();
             Assert.That(searchResult.Words, Has.Length.EqualTo(1));
-            Assert.That(searchResult.Words[0].Text, Is.EqualTo("isbjörn"));
-            Assert.That(searchResult.Words[0].Definition, Is.EqualTo("khers ghotbi"));
+            Assert.That(searchResult.Words[0].Text, Is.EqualTo(result.Text));
+            Assert.That(searchResult.Words[0].Definition, Is.EqualTo(result.Definition));
         }
 
         protected override async void Act()
@@ -75,6 +85,27 @@ namespace MinaGlosor.Test.Api
             Assert.That(response.IsSuccessStatusCode, Is.True);
             var content = await response.Content.ReadAsAsync<PostWordListResponse>();
             return content.WordListId;
+        }
+
+        public class Result
+        {
+            public Result(string q, string text, string definition)
+            {
+                Q = q;
+                Text = text;
+                Definition = definition;
+            }
+
+            public string Q { get; private set; }
+
+            public string Text { get; private set; }
+
+            public string Definition { get; private set; }
+
+            public override string ToString()
+            {
+                return string.Format("Q={0} Text={1} Definition={2}", Q, Text, Definition);
+            }
         }
 
         public class SearchResult
