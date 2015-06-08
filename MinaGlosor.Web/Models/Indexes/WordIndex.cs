@@ -7,6 +7,14 @@ namespace MinaGlosor.Web.Models.Indexes
 {
     public class WordIndex : AbstractIndexCreationTask<Word>
     {
+        private const float Accuracy = 0.5f;
+
+        private readonly SuggestionOptions suggestionOptions = new SuggestionOptions
+            {
+                Distance = StringDistanceTypes.Levenshtein,
+                Accuracy = Accuracy
+            };
+
         public WordIndex()
         {
             Map = words => from word in words
@@ -20,8 +28,8 @@ namespace MinaGlosor.Web.Models.Indexes
 
             Indexes.Add(x => x.Text, FieldIndexing.Analyzed);
             Indexes.Add(x => x.Definition, FieldIndexing.Analyzed);
-            IndexSuggestions.Add(x => x.Text, new SuggestionOptions { Distance = StringDistanceTypes.Levenshtein, Accuracy = 0.5f });
-            IndexSuggestions.Add(x => x.Definition, new SuggestionOptions { Distance = StringDistanceTypes.Levenshtein, Accuracy = 0.5f });
+            IndexSuggestions.Add(x => x.Text, suggestionOptions);
+            IndexSuggestions.Add(x => x.Definition, suggestionOptions);
         }
     }
 }

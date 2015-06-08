@@ -36,12 +36,10 @@
         <p ng-hide="searchIndex.words">Inget hittades, ändra söktermen och försök igen.</p>
         <table class="table table-striped table-fixed" ng-show="searchIndex.words">
             <tr>
-                <th>Id</th>
                 <th>Text</th>
                 <th>Definition</th>
             </tr>
             <tr ng-repeat="word in searchIndex.words">
-                <td>{{word.id}}</td>
                 <td>{{word.text}}</td>
                 <td>{{word.definition}}</td>
             </tr>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MinaGlosor.Web.Models;
@@ -14,8 +15,11 @@ namespace MinaGlosor.Test.Api
         {
             get
             {
-                yield return new Result("björn", "isbjörn", "khers ghotbi");
-                yield return new Result("hotbi", "isbjörn", "khers ghotbi");
+                yield return Result.IsMatch("björn", "isbjörn", "khers ghotbi");
+                yield return Result.IsMatch("hotbi", "isbjörn", "khers ghotbi");
+                yield return Result.IsMatch("stark", "stor", "bozorg");
+                yield return Result.IsMatch("kon!", "ta'rif kon!", "vad säger du? berätta!");
+                yield return Result.IsMatch("berätta!", "ta'rif kon!", "vad säger du? berätta!");
             }
         }
 
@@ -44,9 +48,7 @@ namespace MinaGlosor.Test.Api
             // Assert
             Assert.That(response.Content, Is.Not.Null);
             var searchResult = await response.Content.ReadAsAsync<SearchResult>();
-            Assert.That(searchResult.Words, Has.Length.EqualTo(1));
-            Assert.That(searchResult.Words[0].Text, Is.EqualTo(result.Text));
-            Assert.That(searchResult.Words[0].Definition, Is.EqualTo(result.Definition));
+            result.Verify(searchResult);
         }
 
         protected override async void Act()
@@ -61,6 +63,8 @@ namespace MinaGlosor.Test.Api
             var wordListId = await PostWordList();
             PostWord("some word", "some definition", wordListId);
             PostWord("isbjörn", "khers ghotbi", wordListId);
+            PostWord("stor", "bozorg", wordListId);
+            PostWord("ta'rif kon!", "vad säger du? berätta!", wordListId);
         }
 
         protected async void PostWord(string text, string definition, string wordListId)
@@ -89,12 +93,7 @@ namespace MinaGlosor.Test.Api
 
         public class Result
         {
-            public Result(string q, string text, string definition)
-            {
-                Q = q;
-                Text = text;
-                Definition = definition;
-            }
+            private Action<SearchResult> verify;
 
             public string Q { get; private set; }
 
@@ -102,9 +101,48 @@ namespace MinaGlosor.Test.Api
 
             public string Definition { get; private set; }
 
+            public static Result IsMatch(string q, string text, string definition)
+            {
+                var result = new Result
+                    {
+                        Q = q,
+                        Text = text,
+                        Definition = definition
+                    };
+                result.verify = result.VerifyIsMatch;
+                return result;
+            }
+
+            public static Result IsNoMatch(string q)
+            {
+                var result = new Result
+                    {
+                        Q = q
+                    };
+                result.verify = result.VerifyIsNoMatch;
+                return result;
+            }
+
             public override string ToString()
             {
                 return string.Format("Q={0} Text={1} Definition={2}", Q, Text, Definition);
+            }
+
+            public void Verify(SearchResult searchResult)
+            {
+                verify.Invoke(searchResult);
+            }
+
+            private void VerifyIsMatch(SearchResult searchResult)
+            {
+                Assert.That(searchResult.Words, Has.Length.EqualTo(1));
+                Assert.That(searchResult.Words[0].Text, Is.EqualTo(Text));
+                Assert.That(searchResult.Words[0].Definition, Is.EqualTo(Definition));
+            }
+
+            private void VerifyIsNoMatch(SearchResult searchResult)
+            {
+                Assert.That(searchResult.Words, Is.Empty);
             }
         }
 

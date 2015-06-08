@@ -26,36 +26,74 @@ namespace MinaGlosor.Web.Models.Queries
 
         public Result Execute(IDocumentSession session)
         {
-            var allResults = SearchTerm(session, word => word.Text);
-            var resultsForDefinition = SearchTerm(session, word => word.Definition);
-            foreach (var wordResult in resultsForDefinition)
+            var index = 0;
+            var textResults = SearchTerm(session, word => word.Text, index);
+            index = textResults.Count;
+            var definitionResults = SearchTerm(session, word => word.Definition, index);
+            index += definitionResults.Count;
+            var textSuggestions = new HashSet<WordResult>();
+            var definitionSuggestions = new HashSet<WordResult>();
+
+            if (textResults.Count < MaxResults)
             {
-                allResults.Add(wordResult);
+                textSuggestions = SearchSuggestions(session, word => word.Text, index, MaxResults - index);
+                index += textSuggestions.Count;
             }
 
-            var result = new Result(allResults.ToArray());
+            if (definitionResults.Count < MaxResults)
+            {
+                definitionSuggestions = SearchSuggestions(session, word => word.Definition, index, MaxResults - index);
+                index += definitionSuggestions.Count;
+            }
+
+            var combined = new HashSet<WordResult>(
+                textResults.Concat(definitionResults).Concat(textSuggestions).Concat(definitionSuggestions),
+                WordResult.EqualityComparer);
+            var result = new Result(combined.OrderBy(x => x.Index).ToArray());
             return result;
         }
 
-        private SortedSet<WordResult> SearchTerm(IDocumentSession session, Expression<Func<Word, object>> expression)
+        private HashSet<WordResult> SearchTerm(IDocumentSession session, Expression<Func<Word, object>> expression, int index)
+        {
+            var query = session.Query<Word, WordIndex>()
+                               .Search(expression, q)
+                               .ProjectFromIndexFieldsInto<WordResult>()
+                               .Take(MaxResults);
+            var results = query.ToArray();
+
+            var resultSet = new HashSet<WordResult>(WordResult.EqualityComparer);
+            foreach (var result in results)
+            {
+                result.Index = index++;
+                resultSet.Add(result);
+            }
+
+            return resultSet;
+        }
+
+        private HashSet<WordResult> SearchSuggestions(IDocumentSession session, Expression<Func<Word, object>> expression, int index, int maxCount)
         {
             var query = session.Query<Word, WordIndex>()
                                .Search(expression, q).ProjectFromIndexFieldsInto<WordResult>()
-                               .Take(MaxResults);
-            var resultSet = new SortedSet<WordResult>(query.ToArray(), WordResult.Comparer);
-            if (resultSet.Count < MaxResults)
+                               .Take(maxCount);
+            var suggestionQueryResults = query.Suggest();
+            var results = session.Query<Word, WordIndex>()
+                                 .Search(
+                                    expression,
+                                    string.Format("{0}*", q),
+                                    escapeQueryOptions: EscapeQueryOptions.AllowPostfixWildcard)
+                                 .Search(
+                                    expression,
+                                    string.Join(" ", suggestionQueryResults.Suggestions))
+                                 .ProjectFromIndexFieldsInto<WordResult>()
+                                 .Take(maxCount)
+                                 .ToArray();
+
+            var resultSet = new HashSet<WordResult>(WordResult.EqualityComparer);
+            foreach (var result in results)
             {
-                var suggestionQueryResults = query.Suggest();
-                var results = session.Query<Word, WordIndex>()
-                                     .Search(expression, string.Format("{0}*", q), escapeQueryOptions: EscapeQueryOptions.AllowPostfixWildcard)
-                                     .Search(expression, string.Join(" ", suggestionQueryResults.Suggestions))
-                                     .ProjectFromIndexFieldsInto<WordResult>()
-                                     .Take(MaxResults - resultSet.Count)
-                                     .ToArray();
-                foreach (var suggestedResult in results.Concat(results))
-                {
-                    resultSet.Add(suggestedResult);
-                }
+                result.Index = index++;
+                resultSet.Add(result);
             }
 
             return resultSet;
@@ -63,11 +101,11 @@ namespace MinaGlosor.Web.Models.Queries
 
         public class WordResult
         {
-            private static readonly IComparer<WordResult> IdComparerInstance = new IdEqualityComparer();
+            private static readonly IEqualityComparer<WordResult> IdEqualityComparerInstance = new IdEqualityComparer();
 
-            public static IComparer<WordResult> Comparer
+            public static IEqualityComparer<WordResult> EqualityComparer
             {
-                get { return IdComparerInstance; }
+                get { return IdEqualityComparerInstance; }
             }
 
             public string Id { get; set; }
@@ -76,11 +114,19 @@ namespace MinaGlosor.Web.Models.Queries
 
             public string Definition { get; set; }
 
-            private sealed class IdEqualityComparer : IComparer<WordResult>
+            // for sorting purposes
+            public int Index { get; set; }
+
+            private sealed class IdEqualityComparer : IEqualityComparer<WordResult>
             {
-                public int Compare(WordResult x, WordResult y)
+                public bool Equals(WordResult x, WordResult y)
                 {
-                    return string.Compare(x.Id, y.Id, StringComparison.Ordinal);
+                    return x.Id.Equals(y.Id);
+                }
+
+                public int GetHashCode(WordResult obj)
+                {
+                    return obj.Id.GetHashCode();
                 }
             }
         }
