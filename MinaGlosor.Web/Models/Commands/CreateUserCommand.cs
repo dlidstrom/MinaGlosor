@@ -2,6 +2,7 @@
 using System.Linq;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Indexes;
+using Newtonsoft.Json;
 using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands
@@ -9,7 +10,10 @@ namespace MinaGlosor.Web.Models.Commands
     public class CreateUserCommand : ICommand
     {
         private readonly string email;
+
+        [JsonIgnore]
         private readonly string password;
+
         private readonly UserRole userRole;
         private readonly string username;
 
