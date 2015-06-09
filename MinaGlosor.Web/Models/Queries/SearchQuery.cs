@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Client;
@@ -53,9 +54,43 @@ namespace MinaGlosor.Web.Models.Queries
             return result;
         }
 
-        private HashSet<WordResult> SearchTerm(IDocumentSession session, Expression<Func<Word, object>> expression, int index)
+        private static PropertyInfo GetPropertyInfo<TSource, TProperty>(Expression<Func<TSource, TProperty>> propertyLambda)
         {
+            var type = typeof(TSource);
+
+            var member = propertyLambda.Body as MemberExpression;
+            if (member == null)
+            {
+                var message = string.Format("Expression '{0}' refers to a method, not a property.", propertyLambda);
+                throw new ArgumentException(message);
+            }
+
+            var propInfo = member.Member as PropertyInfo;
+            if (propInfo == null)
+            {
+                var message = string.Format("Expression '{0}' refers to a field, not a property.", propertyLambda);
+                throw new ArgumentException(message);
+            }
+
+            if (type != propInfo.ReflectedType && !type.IsSubclassOf(propInfo.ReflectedType))
+            {
+                var message = string.Format("Expresion '{0}' refers to a property that is not from type {1}.", propertyLambda, type);
+                throw new ArgumentException(message);
+            }
+
+            return propInfo;
+        }
+
+        private HashSet<WordResult> SearchTerm(
+            IDocumentSession session,
+            Expression<Func<Word, object>> expression,
+            int index)
+        {
+            FieldHighlightings highlightings = null;
+            var propertyInfo = GetPropertyInfo(expression);
+            var fieldName = propertyInfo.Name;
             var query = session.Query<Word, WordIndex>()
+                               .Customize(x => x.Highlight(fieldName, 128, 1, out highlightings))
                                .Search(expression, q)
                                .ProjectFromIndexFieldsInto<WordResult>()
                                .Take(MaxResults);
@@ -64,6 +99,9 @@ namespace MinaGlosor.Web.Models.Queries
             var resultSet = new HashSet<WordResult>(WordResult.EqualityComparer);
             foreach (var result in results)
             {
+                var fragments = highlightings.GetFragments(result.Id);
+                var fragment = fragments.FirstOrDefault();
+                result.Text = fragment ?? result.Text;
                 result.Index = index++;
                 resultSet.Add(result);
             }
@@ -73,18 +111,22 @@ namespace MinaGlosor.Web.Models.Queries
 
         private HashSet<WordResult> SearchSuggestions(IDocumentSession session, Expression<Func<Word, object>> expression, int index, int maxCount)
         {
-            var query = session.Query<Word, WordIndex>()
-                               .Search(expression, q).ProjectFromIndexFieldsInto<WordResult>()
-                               .Take(maxCount);
-            var suggestionQueryResults = query.Suggest();
+            var suggestionResults = session.Query<Word, WordIndex>()
+                                           .Search(expression, q)
+                                           .Take(maxCount)
+                                           .Suggest();
+            FieldHighlightings highlightings = null;
+            var propertyInfo = GetPropertyInfo(expression);
+            var fieldName = propertyInfo.Name;
             var results = session.Query<Word, WordIndex>()
+                                 .Customize(x => x.Highlight(fieldName, 128, 1, out highlightings))
                                  .Search(
                                     expression,
                                     string.Format("{0}*", q),
                                     escapeQueryOptions: EscapeQueryOptions.AllowPostfixWildcard)
                                  .Search(
                                     expression,
-                                    string.Join(" ", suggestionQueryResults.Suggestions))
+                                    string.Join(" ", suggestionResults.Suggestions))
                                  .ProjectFromIndexFieldsInto<WordResult>()
                                  .Take(maxCount)
                                  .ToArray();
@@ -92,6 +134,9 @@ namespace MinaGlosor.Web.Models.Queries
             var resultSet = new HashSet<WordResult>(WordResult.EqualityComparer);
             foreach (var result in results)
             {
+                var fragments = highlightings.GetFragments(result.Id);
+                var fragment = fragments.FirstOrDefault();
+                result.Text = fragment ?? result.Text;
                 result.Index = index++;
                 resultSet.Add(result);
             }

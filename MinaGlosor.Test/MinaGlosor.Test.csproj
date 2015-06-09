@@ -80,6 +80,7 @@
     <Compile Include="Api\Domain\WordScoreTest.cs" />
     <Compile Include="Api\Domain\WordScore_WhenPracticingEarly.cs" />
     <Compile Include="Api\EventIdsMetaTests.cs" />
+    <Compile Include="Api\HighlightingsTest.cs" />
     <Compile Include="Api\MigrateUser_Post.cs" />
     <Compile Include="Api\MigrateWordList_Post.cs" />
     <Compile Include="Api\MigrateWord_Post.cs" />

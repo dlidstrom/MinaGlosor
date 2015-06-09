@@ -67,7 +67,7 @@ namespace MinaGlosor.Test.Api
             PostWord("ta'rif kon!", "vad säger du? berätta!", wordListId);
         }
 
-        protected async void PostWord(string text, string definition, string wordListId)
+        private async void PostWord(string text, string definition, string wordListId)
         {
             var request = new
             {
@@ -77,6 +77,7 @@ namespace MinaGlosor.Test.Api
             };
             var response = await Client.PostAsJsonAsync("http://temp.uri/api/word", request);
             Assert.That(response.IsSuccessStatusCode, Is.True);
+            WaitForIndexing();
         }
 
         private async Task<string> PostWordList()
@@ -88,6 +89,7 @@ namespace MinaGlosor.Test.Api
             var response = await Client.PostAsJsonAsync("http://temp.uri/api/wordlist", request);
             Assert.That(response.IsSuccessStatusCode, Is.True);
             var content = await response.Content.ReadAsAsync<PostWordListResponse>();
+            WaitForIndexing();
             return content.WordListId;
         }
 

@@ -100,7 +100,7 @@ namespace MinaGlosor.Test.Api
                             break;
                         }
 
-                        Task.Delay(500);
+                        Task.Delay(500).Wait(15000);
                     }
                 });
             indexingTask.Wait(Timeout);

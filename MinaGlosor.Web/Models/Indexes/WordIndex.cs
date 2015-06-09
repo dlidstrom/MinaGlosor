@@ -30,6 +30,10 @@ namespace MinaGlosor.Web.Models.Indexes
             Indexes.Add(x => x.Definition, FieldIndexing.Analyzed);
             IndexSuggestions.Add(x => x.Text, suggestionOptions);
             IndexSuggestions.Add(x => x.Definition, suggestionOptions);
+            TermVectors.Add(x => x.Text, FieldTermVector.WithPositionsAndOffsets);
+            TermVectors.Add(x => x.Definition, FieldTermVector.WithPositionsAndOffsets);
+            Store(x => x.Text, FieldStorage.Yes);
+            Store(x => x.Definition, FieldStorage.Yes);
         }
     }
 }
