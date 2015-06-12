@@ -40,8 +40,8 @@
                 <th>Definition</th>
             </tr>
             <tr ng-repeat="word in searchIndex.words">
-                <td>{{word.text}}</td>
-                <td>{{word.definition}}</td>
+                <td ng-bind-html="word.text"></td>
+                <td ng-bind-html="word.definition"></td>
             </tr>
         </table>
     </div>
