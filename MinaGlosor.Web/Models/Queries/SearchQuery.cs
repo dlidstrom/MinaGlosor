@@ -87,10 +87,9 @@ namespace MinaGlosor.Web.Models.Queries
             int index)
         {
             FieldHighlightings highlightings = null;
-            var propertyInfo = GetPropertyInfo(expression);
-            var fieldName = propertyInfo.Name;
+            var propertyName = GetPropertyInfo(expression).Name;
             var query = session.Query<Word, WordIndex>()
-                               .Customize(x => x.Highlight(fieldName, 128, 1, out highlightings))
+                               .Customize(x => x.Highlight(propertyName, 128, 1, out highlightings))
                                .Search(expression, q)
                                .ProjectFromIndexFieldsInto<WordResult>()
                                .Take(MaxResults);
@@ -101,7 +100,12 @@ namespace MinaGlosor.Web.Models.Queries
             {
                 var fragments = highlightings.GetFragments(result.Id);
                 var fragment = fragments.FirstOrDefault();
-                result.Text = fragment ?? result.Text;
+                var propertyInfo = result.GetType().GetProperty(propertyName);
+                if (fragment != null)
+                {
+                    propertyInfo.SetValue(result, fragment);
+                }
+
                 result.Index = index++;
                 resultSet.Add(result);
             }
@@ -116,10 +120,9 @@ namespace MinaGlosor.Web.Models.Queries
                                            .Take(maxCount)
                                            .Suggest();
             FieldHighlightings highlightings = null;
-            var propertyInfo = GetPropertyInfo(expression);
-            var fieldName = propertyInfo.Name;
+            var propertyName = GetPropertyInfo(expression).Name;
             var results = session.Query<Word, WordIndex>()
-                                 .Customize(x => x.Highlight(fieldName, 128, 1, out highlightings))
+                                 .Customize(x => x.Highlight(propertyName, 128, 1, out highlightings))
                                  .Search(
                                     expression,
                                     string.Format("{0}*", q),
@@ -136,7 +139,12 @@ namespace MinaGlosor.Web.Models.Queries
             {
                 var fragments = highlightings.GetFragments(result.Id);
                 var fragment = fragments.FirstOrDefault();
-                result.Text = fragment ?? result.Text;
+                var propertyInfo = result.GetType().GetProperty(propertyName);
+                if (fragment != null)
+                {
+                    propertyInfo.SetValue(result, fragment);
+                }
+
                 result.Index = index++;
                 resultSet.Add(result);
             }

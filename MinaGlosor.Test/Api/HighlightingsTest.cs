@@ -12,7 +12,7 @@ using Raven.Client.Indexes;
 
 namespace MinaGlosor.Test.Api
 {
-    [TestFixture]
+    [TestFixture(Ignore = true, IgnoreReason = "Code spike")]
     public class HighlightingsTest
     {
         private IDocumentStore store;

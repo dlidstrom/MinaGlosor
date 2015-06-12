@@ -15,11 +15,30 @@ namespace MinaGlosor.Test.Api
         {
             get
             {
-                yield return Result.IsMatch("björn", "isbjörn", "khers ghotbi");
-                yield return Result.IsMatch("hotbi", "isbjörn", "khers ghotbi");
-                yield return Result.IsMatch("stark", "stor", "bozorg");
-                yield return Result.IsMatch("kon!", "ta'rif kon!", "vad säger du? berätta!");
-                yield return Result.IsMatch("berätta!", "ta'rif kon!", "vad säger du? berätta!");
+                yield return Result.IsMatch(
+                    "björn",
+                    "<b style=\"background:lawngreen\">isbjörn</b>",
+                    "khers ghotbi");
+
+                yield return Result.IsMatch(
+                    "hotbi",
+                    "isbjörn",
+                    "khers <b style=\"background:lawngreen\">ghotbi</b>");
+
+                yield return Result.IsMatch(
+                    "stark",
+                    "<b style=\"background:lawngreen\">stor</b>",
+                    "bozorg");
+
+                yield return Result.IsMatch(
+                    "kon!",
+                    "ta'rif <b style=\"background:yellow\">kon</b>!",
+                    "vad säger du? berätta!");
+
+                yield return Result.IsMatch(
+                    "berätta!",
+                    "ta'rif kon!",
+                    "vad säger du? <b style=\"background:yellow\">berätta</b>!");
             }
         }
 
@@ -34,7 +53,7 @@ namespace MinaGlosor.Test.Api
             Assert.That(response.Content, Is.Not.Null);
             var searchResult = await response.Content.ReadAsAsync<SearchResult>();
             Assert.That(searchResult.Words, Has.Length.EqualTo(1));
-            Assert.That(searchResult.Words[0].Text, Is.EqualTo("some word"));
+            Assert.That(searchResult.Words[0].Text, Is.EqualTo("some <b style=\"background:yellow\">word</b>"));
             Assert.That(searchResult.Words[0].Definition, Is.EqualTo("some definition"));
         }
 
@@ -99,35 +118,25 @@ namespace MinaGlosor.Test.Api
 
             public string Q { get; private set; }
 
-            public string Text { get; private set; }
+            public string ExpectedText { get; private set; }
 
-            public string Definition { get; private set; }
+            public string ExpectedDefinition { get; private set; }
 
             public static Result IsMatch(string q, string text, string definition)
             {
                 var result = new Result
                     {
                         Q = q,
-                        Text = text,
-                        Definition = definition
+                        ExpectedText = text,
+                        ExpectedDefinition = definition
                     };
                 result.verify = result.VerifyIsMatch;
                 return result;
             }
 
-            public static Result IsNoMatch(string q)
-            {
-                var result = new Result
-                    {
-                        Q = q
-                    };
-                result.verify = result.VerifyIsNoMatch;
-                return result;
-            }
-
             public override string ToString()
             {
-                return string.Format("Q={0} Text={1} Definition={2}", Q, Text, Definition);
+                return string.Format("Q={0} ExpectedText={1} ExpectedDefinition={2}", Q, ExpectedText, ExpectedDefinition);
             }
 
             public void Verify(SearchResult searchResult)
@@ -138,8 +147,8 @@ namespace MinaGlosor.Test.Api
             private void VerifyIsMatch(SearchResult searchResult)
             {
                 Assert.That(searchResult.Words, Has.Length.EqualTo(1));
-                Assert.That(searchResult.Words[0].Text, Is.EqualTo(Text));
-                Assert.That(searchResult.Words[0].Definition, Is.EqualTo(Definition));
+                Assert.That(searchResult.Words[0].Text, Is.EqualTo(ExpectedText));
+                Assert.That(searchResult.Words[0].Definition, Is.EqualTo(ExpectedDefinition));
             }
 
             private void VerifyIsNoMatch(SearchResult searchResult)

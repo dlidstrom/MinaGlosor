@@ -444,7 +444,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="Bundle" AfterTargets="Build" Condition="'$(NCrunch)' != '1'">
-    <Exec Command="$(msbuildtoolspath)\msbuild.exe $(ProjectDirectory)cassette.targets /p:OutputPath=$(OutputPath) /t:Bundle /nr:false" />
+    <Exec Command="C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe $(ProjectDirectory)cassette.targets /p:OutputPath=$(OutputPath) /t:Bundle /nr:false" />
   </Target>
   <PropertyGroup>
     <PreBuildEvent>
