@@ -98,10 +98,18 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
                 var config = session.Load<WebsiteConfig>(WebsiteConfig.GlobalId);
                 if (config == null)
                 {
+                    TracingLogger.Information(
+                        EventIds.Informational_ApplicationLog_3XXX.Web_CreateWebsiteConfig_3004,
+                        "Creating website config");
                     config = new WebsiteConfig();
                     session.Store(config);
                 }
 
+                TracingLogger.Information(
+                    EventIds.Informational_ApplicationLog_3XXX.Web_CheckVersion_3005,
+                    "IndexCreatedVersion: {0} NewVersion: {1}",
+                    config.IndexCreatedVersion,
+                    version);
                 var newVersion = config.IndexCreatedVersion != version;
                 config.SetIndexCreatedVersion(version);
                 session.SaveChanges();

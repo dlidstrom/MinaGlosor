@@ -49,6 +49,10 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
 
             public const int Web_ScoreNotUpdated_3003 = 3003;
 
+            public const int Web_CreateWebsiteConfig_3004 = 3004;
+
+            public const int Web_CheckVersion_3005 = 3005;
+
             // Notification service starts at 3100
         }
 

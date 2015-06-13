@@ -17,7 +17,7 @@ namespace MinaGlosor.Test.Api
             var vm = new
             {
                 RequestUsername = "e@d.com",
-                RequestPassword = "pwd2",
+                RequestPassword = "pwd2"
             };
             var response = await Client.PostAsJsonAsync("http://temp.uri/api/migrateadminuser", vm);
 
@@ -32,7 +32,7 @@ namespace MinaGlosor.Test.Api
             var vm = new
             {
                 RequestUsername = "e@d.com",
-                RequestPassword = "pwd",
+                RequestPassword = "pwd"
             };
             var response = await Client.PostAsJsonAsync("http://temp.uri/api/migrateadminuser", vm);
 
@@ -67,7 +67,7 @@ namespace MinaGlosor.Test.Api
             var vm = new
             {
                 RequestUsername = "e@d.com",
-                RequestPassword = "pwd",
+                RequestPassword = "pwd"
             };
             var response = await Client.PostAsJsonAsync("http://temp.uri/api/migrateadminuser", vm);
 
