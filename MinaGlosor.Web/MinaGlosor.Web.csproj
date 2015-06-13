@@ -94,14 +94,17 @@
     <Reference Include="Postal">
       <HintPath>..\packages\Postal.Mvc5.1.2.0\lib\net45\Postal.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Abstractions">
-      <HintPath>..\packages\RavenDB.Database.3.0.3528\lib\net45\Raven.Abstractions.dll</HintPath>
+    <Reference Include="Raven.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\packages\RavenDB.Database.3.0.3690\lib\net45\Raven.Abstractions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Raven.Client.Lightweight">
-      <HintPath>..\packages\RavenDB.Client.3.0.3528\lib\net45\Raven.Client.Lightweight.dll</HintPath>
+    <Reference Include="Raven.Client.Lightweight, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\packages\RavenDB.Client.3.0.3690\lib\net45\Raven.Client.Lightweight.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Raven.Database">
-      <HintPath>..\packages\RavenDB.Database.3.0.3528\lib\net45\Raven.Database.dll</HintPath>
+    <Reference Include="Raven.Database, Version=3.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\packages\RavenDB.Database.3.0.3690\lib\net45\Raven.Database.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="RazorEngine">
       <HintPath>..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
@@ -166,9 +169,9 @@
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
-    <Content Include="cassette-cache\script\wwwroot\app\adb319894441d9693d595074413bca06829baff3.js" />
+    <Content Include="cassette-cache\script\wwwroot\app\0286510dc63a5756bf5b02eed6e0b9493335b998.js" />
     <Content Include="cassette-cache\script\wwwroot\external\footer_js\4e8a7d0a2c6112eda3ef0b855940257bcdb5231d.js" />
-    <Content Include="cassette-cache\script\wwwroot\external\head_js\418ce6d51743c7016d100802b0a0ae91cbd19836.js" />
+    <Content Include="cassette-cache\script\wwwroot\external\head_js\94ab1892da295e82491b02de825a9e902836f97e.js" />
     <Content Include="cassette-cache\stylesheet\wwwroot\a452c85d0a60bf8e49c3a7d7689ccc1e6177d8e4.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
@@ -178,6 +181,10 @@
     <Content Include="wwwroot\app\app.js" />
     <Content Include="wwwroot\app\bundle.txt" />
     <Content Include="wwwroot\app\exceptionHandler.js" />
+    <Content Include="wwwroot\app\search\searchIndexController.js" />
+    <Content Include="wwwroot\app\search\index.html" />
+    <Content Include="wwwroot\app\search\searchRedirectController.js" />
+    <Content Include="wwwroot\app\shared\searchService.js" />
     <Content Include="wwwroot\external\footer_js\bootstrap.min.js" />
     <Content Include="wwwroot\external\footer_js\bundle.txt" />
     <Content Include="wwwroot\external\footer_js\fastclick.min.js" />
@@ -186,6 +193,7 @@
     <Content Include="wwwroot\external\head_js\angular-animate.min.js" />
     <Content Include="wwwroot\external\head_js\angular-messages.min.js" />
     <Content Include="wwwroot\external\head_js\angular-route.min.js" />
+    <Content Include="wwwroot\external\head_js\angular-sanitize.min.js" />
     <Content Include="wwwroot\external\head_js\angular.min.js" />
     <Content Include="wwwroot\external\head_js\bundle.txt" />
     <Content Include="wwwroot\external\head_js\jquery-2.1.3.min.js" />
@@ -221,6 +229,7 @@
     <Compile Include="Controllers\AccountLogoffController.cs" />
     <Compile Include="Controllers\AccountPasswordController.cs" />
     <Compile Include="Controllers\Api\LogErrorController.cs" />
+    <Compile Include="Controllers\Api\Search2Controller.cs" />
     <Compile Include="Controllers\Api\WordFavouriteController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
@@ -240,6 +249,9 @@
     <Content Include="Views\Emails\ResetPassword.cshtml" />
     <Content Include="Views\ResetPassword\Success.cshtml" />
     <Content Include="Views\AccountPassword\Set.cshtml" />
+    <Content Include="Raven.Studio.Html5.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap.css" />
@@ -365,6 +377,7 @@
     <Compile Include="Models\Queries\HasAdminUserQuery.cs" />
     <Compile Include="Models\Queries\IsPracticeSessionFinishedQuery.cs" />
     <Compile Include="Models\Queries\PracticeWordResult.cs" />
+    <Compile Include="Models\Queries\SearchQuery.cs" />
     <Compile Include="Models\ResetPasswordRequest.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRole.cs" />
@@ -432,7 +445,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="Bundle" AfterTargets="Build" Condition="'$(NCrunch)' != '1'">
-    <Exec Command="$(msbuildtoolspath)\msbuild.exe $(ProjectDirectory)cassette.targets /p:OutputPath=$(OutputPath) /t:Bundle /nr:false" />
+    <Exec Command="C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe $(ProjectDirectory)cassette.targets /p:OutputPath=$(OutputPath) /t:Bundle /nr:false" />
   </Target>
   <PropertyGroup>
     <PreBuildEvent>

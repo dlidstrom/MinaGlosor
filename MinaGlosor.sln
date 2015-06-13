@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinaGlosor.Web", "MinaGlosor.Web\MinaGlosor.Web.csproj", "{EF6FE2C7-6620-4026-8348-2FE927C873FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinaGlosor.Test", "MinaGlosor.Test\MinaGlosor.Test.csproj", "{A624E131-3E56-49F9-8589-6F6A410DABA7}"

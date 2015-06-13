@@ -1,10 +1,20 @@
 ﻿using System.Linq;
+using Raven.Abstractions.Data;
+using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
 
 namespace MinaGlosor.Web.Models.Indexes
 {
     public class WordIndex : AbstractIndexCreationTask<Word>
     {
+        private const float Accuracy = 0.5f;
+
+        private readonly SuggestionOptions suggestionOptions = new SuggestionOptions
+            {
+                Distance = StringDistanceTypes.Levenshtein,
+                Accuracy = Accuracy
+            };
+
         public WordIndex()
         {
             Map = words => from word in words
@@ -15,6 +25,15 @@ namespace MinaGlosor.Web.Models.Indexes
                                    word.Text,
                                    word.Definition
                                };
+
+            Indexes.Add(x => x.Text, FieldIndexing.Analyzed);
+            Indexes.Add(x => x.Definition, FieldIndexing.Analyzed);
+            IndexSuggestions.Add(x => x.Text, suggestionOptions);
+            IndexSuggestions.Add(x => x.Definition, suggestionOptions);
+            TermVectors.Add(x => x.Text, FieldTermVector.WithPositionsAndOffsets);
+            TermVectors.Add(x => x.Definition, FieldTermVector.WithPositionsAndOffsets);
+            Store(x => x.Text, FieldStorage.Yes);
+            Store(x => x.Definition, FieldStorage.Yes);
         }
     }
 }

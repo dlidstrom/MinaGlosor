@@ -189,6 +189,30 @@
                 {
                     templateUrl: '/wwwroot/app/help/index.html'
                 })
+            .when(
+                '/search',
+                {
+                    templateUrl: '/wwwroot/app/search/index.html',
+                    controller: 'SearchIndexController',
+                    controllerAs: 'searchIndex',
+                    reloadOnSearch: false,
+                    resolve: {
+                        q:
+                        [
+                            '$route',
+                            function ($route) {
+                                return $route.current.params.q;
+                            }
+                        ],
+                        result: [
+                            '$route',
+                            'SearchService',
+                            function ($route, searchService) {
+                                return searchService.search($route.current.params.q);
+                            }
+                        ]
+                    }
+                })
             .otherwise({
                 redirectTo: '/wordlist'
             });

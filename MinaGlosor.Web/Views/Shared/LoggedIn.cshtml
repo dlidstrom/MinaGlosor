@@ -40,15 +40,32 @@
                         Mina Glosor
                     </a>
                 </div>
-                @*                <div class="collapse navbar-collapse" id="navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                            @Html.ActionLink("Migrera", "Index", "Migrate")
-                        </li>
-                    </ul>
-                </div>*@
                 <div class="collapse navbar-collapse" id="navbar-collapse">
-                    <ul class="nav navbar-nav pull-right">
+                    @if (Model.Username == "dlidstrom" || Html.ViewContext.HttpContext.IsDebuggingEnabled)
+                    {
+                        <form class="navbar-form navbar-left" ng-controller="SearchRedirectController as search" ng-submit="search.submit(search.q)">
+                            <div class="input-group">
+                                <input type="text" 
+                                       class="form-control" 
+                                       placeholder="Sök" 
+                                       name="q"
+                                       id="q"
+                                       ng-model="search.q"
+                                       maxlength="128"
+                                       autocapitalize="off"
+                                       autocomplete="off"
+                                       autocorrect="off" />
+
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    }
+
+                    <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a href="@Url.Action("Logoff", "AccountLogoff")">
                                 <i class="glyphicon glyphicon-log-out"></i>

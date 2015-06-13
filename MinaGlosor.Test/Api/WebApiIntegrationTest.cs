@@ -5,6 +5,7 @@ using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 using Castle.MicroKernel.Lifestyle;
 using Castle.Windsor;
 using MinaGlosor.Web;
@@ -14,16 +15,22 @@ using Raven.Client;
 
 namespace MinaGlosor.Test.Api
 {
-    public abstract class WebApiIntegrationTest
+    public abstract class WebApiIntegrationTest : ExceptionLogger
     {
         protected HttpClient Client { get; private set; }
 
         private IWindsorContainer Container { get; set; }
 
+        public override void Log(ExceptionLoggerContext context)
+        {
+            Assert.Fail(context.Exception.ToString());
+        }
+
         [SetUp]
         public void SetUp()
         {
             var configuration = new HttpConfiguration();
+            configuration.Services.Add(typeof(IExceptionLogger), this);
             Container = new WindsorContainer();
             Container.Install(
                 RavenInstaller.CreateForTests(),
@@ -93,7 +100,7 @@ namespace MinaGlosor.Test.Api
                             break;
                         }
 
-                        Task.Delay(500);
+                        Task.Delay(500).Wait(15000);
                     }
                 });
             indexingTask.Wait(Timeout);

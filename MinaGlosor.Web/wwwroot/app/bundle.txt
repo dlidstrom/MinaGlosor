@@ -6,10 +6,13 @@ practice\practiceIndexController.js
 practice\practiceSessionController.js
 practice\practiceSessionMeaningController.js
 practice\practiceSessionSummaryController.js
+search\searchIndexController.js
+search\searchRedirectController.js
 shared\practiceService.js
 shared\practiceWordService.js
 shared\progressDirective.js
 shared\practiceProgressDirective.js
+shared\searchService.js
 shared\wordFavouriteDirective.js
 shared\wordFavouriteService.js
 shared\wordListService.js

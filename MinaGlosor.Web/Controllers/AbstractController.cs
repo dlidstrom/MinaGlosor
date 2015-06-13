@@ -82,9 +82,17 @@ namespace MinaGlosor.Web.Controllers
                     TypeNameHandling = TypeNameHandling.All
                 };
                 var commandAsJson = JsonConvert.SerializeObject(command, Formatting.Indented, settings);
+                string userId = null;
+                string email = null;
+                if (CurrentUser != null)
+                {
+                    userId = CurrentUser.Id;
+                    email = CurrentUser.Email;
+                }
+
                 var changeLogEntry = new ChangeLogEntry(
-                    CurrentUser.Id,
-                    CurrentUser.Email,
+                    userId ?? "<unknown user>",
+                    email ?? "<unknown email>",
                     Trace.CorrelationManager.ActivityId,
                     command.GetType(),
                     commandAsJson);
