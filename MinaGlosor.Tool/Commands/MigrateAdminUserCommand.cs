@@ -23,7 +23,11 @@ namespace MinaGlosor.Tool.Commands
                     RequestUsername = username,
                     RequestPassword = password
                 };
-                client.PostAsJsonAsync(requestUri, vm).Wait(TimeSpan.FromSeconds(30));
+
+                if (client.PostAsJsonAsync(requestUri, vm).Wait(TimeSpan.FromSeconds(30)) == false)
+                {
+                    Console.WriteLine("Timed out");
+                }
             }
         }
     }
