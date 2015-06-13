@@ -229,6 +229,8 @@
     <Compile Include="Controllers\AccountLogoffController.cs" />
     <Compile Include="Controllers\AccountPasswordController.cs" />
     <Compile Include="Controllers\Api\LogErrorController.cs" />
+    <Compile Include="Controllers\Api\MigrateAdminUserController.cs" />
+    <Compile Include="Controllers\Api\MigrationController.cs" />
     <Compile Include="Controllers\Api\Search2Controller.cs" />
     <Compile Include="Controllers\Api\WordFavouriteController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />

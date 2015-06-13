@@ -3,66 +3,49 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands;
 using MinaGlosor.Web.Models.Indexes;
-using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Controllers.Api
 {
-    public class MigrateWordController : AbstractApiController
+    public class MigrateWordController : MigrationController
     {
-        public HttpResponseMessage Post(MigrateWordRequest request)
+        public IHttpActionResult Post(MigrateWordRequest request)
         {
-            if (request == null) ModelState.AddModelError("request", "Invalid request");
-            if (ModelState.IsValid == false)
+            return AsAdmin(request, session =>
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
-            }
+                var wordListOwner = session.Query<User, UserIndex>().SingleOrDefault(x => x.Email == request.OwnerEmail);
+                if (wordListOwner == null)
+                    return BadRequest(request.OwnerEmail + " not found");
 
-            var session = GetDocumentSession();
-            // validate credentials
-            var runAsQuery = from user in session.Query<User, UserIndex>()
-                             where user.Email == request.RequestUsername
-                             select user;
-            var runAs = runAsQuery.FirstOrDefault();
-            Debug.Assert(request != null, "request != null");
-            if (runAs == null || runAs.ValidatePassword(request.RequestPassword) == false)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "Invalid credentials");
-            }
+                var wordList = session.Query<WordList, WordListIndex>()
+                                      .SingleOrDefault(x => x.OwnerId == wordListOwner.Id && x.Name == request.WordListName);
+                if (wordList == null)
+                    return BadRequest(request.WordListName + " not found");
 
-            var wordListOwner = session.Query<User, UserIndex>().SingleOrDefault(x => x.Email == request.OwnerEmail);
-            if (wordListOwner == null)
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, request.OwnerEmail + " not found");
+                // check for existing word
+                var existingWord = session.Query<Word, WordIndex>()
+                                          .SingleOrDefault(x => x.WordListId == wordList.Id && x.Text == request.Text && x.Definition == request.Definition);
+                if (existingWord != null)
+                    return Ok();
 
-            var wordList = session.Query<WordList, WordListIndex>()
-                                  .SingleOrDefault(x => x.OwnerId == wordListOwner.Id && x.Name == request.WordListName);
-            if (wordList == null)
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, request.WordListName + " not found");
+                Debug.Assert(request.CreatedDate != null, "request.CreatedDate != null");
+                var generator = new KeyGenerator<Word>(session);
+                var word = Word.CreateFromMigration(
+                    generator.Generate(),
+                    request.Text,
+                    request.Definition,
+                    request.CreatedDate.Value,
+                    wordList.Id);
+                session.Store(word);
 
-            // check for existing word
-            var existingWord = session.Query<Word, WordIndex>()
-                                      .SingleOrDefault(x => x.WordListId == wordList.Id && x.Text == request.Text && x.Definition == request.Definition);
-            if (existingWord != null)
-                return Request.CreateResponse(HttpStatusCode.OK);
-
-            Debug.Assert(request.CreatedDate != null, "request.CreatedDate != null");
-            var generator = new KeyGenerator<Word>(session);
-            var word = Word.CreateFromMigration(
-                generator.Generate(),
-                request.Text,
-                request.Definition,
-                request.CreatedDate.Value,
-                wordList.Id);
-            session.Store(word);
-
-            return Request.CreateResponse(HttpStatusCode.Created);
+                return StatusCode(HttpStatusCode.Created);
+            });
         }
 
-        public class MigrateWordRequest
+        public class MigrateWordRequest : MigrationRequest
         {
             public MigrateWordRequest(
                 string requestUsername,
@@ -72,21 +55,14 @@ namespace MinaGlosor.Web.Controllers.Api
                 string text,
                 string definition,
                 DateTime? createdDate)
+                : base(requestUsername, requestPassword)
             {
                 Definition = definition;
                 Text = text;
-                RequestUsername = requestUsername;
-                RequestPassword = requestPassword;
                 OwnerEmail = ownerEmail;
                 WordListName = wordListName;
                 CreatedDate = createdDate;
             }
-
-            [Required]
-            public string RequestUsername { get; private set; }
-
-            [Required]
-            public string RequestPassword { get; private set; }
 
             [Required]
             public string OwnerEmail { get; private set; }
