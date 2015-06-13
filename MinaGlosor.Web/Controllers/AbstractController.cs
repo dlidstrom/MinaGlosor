@@ -30,10 +30,8 @@ namespace MinaGlosor.Web.Controllers
                 CurrentUser = user;
 
             // make sure there's an admin user
-            var firstAdminUser = documentSession.Query<User, UserIndex>()
-                                                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
-                                                .FirstOrDefault(x => x.Role == UserRole.Admin);
-            if (firstAdminUser != null)
+            var config = documentSession.Load<WebsiteConfig>(WebsiteConfig.GlobalId);
+            if (config.AdminUsers.Any())
                 return;
 
             // first launch
