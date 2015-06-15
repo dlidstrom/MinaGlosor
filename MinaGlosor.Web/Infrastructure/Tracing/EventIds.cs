@@ -53,6 +53,8 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
 
             public const int Web_CheckVersion_3005 = 3005;
 
+            public const int Web_ExecuteAdminCommand_3006 = 3006;
+
             // Notification service starts at 3100
         }
 

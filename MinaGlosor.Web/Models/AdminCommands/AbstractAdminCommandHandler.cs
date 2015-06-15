@@ -1,8 +1,6 @@
 using System;
-using Castle.MicroKernel;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.Tracing;
-using MinaGlosor.Web.Models.DomainEvents;
 using Newtonsoft.Json;
 using Raven.Client;
 
@@ -10,21 +8,40 @@ namespace MinaGlosor.Web.Models.AdminCommands
 {
     public abstract class AbstractAdminCommandHandler<TCommand> : IAdminCommandHandler<TCommand> where TCommand : IAdminCommand
     {
-        public IKernel Kernel { get; set; }
+        public IDocumentSession DocumentSession { get; set; }
 
-        public abstract void Run(TCommand command);
+        public abstract object Run(TCommand command);
 
         protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)
         {
             if (query == null) throw new ArgumentNullException("query");
-            return query.Execute(GetDocumentSession());
+            return query.Execute(DocumentSession);
         }
 
-        protected void ExecuteCommand(ICommand command, ModelEvent causedByEvent)
+        protected void ExecuteCommand(ICommand command)
         {
             if (command == null) throw new ArgumentNullException("command");
-            if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
-            using (new ModelContext(ModelContext.CorrelationId, causedByEvent.EventId))
+
+            DoExecuteCommand(command, session =>
+            {
+                command.Execute(session);
+                return false;
+            });
+        }
+
+        protected TResult ExecuteCommand<TResult>(ICommand<TResult> command)
+        {
+            if (command == null) throw new ArgumentNullException("command");
+
+            return DoExecuteCommand(command, command.Execute);
+        }
+
+        private TResult DoExecuteCommand<TResult, TCommandType>(
+            TCommandType command,
+            Func<IDocumentSession, TResult> func)
+        {
+            if (command == null) throw new ArgumentNullException("command");
+            using (new ModelContext(ModelContext.CorrelationId))
             {
                 var settings = new JsonSerializerSettings
                 {
@@ -33,18 +50,10 @@ namespace MinaGlosor.Web.Models.AdminCommands
                 };
                 var commandAsJson = JsonConvert.SerializeObject(command, Formatting.Indented, settings);
                 TracingLogger.Information(
-                    EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteDependentCommand_3001,
-                    "{0} <- {1}: {2}",
-                    command.GetType().Name,
-                    causedByEvent.GetType().Name,
+                    EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteAdminCommand_3006,
                     commandAsJson);
-                command.Execute(GetDocumentSession());
+                return func.Invoke(DocumentSession);
             }
-        }
-
-        private IDocumentSession GetDocumentSession()
-        {
-            return Kernel.Resolve<IDocumentSession>();
         }
     }
 }

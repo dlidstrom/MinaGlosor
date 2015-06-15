@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CommandRunner.cs" />
     <Compile Include="Commands\InitialMigrationCommandRunner.cs" />
     <Compile Include="Commands\ICommandRunner.cs" />
     <Compile Include="Commands\LoggingHandler.cs" />

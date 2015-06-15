@@ -236,6 +236,7 @@
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\CorrelationIdAttribute.cs" />
+    <Compile Include="Infrastructure\IoC\Installers\AdminCommandHandlerInstaller.cs" />
     <Compile Include="Infrastructure\JetBrains.Annotations.cs" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -303,11 +304,15 @@
     <Compile Include="Infrastructure\Tracing\TracingLogger.cs" />
     <Compile Include="Models\AdminCommands\AbstractAdminCommandHandler.cs" />
     <Compile Include="Models\AdminCommands\AdminCommand.cs" />
+    <Compile Include="Models\AdminCommands\AdminRequest.cs" />
     <Compile Include="Models\AdminCommands\IAdminCommand.cs" />
     <Compile Include="Models\AdminCommands\IAdminCommandHandler.cs" />
     <Compile Include="Models\AdminCommands\IAdminCommandRunner.cs" />
     <Compile Include="Models\AdminCommands\MigrateAdminUserAdminCommand.cs" />
+    <Compile Include="Models\AdminCommands\MigrateAdminUserAdminCommandHandler.cs" />
     <Compile Include="Models\ChangeLogEntry.cs" />
+    <Compile Include="Models\Commands\AdminCommand.cs" />
+    <Compile Include="Models\Commands\RegisterAdminUsersCommand.cs" />
     <Compile Include="Models\Commands\UpdateLastPickedDateCommand.cs" />
     <Compile Include="Models\DomainEvents\AddWordEvent.cs" />
     <Compile Include="Models\DomainEvents\MarkCreateAccountRequestUsedEvent.cs" />
@@ -368,6 +373,7 @@
     <Compile Include="Models\PracticeSessionStatistics.cs" />
     <Compile Include="Models\PracticeWord.cs" />
     <Compile Include="Models\Queries\DocumentSessionExtensions.cs" />
+    <Compile Include="Models\Queries\GetAdminUsersQuery.cs" />
     <Compile Include="Models\Queries\GetCreateAccountRequestQuery.cs" />
     <Compile Include="Models\Queries\GetNextPracticeWordQuery.cs" />
     <Compile Include="Models\Queries\GetPracticeWordQuery.cs" />

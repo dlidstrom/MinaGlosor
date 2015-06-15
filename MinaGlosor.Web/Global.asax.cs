@@ -72,6 +72,7 @@ namespace MinaGlosor.Web
         {
             var container = new WindsorContainer();
             container.Install(
+                new AdminCommandHandlerInstaller(),
                 new ControllerInstaller(),
                 new WindsorWebApiInstaller(),
 #if DEBUG

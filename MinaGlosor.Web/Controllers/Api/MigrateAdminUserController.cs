@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -8,47 +7,13 @@ using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.AdminCommands;
 using MinaGlosor.Web.Models.Indexes;
 using Newtonsoft.Json;
-using Raven.Client;
 using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Controllers.Api
 {
     public class MigrateAdminUserController : MigrationController
     {
-        public IHttpActionResult Post(string commandJson)
-        {
-            return AsAdmin(commandJson, session =>
-            {
-                var adminUsersQuery = from user in session.Query<User, UserIndex>().Customize(x => x.WaitForNonStaleResultsAsOfNow(TimeSpan.FromSeconds(30)))
-                                      where user.Role == UserRole.Admin
-                                      select user;
-                var adminUsers = adminUsersQuery.ToArray();
-                var websiteConfig = session.Load<WebsiteConfig>(WebsiteConfig.GlobalId);
-                if (websiteConfig == null)
-                {
-                    websiteConfig = new WebsiteConfig();
-                    session.Store(websiteConfig);
-                }
-
-                var migratedUsers = new List<string>();
-                foreach (var adminUser in adminUsers)
-                {
-                    if (websiteConfig.IsAdminUser(adminUser.Id) == false)
-                    {
-                        websiteConfig.AddAdminUser(adminUser.Id);
-                        migratedUsers.Add(adminUser.Id);
-                    }
-                }
-
-                var result = new
-                {
-                    MigratedUsers = migratedUsers.ToArray()
-                };
-                return Ok(result);
-            });
-        }
-
-        protected IHttpActionResult AsAdmin(string request, Func<IDocumentSession, IHttpActionResult> func)
+        public IHttpActionResult Post(AdminCommandRequest request)
         {
             IAdminCommand command = null;
             if (request == null)
@@ -59,7 +24,8 @@ namespace MinaGlosor.Web.Controllers.Api
             {
                 try
                 {
-                    command = JsonConvert.DeserializeObject<IAdminCommand>(request);
+                    var serializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                    command = JsonConvert.DeserializeObject<IAdminCommand>(request.CommandJson, serializerSettings);
                 }
                 catch (Exception)
                 {
@@ -86,8 +52,30 @@ namespace MinaGlosor.Web.Controllers.Api
                 return StatusCode(HttpStatusCode.Unauthorized);
             }
 
-            var result = func.Invoke(session);
-            return result;
+            object handler = null;
+            try
+            {
+                var handlerType = typeof(IAdminCommandHandler<>).MakeGenericType(command.GetType());
+                handler = Kernel.Resolve(handlerType);
+                var methodInfo = handlerType.GetMethod("Run");
+                var result = methodInfo.Invoke(handler, new[] { (object)command });
+
+                return Ok(result);
+            }
+            finally
+            {
+                Kernel.ReleaseComponent(handler);
+            }
+        }
+
+        public class AdminCommandRequest
+        {
+            public AdminCommandRequest(string commandJson)
+            {
+                CommandJson = commandJson;
+            }
+
+            public string CommandJson { get; private set; }
         }
     }
 }

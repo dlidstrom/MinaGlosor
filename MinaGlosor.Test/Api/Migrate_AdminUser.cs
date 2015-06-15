@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http;
 using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.AdminCommands;
 using MinaGlosor.Web.Models.Commands;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -14,12 +15,9 @@ namespace MinaGlosor.Test.Api
         public async void NeedsCorrectCredentials()
         {
             // Act
-            var vm = new
-            {
-                RequestUsername = "e@d.com",
-                RequestPassword = "pwd2"
-            };
-            var response = await Client.PostAsJsonAsync("http://temp.uri/api/migrateadminuser", vm);
+            var command = new MigrateAdminUserAdminCommand("e@d.com", "pwd2");
+            var request = new AdminRequest(command);
+            var response = await Client.PostAsJsonAsync("http://temp.uri/api/migrateadminuser", request);
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
@@ -29,12 +27,9 @@ namespace MinaGlosor.Test.Api
         public async void MigratesAdminUserIntoWebsiteConfig()
         {
             // Act
-            var vm = new
-            {
-                RequestUsername = "e@d.com",
-                RequestPassword = "pwd"
-            };
-            var response = await Client.PostAsJsonAsync("http://temp.uri/api/migrateadminuser", vm);
+            var command = new MigrateAdminUserAdminCommand("e@d.com", "pwd");
+            var request = new AdminRequest(command);
+            var response = await Client.PostAsJsonAsync("http://temp.uri/api/migrateadminuser", request);
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -64,12 +59,9 @@ namespace MinaGlosor.Test.Api
             });
 
             // Act
-            var vm = new
-            {
-                RequestUsername = "e@d.com",
-                RequestPassword = "pwd"
-            };
-            var response = await Client.PostAsJsonAsync("http://temp.uri/api/migrateadminuser", vm);
+            var command = new MigrateAdminUserAdminCommand("e@d.com", "pwd");
+            var request = new AdminRequest(command);
+            var response = await Client.PostAsJsonAsync("http://temp.uri/api/migrateadminuser", request);
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
