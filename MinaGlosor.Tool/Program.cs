@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Castle.MicroKernel;
 using Castle.Windsor;
 using MinaGlosor.Tool.Commands;
+using MinaGlosor.Tool.Infrastructure;
 using NDesk.Options;
 
 namespace MinaGlosor.Tool
@@ -64,20 +64,23 @@ namespace MinaGlosor.Tool
                     }
 
                     var commandName = commandArgs.First();
-                    ICommand command = null;
+                    var commandRunnerType = Type.GetType(string.Format("MinaGlosor.Tool.Commands.{0}CommandRunner", commandName));
+                    if (commandRunnerType == null)
+                    {
+                        Console.WriteLine("Unrecognized command name: '{0}'", commandName);
+                        break;
+                    }
+
+                    object commandRunner = null;
                     try
                     {
-                        command = container.Resolve<ICommand>(commandName);
-                        command.Run(username, password, commandArgs.Skip(1).ToArray());
-                    }
-                    catch (ComponentNotFoundException)
-                    {
-                        Console.WriteLine("Unrecognized command: '{0}'", commandName);
-                        break;
+                        commandRunner = container.Resolve(commandName, commandRunnerType);
+                        var runMethod = commandRunner.GetType().GetMethod("Run");
+                        runMethod.Invoke(commandRunner, new[] { username, password, (object)commandArgs.Skip(1).ToArray() });
                     }
                     finally
                     {
-                        if (command != null) container.Release(command);
+                        if (commandRunner != null) container.Release(commandRunner);
                     }
 
                     return;
@@ -101,7 +104,7 @@ namespace MinaGlosor.Tool
             optionSet.WriteOptionDescriptions(Console.Out);
             Console.WriteLine();
             Console.WriteLine("Available commands:");
-            var commandHandlers = container.Kernel.GetAssignableHandlers(typeof(ICommand));
+            var commandHandlers = container.Kernel.GetAssignableHandlers(typeof(ICommandRunner));
             var commandNames = commandHandlers.Select(x => x.ComponentModel.ComponentName);
             Console.WriteLine(string.Join(Environment.NewLine, commandNames));
         }

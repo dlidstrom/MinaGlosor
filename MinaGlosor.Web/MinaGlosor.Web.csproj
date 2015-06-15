@@ -301,6 +301,12 @@
     <Compile Include="Infrastructure\Tracing\ActivityScope.cs" />
     <Compile Include="Infrastructure\Tracing\EventIds.cs" />
     <Compile Include="Infrastructure\Tracing\TracingLogger.cs" />
+    <Compile Include="Models\AdminCommands\AbstractAdminCommandHandler.cs" />
+    <Compile Include="Models\AdminCommands\AdminCommand.cs" />
+    <Compile Include="Models\AdminCommands\IAdminCommand.cs" />
+    <Compile Include="Models\AdminCommands\IAdminCommandHandler.cs" />
+    <Compile Include="Models\AdminCommands\IAdminCommandRunner.cs" />
+    <Compile Include="Models\AdminCommands\MigrateAdminUserAdminCommand.cs" />
     <Compile Include="Models\ChangeLogEntry.cs" />
     <Compile Include="Models\Commands\UpdateLastPickedDateCommand.cs" />
     <Compile Include="Models\DomainEvents\AddWordEvent.cs" />
