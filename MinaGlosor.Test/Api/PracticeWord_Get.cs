@@ -90,12 +90,11 @@ namespace MinaGlosor.Test.Api
                 {
                     var newCurrentDate = currentDate.AddSeconds(i);
                     SystemTime.UtcDateTime = () => newCurrentDate;
-                    var word = new Word(
+                    var word = Word.Create(
                         generator.Generate(),
                         1 + i + "t",
                         1 + i + "d",
-                        wordList.OwnerId,
-                        wordList.Id);
+                        wordList);
                     session.Store(word);
                 }
             });

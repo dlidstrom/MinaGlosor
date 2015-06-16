@@ -62,12 +62,11 @@ namespace MinaGlosor.Test.Api
                     {
                         var newCurrentDate = currentDate.AddSeconds(i);
                         SystemTime.UtcDateTime = () => newCurrentDate;
-                        var word = new Word(
+                        var word = Word.Create(
                             generator.Generate(),
                             1 + i + "t",
                             1 + i + "d",
-                            wordList.OwnerId,
-                            wordList.Id);
+                            wordList);
                         session.Store(word);
                     }
 
@@ -76,12 +75,11 @@ namespace MinaGlosor.Test.Api
                     {
                         var newCurrentDate = currentDate.AddSeconds(i);
                         SystemTime.UtcDateTime = () => newCurrentDate;
-                        var word = new Word(
+                        var word = Word.Create(
                             generator.Generate(),
                             1 + i + "t",
                             1 + i + "d",
-                            wordList.OwnerId,
-                            wordList.Id);
+                            wordList);
                         session.Store(word);
                         var wordScore = new WordScore(KeyGeneratorBase.Generate<WordScore>(session), owner.Id, word.Id, wordList.Id);
                         wordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
@@ -89,12 +87,11 @@ namespace MinaGlosor.Test.Api
                     }
 
                     // add some practice word that is for the far future (this should not be selected)
-                    var futureWord = new Word(
+                    var futureWord = Word.Create(
                         generator.Generate(),
                         "future",
                         "future",
-                        wordList.OwnerId,
-                        wordList.Id);
+                        wordList);
                     session.Store(futureWord);
                     var futureWordScore = new WordScore(KeyGeneratorBase.Generate<WordScore>(session), owner.Id, futureWord.Id, wordList.Id);
                     futureWordScore.ScoreWord(ConfidenceLevel.PerfectResponse);

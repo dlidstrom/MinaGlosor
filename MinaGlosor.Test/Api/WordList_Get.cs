@@ -121,15 +121,15 @@ namespace MinaGlosor.Test.Api
                     session.Store(wordList1);
 
                     var generator = new KeyGenerator<Word>(session);
-                    session.Store(new Word(generator.Generate(), "Word1", "Def1", wordList1.OwnerId, wordList1.Id));
-                    session.Store(new Word(generator.Generate(), "Word1", "Def1", wordList1.OwnerId, wordList1.Id));
+                    session.Store(Word.Create(generator.Generate(), "Word1", "Def1", wordList1));
+                    session.Store(Word.Create(generator.Generate(), "Word1", "Def1", wordList1));
 
                     // second word list
                     var wordList2 = new WordList(wordListGenerator.Generate(), "Then one more", owner.Id);
                     session.Store(wordList2);
-                    session.Store(new Word(generator.Generate(), "Word1", "Definition1", wordList2.OwnerId, wordList2.Id));
-                    session.Store(new Word(generator.Generate(), "Word2", "Definition2", wordList2.OwnerId, wordList2.Id));
-                    session.Store(new Word(generator.Generate(), "Word3", "Definition2", wordList2.OwnerId, wordList2.Id));
+                    session.Store(Word.Create(generator.Generate(), "Word1", "Definition1", wordList2));
+                    session.Store(Word.Create(generator.Generate(), "Word2", "Definition2", wordList2));
+                    session.Store(Word.Create(generator.Generate(), "Word3", "Definition2", wordList2));
                 });
         }
     }

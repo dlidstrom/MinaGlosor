@@ -33,7 +33,7 @@ namespace MinaGlosor.Test.Api
                     {
                         var newCurrentDate = currentDate.AddSeconds(i);
                         SystemTime.UtcDateTime = () => newCurrentDate;
-                        session.Store(new Word(generator.Generate(), 1 + i + "t", 1 + i + "d", wordList.OwnerId, wordList.Id));
+                        session.Store(Word.Create(generator.Generate(), 1 + i + "t", 1 + i + "d", wordList));
                     }
                 });
 

@@ -26,12 +26,11 @@ namespace MinaGlosor.Test.Api
                     var generator = new KeyGenerator<Word>(session);
                     var practiceWords = Enumerable.Range(1, 10).Select(i =>
                         {
-                            var word = new Word(
+                            var word = Word.Create(
                                 generator.Generate(),
                                 "t" + i,
                                 "d" + i,
-                                wordList.OwnerId,
-                                wordList.Id);
+                                wordList);
                             session.Store(word);
                             var practiceWord = new PracticeWord(word, wordList.Id, owner.Id);
                             return practiceWord;

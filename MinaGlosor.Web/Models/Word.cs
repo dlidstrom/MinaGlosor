@@ -6,7 +6,7 @@ namespace MinaGlosor.Web.Models
 {
     public class Word : DomainModel
     {
-        public Word(string id, string text, string definition, string userId, string wordListId)
+        private Word(string id, string text, string definition, string userId, string wordListId)
             : base(id)
         {
             Verify(text, definition, userId, wordListId);
@@ -40,6 +40,15 @@ namespace MinaGlosor.Web.Models
         {
             if (wordId == null) throw new ArgumentNullException("wordId");
             return "words/" + wordId;
+        }
+
+        public static Word Create(string id, string text, string definition, WordList wordList)
+        {
+            if (id == null) throw new ArgumentNullException("id");
+            if (text == null) throw new ArgumentNullException("text");
+            if (definition == null) throw new ArgumentNullException("definition");
+            if (wordList == null) throw new ArgumentNullException("wordList");
+            return new Word(id, text, definition, wordList.OwnerId, wordList.Id);
         }
 
         public static Word CreateFromMigration(
@@ -103,6 +112,7 @@ namespace MinaGlosor.Web.Models
             CreatedDate = @event.CreatedDateTime;
             Text = @event.Text;
             Definition = @event.Definition;
+            UserId = @event.UserId;
             WordListId = @event.WordListId;
         }
 
