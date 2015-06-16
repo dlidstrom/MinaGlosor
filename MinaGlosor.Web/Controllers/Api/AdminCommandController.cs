@@ -11,7 +11,7 @@ using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Controllers.Api
 {
-    public class AdminCommandController : MigrationController
+    public class AdminCommandController : AbstractApiController
     {
         public IHttpActionResult Post(AdminCommandRequest request)
         {

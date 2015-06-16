@@ -16,7 +16,7 @@ namespace MinaGlosor.Tool.Commands
                 var command = CreateCommand(username, password, args);
                 var request = new AdminRequest(command);
 
-                if (client.PostAsJsonAsync(requestUri, request).Wait(TimeSpan.FromSeconds(30)) == false)
+                if (client.PostAsJsonAsync(requestUri, request).Wait(TimeSpan.FromSeconds(600)) == false)
                 {
                     Console.WriteLine("Request timed out");
                 }
