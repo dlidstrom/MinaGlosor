@@ -229,13 +229,14 @@
     <Compile Include="Controllers\AccountLogoffController.cs" />
     <Compile Include="Controllers\AccountPasswordController.cs" />
     <Compile Include="Controllers\Api\LogErrorController.cs" />
-    <Compile Include="Controllers\Api\MigrateAdminUserController.cs" />
+    <Compile Include="Controllers\Api\AdminCommandController.cs" />
     <Compile Include="Controllers\Api\MigrationController.cs" />
     <Compile Include="Controllers\Api\Search2Controller.cs" />
     <Compile Include="Controllers\Api\WordFavouriteController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\CorrelationIdAttribute.cs" />
+    <Compile Include="Infrastructure\IoC\Installers\AdminCommandHandlerInstaller.cs" />
     <Compile Include="Infrastructure\JetBrains.Annotations.cs" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -301,7 +302,19 @@
     <Compile Include="Infrastructure\Tracing\ActivityScope.cs" />
     <Compile Include="Infrastructure\Tracing\EventIds.cs" />
     <Compile Include="Infrastructure\Tracing\TracingLogger.cs" />
+    <Compile Include="Models\AdminCommands\AbstractAdminCommandHandler.cs" />
+    <Compile Include="Models\AdminCommands\AdminCommand.cs" />
+    <Compile Include="Models\AdminCommands\AdminRequest.cs" />
+    <Compile Include="Models\AdminCommands\IAdminCommand.cs" />
+    <Compile Include="Models\AdminCommands\IAdminCommandHandler.cs" />
+    <Compile Include="Models\AdminCommands\IAdminCommandRunner.cs" />
+    <Compile Include="Models\AdminCommands\MigrateAdminUserAdminCommand.cs" />
+    <Compile Include="Models\AdminCommands\MigrateAdminUserAdminCommandHandler.cs" />
+    <Compile Include="Models\AdminCommands\MigrateWordUserIdAdminCommand.cs" />
+    <Compile Include="Models\AdminCommands\MigrateWordUserIdAdminCommandHandler.cs" />
     <Compile Include="Models\ChangeLogEntry.cs" />
+    <Compile Include="Models\Commands\AdminCommand.cs" />
+    <Compile Include="Models\Commands\RegisterAdminUsersCommand.cs" />
     <Compile Include="Models\Commands\UpdateLastPickedDateCommand.cs" />
     <Compile Include="Models\DomainEvents\AddWordEvent.cs" />
     <Compile Include="Models\DomainEvents\MarkCreateAccountRequestUsedEvent.cs" />
@@ -311,6 +324,7 @@
     <Compile Include="Models\DomainEvents\SetPasswordEvent.cs" />
     <Compile Include="Models\DomainEvents\SetRoleEvent.cs" />
     <Compile Include="Models\DomainEvents\SetUserCreatedEvent.cs" />
+    <Compile Include="Models\DomainEvents\SetWordUserIdEvent.cs" />
     <Compile Include="Models\DomainEvents\ToggleWordFavouriteEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateConfidenceEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateConfidenceEventHandler.cs" />
@@ -362,6 +376,7 @@
     <Compile Include="Models\PracticeSessionStatistics.cs" />
     <Compile Include="Models\PracticeWord.cs" />
     <Compile Include="Models\Queries\DocumentSessionExtensions.cs" />
+    <Compile Include="Models\Queries\GetAdminUsersQuery.cs" />
     <Compile Include="Models\Queries\GetCreateAccountRequestQuery.cs" />
     <Compile Include="Models\Queries\GetNextPracticeWordQuery.cs" />
     <Compile Include="Models\Queries\GetPracticeWordQuery.cs" />
@@ -459,6 +474,6 @@
   </Target>
   -->
   <Target Name="BeforeBuild" Condition="'$(Configuration)' == 'Release'">
-    <Exec Command="del /F /S /Q bin\MinaGlosor.Web.dll" />
+    <Exec Command="del /F /S /Q bin\MinaGlosor.Web.dll obj\MinaGlosor.Web.dll" />
   </Target>
 </Project>

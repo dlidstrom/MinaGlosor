@@ -54,11 +54,11 @@ namespace MinaGlosor.Test.Api
 
                     // add some words to the word list
                     var generator = new KeyGenerator<Word>(session);
-                    var firstWord = new Word(generator.Generate(), 1 + 1 + "t", 1 + 1 + "d", wordList.Id);
+                    var firstWord = Word.Create(generator.Generate(), 1 + 1 + "t", 1 + 1 + "d", wordList);
                     session.Store(firstWord);
                     for (var i = 1; i < 10; i++)
                     {
-                        session.Store(new Word(generator.Generate(), 1 + i + "t", 1 + i + "d", wordList.Id));
+                        session.Store(Word.Create(generator.Generate(), 1 + i + "t", 1 + i + "d", wordList));
                     }
 
                     // store favourite for another user

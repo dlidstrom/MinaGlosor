@@ -35,7 +35,8 @@ namespace MinaGlosor.Test.Api
             Container.Install(
                 RavenInstaller.CreateForTests(),
                 new WindsorWebApiInstaller(),
-                new HandlersInstaller());
+                new HandlersInstaller(),
+                new AdminCommandHandlerInstaller());
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
             OnSetUp(Container);
 

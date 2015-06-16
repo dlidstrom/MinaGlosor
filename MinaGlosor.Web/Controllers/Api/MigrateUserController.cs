@@ -11,6 +11,7 @@ using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Controllers.Api
 {
+    // TODO Change to admin command.
     public class MigrateUserController : MigrationController
     {
         public IHttpActionResult Post(MigratedUserRequest request)

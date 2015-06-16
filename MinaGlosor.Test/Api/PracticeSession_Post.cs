@@ -56,11 +56,11 @@ namespace MinaGlosor.Test.Api
                 var generator = new KeyGenerator<Word>(session);
                 for (var i = 0; i < 20; i++)
                 {
-                    var word = new Word(
+                    var word = Word.Create(
                         generator.Generate(),
                         i.ToString(CultureInfo.InvariantCulture),
                         i.ToString(CultureInfo.InvariantCulture),
-                        wordList.Id);
+                        wordList);
                     session.Store(word);
                 }
             });

@@ -1,6 +1,6 @@
 ﻿namespace MinaGlosor.Tool.Commands
 {
-    public interface ICommand
+    public interface ICommandRunner
     {
         void Run(string username, string password, string[] args);
     }

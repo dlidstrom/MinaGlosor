@@ -24,9 +24,9 @@ namespace MinaGlosor.Test.Api
                 // make sure listed in date order
                 SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1);
                 var generator = new KeyGenerator<Word>(session);
-                session.Store(new Word(generator.Generate(), "w2", "d2", wordList.Id));
+                session.Store(Word.Create(generator.Generate(), "w2", "d2", wordList));
                 SystemTime.UtcDateTime = () => new DateTime(2010, 1, 1);
-                session.Store(new Word(generator.Generate(), "w1", "d1", wordList.Id));
+                session.Store(Word.Create(generator.Generate(), "w1", "d1", wordList));
             });
 
             // Act

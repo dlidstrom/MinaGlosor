@@ -6,15 +6,17 @@ namespace MinaGlosor.Web.Models
 {
     public class Word : DomainModel
     {
-        public Word(string id, string text, string definition, string wordListId)
+        private Word(string id, string text, string definition, string userId, string wordListId)
             : base(id)
         {
-            Verify(text, definition, wordListId);
-            Apply(new WordRegisteredEvent(wordListId, id, text, definition));
+            Verify(text, definition, userId, wordListId);
+            Apply(new WordRegisteredEvent(userId, wordListId, id, text, definition));
         }
 
         [JsonConstructor]
+#pragma warning disable 618
         private Word()
+#pragma warning restore 618
         {
         }
 
@@ -25,6 +27,8 @@ namespace MinaGlosor.Web.Models
         public string Definition { get; private set; }
 
         public string WordListId { get; private set; }
+
+        public string UserId { get; private set; }
 
         public static string FromId(string wordId)
         {
@@ -38,19 +42,30 @@ namespace MinaGlosor.Web.Models
             return "words/" + wordId;
         }
 
+        public static Word Create(string id, string text, string definition, WordList wordList)
+        {
+            if (id == null) throw new ArgumentNullException("id");
+            if (text == null) throw new ArgumentNullException("text");
+            if (definition == null) throw new ArgumentNullException("definition");
+            if (wordList == null) throw new ArgumentNullException("wordList");
+            return new Word(id, text, definition, wordList.OwnerId, wordList.Id);
+        }
+
         public static Word CreateFromMigration(
             string id,
             string text,
             string definition,
             DateTime createdDate,
+            string userId,
             string wordListId)
         {
             if (text == null) throw new ArgumentNullException("text");
             if (definition == null) throw new ArgumentNullException("definition");
+            if (userId == null) throw new ArgumentNullException("userId");
             if (wordListId == null) throw new ArgumentNullException("wordListId");
 
             var word = new Word();
-            word.Apply(new WordRegisteredEvent(wordListId, id, text, definition));
+            word.Apply(new WordRegisteredEvent(userId, wordListId, id, text, definition));
             word.Apply(new SetCreatedDateFromMigrationEvent(id, createdDate));
             return word;
         }
@@ -62,14 +77,21 @@ namespace MinaGlosor.Web.Models
 
         public void Update(string text, string definition, string wordListId)
         {
-            Verify(text, definition, wordListId);
+            Verify(text, definition, UserId, wordListId);
             Apply(new WordUpdatedEvent(Id, text, definition, wordListId));
         }
 
-        private static void Verify(string text, string definition, string wordListId)
+        public void SetUserId(string userId)
+        {
+            if (userId == null) throw new ArgumentNullException("userId");
+            Apply(new SetWordUserIdEvent(Id, userId));
+        }
+
+        private static void Verify(string text, string definition, string userId, string wordListId)
         {
             if (text == null) throw new ArgumentNullException("text");
             if (definition == null) throw new ArgumentNullException("definition");
+            if (userId == null) throw new ArgumentNullException("userId");
             if (wordListId == null) throw new ApplicationException("Can only add word to existing word lists");
 
             if (text.Length > 1024)
@@ -90,12 +112,18 @@ namespace MinaGlosor.Web.Models
             CreatedDate = @event.CreatedDateTime;
             Text = @event.Text;
             Definition = @event.Definition;
+            UserId = @event.UserId;
             WordListId = @event.WordListId;
         }
 
         private void ApplyEvent(SetCreatedDateFromMigrationEvent @event)
         {
             CreatedDate = @event.CreatedDateFromMigration;
+        }
+
+        private void ApplyEvent(SetWordUserIdEvent @event)
+        {
+            UserId = @event.UserId;
         }
     }
 }

@@ -3,7 +3,7 @@ using MinaGlosor.Tool.Migrations;
 
 namespace MinaGlosor.Tool.Commands
 {
-    public class InitialMigrationCommand : ICommand
+    public class InitialMigrationCommandRunner : ICommandRunner
     {
         private const bool DryRun = true;
 

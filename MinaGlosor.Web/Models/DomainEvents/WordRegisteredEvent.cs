@@ -4,9 +4,10 @@ namespace MinaGlosor.Web.Models.DomainEvents
 {
     public class WordRegisteredEvent : ModelEvent
     {
-        public WordRegisteredEvent(string wordListId, string modelId, string text, string definition)
+        public WordRegisteredEvent(string userId, string wordListId, string modelId, string text, string definition)
             : base(modelId)
         {
+            UserId = userId;
             WordListId = wordListId;
             Text = text;
             Definition = definition;
@@ -16,6 +17,8 @@ namespace MinaGlosor.Web.Models.DomainEvents
         private WordRegisteredEvent()
         {
         }
+
+        public string UserId { get; private set; }
 
         public string WordListId { get; private set; }
 

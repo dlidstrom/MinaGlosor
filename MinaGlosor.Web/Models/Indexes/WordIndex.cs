@@ -20,6 +20,7 @@ namespace MinaGlosor.Web.Models.Indexes
             Map = words => from word in words
                            select new
                                {
+                                   word.UserId,
                                    word.WordListId,
                                    word.CreatedDate,
                                    word.Text,

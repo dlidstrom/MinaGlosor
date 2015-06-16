@@ -13,11 +13,14 @@ namespace MinaGlosor.Web.Models.Queries
     {
         private const int MaxResults = 30;
         private readonly string q;
+        private readonly string userId;
 
         public SearchQuery(string q, string userId)
         {
+            if (q == null) throw new ArgumentNullException("q");
+            if (userId == null) throw new ArgumentNullException("userId");
             this.q = q;
-            //this.userId = userId;
+            this.userId = userId;
         }
 
         public bool CanExecute(IDocumentSession session, User currentUser)
@@ -91,6 +94,7 @@ namespace MinaGlosor.Web.Models.Queries
             var query = session.Query<Word, WordIndex>()
                                .Customize(x => x.Highlight(propertyName, 128, 1, out highlightings))
                                .Search(expression, q)
+                               .Where(x => x.UserId == userId)
                                .ProjectFromIndexFieldsInto<WordResult>()
                                .Take(MaxResults);
             var results = query.ToArray();
@@ -130,6 +134,7 @@ namespace MinaGlosor.Web.Models.Queries
                                  .Search(
                                     expression,
                                     string.Join(" ", suggestionResults.Suggestions))
+                                 .Where(x => x.UserId == userId)
                                  .ProjectFromIndexFieldsInto<WordResult>()
                                  .Take(maxCount)
                                  .ToArray();

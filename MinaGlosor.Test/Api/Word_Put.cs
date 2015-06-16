@@ -20,7 +20,7 @@ namespace MinaGlosor.Test.Api
                     var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
                     session.Store(wordList);
                     var generator = new KeyGenerator<Word>(session);
-                    var word = new Word(generator.Generate(), "old text", "old def", wordList.Id);
+                    var word = Word.Create(generator.Generate(), "old text", "old def", wordList);
                     session.Store(word);
                 });
 
