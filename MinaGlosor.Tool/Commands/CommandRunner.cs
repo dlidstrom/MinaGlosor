@@ -12,7 +12,7 @@ namespace MinaGlosor.Tool.Commands
         {
             using (var client = new HttpClient(new LoggingHandler(new HttpClientHandler())))
             {
-                var requestUri = string.Format("{0}api/migrateadminuser", ServerUrlProvider.ServerUrl);
+                var requestUri = string.Format("{0}api/admincommand", ServerUrlProvider.ServerUrl);
                 var command = CreateCommand(username, password, args);
                 var request = new AdminRequest(command);
 

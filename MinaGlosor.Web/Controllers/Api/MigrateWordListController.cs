@@ -8,6 +8,7 @@ using MinaGlosor.Web.Models.Indexes;
 
 namespace MinaGlosor.Web.Controllers.Api
 {
+    // TODO Change to admin command.
     public class MigrateWordListController : MigrationController
     {
         public IHttpActionResult Post(MigratedWordListRequest request)

@@ -17,7 +17,7 @@ namespace MinaGlosor.Test.Api
             // Act
             var command = new MigrateAdminUserAdminCommand("e@d.com", "pwd2");
             var request = new AdminRequest(command);
-            var response = await Client.PostAsJsonAsync("http://temp.uri/api/migrateadminuser", request);
+            var response = await Client.PostAsJsonAsync("http://temp.uri/api/admincommand", request);
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
@@ -29,7 +29,7 @@ namespace MinaGlosor.Test.Api
             // Act
             var command = new MigrateAdminUserAdminCommand("e@d.com", "pwd");
             var request = new AdminRequest(command);
-            var response = await Client.PostAsJsonAsync("http://temp.uri/api/migrateadminuser", request);
+            var response = await Client.PostAsJsonAsync("http://temp.uri/api/admincommand", request);
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -61,7 +61,7 @@ namespace MinaGlosor.Test.Api
             // Act
             var command = new MigrateAdminUserAdminCommand("e@d.com", "pwd");
             var request = new AdminRequest(command);
-            var response = await Client.PostAsJsonAsync("http://temp.uri/api/migrateadminuser", request);
+            var response = await Client.PostAsJsonAsync("http://temp.uri/api/admincommand", request);
 
             // Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));

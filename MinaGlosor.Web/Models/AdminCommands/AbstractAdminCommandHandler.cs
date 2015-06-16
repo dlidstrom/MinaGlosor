@@ -8,6 +8,8 @@ namespace MinaGlosor.Web.Models.AdminCommands
 {
     public abstract class AbstractAdminCommandHandler<TCommand> : IAdminCommandHandler<TCommand> where TCommand : IAdminCommand
     {
+        public IDocumentStore DocumentStore { get; set; }
+
         public IDocumentSession DocumentSession { get; set; }
 
         public abstract object Run(TCommand command);

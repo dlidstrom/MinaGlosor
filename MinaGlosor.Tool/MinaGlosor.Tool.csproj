@@ -63,6 +63,7 @@
     <Compile Include="Commands\ICommandRunner.cs" />
     <Compile Include="Commands\LoggingHandler.cs" />
     <Compile Include="Commands\MigrateAdminUserCommandRunner.cs" />
+    <Compile Include="Commands\MigrateWordUserIdCommandRunner.cs" />
     <Compile Include="Dto\User.cs" />
     <Compile Include="Dto\Word.cs" />
     <Compile Include="Dto\WordList.cs" />

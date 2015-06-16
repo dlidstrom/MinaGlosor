@@ -14,7 +14,9 @@ namespace MinaGlosor.Web.Models
         }
 
         [JsonConstructor]
+#pragma warning disable 618
         private Word()
+#pragma warning restore 618
         {
         }
 
@@ -25,6 +27,8 @@ namespace MinaGlosor.Web.Models
         public string Definition { get; private set; }
 
         public string WordListId { get; private set; }
+
+        public string UserId { get; private set; }
 
         public static string FromId(string wordId)
         {
@@ -66,6 +70,12 @@ namespace MinaGlosor.Web.Models
             Apply(new WordUpdatedEvent(Id, text, definition, wordListId));
         }
 
+        public void SetUserId(string userId)
+        {
+            if (userId == null) throw new ArgumentNullException("userId");
+            Apply(new SetWordUserIdEvent(Id, userId));
+        }
+
         private static void Verify(string text, string definition, string wordListId)
         {
             if (text == null) throw new ArgumentNullException("text");
@@ -96,6 +106,11 @@ namespace MinaGlosor.Web.Models
         private void ApplyEvent(SetCreatedDateFromMigrationEvent @event)
         {
             CreatedDate = @event.CreatedDateFromMigration;
+        }
+
+        private void ApplyEvent(SetWordUserIdEvent @event)
+        {
+            UserId = @event.UserId;
         }
     }
 }

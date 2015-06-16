@@ -229,7 +229,7 @@
     <Compile Include="Controllers\AccountLogoffController.cs" />
     <Compile Include="Controllers\AccountPasswordController.cs" />
     <Compile Include="Controllers\Api\LogErrorController.cs" />
-    <Compile Include="Controllers\Api\MigrateAdminUserController.cs" />
+    <Compile Include="Controllers\Api\AdminCommandController.cs" />
     <Compile Include="Controllers\Api\MigrationController.cs" />
     <Compile Include="Controllers\Api\Search2Controller.cs" />
     <Compile Include="Controllers\Api\WordFavouriteController.cs" />
@@ -310,6 +310,8 @@
     <Compile Include="Models\AdminCommands\IAdminCommandRunner.cs" />
     <Compile Include="Models\AdminCommands\MigrateAdminUserAdminCommand.cs" />
     <Compile Include="Models\AdminCommands\MigrateAdminUserAdminCommandHandler.cs" />
+    <Compile Include="Models\AdminCommands\MigrateWordUserIdAdminCommand.cs" />
+    <Compile Include="Models\AdminCommands\MigrateWordUserIdAdminCommandHandler.cs" />
     <Compile Include="Models\ChangeLogEntry.cs" />
     <Compile Include="Models\Commands\AdminCommand.cs" />
     <Compile Include="Models\Commands\RegisterAdminUsersCommand.cs" />
@@ -322,6 +324,7 @@
     <Compile Include="Models\DomainEvents\SetPasswordEvent.cs" />
     <Compile Include="Models\DomainEvents\SetRoleEvent.cs" />
     <Compile Include="Models\DomainEvents\SetUserCreatedEvent.cs" />
+    <Compile Include="Models\DomainEvents\SetWordUserIdEvent.cs" />
     <Compile Include="Models\DomainEvents\ToggleWordFavouriteEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateConfidenceEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateConfidenceEventHandler.cs" />
