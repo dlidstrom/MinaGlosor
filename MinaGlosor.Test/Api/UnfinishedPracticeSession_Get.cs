@@ -30,6 +30,7 @@ namespace MinaGlosor.Test.Api
                                 generator.Generate(),
                                 "t" + i,
                                 "d" + i,
+                                wordList.OwnerId,
                                 wordList.Id);
                             session.Store(word);
                             var practiceWord = new PracticeWord(word, wordList.Id, owner.Id);

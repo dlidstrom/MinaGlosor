@@ -66,6 +66,7 @@ namespace MinaGlosor.Test.Api
                             generator.Generate(),
                             1 + i + "t",
                             1 + i + "d",
+                            wordList.OwnerId,
                             wordList.Id);
                         session.Store(word);
                     }
@@ -79,6 +80,7 @@ namespace MinaGlosor.Test.Api
                             generator.Generate(),
                             1 + i + "t",
                             1 + i + "d",
+                            wordList.OwnerId,
                             wordList.Id);
                         session.Store(word);
                         var wordScore = new WordScore(KeyGeneratorBase.Generate<WordScore>(session), owner.Id, word.Id, wordList.Id);
@@ -91,6 +93,7 @@ namespace MinaGlosor.Test.Api
                         generator.Generate(),
                         "future",
                         "future",
+                        wordList.OwnerId,
                         wordList.Id);
                     session.Store(futureWord);
                     var futureWordScore = new WordScore(KeyGeneratorBase.Generate<WordScore>(session), owner.Id, futureWord.Id, wordList.Id);

@@ -6,11 +6,11 @@ namespace MinaGlosor.Web.Models
 {
     public class Word : DomainModel
     {
-        public Word(string id, string text, string definition, string wordListId)
+        public Word(string id, string text, string definition, string userId, string wordListId)
             : base(id)
         {
-            Verify(text, definition, wordListId);
-            Apply(new WordRegisteredEvent(wordListId, id, text, definition));
+            Verify(text, definition, userId, wordListId);
+            Apply(new WordRegisteredEvent(userId, wordListId, id, text, definition));
         }
 
         [JsonConstructor]
@@ -47,14 +47,16 @@ namespace MinaGlosor.Web.Models
             string text,
             string definition,
             DateTime createdDate,
+            string userId,
             string wordListId)
         {
             if (text == null) throw new ArgumentNullException("text");
             if (definition == null) throw new ArgumentNullException("definition");
+            if (userId == null) throw new ArgumentNullException("userId");
             if (wordListId == null) throw new ArgumentNullException("wordListId");
 
             var word = new Word();
-            word.Apply(new WordRegisteredEvent(wordListId, id, text, definition));
+            word.Apply(new WordRegisteredEvent(userId, wordListId, id, text, definition));
             word.Apply(new SetCreatedDateFromMigrationEvent(id, createdDate));
             return word;
         }
@@ -66,7 +68,7 @@ namespace MinaGlosor.Web.Models
 
         public void Update(string text, string definition, string wordListId)
         {
-            Verify(text, definition, wordListId);
+            Verify(text, definition, UserId, wordListId);
             Apply(new WordUpdatedEvent(Id, text, definition, wordListId));
         }
 
@@ -76,10 +78,11 @@ namespace MinaGlosor.Web.Models
             Apply(new SetWordUserIdEvent(Id, userId));
         }
 
-        private static void Verify(string text, string definition, string wordListId)
+        private static void Verify(string text, string definition, string userId, string wordListId)
         {
             if (text == null) throw new ArgumentNullException("text");
             if (definition == null) throw new ArgumentNullException("definition");
+            if (userId == null) throw new ArgumentNullException("userId");
             if (wordListId == null) throw new ApplicationException("Can only add word to existing word lists");
 
             if (text.Length > 1024)

@@ -39,6 +39,7 @@ namespace MinaGlosor.Web.Controllers.Api
                     request.Text,
                     request.Definition,
                     request.CreatedDate.Value,
+                    wordList.OwnerId,
                     wordList.Id);
                 session.Store(word);
 

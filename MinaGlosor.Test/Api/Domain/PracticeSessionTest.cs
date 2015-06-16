@@ -21,7 +21,7 @@ namespace MinaGlosor.Test.Api.Domain
             var practiceWords = Enumerable.Range(1, 10).Select(i =>
                 {
                     SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1).AddDays(i);
-                    var word = new Word("words/" + i, "t" + i, "d" + i, "WordLists/1");
+                    var word = new Word("users/1", "words/" + i, "t" + i, "d" + i, "WordLists/1");
                     var practiceWord = new PracticeWord(word, "WordLists/1", "users/1");
                     return practiceWord;
                 }).ToArray();

@@ -44,7 +44,7 @@ namespace MinaGlosor.Web.Controllers.Api
 
             Debug.Assert(request != null, "request != null");
             var wordList = ExecuteQuery(new GetWordListQuery(request.WordListId));
-            var wordId = ExecuteCommand(new CreateWordCommand(request.Text, request.Definition, wordList));
+            var wordId = ExecuteCommand(new CreateWordCommand(request.Text, request.Definition, CurrentUser.Id, wordList.WordListId));
             return Request.CreateResponse(HttpStatusCode.Created, new { wordId });
         }
 

@@ -24,6 +24,7 @@ namespace MinaGlosor.Test.Api
                     generator.Generate(),
                     "some text",
                     "some def",
+                    wordList.OwnerId,
                     wordList.Id);
                 session.Store(word);
             });

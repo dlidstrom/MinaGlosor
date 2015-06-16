@@ -5,91 +5,86 @@
     Bundles.Reference("wwwroot/main.less");
     Bundles.Reference("wwwroot/external/head_js", "head");
     Bundles.Reference("wwwroot/external/footer_js", "footer");
-}<!DOCTYPE HTML>
+}<!DOCTYPE html>
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta charset="utf-8">
-        <meta name="appVersion" content="@Application.GetAppVersion()" />
-        <meta name="isDebuggingEnabled" content="@Html.ViewContext.HttpContext.IsDebuggingEnabled.ToString().ToLowerInvariant()" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <title>Mina Glosor</title>
-        <base href="@string.Format("{0}://{1}:{2}/{3}/", Request.Url.Scheme, Request.Url.Host, Request.Url.Port, Model.Username)" />
-        @Bundles.RenderScripts("head")
-        <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/readable/bootstrap.min.css" rel="stylesheet">
-        @Bundles.RenderStylesheets()
-    </head>
-    <body ng-app="mgApp">
-        <toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="./">
-                        <div class="logo">
-                            <span class="label label-success">&nbsp;</span>
-                            <span class="label label-info">&nbsp;</span>
-                            <span class="label label-warning">&nbsp;</span>
-                            <span class="label label-danger">&nbsp;</span>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="appVersion" content="@Application.GetAppVersion()" />
+    <meta name="isDebuggingEnabled" content="@Html.ViewContext.HttpContext.IsDebuggingEnabled.ToString().ToLowerInvariant()" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>Mina Glosor</title>
+    <base href="@string.Format("{0}://{1}:{2}/{3}/", Request.Url.Scheme, Request.Url.Host, Request.Url.Port, Model.Username)" />
+    @Bundles.RenderScripts("head")
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/readable/bootstrap.min.css" rel="stylesheet">
+    @Bundles.RenderStylesheets()
+</head>
+<body ng-app="mgApp">
+    <toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="./">
+                    <div class="logo">
+                        <span class="label label-success">&nbsp;</span>
+                        <span class="label label-info">&nbsp;</span>
+                        <span class="label label-warning">&nbsp;</span>
+                        <span class="label label-danger">&nbsp;</span>
+                    </div>
+                    Mina Glosor
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <form class="navbar-form navbar-left" ng-controller="SearchRedirectController as search" ng-submit="search.submit(search.q)">
+                    <div class="input-group">
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Sök"
+                               name="q"
+                               id="q"
+                               ng-model="search.q"
+                               maxlength="128"
+                               autocapitalize="off"
+                               autocomplete="off"
+                               autocorrect="off" />
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
                         </div>
-                        Mina Glosor
-                    </a>
-                </div>
-                <div class="collapse navbar-collapse" id="navbar-collapse">
-                    @if (Model.Username == "dlidstrom" || Html.ViewContext.HttpContext.IsDebuggingEnabled)
-                    {
-                        <form class="navbar-form navbar-left" ng-controller="SearchRedirectController as search" ng-submit="search.submit(search.q)">
-                            <div class="input-group">
-                                <input type="text" 
-                                       class="form-control" 
-                                       placeholder="Sök" 
-                                       name="q"
-                                       id="q"
-                                       ng-model="search.q"
-                                       maxlength="128"
-                                       autocapitalize="off"
-                                       autocomplete="off"
-                                       autocorrect="off" />
-
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="glyphicon glyphicon-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    }
-
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="@Url.Action("Logoff", "AccountLogoff")">
-                                <i class="glyphicon glyphicon-log-out"></i>
-                                Logga ut
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                    </div>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="@Url.Action("Logoff", "AccountLogoff")">
+                            <i class="glyphicon glyphicon-log-out"></i>
+                            Logga ut
+                        </a>
+                    </li>
+                </ul>
             </div>
-        </nav>
-        <div class="container ng-cloak">
-            <div class="row" ng-show="upgradeRequired">
-                <div class="col-xs-12">
-                    <span class="label label-danger">Uppgradering krävs. Vänligen ladda om sidan.</span>
-                </div>
-            </div>
-            <div ng-view autoscroll></div>
         </div>
-        <footer>
-            <div class="container">
-                <p>@Application.GetAppVersion()</p>
+    </nav>
+    <div class="container ng-cloak">
+        <div class="row" ng-show="upgradeRequired">
+            <div class="col-xs-12">
+                <span class="label label-danger">Uppgradering krävs. Vänligen ladda om sidan.</span>
             </div>
-        </footer>
-        @Bundles.RenderScripts("footer")
-        @Bundles.RenderScripts("app")
-    </body>
+        </div>
+        <div ng-view autoscroll></div>
+    </div>
+    <footer>
+        <div class="container">
+            <p>@Application.GetAppVersion()</p>
+        </div>
+    </footer>
+    @Bundles.RenderScripts("footer")
+    @Bundles.RenderScripts("app")
+</body>
 </html>

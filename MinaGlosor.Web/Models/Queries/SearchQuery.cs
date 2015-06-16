@@ -13,11 +13,12 @@ namespace MinaGlosor.Web.Models.Queries
     {
         private const int MaxResults = 30;
         private readonly string q;
+        private string userId;
 
         public SearchQuery(string q, string userId)
         {
             this.q = q;
-            //this.userId = userId;
+            this.userId = userId;
         }
 
         public bool CanExecute(IDocumentSession session, User currentUser)
@@ -90,6 +91,7 @@ namespace MinaGlosor.Web.Models.Queries
             var propertyName = GetPropertyInfo(expression).Name;
             var query = session.Query<Word, WordIndex>()
                                .Customize(x => x.Highlight(propertyName, 128, 1, out highlightings))
+                               .Where(x => x.UserId == userId)
                                .Search(expression, q)
                                .ProjectFromIndexFieldsInto<WordResult>()
                                .Take(MaxResults);
@@ -116,6 +118,7 @@ namespace MinaGlosor.Web.Models.Queries
         private HashSet<WordResult> SearchSuggestions(IDocumentSession session, Expression<Func<Word, object>> expression, int index, int maxCount)
         {
             var suggestionResults = session.Query<Word, WordIndex>()
+                                           .Where(x => x.UserId == userId)
                                            .Search(expression, q)
                                            .Take(maxCount)
                                            .Suggest();
@@ -123,6 +126,7 @@ namespace MinaGlosor.Web.Models.Queries
             var propertyName = GetPropertyInfo(expression).Name;
             var results = session.Query<Word, WordIndex>()
                                  .Customize(x => x.Highlight(propertyName, 128, 1, out highlightings))
+                                 .Where(x => x.UserId == userId)
                                  .Search(
                                     expression,
                                     string.Format("{0}*", q),

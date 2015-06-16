@@ -60,6 +60,7 @@ namespace MinaGlosor.Test.Api
                         generator.Generate(),
                         i.ToString(CultureInfo.InvariantCulture),
                         i.ToString(CultureInfo.InvariantCulture),
+                        wordList.OwnerId,
                         wordList.Id);
                     session.Store(word);
                 }
