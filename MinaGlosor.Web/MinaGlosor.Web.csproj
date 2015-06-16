@@ -474,6 +474,6 @@
   </Target>
   -->
   <Target Name="BeforeBuild" Condition="'$(Configuration)' == 'Release'">
-    <Exec Command="del /F /S /Q bin\MinaGlosor.Web.dll" />
+    <Exec Command="del /F /S /Q bin\MinaGlosor.Web.dll obj\MinaGlosor.Web.dll" />
   </Target>
 </Project>
