@@ -28,6 +28,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +37,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AjaxMin">
@@ -315,6 +317,7 @@
     <Compile Include="Models\ChangeLogEntry.cs" />
     <Compile Include="Models\Commands\AdminCommand.cs" />
     <Compile Include="Models\Commands\RegisterAdminUsersCommand.cs" />
+    <Compile Include="Models\Commands\RunAdminCommand.cs" />
     <Compile Include="Models\Commands\UpdateLastPickedDateCommand.cs" />
     <Compile Include="Models\DomainEvents\AddWordEvent.cs" />
     <Compile Include="Models\DomainEvents\MarkCreateAccountRequestUsedEvent.cs" />

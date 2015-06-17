@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models.DomainEvents
@@ -10,8 +11,11 @@ namespace MinaGlosor.Web.Models.DomainEvents
             Role = role;
         }
 
-        [JsonConstructor]
+#pragma warning disable 612, 618
+
+        [JsonConstructor, UsedImplicitly]
         private SetRoleEvent()
+#pragma warning restore 612, 618
         {
         }
 

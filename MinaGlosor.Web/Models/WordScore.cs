@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Abstractions;
@@ -18,8 +19,11 @@ namespace MinaGlosor.Web.Models
             Apply(new WordScoreRegisteredEvent(id, ownerId, wordId, wordListId, 2.5));
         }
 
-        [JsonConstructor]
+#pragma warning disable 612, 618
+
+        [JsonConstructor, UsedImplicitly]
         private WordScore()
+#pragma warning restore 612, 618
         {
         }
 

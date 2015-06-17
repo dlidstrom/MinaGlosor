@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using Raven.Imports.Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models.DomainEvents
@@ -12,8 +13,11 @@ namespace MinaGlosor.Web.Models.DomainEvents
             Date = date;
         }
 
-        [JsonConstructor]
+#pragma warning disable 612, 618
+
+        [JsonConstructor, UsedImplicitly]
         private UpdateLastPickedDateEvent()
+#pragma warning restore 612, 618
         {
         }
 

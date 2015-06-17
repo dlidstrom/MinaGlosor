@@ -40,7 +40,9 @@ namespace MinaGlosor.Web.Controllers
                     }
 
                     return RedirectToAction("Index", new { username = CurrentUser.Username });
+#pragma warning disable 162
                 } while (false);
+#pragma warning restore 162
 
                 TracingLogger.Information("User {0}", username);
                 var isAdmin = CurrentUser != null && CurrentUser.IsAdmin;

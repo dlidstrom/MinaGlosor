@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using JetBrains.Annotations;
 using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Imports.Newtonsoft.Json;
 
@@ -27,8 +28,11 @@ namespace MinaGlosor.Web.Models
             Apply(new UserRegisteredEvent(id, email, hashedPassword, username, userRole));
         }
 
-        [JsonConstructor]
+#pragma warning disable 612, 618
+
+        [JsonConstructor, UsedImplicitly]
         private User(string email, string username)
+#pragma warning restore 612, 618
         {
             Email = email;
             if (username == null)
@@ -39,7 +43,10 @@ namespace MinaGlosor.Web.Models
             Username = Regex.Replace(username, @"(^-)|([^-a-zA-Z0-9])|(-$)", string.Empty);
         }
 
+#pragma warning disable 618
+
         private User()
+#pragma warning restore 612, 618
         {
         }
 

@@ -13,10 +13,11 @@ namespace MinaGlosor.Web.Models
             Apply(new WordRegisteredEvent(userId, wordListId, id, text, definition));
         }
 
+#pragma warning disable 612, 618
+
         [JsonConstructor]
-#pragma warning disable 618
         private Word()
-#pragma warning restore 618
+#pragma warning restore 612, 618
         {
         }
 

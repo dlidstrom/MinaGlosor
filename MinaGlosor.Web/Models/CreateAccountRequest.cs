@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Abstractions;
 using Raven.Imports.Newtonsoft.Json;
@@ -14,11 +15,14 @@ namespace MinaGlosor.Web.Models
             if (email.Length > 254)
                 throw new ArgumentException("Email can be at most 254 characters", "email");
 
-            Apply(new CreateAccountRequestCreatedEvent(email, Guid.NewGuid()));
+            Apply(new CreateAccountRequestCreatedEvent(id, email, Guid.NewGuid()));
         }
 
-        [JsonConstructor]
+#pragma warning disable 612, 618
+
+        [JsonConstructor, UsedImplicitly]
         private CreateAccountRequest()
+#pragma warning restore 612, 618
         {
         }
 
@@ -35,7 +39,7 @@ namespace MinaGlosor.Web.Models
 
         public void MarkAsUsed()
         {
-            Apply(new MarkCreateAccountRequestUsedEvent(SystemTime.UtcNow));
+            Apply(new MarkCreateAccountRequestUsedEvent(Id, SystemTime.UtcNow));
         }
 
         private void ApplyEvent(CreateAccountRequestCreatedEvent @event)

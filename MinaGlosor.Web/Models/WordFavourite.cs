@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Imports.Newtonsoft.Json;
 
@@ -15,8 +16,11 @@ namespace MinaGlosor.Web.Models
             Apply(new WordFavouriteRegisteredEvent(Id, wordId, userId, true));
         }
 
-        [JsonConstructor]
+#pragma warning disable 612, 618
+
+        [JsonConstructor, UsedImplicitly]
         private WordFavourite()
+#pragma warning restore 612, 618
         {
         }
 

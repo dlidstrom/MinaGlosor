@@ -84,7 +84,9 @@ namespace MinaGlosor.Tool
                     }
 
                     return;
+#pragma warning disable 162
                 } while (false);
+#pragma warning restore 162
 
                 ShowHelp(optionSet, container);
             }

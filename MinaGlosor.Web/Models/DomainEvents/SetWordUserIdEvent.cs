@@ -11,10 +11,11 @@ namespace MinaGlosor.Web.Models.DomainEvents
             UserId = userId;
         }
 
+#pragma warning disable 612, 618
+
         [JsonConstructor, UsedImplicitly]
-#pragma warning disable 618
         private SetWordUserIdEvent()
-#pragma warning restore 618
+#pragma warning restore 612, 618
         {
         }
 

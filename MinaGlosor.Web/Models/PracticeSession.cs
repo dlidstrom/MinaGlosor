@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using JetBrains.Annotations;
 using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Abstractions;
 using Raven.Imports.Newtonsoft.Json;
@@ -19,8 +20,11 @@ namespace MinaGlosor.Web.Models
             Apply(new PracticeSessionCreatedEvent(id, wordListId, words, ownerId));
         }
 
-        [JsonConstructor]
+#pragma warning disable 612, 618
+
+        [JsonConstructor, UsedImplicitly]
         private PracticeSession()
+#pragma warning restore 612, 618
         {
         }
 

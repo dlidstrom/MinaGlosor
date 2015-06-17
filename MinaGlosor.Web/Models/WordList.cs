@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Imports.Newtonsoft.Json;
 
@@ -20,8 +21,11 @@ namespace MinaGlosor.Web.Models
             Apply(new WordListRegisteredEvent(id, name, ownerId));
         }
 
-        [JsonConstructor]
+#pragma warning disable 612, 618
+
+        [JsonConstructor, UsedImplicitly]
         private WordList()
+#pragma warning restore 612, 618
         {
         }
 
