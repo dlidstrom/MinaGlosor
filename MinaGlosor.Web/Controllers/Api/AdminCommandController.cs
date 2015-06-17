@@ -5,6 +5,7 @@ using System.Net;
 using System.Web.Http;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.AdminCommands;
+using MinaGlosor.Web.Models.Commands;
 using MinaGlosor.Web.Models.Indexes;
 using Newtonsoft.Json;
 using Raven.Client.Linq;
@@ -52,20 +53,8 @@ namespace MinaGlosor.Web.Controllers.Api
                 return StatusCode(HttpStatusCode.Unauthorized);
             }
 
-            object handler = null;
-            try
-            {
-                var handlerType = typeof(IAdminCommandHandler<>).MakeGenericType(command.GetType());
-                handler = Kernel.Resolve(handlerType);
-                var methodInfo = handlerType.GetMethod("Run");
-                var result = methodInfo.Invoke(handler, new[] { (object)command });
-
-                return Ok(result);
-            }
-            finally
-            {
-                Kernel.ReleaseComponent(handler);
-            }
+            var result = ExecuteCommand(new RunAdminCommand(Kernel, command));
+            return Ok(result);
         }
 
         public class AdminCommandRequest

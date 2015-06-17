@@ -17,12 +17,11 @@ namespace MinaGlosor.Web.Models.AdminCommands
                 using (var session = DocumentStore.OpenSession())
                 {
                     var query = from word in session.Query<Word, WordIndex>()
-                                where word.UserId == null
                                 select word;
                     var words = query.Skip(current).Take(128).ToArray();
                     if (words.Length == 0) break;
 
-                    foreach (var word in words)
+                    foreach (var word in words.Where(x => x.UserId == null))
                     {
                         string userId;
                         if (userIds.TryGetValue(word.WordListId, out userId) == false)
