@@ -13,14 +13,14 @@
     ExceptionHandler.$inject = ['$delegate', '$injector'];
     function ExceptionHandler($delegate, $injector) {
         var apiUrl = '/api/logerror';
+        // avoid sending a bunch of the same error
+        var cache = {};
         return function (exception, cause) {
             // original implementation
             $delegate(exception, cause);
 
-            // avoid sending a bunch of the same error
-            var cache = {};
             var out = FormatMsg(exception);
-            if (cache.hasOwnProperty(out) == false) {
+            if (cache.hasOwnProperty(out) === false) {
                 try {
                     // service locator pattern...
                     var $http = $injector.get('$http');
