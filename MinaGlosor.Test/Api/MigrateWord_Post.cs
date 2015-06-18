@@ -12,7 +12,7 @@ using Raven.Client.Linq;
 namespace MinaGlosor.Test.Api
 {
     [TestFixture]
-    public class MigrateWord_Post : WebApiIntegrationTest
+    public class MigrateWord_Post : MigrationTest
     {
         [Test]
         public async void CreatesTheWord()

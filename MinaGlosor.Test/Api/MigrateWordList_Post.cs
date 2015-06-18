@@ -11,7 +11,7 @@ using Raven.Client.Linq;
 namespace MinaGlosor.Test.Api
 {
     [TestFixture]
-    public class MigrateWordList_Post : WebApiIntegrationTest
+    public class MigrateWordList_Post : MigrationTest
     {
         [Test]
         public async void CreatesTheWordList()

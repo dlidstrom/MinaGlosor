@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace MinaGlosor.Test.Api
 {
     [TestFixture]
-    public class Migrate_AdminUser : WebApiIntegrationTest
+    public class Migrate_AdminUser : MigrationTest
     {
         [Test]
         public async void NeedsCorrectCredentials()

@@ -61,23 +61,27 @@ namespace MinaGlosor.Web.Controllers.Api
         protected void ExecuteCommand(ICommand command)
         {
             if (command == null) throw new ArgumentNullException("command");
-            var documentSession = GetDocumentSession();
-            if (!command.CanExecute(documentSession, CurrentUser)) throw new SecurityException("Operation not allowed");
+            DoExecuteCommand(CurrentUser, command);
+        }
 
-            DoExecuteCommand(documentSession, command, session =>
-                {
-                    command.Execute(session);
-                    return false;
-                });
+        protected void ExecuteCommand(User runAs, ICommand command)
+        {
+            if (runAs == null) throw new ArgumentNullException("runAs");
+            if (command == null) throw new ArgumentNullException("command");
+            DoExecuteCommand(runAs, command);
         }
 
         protected TResult ExecuteCommand<TResult>(ICommand<TResult> command)
         {
             if (command == null) throw new ArgumentNullException("command");
-            var documentSession = GetDocumentSession();
-            if (!command.CanExecute(documentSession, CurrentUser)) throw new SecurityException("Operation not allowed");
+            return DoExecuteCommand(CurrentUser, command);
+        }
 
-            return DoExecuteCommand(documentSession, command, command.Execute);
+        protected TResult ExecuteCommand<TResult>(User runAs, ICommand<TResult> command)
+        {
+            if (runAs == null) throw new ArgumentNullException("runAs");
+            if (command == null) throw new ArgumentNullException("command");
+            return DoExecuteCommand(runAs, command);
         }
 
         [DebuggerStepThrough]
@@ -86,8 +90,29 @@ namespace MinaGlosor.Web.Controllers.Api
             return Kernel.Resolve<IDocumentSession>();
         }
 
+        private TResult DoExecuteCommand<TResult>(User runAs, ICommand<TResult> command)
+        {
+            var documentSession = GetDocumentSession();
+            if (!command.CanExecute(documentSession, runAs)) throw new SecurityException("Operation not allowed");
+
+            return DoExecuteCommand(documentSession, runAs, command, command.Execute);
+        }
+
+        private void DoExecuteCommand(User runAs, ICommand command)
+        {
+            var documentSession = GetDocumentSession();
+            if (!command.CanExecute(documentSession, runAs)) throw new SecurityException("Operation not allowed");
+
+            DoExecuteCommand(documentSession, CurrentUser, command, session =>
+            {
+                command.Execute(session);
+                return false;
+            });
+        }
+
         private TResult DoExecuteCommand<TResult, TCommand>(
             IDocumentSession documentSession,
+            User runAs,
             TCommand command,
             Func<IDocumentSession, TResult> func)
         {
@@ -100,8 +125,8 @@ namespace MinaGlosor.Web.Controllers.Api
                     };
                 var commandAsJson = JsonConvert.SerializeObject(command, Formatting.Indented, settings);
                 var changeLogEntry = new ChangeLogEntry(
-                    CurrentUser.Id,
-                    CurrentUser.Email,
+                    runAs.Id,
+                    runAs.Email,
                     Trace.CorrelationManager.ActivityId,
                     command.GetType(),
                     commandAsJson);

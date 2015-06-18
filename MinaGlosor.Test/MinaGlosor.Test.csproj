@@ -91,6 +91,7 @@
     <Compile Include="Api\MigrateWord_Post.cs" />
     <Compile Include="Api\Migrate_AdminUser.cs" />
     <Compile Include="Api\Migrate_WordUserId.cs" />
+    <Compile Include="Api\MigrationTest.cs" />
     <Compile Include="Api\ModelEventMetaTests.cs" />
     <Compile Include="Api\PracticeSession_Post_PickNextUnpracticedWords.cs" />
     <Compile Include="Api\PracticeWord_Get.cs" />

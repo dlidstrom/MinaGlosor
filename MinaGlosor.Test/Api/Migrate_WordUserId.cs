@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace MinaGlosor.Test.Api
 {
     [TestFixture]
-    public class Migrate_WordUserId : WebApiIntegrationTest
+    public class Migrate_WordUserId : MigrationTest
     {
         [Test]
         public async void SetsUserId()
