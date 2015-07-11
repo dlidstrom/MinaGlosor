@@ -35,8 +35,8 @@ namespace MinaGlosor.Web.Models.Queries
             index = textResults.Count;
             var definitionResults = SearchTerm(session, word => word.Definition, index);
             index += definitionResults.Count;
-            var textSuggestions = new HashSet<WordResult>();
-            var definitionSuggestions = new HashSet<WordResult>();
+            var textSuggestions = new HashSet<WordProjection>();
+            var definitionSuggestions = new HashSet<WordProjection>();
 
             if (textResults.Count < MaxResults)
             {
@@ -50,9 +50,9 @@ namespace MinaGlosor.Web.Models.Queries
                 index += definitionSuggestions.Count;
             }
 
-            var combined = new HashSet<WordResult>(
+            var combined = new HashSet<WordProjection>(
                 textResults.Concat(definitionResults).Concat(textSuggestions).Concat(definitionSuggestions),
-                WordResult.EqualityComparer);
+                WordProjection.EqualityComparer);
             var result = new Result(combined.OrderBy(x => x.Index).ToArray());
             return result;
         }
@@ -84,7 +84,7 @@ namespace MinaGlosor.Web.Models.Queries
             return propInfo;
         }
 
-        private HashSet<WordResult> SearchTerm(
+        private HashSet<WordProjection> SearchTerm(
             IDocumentSession session,
             Expression<Func<Word, object>> expression,
             int index)
@@ -95,11 +95,11 @@ namespace MinaGlosor.Web.Models.Queries
                                .Customize(x => x.Highlight(propertyName, 128, 1, out highlightings))
                                .Search(expression, q)
                                .Where(x => x.UserId == userId)
-                               .ProjectFromIndexFieldsInto<WordResult>()
+                               .ProjectFromIndexFieldsInto<WordProjection>()
                                .Take(MaxResults);
             var results = query.ToArray();
 
-            var resultSet = new HashSet<WordResult>(WordResult.EqualityComparer);
+            var resultSet = new HashSet<WordProjection>(WordProjection.EqualityComparer);
             foreach (var result in results)
             {
                 var fragments = highlightings.GetFragments(result.Id);
@@ -117,7 +117,7 @@ namespace MinaGlosor.Web.Models.Queries
             return resultSet;
         }
 
-        private HashSet<WordResult> SearchSuggestions(IDocumentSession session, Expression<Func<Word, object>> expression, int index, int maxCount)
+        private HashSet<WordProjection> SearchSuggestions(IDocumentSession session, Expression<Func<Word, object>> expression, int index, int maxCount)
         {
             var suggestionResults = session.Query<Word, WordIndex>()
                                            .Search(expression, q)
@@ -135,11 +135,11 @@ namespace MinaGlosor.Web.Models.Queries
                                     expression,
                                     string.Join(" ", suggestionResults.Suggestions))
                                  .Where(x => x.UserId == userId)
-                                 .ProjectFromIndexFieldsInto<WordResult>()
+                                 .ProjectFromIndexFieldsInto<WordProjection>()
                                  .Take(maxCount)
                                  .ToArray();
 
-            var resultSet = new HashSet<WordResult>(WordResult.EqualityComparer);
+            var resultSet = new HashSet<WordProjection>(WordProjection.EqualityComparer);
             foreach (var result in results)
             {
                 var fragments = highlightings.GetFragments(result.Id);
@@ -157,11 +157,11 @@ namespace MinaGlosor.Web.Models.Queries
             return resultSet;
         }
 
-        public class WordResult
+        public class WordProjection
         {
-            private static readonly IEqualityComparer<WordResult> IdEqualityComparerInstance = new IdEqualityComparer();
+            private static readonly IEqualityComparer<WordProjection> IdEqualityComparerInstance = new IdEqualityComparer();
 
-            public static IEqualityComparer<WordResult> EqualityComparer
+            public static IEqualityComparer<WordProjection> EqualityComparer
             {
                 get { return IdEqualityComparerInstance; }
             }
@@ -175,14 +175,14 @@ namespace MinaGlosor.Web.Models.Queries
             // for sorting purposes
             public int Index { get; set; }
 
-            private sealed class IdEqualityComparer : IEqualityComparer<WordResult>
+            private sealed class IdEqualityComparer : IEqualityComparer<WordProjection>
             {
-                public bool Equals(WordResult x, WordResult y)
+                public bool Equals(WordProjection x, WordProjection y)
                 {
                     return x.Id.Equals(y.Id);
                 }
 
-                public int GetHashCode(WordResult obj)
+                public int GetHashCode(WordProjection obj)
                 {
                     return obj.Id.GetHashCode();
                 }
@@ -191,13 +191,30 @@ namespace MinaGlosor.Web.Models.Queries
 
         public class Result
         {
-            public Result(WordResult[] words)
+            public Result(WordProjection[] words)
             {
                 if (words == null) throw new ArgumentNullException("words");
-                Words = words;
+                Words = words.Select(x => new WordResult(x)).ToArray();
             }
 
             public WordResult[] Words { get; private set; }
+
+            public class WordResult
+            {
+                public WordResult(WordProjection wordProjection)
+                {
+                    if (wordProjection == null) throw new ArgumentNullException("wordProjection");
+                    WordId = Word.FromId(wordProjection.Id);
+                    Text = wordProjection.Text;
+                    Definition = wordProjection.Definition;
+                }
+
+                public string WordId { get; private set; }
+
+                public string Text { get; private set; }
+
+                public string Definition { get; private set; }
+            }
         }
     }
 }

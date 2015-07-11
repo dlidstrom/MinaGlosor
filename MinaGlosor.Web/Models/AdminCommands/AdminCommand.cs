@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MinaGlosor.Web.Models.AdminCommands
 {
     public abstract class AdminCommand : IAdminCommand
@@ -8,8 +10,10 @@ namespace MinaGlosor.Web.Models.AdminCommands
             RequestPassword = requestPassword;
         }
 
+        [Required]
         public string RequestUsername { get; private set; }
 
+        [Required]
         public string RequestPassword { get; private set; }
     }
 }

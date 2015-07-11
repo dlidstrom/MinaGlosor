@@ -10,6 +10,7 @@
         editor.saving = false;
         editor.entry = word;
         editor.update = update;
+        editor.returnUrl = returnUrl;
 
         function update(entry) {
             editor.saving = true;

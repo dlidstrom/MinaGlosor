@@ -38,10 +38,16 @@
             <tr>
                 <th>Text</th>
                 <th>Definition</th>
+                <th></th>
             </tr>
             <tr ng-repeat="word in searchIndex.words">
                 <td ng-bind-html="word.text"></td>
                 <td ng-bind-html="word.definition"></td>
+                <td>
+                    <a href="{{'./word/' + word.wordId + '/edit?returnUrl=' + searchIndex.returnUrl}}" class="btn btn-xs btn-default">
+                        redigera
+                    </a>
+                </td>
             </tr>
         </table>
     </div>

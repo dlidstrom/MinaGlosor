@@ -28,8 +28,9 @@
                 <td>{{item.text}}</td>
                 <td>{{item.definition}}</td>
                 <td>
-                    <a href="{{'./word/' + item.id + '/edit?returnUrl=' + viewer.returnUrl}}" class="btn btn-xs btn-default">
-                        redigera
+                    <word-favourite word-id="item.id" is-favourite="item.isFavourite"></word-favourite>
+                    <a href="{{'./word/' + item.id + '/edit?returnUrl=' + viewer.returnUrl}}" class="btn btn-xs btn-default pull-right">
+                        <i class="glyphicon glyphicon-pencil"></i>
                     </a>
                 </td>
             </tr>

@@ -23,7 +23,7 @@
                               ng-focus="showPrompt1 = true"
                               ng-blur="showPrompt1 = false"
                               ng-model-options="{ updateOn: 'default blur' }"
-                              required />
+                              required></textarea>
                     <div class="messages">
                         <div class="message-animation" ng-if="showPrompt1">
                             Skriv ett ord eller en fras
@@ -56,7 +56,7 @@
                               ng-focus="showPrompt2 = true"
                               ng-blur="showPrompt2 = false"
                               ng-model-options="{ updateOn: 'default blur' }"
-                              required />
+                              required></textarea>
                     <div class="messages">
                         <div class="message-animation" ng-if="showPrompt2">
                             Skriv ordet eller frasens betydelse
@@ -76,7 +76,7 @@
                     Spara
                     <i class="glyphicon glyphicon-refresh mg-spin" ng-show="editor.saving"></i>
                 </button>
-                <a ng-href="./wordlist/{{editor.entry.wordListId}}"
+                <a ng-href=".{{editor.returnUrl}}"
                    class="btn btn-default"
                    ng-disabled="editor.saving">
                     Avbryt
