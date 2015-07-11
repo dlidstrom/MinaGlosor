@@ -7,11 +7,12 @@
     function WordFavouriteService($http, $q) {
         var url = '/api/wordfavourite';
         var service = {
-            submit: function (wordId) {
+            submit: function (wordId, isFavourite) {
                 return $http.post(
                     url,
                     {
-                        wordId: wordId
+                        wordId: wordId,
+                        isFavourite: isFavourite
                     });
             },
             getAll: function () {

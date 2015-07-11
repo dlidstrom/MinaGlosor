@@ -39,9 +39,9 @@ namespace MinaGlosor.Web.Models
             return id;
         }
 
-        public void Toggle()
+        public void Toggle(bool isFavourite)
         {
-            Apply(new ToggleWordFavouriteEvent(Id, !IsFavourite));
+            Apply(new ToggleWordFavouriteEvent(Id, isFavourite));
         }
 
         private void ApplyEvent(WordFavouriteRegisteredEvent @event)

@@ -171,7 +171,7 @@
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
-    <Content Include="cassette-cache\script\wwwroot\app\c033c4b178a0f7acf4634822ded9edc571f8e18a.js" />
+    <Content Include="cassette-cache\script\wwwroot\app\a19842ee692e4af78acb1a9235071e8ebe744dc0.js" />
     <Content Include="cassette-cache\script\wwwroot\external\footer_js\4e8a7d0a2c6112eda3ef0b855940257bcdb5231d.js" />
     <Content Include="cassette-cache\script\wwwroot\external\head_js\c134f1ab45298668fdb7915032e98243fc73433b.js" />
     <Content Include="cassette-cache\stylesheet\wwwroot\384fd52f4a4e124590c0d2c39beb15278bb4957f.css" />

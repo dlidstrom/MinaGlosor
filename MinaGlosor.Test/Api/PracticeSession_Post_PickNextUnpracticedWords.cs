@@ -91,7 +91,13 @@ namespace MinaGlosor.Test.Api
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("first@d.com"), new string[0]);
 
             // mark first word as favourite
-            var wordFavouriteResponse = await Client.PostAsJsonAsync("http://temp.uri/api/wordfavourite", new { wordId = 1 });
+            var wordFavouriteResponse = await Client.PostAsJsonAsync(
+                "http://temp.uri/api/wordfavourite",
+                new
+                {
+                    wordId = 1,
+                    isFavourite = true
+                });
             Assert.That(wordFavouriteResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
             // practice the first 10

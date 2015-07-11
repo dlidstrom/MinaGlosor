@@ -21,7 +21,8 @@ namespace MinaGlosor.Web.Controllers.Api
             }
 
             Debug.Assert(request != null, "request != null");
-            var result = ExecuteCommand(new ToggleWordFavouriteCommand(request.WordId, CurrentUser.Id));
+            Debug.Assert(request.IsFavourite != null, "request.IsFavourite != null");
+            var result = ExecuteCommand(new ToggleWordFavouriteCommand(request.WordId, request.IsFavourite.Value, CurrentUser.Id));
             return Ok(result);
         }
 
@@ -33,13 +34,17 @@ namespace MinaGlosor.Web.Controllers.Api
 
         public class RegisterFavouriteRequest
         {
-            public RegisterFavouriteRequest(string wordId)
+            public RegisterFavouriteRequest(string wordId, bool? isFavourite)
             {
                 WordId = wordId;
+                IsFavourite = isFavourite;
             }
 
             [Required]
             public string WordId { get; private set; }
+
+            [Required]
+            public bool? IsFavourite { get; private set; }
         }
     }
 }

@@ -68,7 +68,8 @@ namespace MinaGlosor.Test.Api
             // mark first word favourite
             var vm = new
             {
-                wordId = 1
+                wordId = 1,
+                isFavourite = true
             };
             var response = await Client.PostAsJsonAsync("http://temp.uri/api/wordfavourite", vm);
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));

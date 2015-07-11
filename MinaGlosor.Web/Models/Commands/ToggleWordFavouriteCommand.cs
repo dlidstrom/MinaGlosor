@@ -7,15 +7,16 @@ namespace MinaGlosor.Web.Models.Commands
     public class ToggleWordFavouriteCommand : ICommand<ToggleWordFavouriteCommand.Result>
     {
         private readonly string wordId;
-
+        private readonly bool isFavourite;
         private readonly string userId;
 
-        public ToggleWordFavouriteCommand(string wordId, string userId)
+        public ToggleWordFavouriteCommand(string wordId, bool isFavourite, string userId)
         {
             if (wordId == null) throw new ArgumentNullException("wordId");
             if (userId == null) throw new ArgumentNullException("userId");
 
             this.wordId = Word.ToId(wordId);
+            this.isFavourite = isFavourite;
             this.userId = userId;
         }
 
@@ -36,7 +37,7 @@ namespace MinaGlosor.Web.Models.Commands
             }
             else
             {
-                wordFavourite.Toggle();
+                wordFavourite.Toggle(isFavourite);
             }
 
             return new Result(wordFavourite.IsFavourite);

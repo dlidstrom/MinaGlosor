@@ -29,7 +29,8 @@
                 return {
                     text: text,
                     definition: definition,
-                    wordId: wordId
+                    wordId: wordId,
+                    isFavourite: false
                 };
             });
 

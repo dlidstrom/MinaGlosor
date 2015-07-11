@@ -61,7 +61,8 @@ namespace MinaGlosor.Test.Api
             // Act
             var vm = new
             {
-                wordId = 1
+                wordId = 1,
+                isFavourite = true
             };
             response = await Client.PostAsJsonAsync("http://temp.uri/api/wordfavourite", vm);
         }

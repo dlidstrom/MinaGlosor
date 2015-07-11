@@ -32,7 +32,7 @@
 
         function toggle() {
             wordFavourite.inProgress = true;
-            wordFavouriteService.submit($scope.wordId).success(function (response) {
+            wordFavouriteService.submit($scope.wordId, !wordFavourite.isFavourite).success(function (response) {
                 wordFavourite.isFavourite = response.isFavourite;
             }).finally(function () {
                 wordFavourite.inProgress = false;
