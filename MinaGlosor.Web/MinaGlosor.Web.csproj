@@ -174,7 +174,8 @@
     <Content Include="cassette-cache\script\wwwroot\app\29b001845152a3baf6d3960f0e34b218f131b3a8.js" />
     <Content Include="cassette-cache\script\wwwroot\external\footer_js\f308ae7655a9ad5891e60d0806f926d4190a7000.js" />
     <Content Include="cassette-cache\script\wwwroot\external\head_js\c134f1ab45298668fdb7915032e98243fc73433b.js" />
-    <Content Include="cassette-cache\stylesheet\wwwroot\1d0a32c889373ed546d211822c24d98dfe09b503.css" />
+    <Content Include="cassette-cache\stylesheet\wwwroot\e356e81219c4d46cce92e4db549ce47313e07739.css" />
+    <Content Include="cassette-cache\stylesheet\wwwroot\ec52d82401d814601118b69fee35c0d56d3d988c.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
     <Content Include="Web.config" />
