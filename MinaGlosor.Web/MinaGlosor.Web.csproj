@@ -171,10 +171,10 @@
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
-    <Content Include="cassette-cache\script\wwwroot\app\a19842ee692e4af78acb1a9235071e8ebe744dc0.js" />
-    <Content Include="cassette-cache\script\wwwroot\external\footer_js\4e8a7d0a2c6112eda3ef0b855940257bcdb5231d.js" />
+    <Content Include="cassette-cache\script\wwwroot\app\29b001845152a3baf6d3960f0e34b218f131b3a8.js" />
+    <Content Include="cassette-cache\script\wwwroot\external\footer_js\f308ae7655a9ad5891e60d0806f926d4190a7000.js" />
     <Content Include="cassette-cache\script\wwwroot\external\head_js\c134f1ab45298668fdb7915032e98243fc73433b.js" />
-    <Content Include="cassette-cache\stylesheet\wwwroot\384fd52f4a4e124590c0d2c39beb15278bb4957f.css" />
+    <Content Include="cassette-cache\stylesheet\wwwroot\1d0a32c889373ed546d211822c24d98dfe09b503.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
     <Content Include="Web.config" />
@@ -188,10 +188,13 @@
     <Content Include="wwwroot\app\search\searchRedirectController.js" />
     <Content Include="wwwroot\app\shared\closeNavbarDirective.js" />
     <Content Include="wwwroot\app\shared\searchService.js" />
+    <Content Include="wwwroot\app\shared\spinnerDirective.js" />
+    <Content Include="wwwroot\external\footer_js\angular-spinner.min.js" />
     <Content Include="wwwroot\external\footer_js\bootstrap.min.js" />
     <Content Include="wwwroot\external\footer_js\bundle.txt" />
     <Content Include="wwwroot\external\footer_js\fastclick.min.js" />
     <Content Include="wwwroot\external\footer_js\json3.min.js" />
+    <Content Include="wwwroot\external\footer_js\spin.min.js" />
     <Content Include="wwwroot\external\footer_js\toaster.min.js" />
     <Content Include="wwwroot\external\head_js\angular-animate.min.js" />
     <Content Include="wwwroot\external\head_js\angular-messages.min.js" />

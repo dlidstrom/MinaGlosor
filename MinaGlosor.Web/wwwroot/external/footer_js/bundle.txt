@@ -2,3 +2,5 @@
 fastclick.min.js
 json3.min.js
 toaster.min.js
+spin.min.js
+angular-spinner.min.js

@@ -7,15 +7,12 @@
     function PracticeIndexController($location, wordList, practiceService, unfinishedPracticeSessions) {
         var practiceIndex = this;
 
-        practiceIndex.saving = false;
-
         practiceIndex.wordList = wordList;
         practiceIndex.unfinishedPracticeSessions = unfinishedPracticeSessions;
         practiceIndex.startNew = startNew;
         practiceIndex.formatDate = formatDate;
 
         function startNew() {
-            practiceIndex.saving = true;
             var wordListId = practiceIndex.wordList.wordListId;
             practiceService.create(wordListId).then(function (practiceId) {
                 $location.path('/wordlist/' + wordListId + '/practice/' + practiceId);

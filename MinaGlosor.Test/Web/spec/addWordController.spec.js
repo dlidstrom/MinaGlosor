@@ -79,10 +79,6 @@
                 rootScope.$apply();
             });
 
-            it('should reset saving flag', function () {
-                expect(ctrl.saving).toBe(false);
-            });
-
             it('should reset entry text', function () {
                 expect(entry.text).toBeNull();
             });
@@ -104,10 +100,6 @@
 
                 // resolve all deferreds
                 rootScope.$apply();
-            });
-
-            it('should reset saving flag', function () {
-                expect(ctrl.saving).toBe(false);
             });
 
             it('should not reset entry', function () {

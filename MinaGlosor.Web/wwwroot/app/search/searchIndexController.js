@@ -3,8 +3,8 @@
 
     angular.module('mgApp').controller('SearchIndexController', SearchIndexController);
 
-    SearchIndexController.$inject = ['$location', '$sce', 'SearchService', 'q', 'result'];
-    function SearchIndexController($location, $sce, searchService, q, result) {
+    SearchIndexController.$inject = ['$scope', '$location', '$sce', 'SearchService', 'q', 'result'];
+    function SearchIndexController($scope, $location, $sce, searchService, q, result) {
         var searchIndex = this;
 
         searchIndex.searchService = searchService;
@@ -12,6 +12,13 @@
         searchIndex.submit = submit;
         searchIndex.words = trustHtml(result.words);
         searchIndex.returnUrl = encodeURIComponent($location.url());
+
+        $scope.location = $location;
+        $scope.$watch('location.search()', onSearchChanged, true);
+
+        function onSearchChanged(newVal) {
+            searchIndex.q = newVal.q;
+        }
 
         function submit(newQ) {
             searchService.search(newQ).then(function (newResult) {

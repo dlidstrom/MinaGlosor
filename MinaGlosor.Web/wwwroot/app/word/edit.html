@@ -74,11 +74,8 @@
             <div class="col-xs-12">
                 <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">
                     Spara
-                    <i class="glyphicon glyphicon-refresh mg-spin" ng-show="editor.saving"></i>
                 </button>
-                <a ng-href=".{{editor.returnUrl}}"
-                   class="btn btn-default"
-                   ng-disabled="editor.saving">
+                <a ng-href=".{{editor.returnUrl}}" class="btn btn-default">
                     Avbryt
                 </a>
             </div>

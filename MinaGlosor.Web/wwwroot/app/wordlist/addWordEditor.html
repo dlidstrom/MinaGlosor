@@ -76,11 +76,8 @@
             <div class="col-xs-12">
                 <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">
                     Spara
-                    <i class="glyphicon glyphicon-refresh mg-spin" ng-show="editor.saving"></i>
                 </button>
-                <a ng-href="./wordlist/{{editor.wordList.wordListId}}"
-                   class="btn btn-default"
-                   ng-disabled="saving">
+                <a ng-href="./wordlist/{{editor.wordList.wordListId}}" class="btn btn-default">
                     Avsluta
                 </a>
                 <a href="{{'./wordlist/' + editor.wordList.wordListId + '/practice/'}}"

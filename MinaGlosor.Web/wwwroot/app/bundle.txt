@@ -14,6 +14,7 @@ shared\practiceWordService.js
 shared\progressDirective.js
 shared\practiceProgressDirective.js
 shared\searchService.js
+shared\spinnerDirective.js
 shared\wordFavouriteDirective.js
 shared\wordFavouriteService.js
 shared\wordListService.js
