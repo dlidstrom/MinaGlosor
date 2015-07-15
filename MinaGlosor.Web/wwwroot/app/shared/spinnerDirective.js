@@ -45,7 +45,8 @@
             function onScroll() {
                 var scrollTop = angular.element(this).scrollTop();
                 var top = 100 + scrollTop;
-                element.css({ 'margin-top': top });
+                var spinnerElement = element.find('.spinner');
+                spinnerElement.css({ 'margin-top': top });
             }
         }
     }
