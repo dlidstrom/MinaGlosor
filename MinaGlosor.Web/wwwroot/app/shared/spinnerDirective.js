@@ -3,19 +3,26 @@
 
     angular.module('mgApp').directive('spinner', Spinner);
 
-    Spinner.$inject = ['$rootScope', 'usSpinnerService'];
+    Spinner.$inject = ['$rootScope', '$timeout'];
 
-    function Spinner($rootScope, usSpinnerService) {
+    function Spinner($rootScope, $timeout) {
+        var $spinnerElement = angular.element('#spinner-parent');
+        var timeoutPromise;
         return function () {
             $rootScope.$on('events:showSpinner', showSpinner);
             $rootScope.$on('events:hideSpinner', hideSpinner);
 
             function showSpinner() {
-                usSpinnerService.spin('spinner-1');
+                if (timeoutPromise) return;
+                timeoutPromise = $timeout(function () { $spinnerElement.show(); }, 400);
             }
 
             function hideSpinner() {
-                usSpinnerService.stop('spinner-1');
+                $spinnerElement.hide();
+                if (timeoutPromise) {
+                    $timeout.cancel(timeoutPromise);
+                    timeoutPromise = null;
+                }
             }
         }
     }

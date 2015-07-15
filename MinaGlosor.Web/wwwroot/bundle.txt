@@ -1,2 +1,3 @@
 ﻿toaster.min.css
 main.less
+spinner.less

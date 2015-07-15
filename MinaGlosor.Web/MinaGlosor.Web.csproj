@@ -171,11 +171,10 @@
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
-    <Content Include="cassette-cache\script\wwwroot\app\29b001845152a3baf6d3960f0e34b218f131b3a8.js" />
+    <Content Include="cassette-cache\script\wwwroot\app\e5b070c86ff69e771310781efebaa740e084c0aa.js" />
     <Content Include="cassette-cache\script\wwwroot\external\footer_js\f308ae7655a9ad5891e60d0806f926d4190a7000.js" />
     <Content Include="cassette-cache\script\wwwroot\external\head_js\c134f1ab45298668fdb7915032e98243fc73433b.js" />
-    <Content Include="cassette-cache\stylesheet\wwwroot\e356e81219c4d46cce92e4db549ce47313e07739.css" />
-    <Content Include="cassette-cache\stylesheet\wwwroot\ec52d82401d814601118b69fee35c0d56d3d988c.css" />
+    <Content Include="cassette-cache\stylesheet\wwwroot\a50c284fe19aa9587b8cd74728afcd1d885caeb8.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
     <Content Include="Web.config" />
@@ -249,6 +248,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\bundle.txt" />
+    <Content Include="wwwroot\spinner.less" />
     <Content Include="wwwroot\toaster.min.css" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>

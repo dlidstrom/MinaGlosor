@@ -3,6 +3,7 @@
     Layout = null;
     Bundles.Reference("wwwroot/app", "app");
     Bundles.Reference("wwwroot/main.less");
+    Bundles.Reference("wwwroot/spinner.less");
     Bundles.Reference("wwwroot/external/head_js", "head");
     Bundles.Reference("wwwroot/external/footer_js", "footer");
 }<!DOCTYPE html>
@@ -22,7 +23,14 @@
 </head>
 <body ng-app="mgApp">
     <toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
-    <span us-spinner spinner-key="spinner-1" spinner class="spinner-parent"></span>
+    <div id="spinner-parent" style="display: none;" spinner>
+        <div class="spinner">
+            <div class="cube1"></div>
+            <div class="cube2"></div>
+            <div class="cube3"></div>
+            <div class="cube4"></div>
+        </div>
+    </div>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
