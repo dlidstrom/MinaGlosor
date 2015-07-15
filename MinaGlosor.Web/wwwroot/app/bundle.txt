@@ -8,6 +8,7 @@ practice\practiceSessionMeaningController.js
 practice\practiceSessionSummaryController.js
 search\searchIndexController.js
 search\searchRedirectController.js
+shared\clickOnce.js
 shared\closeNavbarDirective.js
 shared\practiceService.js
 shared\practiceWordService.js
