@@ -8,14 +8,14 @@
         var needUpgradeWarned = false;
         var interceptor = {
             request: function (config) {
-                $rootScope.$emit('events:showSpinner');
+                $rootScope.$emit('events:beginRequest');
                 config.url += '?' + 'v=' + appVersion;
                 return config;
             },
             response: function (response) {
                 var $http = $injector.get('$http');
                 if ($http.pendingRequests.length === 0) {
-                    $rootScope.$emit('events:hideSpinner');
+                    $rootScope.$emit('events:endRequest');
                 }
 
                 return response || $q.when(response);
@@ -23,7 +23,7 @@
             responseError: function (rejection) {
                 var $http = $injector.get('$http');
                 if ($http.pendingRequests.length === 0) {
-                    $rootScope.$emit('events:hideSpinner');
+                    $rootScope.$emit('events:endRequest');
                 }
 
                 if (rejection.status === 426 && !needUpgradeWarned) {

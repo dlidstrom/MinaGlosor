@@ -4,25 +4,48 @@
     angular.module('mgApp').directive('spinner', Spinner);
 
     Spinner.$inject = ['$rootScope', '$timeout'];
-
     function Spinner($rootScope, $timeout) {
         var $spinnerElement = angular.element('#spinner-parent');
-        var timeoutPromise;
-        return function () {
-            $rootScope.$on('events:showSpinner', showSpinner);
-            $rootScope.$on('events:hideSpinner', hideSpinner);
+        var showPromise;
+        var hidePromise;
+        return function (scope, element) {
+            $rootScope.$on('events:beginRequest', showSpinner);
+            $rootScope.$on('events:endRequest', hideSpinner);
+
+            angular.element(document).on('scroll', onScroll);
 
             function showSpinner() {
-                if (timeoutPromise) return;
-                timeoutPromise = $timeout(function () { $spinnerElement.show(); }, 400);
+                if (showPromise) {
+                    return;
+                }
+
+                if (hidePromise) {
+                    $timeout.cancel(hidePromise);
+                    hidePromise = null;
+                }
+
+                showPromise = $timeout(function () {
+                    $spinnerElement.show();
+                    showPromise = null;
+                }, 400);
             }
 
             function hideSpinner() {
-                $spinnerElement.hide();
-                if (timeoutPromise) {
-                    $timeout.cancel(timeoutPromise);
-                    timeoutPromise = null;
+                if (showPromise) {
+                    $timeout.cancel(showPromise);
+                    showPromise = null;
                 }
+
+                hidePromise = $timeout(function () {
+                    $spinnerElement.hide();
+                    hidePromise = null;
+                }, 100);
+            }
+
+            function onScroll() {
+                var scrollTop = angular.element(this).scrollTop();
+                var top = 100 + scrollTop;
+                element.css({ 'margin-top': top });
             }
         }
     }
