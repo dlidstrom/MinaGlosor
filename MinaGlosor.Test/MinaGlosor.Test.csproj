@@ -21,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core">
@@ -79,11 +81,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Infrastructure\WordConfidenceExtensions.cs" />
+    <Compile Include="Api\Infrastructure\WordFavouriteExtensions.cs" />
+    <Compile Include="Api\Infrastructure\PracticeSessionExtensions.cs" />
     <Compile Include="Api\Domain\PracticeSessionStatisticsTest.cs" />
     <Compile Include="Api\Domain\PracticeSessionTest.cs" />
     <Compile Include="Api\Domain\UserTest.cs" />
     <Compile Include="Api\Domain\WordScoreTest.cs" />
     <Compile Include="Api\Domain\WordScore_WhenPracticingEarly.cs" />
+    <Compile Include="Api\Infrastructure\WordExtensions.cs" />
+    <Compile Include="Api\Infrastructure\WordListExtensions.cs" />
+    <Compile Include="Api\Word_WhenEditing.cs" />
     <Compile Include="Api\EventIdsMetaTests.cs" />
     <Compile Include="Api\HighlightingsTest.cs" />
     <Compile Include="Api\MigrateUser_Post.cs" />
@@ -105,7 +113,7 @@
     <Compile Include="Api\WordFavourite_GetAll.cs" />
     <Compile Include="Api\WordFavourite_Post.cs" />
     <Compile Include="Api\WordList_Get.cs" />
-    <Compile Include="Api\WebApiIntegrationTest.cs" />
+    <Compile Include="Api\Infrastructure\WebApiIntegrationTest.cs" />
     <Compile Include="Api\WordList_Get_Favourite.cs" />
     <Compile Include="Api\WordList_Get_Percent.cs" />
     <Compile Include="Api\WordList_Post.cs" />
@@ -130,7 +138,9 @@
       <Name>MinaGlosor.Web</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Web\angular-mocks.js" />
     <Content Include="Web\httpInterceptor.js" />

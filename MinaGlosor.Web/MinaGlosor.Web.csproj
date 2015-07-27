@@ -243,6 +243,11 @@
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\CorrelationIdAttribute.cs" />
+    <Compile Include="Infrastructure\IoC\Installers\BackgroundTaskHandlerInstaller.cs" />
+    <Compile Include="Infrastructure\IoC\Installers\TaskRunnerInstaller.cs" />
+    <Compile Include="Models\BackgroundTasks\BackgroundTask.cs" />
+    <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksIndex.cs" />
+    <Compile Include="Infrastructure\BackgroundTasks\TaskRunner.cs" />
     <Compile Include="Infrastructure\IoC\Installers\AdminCommandHandlerInstaller.cs" />
     <Compile Include="Infrastructure\JetBrains.Annotations.cs" />
     <Content Include="NLog.config">
@@ -320,6 +325,8 @@
     <Compile Include="Models\AdminCommands\MigrateAdminUserAdminCommandHandler.cs" />
     <Compile Include="Models\AdminCommands\MigrateWordUserIdAdminCommand.cs" />
     <Compile Include="Models\AdminCommands\MigrateWordUserIdAdminCommandHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\IBackgroundTaskHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\ResetWordScoreEvent.cs" />
     <Compile Include="Models\ChangeLogEntry.cs" />
     <Compile Include="Models\Commands\AdminCommand.cs" />
     <Compile Include="Models\Commands\RegisterAdminUsersCommand.cs" />
@@ -344,6 +351,7 @@
     <Compile Include="Models\DomainEvents\WordListRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordScoreRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordUpdatedEvent.cs" />
+    <Compile Include="Models\DomainEvents\WordUpdatedEventHandler.cs" />
     <Compile Include="Models\Indexes\ChangeLogEntryIndex.cs" />
     <Compile Include="Models\ModelContext.cs" />
     <Compile Include="Models\Commands\KeyGeneratorBase.cs" />
@@ -398,6 +406,7 @@
     <Compile Include="Models\Queries\GetWordListQuery.cs" />
     <Compile Include="Models\Queries\GetWordListsQuery.cs" />
     <Compile Include="Models\Queries\GetWordQuery.cs" />
+    <Compile Include="Models\Queries\GetWordScoreIdsQuery.cs" />
     <Compile Include="Models\Queries\GetWordsQuery.cs" />
     <Compile Include="Models\Queries\GetWordsResult.cs" />
     <Compile Include="Models\Queries\HasAdminUserQuery.cs" />

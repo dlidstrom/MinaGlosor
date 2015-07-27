@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Net;
 using System.Net.Http;
+using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands;
 using NUnit.Framework;

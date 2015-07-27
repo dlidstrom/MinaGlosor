@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading.Tasks;
+using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands;
 using NUnit.Framework;
@@ -79,37 +79,11 @@ namespace MinaGlosor.Test.Api
                 session.Store(user);
             });
 
-            var wordListId = await PostWordList();
-            PostWord("some word", "some definition", wordListId);
-            PostWord("isbjörn", "khers ghotbi", wordListId);
-            PostWord("stor", "bozorg", wordListId);
-            PostWord("ta'rif kon!", "vad säger du? berätta!", wordListId);
-        }
-
-        private async void PostWord(string text, string definition, string wordListId)
-        {
-            var request = new
-            {
-                wordListId,
-                text,
-                definition
-            };
-            var response = await Client.PostAsJsonAsync("http://temp.uri/api/word", request);
-            Assert.That(response.IsSuccessStatusCode, Is.True);
-            WaitForIndexing();
-        }
-
-        private async Task<string> PostWordList()
-        {
-            var request = new
-            {
-                name = "Some name"
-            };
-            var response = await Client.PostAsJsonAsync("http://temp.uri/api/wordlist", request);
-            Assert.That(response.IsSuccessStatusCode, Is.True);
-            var content = await response.Content.ReadAsAsync<PostWordListResponse>();
-            WaitForIndexing();
-            return content.WordListId;
+            var wordListResponse = await this.PostWordList();
+            await this.PostWord("some word", "some definition", wordListResponse.WordListId);
+            await this.PostWord("isbjörn", "khers ghotbi", wordListResponse.WordListId);
+            await this.PostWord("stor", "bozorg", wordListResponse.WordListId);
+            await this.PostWord("ta'rif kon!", "vad säger du? berätta!", wordListResponse.WordListId);
         }
 
         public class Result
@@ -169,11 +143,6 @@ namespace MinaGlosor.Test.Api
 
                 public string Definition { get; set; }
             }
-        }
-
-        private class PostWordListResponse
-        {
-            public string WordListId { get; set; }
         }
     }
 }

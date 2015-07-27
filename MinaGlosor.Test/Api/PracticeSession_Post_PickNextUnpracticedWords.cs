@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Principal;
 using System.Threading;
+using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands;
 using NUnit.Framework;

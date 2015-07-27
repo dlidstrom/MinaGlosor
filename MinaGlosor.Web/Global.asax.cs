@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
@@ -39,7 +40,9 @@ namespace MinaGlosor.Web
         {
             TracingLogger.Information(EventIds.Informational_Preliminary_1XXX.Web_Starting_1000, "Starting application");
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            var container = CreateContainer();
+
+            // TODO Read settings into typed class or interface
+            var container = CreateContainer(int.Parse(ConfigurationManager.AppSettings["TaskRunnerPollingIntervalMillis"]));
             Configure(container, GlobalConfiguration.Configuration);
             TracingLogger.Information(EventIds.Informational_Completion_2XXX.Web_Started_2000, "Application started");
         }
@@ -68,19 +71,22 @@ namespace MinaGlosor.Web
         }
 
         // TODO Change Raven installer to use Web.config so that we can transform for deploy.
-        private static IWindsorContainer CreateContainer()
+        private static IWindsorContainer CreateContainer(int taskRunnerPollingIntervalMillis)
         {
             var container = new WindsorContainer();
             container.Install(
                 new AdminCommandHandlerInstaller(),
                 new ControllerInstaller(),
                 new WindsorWebApiInstaller(),
+                new HandlersInstaller(),
+                new BackgroundTaskHandlerInstaller(),
+                new TaskRunnerInstaller(taskRunnerPollingIntervalMillis),
 #if DEBUG
- RavenInstaller.CreateForServer("RavenDB"),
+ RavenInstaller.CreateForServer("RavenDB")
 #else
-                RavenInstaller.CreateForEmbedded(),
+                RavenInstaller.CreateForEmbedded()
 #endif
- new HandlersInstaller());
+);
             return container;
         }
     }
