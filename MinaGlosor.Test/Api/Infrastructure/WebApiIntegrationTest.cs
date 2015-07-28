@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
+using Castle.Facilities.Startable;
 using Castle.MicroKernel.Lifestyle;
 using Castle.Windsor;
 using MinaGlosor.Web;
@@ -19,7 +20,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
     {
         public HttpClient Client { get; private set; }
 
-        private IWindsorContainer Container { get; set; }
+        protected IWindsorContainer Container { get; set; }
 
         public override void Log(ExceptionLoggerContext context)
         {
@@ -32,6 +33,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
             var configuration = new HttpConfiguration();
             configuration.Services.Add(typeof(IExceptionLogger), this);
             Container = new WindsorContainer();
+            Container.AddFacility<StartableFacility>();
             Container.Install(
                 RavenInstaller.CreateForTests(),
                 new WindsorWebApiInstaller(),
@@ -73,10 +75,10 @@ namespace MinaGlosor.Test.Api.Infrastructure
                             break;
                         }
 
-                        Task.Delay(500).Wait(15000);
+                        Task.Delay(500).Wait();
                     }
                 });
-            indexingTask.Wait(Timeout);
+            indexingTask.Wait();
         }
 
         protected virtual void Arrange()

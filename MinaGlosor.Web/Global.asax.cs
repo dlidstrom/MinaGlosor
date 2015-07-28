@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Castle.Facilities.Startable;
 using Castle.Windsor;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.IoC;
@@ -74,6 +75,7 @@ namespace MinaGlosor.Web
         private static IWindsorContainer CreateContainer(int taskRunnerPollingIntervalMillis)
         {
             var container = new WindsorContainer();
+            container.AddFacility<StartableFacility>();
             container.Install(
                 new AdminCommandHandlerInstaller(),
                 new ControllerInstaller(),

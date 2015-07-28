@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using MinaGlosor.Test.Api.Infrastructure;
+using MinaGlosor.Web.Infrastructure.BackgroundTasks;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands;
 using NUnit.Framework;
@@ -13,19 +15,25 @@ namespace MinaGlosor.Test.Api
         public async void ResetsWordScores()
         {
             // Arrange
-            Transact(session => session.Store(new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username")));
-            var wordListResponse = await this.PostWordList();
-            var wordResponse = await this.PostWord("text", "def", wordListResponse.WordListId);
-            var practiceSessionResponse = await this.StartPracticeSession(wordListResponse.WordListId);
+            var taskRunner = Container.Resolve<TaskRunner>();
+            using (taskRunner.PauseScoped())
+            {
+                Transact(session => session.Store(new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username")));
+                var wordListResponse = await this.PostWordList();
+                var wordResponse = await this.PostWord("text", "def", wordListResponse.WordListId);
+                var practiceSessionResponse = await this.StartPracticeSession(wordListResponse.WordListId);
 
-            // get next practice word
-            var practiceWordResponse = await this.GetNextPracticeWord(practiceSessionResponse.PracticeSessionId);
+                // get next practice word
+                var practiceWordResponse = await this.GetNextPracticeWord(practiceSessionResponse.PracticeSessionId);
 
-            // post word confidence
-            await this.PostWordConfidence(practiceSessionResponse.PracticeSessionId, practiceWordResponse.PracticeWordId, ConfidenceLevel.PerfectResponse);
+                // post word confidence
+                await this.PostWordConfidence(practiceSessionResponse.PracticeSessionId, practiceWordResponse.PracticeWordId, ConfidenceLevel.PerfectResponse);
 
-            // Act
-            await this.UpdateWord(wordResponse.WordId, "text2", "def2");
+                // Act
+                await this.UpdateWord(wordResponse.WordId, "text2", "def2");
+            }
+
+            taskRunner.ResetEvent.WaitOne(1000);
 
             // Assert
             // verify that word score is scheduled for repeat today

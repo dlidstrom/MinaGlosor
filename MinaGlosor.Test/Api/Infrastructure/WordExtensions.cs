@@ -20,7 +20,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
             return content;
         }
 
-        public static async Task UpdateWord(this WebApiIntegrationTest test, string text, string definition, string wordId)
+        public static async Task UpdateWord(this WebApiIntegrationTest test, string wordId, string text, string definition)
         {
             var request = new
             {

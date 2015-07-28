@@ -43,6 +43,12 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             get { return resetEvent; }
         }
 
+        public IDisposable PauseScoped()
+        {
+            timer.Stop();
+            return new EnableDisposable { Timer = timer };
+        }
+
         public void Stop(bool immediate)
         {
             try
@@ -133,6 +139,16 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             }
 
             return true;
+        }
+
+        private class EnableDisposable : IDisposable
+        {
+            public Timer Timer { get; set; }
+
+            public void Dispose()
+            {
+                Timer.Start();
+            }
         }
     }
 }
