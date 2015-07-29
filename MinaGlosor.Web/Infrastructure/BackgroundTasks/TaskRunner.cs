@@ -20,7 +20,6 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
         private readonly IDocumentStore documentStore;
         private readonly Timer timer;
         private readonly object locker = new object();
-        private readonly AutoResetEvent resetEvent = new AutoResetEvent(true);
 
         public TaskRunner(IKernel kernel, IDocumentStore documentStore, int taskRunnerPollingIntervalMillis)
         {
@@ -29,7 +28,8 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
 
             timer = new Timer
             {
-                Interval = taskRunnerPollingIntervalMillis
+                Interval = taskRunnerPollingIntervalMillis,
+                AutoReset = false
             };
             timer.Elapsed += TimerOnElapsed;
             timer.Start();
@@ -38,10 +38,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             HostingEnvironment.RegisterObject(this);
         }
 
-        public AutoResetEvent ResetEvent
-        {
-            get { return resetEvent; }
-        }
+        public event EventHandler ProcessedTasks;
 
         public IDisposable PauseScoped()
         {
@@ -54,7 +51,16 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             try
             {
                 timer.Stop();
-                ResetEvent.WaitOne(10000);
+
+                if (Monitor.TryEnter(locker, 10000))
+                {
+                    // TODO Correct?
+                    Monitor.Exit(locker);
+                }
+                else
+                {
+                    TracingLogger.Warning(EventIds.Warning_Transient_4XXX.Web_TaskRunner_TimeOut_4004, "Failed to stop on time");
+                }
             }
             catch (Exception e)
             {
@@ -62,29 +68,39 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             }
 
             TracingLogger.Information(EventIds.Information_Finalization_8XXX.Web_Unregister_TaskRunner_8002, "Unregistering TaskRunner");
-            HostingEnvironment.UnregisterObject(this);
+            if (immediate)
+            {
+                HostingEnvironment.UnregisterObject(this);
+            }
+        }
+
+        protected virtual void OnProcessedTasks()
+        {
+            var handler = ProcessedTasks;
+            if (handler != null) handler(this, EventArgs.Empty);
         }
 
         private void TimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
         {
-            if (Monitor.IsEntered(locker))
+            if (Monitor.TryEnter(locker) == false)
             {
                 TracingLogger.Warning(EventIds.Warning_Transient_4XXX.Web_TaskInProcess_4003, "Abort: Task in process");
                 return;
             }
 
-            lock (locker)
+            try
             {
-                try
-                {
-                    ResetEvent.Reset();
-                    PerformWork();
-                    ResetEvent.Set();
-                }
-                catch (Exception e)
-                {
-                    TracingLogger.Error(EventIds.Error_Permanent_5XXX.Web_UnhandledException_5000, e);
-                }
+                PerformWork();
+                OnProcessedTasks();
+            }
+            catch (Exception e)
+            {
+                TracingLogger.Error(EventIds.Error_Permanent_5XXX.Web_UnhandledException_5000, e);
+            }
+            finally
+            {
+                timer.Start();
+                Monitor.Exit(locker);
             }
         }
 
@@ -143,7 +159,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
 
         private class EnableDisposable : IDisposable
         {
-            public Timer Timer { get; set; }
+            public Timer Timer { private get; set; }
 
             public void Dispose()
             {

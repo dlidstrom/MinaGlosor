@@ -75,6 +75,8 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             public const int Web_ChangesFromQuery_4002 = 4002;
 
             public const int Web_TaskInProcess_4003 = 4003;
+
+            public const int Web_TaskRunner_TimeOut_4004 = 4004;
         }
 
         /// <summary>

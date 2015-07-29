@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Threading;
 using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web.Infrastructure.BackgroundTasks;
 using MinaGlosor.Web.Models;
@@ -11,6 +11,8 @@ namespace MinaGlosor.Test.Api
     [TestFixture]
     public class Word_WhenEditing : WebApiIntegrationTest
     {
+        private AutoResetEvent ev;
+
         [Test]
         public async void ResetsWordScores()
         {
@@ -33,7 +35,8 @@ namespace MinaGlosor.Test.Api
                 await this.UpdateWord(wordResponse.WordId, "text2", "def2");
             }
 
-            taskRunner.ResetEvent.WaitOne(1000);
+            ev = new AutoResetEvent(false);
+            taskRunner.ProcessedTasks += TaskRunnerOnProcessedTasks;
 
             // Assert
             // verify that word score is scheduled for repeat today
@@ -42,6 +45,13 @@ namespace MinaGlosor.Test.Api
                 var wordScore = session.Load<WordScore>("WordScores/1");
                 Assert.That(wordScore.RepeatAfterDate, Is.LessThanOrEqualTo(DateTime.Now));
             });
+
+            taskRunner.ProcessedTasks -= TaskRunnerOnProcessedTasks;
+        }
+
+        private void TaskRunnerOnProcessedTasks(object sender, EventArgs eventArgs)
+        {
+            ev.Set();
         }
     }
 }

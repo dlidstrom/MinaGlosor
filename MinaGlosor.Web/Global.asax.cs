@@ -8,6 +8,7 @@ using System.Web.Routing;
 using Castle.Facilities.Startable;
 using Castle.Windsor;
 using MinaGlosor.Web.Infrastructure;
+using MinaGlosor.Web.Infrastructure.BackgroundTasks;
 using MinaGlosor.Web.Infrastructure.IoC;
 using MinaGlosor.Web.Infrastructure.IoC.Installers;
 using MinaGlosor.Web.Infrastructure.Tracing;
@@ -27,6 +28,8 @@ namespace MinaGlosor.Web
 
         public static void Shutdown()
         {
+            var taskRunner = Container.Resolve<TaskRunner>();
+            taskRunner.Stop(true);
             Cleanup();
         }
 
