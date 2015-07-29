@@ -32,11 +32,12 @@ namespace MinaGlosor.Test.Api
                 await this.PostWordConfidence(practiceSessionResponse.PracticeSessionId, practiceWordResponse.PracticeWordId, ConfidenceLevel.PerfectResponse);
 
                 // Act
+                ev = new AutoResetEvent(false);
+                taskRunner.ProcessedTasks += TaskRunnerOnProcessedTasks;
                 await this.UpdateWord(wordResponse.WordId, "text2", "def2");
             }
 
-            ev = new AutoResetEvent(false);
-            taskRunner.ProcessedTasks += TaskRunnerOnProcessedTasks;
+            ev.WaitOne();
 
             // Assert
             // verify that word score is scheduled for repeat today
