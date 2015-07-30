@@ -4,10 +4,12 @@ using System.Threading;
 using System.Timers;
 using System.Web.Hosting;
 using Castle.MicroKernel;
+using Castle.MicroKernel.Lifestyle;
 using Elmah;
 using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.BackgroundTasks;
+using MinaGlosor.Web.Models.BackgroundTasks.Handlers;
 using Raven.Client;
 using Raven.Client.Linq;
 using Timer = System.Timers.Timer;
@@ -134,8 +136,9 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             {
                 using (new ModelContext(task.CorrelationId))
                 using (new ActivityScope(EventIds.Informational_ApplicationLog_3XXX.Web_StartTask_3007, EventIds.Informational_ApplicationLog_3XXX.Web_EndTask_3008, task.ToString()))
+                using (kernel.BeginScope())
                 {
-                    var handlerType = typeof(IBackgroundTaskHandler<>).MakeGenericType(task.Body.GetType());
+                    var handlerType = typeof(BackgroundTaskHandler<>).MakeGenericType(task.Body.GetType());
                     handler = kernel.Resolve(handlerType);
                     var method = handler.GetType().GetMethod("Handle");
                     method.Invoke(handler, new[] { task.Body });

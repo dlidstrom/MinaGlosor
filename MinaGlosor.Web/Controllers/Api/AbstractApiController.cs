@@ -90,27 +90,7 @@ namespace MinaGlosor.Web.Controllers.Api
             return Kernel.Resolve<IDocumentSession>();
         }
 
-        private TResult DoExecuteCommand<TResult>(User runAs, ICommand<TResult> command)
-        {
-            var documentSession = GetDocumentSession();
-            if (!command.CanExecute(documentSession, runAs)) throw new SecurityException("Operation not allowed");
-
-            return DoExecuteCommand(documentSession, runAs, command, command.Execute);
-        }
-
-        private void DoExecuteCommand(User runAs, ICommand command)
-        {
-            var documentSession = GetDocumentSession();
-            if (!command.CanExecute(documentSession, runAs)) throw new SecurityException("Operation not allowed");
-
-            DoExecuteCommand(documentSession, CurrentUser, command, session =>
-            {
-                command.Execute(session);
-                return false;
-            });
-        }
-
-        private TResult DoExecuteCommand<TResult, TCommand>(
+        private static TResult DoExecuteCommand<TResult, TCommand>(
             IDocumentSession documentSession,
             User runAs,
             TCommand command,
@@ -137,6 +117,26 @@ namespace MinaGlosor.Web.Controllers.Api
                     commandAsJson);
                 return func.Invoke(documentSession);
             }
+        }
+
+        private TResult DoExecuteCommand<TResult>(User runAs, ICommand<TResult> command)
+        {
+            var documentSession = GetDocumentSession();
+            if (!command.CanExecute(documentSession, runAs)) throw new SecurityException("Operation not allowed");
+
+            return DoExecuteCommand(documentSession, runAs, command, command.Execute);
+        }
+
+        private void DoExecuteCommand(User runAs, ICommand command)
+        {
+            var documentSession = GetDocumentSession();
+            if (!command.CanExecute(documentSession, runAs)) throw new SecurityException("Operation not allowed");
+
+            DoExecuteCommand(documentSession, CurrentUser, command, session =>
+            {
+                command.Execute(session);
+                return false;
+            });
         }
     }
 }

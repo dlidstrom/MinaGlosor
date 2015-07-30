@@ -107,6 +107,13 @@ namespace MinaGlosor.Web.Models
             Apply(new UpdateWordScoreEvent(Id, count, intervalInDays, repeatAfterDate, score));
         }
 
+        public void ResetAfterWordEdit()
+        {
+            const int NewIntervalInDays = 1;
+            const int NewCount = 1;
+            Apply(new RestartWordScoreEvent(Id, NewIntervalInDays, NewCount, TimesForgotten));
+        }
+
         private void ApplyEvent(WordScoreRegisteredEvent @event)
         {
             OwnerId = @event.OwnerId;

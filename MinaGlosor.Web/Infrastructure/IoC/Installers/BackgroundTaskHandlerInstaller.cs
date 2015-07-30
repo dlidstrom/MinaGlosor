@@ -1,7 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using MinaGlosor.Web.Models.BackgroundTasks;
+using MinaGlosor.Web.Models.BackgroundTasks.Handlers;
 
 namespace MinaGlosor.Web.Infrastructure.IoC.Installers
 {
@@ -11,8 +11,8 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
         {
             container.Register(
                 Classes.FromThisAssembly()
-                       .BasedOn(typeof(IBackgroundTaskHandler<>))
-                       .WithServiceAllInterfaces()
+                       .BasedOn(typeof(BackgroundTaskHandler<>))
+                       .WithServiceBase()
                        .LifestyleTransient());
         }
     }

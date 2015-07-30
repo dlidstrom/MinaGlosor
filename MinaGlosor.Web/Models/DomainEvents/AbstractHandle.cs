@@ -10,6 +10,12 @@ namespace MinaGlosor.Web.Models.DomainEvents
 {
     public abstract class AbstractHandle<TEvent> : IHandle<TEvent>
     {
+        private readonly JsonSerializerSettings serializerSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new PrivateMembersContractResolver(),
+            TypeNameHandling = TypeNameHandling.All
+        };
+
         public IKernel Kernel { get; set; }
 
         public abstract void Handle(TEvent ev);
@@ -26,12 +32,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
             if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
             using (new ModelContext(ModelContext.CorrelationId, causedByEvent.EventId))
             {
-                var settings = new JsonSerializerSettings
-                {
-                    ContractResolver = new PrivateMembersContractResolver(),
-                    TypeNameHandling = TypeNameHandling.All
-                };
-                var commandAsJson = JsonConvert.SerializeObject(command, Formatting.Indented, settings);
+                var commandAsJson = JsonConvert.SerializeObject(command, Formatting.Indented, serializerSettings);
                 TracingLogger.Information(
                     EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteDependentCommand_3001,
                     "{0} <- {1}: {2}",
@@ -46,24 +47,17 @@ namespace MinaGlosor.Web.Models.DomainEvents
         {
             if (body == null) throw new ArgumentNullException("body");
             if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
-            using (new ModelContext(ModelContext.CorrelationId, causedByEvent.EventId))
-            {
-                var settings = new JsonSerializerSettings
-                {
-                    ContractResolver = new PrivateMembersContractResolver(),
-                    TypeNameHandling = TypeNameHandling.All
-                };
-                var bodyAsJson = JsonConvert.SerializeObject(body, Formatting.Indented, settings);
-                TracingLogger.Information(
-                    EventIds.Informational_ApplicationLog_3XXX.Web_SendTask_3009,
-                    "{0} <- {1}: {2}",
-                    body.GetType().Name,
-                    causedByEvent.GetType().Name,
-                    bodyAsJson);
-                var session = GetDocumentSession();
-                var task = BackgroundTask.Create(ModelContext.CorrelationId, ModelContext.CausationId, body);
-                session.Store(task);
-            }
+
+            var bodyAsJson = JsonConvert.SerializeObject(body, Formatting.Indented, serializerSettings);
+            TracingLogger.Information(
+                EventIds.Informational_ApplicationLog_3XXX.Web_SendTask_3009,
+                "{0} <- {1}: {2}",
+                body.GetType().Name,
+                causedByEvent.GetType().Name,
+                bodyAsJson);
+            var session = GetDocumentSession();
+            var task = BackgroundTask.Create(ModelContext.CorrelationId, causedByEvent.EventId, body);
+            session.Store(task);
         }
 
         private IDocumentSession GetDocumentSession()
