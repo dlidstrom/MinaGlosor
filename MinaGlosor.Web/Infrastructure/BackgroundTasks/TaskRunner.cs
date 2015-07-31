@@ -19,14 +19,13 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
     public class TaskRunner : IRegisteredObject
     {
         private readonly IKernel kernel;
-        private readonly IDocumentStore documentStore;
         private readonly Timer timer;
         private readonly object locker = new object();
+        private volatile bool exiting;
 
-        public TaskRunner(IKernel kernel, IDocumentStore documentStore, int taskRunnerPollingIntervalMillis)
+        public TaskRunner(IKernel kernel, int taskRunnerPollingIntervalMillis)
         {
             this.kernel = kernel;
-            this.documentStore = documentStore;
 
             timer = new Timer
             {
@@ -52,6 +51,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
         {
             try
             {
+                exiting = true;
                 timer.Stop();
 
                 if (Monitor.TryEnter(locker, 10000))
@@ -70,10 +70,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             }
 
             TracingLogger.Information(EventIds.Information_Finalization_8XXX.Web_Unregister_TaskRunner_8002, "Unregistering TaskRunner");
-            if (immediate)
-            {
-                HostingEnvironment.UnregisterObject(this);
-            }
+            HostingEnvironment.UnregisterObject(this);
         }
 
         protected virtual void OnProcessedTasks()
@@ -101,7 +98,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             }
             finally
             {
-                timer.Start();
+                if (exiting == false) timer.Start();
                 Monitor.Exit(locker);
             }
         }
@@ -110,7 +107,8 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
         {
             try
             {
-                using (var session = documentStore.OpenSession())
+                using (kernel.BeginScope())
+                using (var session = kernel.Resolve<IDocumentSession>())
                 {
                     if (ProcessTask(session))
                         session.SaveChanges();
@@ -136,7 +134,6 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             {
                 using (new ModelContext(task.CorrelationId))
                 using (new ActivityScope(EventIds.Informational_ApplicationLog_3XXX.Web_StartTask_3007, EventIds.Informational_ApplicationLog_3XXX.Web_EndTask_3008, task.ToString()))
-                using (kernel.BeginScope())
                 {
                     var handlerType = typeof(BackgroundTaskHandler<>).MakeGenericType(task.Body.GetType());
                     handler = kernel.Resolve(handlerType);

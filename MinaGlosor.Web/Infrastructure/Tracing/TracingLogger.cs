@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Essential.Diagnostics;
 using JetBrains.Annotations;
 
 namespace MinaGlosor.Web.Infrastructure.Tracing
@@ -10,9 +11,28 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
     public static class TracingLogger
     {
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Ok here.")]
-        public static Action<TraceEventType, int, object[]> DoTraceData = (eventType, id, args) => TraceSource.TraceData(eventType, id, args);
+        public static Action<TraceEventType, int, object[]> DoTraceData = (eventType, id, args) =>
+        {
+            try
+            {
+                TraceSource.TraceData(eventType, id, args);
+            }
+            catch
+            {
+                // do nothing
+            }
+        };
 
         private static readonly TraceSource TraceSource = new TraceSource("MinaGlosor");
+
+        public static void Initialize(string logDirectory)
+        {
+            var listener = new RollingFileTraceListener(logDirectory + "{DateTime:yyyy-MM-dd}.log")
+            {
+                Template = "{DateTime:HH':'mm':'ss.fffZ};[{Thread,2}];{Source};{EventType,-11};{Id,4};{PrincipalName};{Message}{Data}"
+            };
+            TraceSource.Listeners.Add(listener);
+        }
 
         public static void Information(string message)
         {
@@ -22,7 +42,14 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
         [StringFormatMethod("format")]
         public static void Information(string format, params object[] args)
         {
-            TraceSource.TraceEvent(TraceEventType.Information, 0, format, args);
+            try
+            {
+                TraceSource.TraceEvent(TraceEventType.Information, 0, format, args);
+            }
+            catch
+            {
+                //
+            }
         }
 
         public static void Information(int id, string message)
@@ -81,7 +108,7 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
                 exception
             };
             list.AddRange((from object key in exception.Data.Keys let ob = exception.Data[key] select string.Format("{0}={1}", key, ob)));
-            TraceSource.TraceData(TraceEventType.Warning, id, list.ToArray());
+            DoTraceData(TraceEventType.Warning, id, list.ToArray());
         }
 
         [StringFormatMethod("format")]
@@ -103,7 +130,7 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
                 exception
             };
             list.AddRange((from object key in exception.Data.Keys let ob = exception.Data[key] select string.Format("{0}={1}", key, ob)));
-            TraceSource.TraceData(TraceEventType.Error, id, list.ToArray());
+            DoTraceData(TraceEventType.Error, id, list.ToArray());
         }
 
         [StringFormatMethod("format")]
@@ -125,7 +152,7 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
                 exception
             };
             list.AddRange((from object key in exception.Data.Keys let ob = exception.Data[key] select string.Format("{0}={1}", key, ob)));
-            TraceSource.TraceData(TraceEventType.Critical, id, list.ToArray());
+            DoTraceData(TraceEventType.Critical, id, list.ToArray());
         }
 
         [StringFormatMethod("format")]

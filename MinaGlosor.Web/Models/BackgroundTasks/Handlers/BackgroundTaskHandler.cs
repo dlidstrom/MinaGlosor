@@ -24,32 +24,30 @@ namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
         {
             if (command == null) throw new ArgumentNullException("command");
             if (causedByTask == null) throw new ArgumentNullException("causedByTask");
-            using (new ModelContext(ModelContext.CorrelationId))
-            {
-                var settings = new JsonSerializerSettings
+
+            var settings = new JsonSerializerSettings
                 {
                     ContractResolver = new PrivateMembersContractResolver(),
                     TypeNameHandling = TypeNameHandling.All,
                     Formatting = Formatting.Indented
                 };
-                var commandAsJson = JsonConvert.SerializeObject(command, settings);
-                var documentSession = GetDocumentSession();
-                var changeLogEntry = new ChangeLogEntry(
-                    string.Empty,
-                    string.Empty,
-                    Trace.CorrelationManager.ActivityId,
-                    command.GetType(),
-                    commandAsJson);
-                documentSession.Store(changeLogEntry);
+            var commandAsJson = JsonConvert.SerializeObject(command, settings);
+            var documentSession = GetDocumentSession();
+            var changeLogEntry = new ChangeLogEntry(
+                string.Empty,
+                string.Empty,
+                Trace.CorrelationManager.ActivityId,
+                command.GetType(),
+                commandAsJson);
+            documentSession.Store(changeLogEntry);
 
-                TracingLogger.Information(
-                    EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteDependentCommand_3001,
-                    "{0} <- {1}: {2}",
-                    command.GetType().Name,
-                    causedByTask.GetType().Name,
-                    commandAsJson);
-                command.Execute(documentSession);
-            }
+            TracingLogger.Information(
+                EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteDependentCommand_3001,
+                "{0} <- {1}: {2}",
+                command.GetType().Name,
+                causedByTask.GetType().Name,
+                commandAsJson);
+            command.Execute(documentSession);
         }
 
         private IDocumentSession GetDocumentSession()

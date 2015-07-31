@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
   <TopNode>[0-1000]C:\Users\daniel.lidstrom\Dropbox\Programming\MinaGlosor\MinaGlosor.Test\MinaGlosor.Test.nunit</TopNode>
-  <SelectedNode>[0-1056]MinaGlosor.Test.Api.Word_WhenEditing.ResetsWordScores</SelectedNode>
+  <SelectedNode>[0-1197]MinaGlosor.Test.Api.Word_Post.AddsWordToList</SelectedNode>
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
     <Node UniqueName="[0-1000]C:\Users\daniel.lidstrom\Dropbox\Programming\MinaGlosor\MinaGlosor.Test\MinaGlosor.Test.nunit" Expanded="true" />
-    <Node UniqueName="[0-1191]C:\Users\daniel.lidstrom\Dropbox\Programming\MinaGlosor\MinaGlosor.Test\bin\Debug\MinaGlosor.Test.dll" Expanded="true" />
-    <Node UniqueName="[0-1192]MinaGlosor" Expanded="true" />
-    <Node UniqueName="[0-1193]MinaGlosor.Test" Expanded="true" />
-    <Node UniqueName="[0-1194]MinaGlosor.Test.Api" Expanded="true" />
-    <Node UniqueName="[0-1195]MinaGlosor.Test.Api.Domain" Expanded="true" />
+    <Node UniqueName="[0-1198]C:\Users\daniel.lidstrom\Dropbox\Programming\MinaGlosor\MinaGlosor.Test\bin\Debug\MinaGlosor.Test.dll" Expanded="true" />
+    <Node UniqueName="[0-1199]MinaGlosor" Expanded="true" />
+    <Node UniqueName="[0-1200]MinaGlosor.Test" Expanded="true" />
+    <Node UniqueName="[0-1201]MinaGlosor.Test.Api" Expanded="true" />
+    <Node UniqueName="[0-1202]MinaGlosor.Test.Api.Domain" Expanded="true" />
+    <Node UniqueName="[0-1148]MinaGlosor.Test.Api.PracticeSession_Post" Expanded="true" />
+    <Node UniqueName="[0-1194]MinaGlosor.Test.Api.Word_Get" Expanded="true" />
+    <Node UniqueName="[0-1190]MinaGlosor.Test.Api.Word_GetAll" Expanded="true" />
+    <Node UniqueName="[0-1196]MinaGlosor.Test.Api.Word_Post" Expanded="true" />
     <Node UniqueName="[0-1055]MinaGlosor.Test.Api.Word_WhenEditing" Expanded="true" />
+    <Node UniqueName="[0-1188]MinaGlosor.Test.Api.WordList_Post" Expanded="true" />
   </Nodes>
 </VisualState>

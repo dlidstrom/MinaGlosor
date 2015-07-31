@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Castle.MicroKernel;
+using Castle.MicroKernel.Lifestyle;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models;
@@ -14,12 +15,15 @@ namespace MinaGlosor.Web.Controllers
 {
     public class AbstractController : Controller
     {
+        private IDisposable scope;
+
         public IKernel Kernel { get; set; }
 
         protected User CurrentUser { get; set; }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            scope = Kernel.BeginScope();
             Trace.CorrelationManager.ActivityId = SystemGuid.NewSequential;
             TracingLogger.Start(EventIds.Informational_Preliminary_1XXX.Web_Request_Executing_1001);
             if (Response.IsRequestBeingRedirected) return;
@@ -54,6 +58,7 @@ namespace MinaGlosor.Web.Controllers
 
             TracingLogger.Stop(EventIds.Informational_Completion_2XXX.Web_Request_Executed_2001);
             Trace.CorrelationManager.ActivityId = default(Guid);
+            scope.Dispose();
         }
 
         protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)

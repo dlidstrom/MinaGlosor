@@ -42,6 +42,7 @@ namespace MinaGlosor.Web
 
         protected void Application_Start()
         {
+            TracingLogger.Initialize(Server.MapPath("~/App_Data"));
             TracingLogger.Information(EventIds.Informational_Preliminary_1XXX.Web_Starting_1000, "Starting application");
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
