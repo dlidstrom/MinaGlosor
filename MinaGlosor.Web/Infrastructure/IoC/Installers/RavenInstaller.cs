@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using Castle.Core;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -20,8 +19,6 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
         {
         }
 
-        protected LifestyleType Lifestyle { get; set; }
-
         private Func<IDocumentStore> CreateDocumentStore { get; set; }
 
         private bool InitializeIndexes { get; set; }
@@ -31,7 +28,6 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
             return new RavenInstaller
                 {
                     CreateDocumentStore = () => new EmbeddableDocumentStore { RunInMemory = true },
-                    Lifestyle = LifestyleType.Scoped,
                     InitializeIndexes = true
                 };
         }
@@ -47,8 +43,7 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
             embeddableDocumentStore.Configuration.MemoryCacheLimitMegabytes = 256;
             return new RavenInstaller
                 {
-                    CreateDocumentStore = () => embeddableDocumentStore,
-                    Lifestyle = LifestyleType.Scoped
+                    CreateDocumentStore = () => embeddableDocumentStore
                 };
         }
 
@@ -58,7 +53,6 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
             return new RavenInstaller
                 {
                     CreateDocumentStore = () => new DocumentStore { ConnectionStringName = connectionStringName },
-                    Lifestyle = LifestyleType.Scoped,
                     InitializeIndexes = true
                 };
         }
@@ -81,7 +75,7 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
             container.Register(
                 Component.For<IDocumentSession>()
                          .UsingFactoryMethod(k => CreateSession(k.Resolve<IDocumentStore>()))
-                         .LifeStyle.Is(Lifestyle));
+                         .LifeStyle.HybridPerWebRequestPerThread());
         }
 
         private static IDocumentSession CreateSession(IDocumentStore documentStore)

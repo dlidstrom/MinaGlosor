@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using Essential.Diagnostics;
 using JetBrains.Annotations;
@@ -27,7 +28,8 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
 
         public static void Initialize(string logDirectory)
         {
-            var listener = new RollingFileTraceListener(logDirectory + "{DateTime:yyyy-MM-dd}.log")
+            var filePathTemplate = Path.Combine(logDirectory, "{DateTime:yyyy-MM-dd}.log");
+            var listener = new RollingFileTraceListener(filePathTemplate)
             {
                 Template = "{DateTime:HH':'mm':'ss.fffZ};[{Thread,2}];{Source};{EventType,-11};{Id,4};{PrincipalName};{Message}{Data}"
             };
