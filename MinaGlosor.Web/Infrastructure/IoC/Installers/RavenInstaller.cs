@@ -75,7 +75,7 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
             container.Register(
                 Component.For<IDocumentSession>()
                          .UsingFactoryMethod(k => CreateSession(k.Resolve<IDocumentStore>()))
-                         .LifeStyle.HybridPerWebRequestPerThread());
+                         .LifestyleScoped());
         }
 
         private static IDocumentSession CreateSession(IDocumentStore documentStore)

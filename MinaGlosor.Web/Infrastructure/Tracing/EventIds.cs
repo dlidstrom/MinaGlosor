@@ -58,6 +58,10 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             public const int Web_EndTask_3008 = 3008;
 
             public const int Web_SendTask_3009 = 3009;
+
+            public const int Web_ExecuteCommandStart_3010 = 3010;
+
+            public const int Web_ExecuteCommandStop_3011 = 3011;
         }
 
         /// <summary>

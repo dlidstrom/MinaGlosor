@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security;
 using System.Web.Http;
+using System.Web.Mvc;
 using Castle.MicroKernel;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.Attributes;
@@ -94,8 +95,10 @@ namespace MinaGlosor.Web.Controllers.Api
             IDocumentSession documentSession,
             User runAs,
             TCommand command,
-            Func<IDocumentSession, TResult> func)
+            Func<IDocumentSession, TResult> func) where TCommand : ICommand
         {
+            var commandExecutor = DependencyResolver.Current.GetService<CommandExecutor>();
+            commandExecutor.ExecuteCommand(runAs, command);
             using (new ModelContext(Trace.CorrelationManager.ActivityId))
             {
                 var settings = new JsonSerializerSettings

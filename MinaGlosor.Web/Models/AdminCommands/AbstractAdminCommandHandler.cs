@@ -1,4 +1,5 @@
 using System;
+using System.Web.Mvc;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.Tracing;
 using Newtonsoft.Json;
@@ -23,6 +24,9 @@ namespace MinaGlosor.Web.Models.AdminCommands
         protected void ExecuteCommand(ICommand command)
         {
             if (command == null) throw new ArgumentNullException("command");
+
+            var commandExecutor = DependencyResolver.Current.GetService<CommandExecutor>();
+            commandExecutor.ExecuteCommand();
 
             DoExecuteCommand(command, session =>
             {

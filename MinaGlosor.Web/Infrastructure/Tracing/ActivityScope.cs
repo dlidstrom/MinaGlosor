@@ -14,7 +14,7 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             this.stopId = stopId;
             this.activityName = activityName;
             oldActivityId = Trace.CorrelationManager.ActivityId;
-            Trace.CorrelationManager.ActivityId = Guid.NewGuid();
+            Trace.CorrelationManager.ActivityId = SystemGuid.NewSequential;
             TracingLogger.Start(startId, activityName);
         }
 

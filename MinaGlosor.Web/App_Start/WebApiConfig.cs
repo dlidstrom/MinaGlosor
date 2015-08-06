@@ -12,7 +12,7 @@ namespace MinaGlosor.Web
         public static void Register(HttpConfiguration configuration)
         {
             configuration.Services.Add(typeof(IExceptionLogger), new ElmahExceptionLogger());
-            configuration.Filters.Add(new CorrelationIdAttribute());
+            configuration.Filters.Add(new HttpRequestScopeAttribute());
 
             // camelCase by default
             var formatter = configuration.Formatters.JsonFormatter;
