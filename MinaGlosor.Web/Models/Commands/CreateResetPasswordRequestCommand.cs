@@ -4,7 +4,7 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands
 {
-    public class CreateResetPasswordRequestCommand : ICommand
+    public class CreateResetPasswordRequestCommand : ICommand<object>
     {
         private readonly string email;
 

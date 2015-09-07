@@ -3,24 +3,12 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Infrastructure
 {
-    public interface
-
-    public abstract class CommandHandlerBase<TCommand> where TCommand : ICommand
-
+    public abstract class CommandHandlerBase<TCommand, TResult> : ICommandHandler where TCommand : ICommand<TResult>
     {
         public IDocumentSession Session { get; set; }
-
-        public abstract void CanExecute(User currentUser);
-
-        public abstract void Handle(TCommand command);
-    }
-
-    public abstract class CommandHandlerBase<TCommand, TResult> where TCommand : ICommand<TResult>
-    {
-        public IDocumentSession Session { get; set; }
-
-        public abstract void CanExecute(User currentUser);
 
         public abstract TResult Handle(TCommand command);
+
+        public abstract bool CanExecute(User currentUser);
     }
 }

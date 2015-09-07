@@ -18,6 +18,8 @@ namespace MinaGlosor.Web.Models.DomainEvents
 
         public IKernel Kernel { get; set; }
 
+        public CommandExecutor CommandExecutor { get; set; }
+
         public abstract void Handle(TEvent ev);
 
         protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)
@@ -26,7 +28,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
             return query.Execute(GetDocumentSession());
         }
 
-        protected void ExecuteCommand(ICommand command, ModelEvent causedByEvent)
+        protected TResult ExecuteCommand<TResult>(ICommand<TResult> command, ModelEvent causedByEvent)
         {
             if (command == null) throw new ArgumentNullException("command");
             if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
@@ -39,7 +41,8 @@ namespace MinaGlosor.Web.Models.DomainEvents
                     command.GetType().Name,
                     causedByEvent.GetType().Name,
                     commandAsJson);
-                command.Execute(GetDocumentSession());
+                var result = CommandExecutor.ExecuteCommand(null, command);
+                return result;
             }
         }
 

@@ -4,7 +4,7 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands
 {
-    public class AddWordToWordListCommand : ICommand
+    public class AddWordToWordListCommand : ICommand<object>
     {
         private readonly string wordListId;
 

@@ -248,6 +248,7 @@
     <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\HttpRequestScopeAttribute.cs" />
     <Compile Include="Infrastructure\CommandHandlerBase.cs" />
+    <Compile Include="Infrastructure\ICommandHandler.cs" />
     <Compile Include="Infrastructure\IoC\Installers\BackgroundTaskHandlerInstaller.cs" />
     <Compile Include="Infrastructure\IoC\Installers\CommandQueryInstaller.cs" />
     <Compile Include="Infrastructure\IoC\Installers\TaskRunnerInstaller.cs" />
@@ -308,7 +309,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Attributes\SaveChangesAttribute.cs" />
     <Compile Include="Infrastructure\Emails.cs" />
     <Compile Include="Infrastructure\GuidBinder.cs" />
     <Compile Include="Infrastructure\ICommand.cs" />

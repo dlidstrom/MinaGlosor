@@ -7,7 +7,7 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands
 {
-    public class CreateUserCommand : ICommand
+    public class CreateUserCommand : ICommand<object>
     {
         private readonly string email;
 

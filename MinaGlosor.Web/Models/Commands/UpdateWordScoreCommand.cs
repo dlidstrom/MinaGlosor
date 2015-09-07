@@ -6,7 +6,7 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands
 {
-    public class UpdateWordScoreCommand : ICommand
+    public class UpdateWordScoreCommand : ICommand<object>
     {
         private readonly string wordId;
         private readonly ConfidenceLevel confidenceLevel;

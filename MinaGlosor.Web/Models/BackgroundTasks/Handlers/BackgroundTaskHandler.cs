@@ -12,6 +12,8 @@ namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
     {
         public IKernel Kernel { get; set; }
 
+        public CommandExecutor CommandExecutor { get; set; }
+
         public abstract void Handle(TTask task);
 
         protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)
@@ -20,7 +22,7 @@ namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
             return query.Execute(GetDocumentSession());
         }
 
-        protected void ExecuteCommand<TDependentTask>(ICommand command, TDependentTask causedByTask)
+        protected TResult ExecuteCommand<TResult, TDependentTask>(ICommand<TResult> command, TDependentTask causedByTask)
         {
             if (command == null) throw new ArgumentNullException("command");
             if (causedByTask == null) throw new ArgumentNullException("causedByTask");
@@ -47,7 +49,8 @@ namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
                 command.GetType().Name,
                 causedByTask.GetType().Name,
                 commandAsJson);
-            command.Execute(documentSession);
+            var result = CommandExecutor.ExecuteCommand(null, command);
+            return result;
         }
 
         private IDocumentSession GetDocumentSession()

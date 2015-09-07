@@ -32,6 +32,13 @@ namespace MinaGlosor.Web.Controllers
 
                 // make sure there's an admin user
                 var config = documentSession.Load<WebsiteConfig>(WebsiteConfig.GlobalId);
+                if (config == null)
+                {
+                    config = new WebsiteConfig();
+                    documentSession.Store(config);
+                    documentSession.SaveChanges();
+                }
+
                 if (config.AdminUsers.Any())
                     return;
             }
@@ -50,12 +57,13 @@ namespace MinaGlosor.Web.Controllers
             return result;
         }
 
-        protected void ExecuteCommand<TCommand>(TCommand command) where TCommand : ICommand
+        protected TResult ExecuteCommand<TResult>(ICommand<TResult> command)
         {
             if (command == null) throw new ArgumentNullException("command");
 
             var commandExecutor = Kernel.Resolve<CommandExecutor>();
-            commandExecutor.ExecuteCommand(CurrentUser, command);
+            var result = commandExecutor.ExecuteCommand(CurrentUser, command);
+            return result;
         }
     }
 }

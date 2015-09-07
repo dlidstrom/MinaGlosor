@@ -87,6 +87,7 @@ namespace MinaGlosor.Web
                 new HandlersInstaller(),
                 new BackgroundTaskHandlerInstaller(),
                 new TaskRunnerInstaller(taskRunnerPollingIntervalMillis),
+                new CommandQueryInstaller(),
 #if DEBUG
  RavenInstaller.CreateForServer("RavenDB")
 #else

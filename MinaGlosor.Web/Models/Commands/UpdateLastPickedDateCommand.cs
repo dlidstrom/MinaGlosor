@@ -4,7 +4,7 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands
 {
-    public class UpdateLastPickedDateCommand : ICommand
+    public class UpdateLastPickedDateCommand : ICommand<object>
     {
         private readonly string practiceSessionId;
         private readonly string practiceWordId;

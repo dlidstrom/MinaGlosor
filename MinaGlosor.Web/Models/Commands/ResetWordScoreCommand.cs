@@ -3,7 +3,7 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands
 {
-    public class ResetWordScoreCommand : ICommand
+    public class ResetWordScoreCommand : ICommand<object>
     {
         private readonly string wordScoreId;
 

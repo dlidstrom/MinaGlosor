@@ -7,13 +7,14 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Models.AdminCommands
 {
-    public abstract class AbstractAdminCommandHandler<TCommand> : IAdminCommandHandler<TCommand> where TCommand : IAdminCommand
+    public abstract class AbstractAdminCommandHandler<TAdminCommand>
+        : IAdminCommandHandler<TAdminCommand> where TAdminCommand : IAdminCommand
     {
         public IDocumentStore DocumentStore { get; set; }
 
         public IDocumentSession DocumentSession { get; set; }
 
-        public abstract object Run(TCommand command);
+        public abstract object Run(TAdminCommand command);
 
         protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)
         {
@@ -21,32 +22,10 @@ namespace MinaGlosor.Web.Models.AdminCommands
             return query.Execute(DocumentSession);
         }
 
-        protected void ExecuteCommand(ICommand command)
-        {
-            if (command == null) throw new ArgumentNullException("command");
-
-            var commandExecutor = DependencyResolver.Current.GetService<CommandExecutor>();
-            commandExecutor.ExecuteCommand();
-
-            DoExecuteCommand(command, session =>
-            {
-                command.Execute(session);
-                return false;
-            });
-        }
-
         protected TResult ExecuteCommand<TResult>(ICommand<TResult> command)
         {
             if (command == null) throw new ArgumentNullException("command");
 
-            return DoExecuteCommand(command, command.Execute);
-        }
-
-        private TResult DoExecuteCommand<TResult, TCommandType>(
-            TCommandType command,
-            Func<IDocumentSession, TResult> func)
-        {
-            if (command == null) throw new ArgumentNullException("command");
             using (new ModelContext(ModelContext.CorrelationId))
             {
                 var settings = new JsonSerializerSettings
@@ -58,7 +37,9 @@ namespace MinaGlosor.Web.Models.AdminCommands
                 TracingLogger.Information(
                     EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteAdminCommand_3006,
                     commandAsJson);
-                return func.Invoke(DocumentSession);
+                var commandExecutor = DependencyResolver.Current.GetService<CommandExecutor>();
+                var result = (TResult)commandExecutor.ExecuteCommand(null, command);
+                return result;
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Security;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Lifestyle;
 using MinaGlosor.Web.Infrastructure.Tracing;
@@ -12,22 +13,22 @@ namespace MinaGlosor.Web.Infrastructure
 {
     public class CommandExecutor
     {
-        private readonly IKernel kernel;
-
-        private readonly JsonSerializerSettings settings = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
             ContractResolver = new PrivateMembersContractResolver(),
             TypeNameHandling = TypeNameHandling.All
         };
+
+        private readonly IKernel kernel;
 
         public CommandExecutor(IKernel kernel)
         {
             this.kernel = kernel;
         }
 
-        public void ExecuteCommand<TCommand>(User user, TCommand command) where TCommand : ICommand
+        public TResult ExecuteCommand<TResult>(User user, ICommand<TResult> command)
         {
-            var handlerType = typeof(CommandHandlerBase<TCommand>);
+            var handlerType = typeof(CommandHandlerBase<,>).MakeGenericType(command.GetType(), typeof(TResult));
             var handleMethod = handlerType.GetMethod("Handle");
             try
             {
@@ -35,13 +36,19 @@ namespace MinaGlosor.Web.Infrastructure
                 using (new ActivityScope(
                     EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteCommandStart_3010,
                     EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteCommandStop_3011,
-                    typeof(TCommand).Name))
+                    command.GetType().Name))
                 using (new ModelContext(Trace.CorrelationManager.ActivityId))
                 {
-                    var commandAsJson = JsonConvert.SerializeObject(command, Formatting.Indented, settings);
-                    object handler = null;
+                    var commandAsJson = JsonConvert.SerializeObject(command, Formatting.Indented, Settings);
+                    ICommandHandler handler = null;
                     try
                     {
+                        handler = (ICommandHandler)kernel.Resolve(handlerType);
+                        if (handler.CanExecute(user) == false)
+                        {
+                            throw new SecurityException("Operation not allowed");
+                        }
+
                         var documentSession = kernel.Resolve<IDocumentSession>();
                         string userId = null;
                         string email = null;
@@ -60,8 +67,7 @@ namespace MinaGlosor.Web.Infrastructure
 
                         documentSession.Store(changeLogEntry);
 
-                        handler = kernel.Resolve(handlerType);
-                        handleMethod.Invoke(handler, new[] { (object)command });
+                        var result = (TResult)handleMethod.Invoke(handler, new[] { (object)command });
 
                         var whatChanged = documentSession.Advanced.WhatChanged();
                         if (whatChanged.Any())
@@ -69,6 +75,8 @@ namespace MinaGlosor.Web.Infrastructure
                             TracingLogger.Information("Saving {0} changes", whatChanged.Count);
                             documentSession.SaveChanges();
                         }
+
+                        return result;
                     }
                     finally
                     {
