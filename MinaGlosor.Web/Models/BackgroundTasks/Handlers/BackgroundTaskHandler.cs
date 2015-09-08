@@ -49,7 +49,7 @@ namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
                 command.GetType().Name,
                 causedByTask.GetType().Name,
                 commandAsJson);
-            var result = CommandExecutor.ExecuteCommand(null, command);
+            var result = CommandExecutor.ExecuteCommand(command, null);
             return result;
         }
 

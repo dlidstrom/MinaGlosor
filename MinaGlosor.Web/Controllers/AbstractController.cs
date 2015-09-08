@@ -16,7 +16,7 @@ namespace MinaGlosor.Web.Controllers
         public IKernel Kernel { get; set; }
 
         // TODO Is this needed?
-        protected User CurrentUser { get; set; }
+        protected User CurrentUser { get; private set; }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -53,7 +53,7 @@ namespace MinaGlosor.Web.Controllers
             if (query == null) throw new ArgumentNullException("query");
 
             var queryExecutor = Kernel.Resolve<QueryExecutor>();
-            var result = queryExecutor.ExecuteQuery(query);
+            var result = queryExecutor.ExecuteQuery(query, CurrentUser);
             return result;
         }
 
@@ -62,7 +62,7 @@ namespace MinaGlosor.Web.Controllers
             if (command == null) throw new ArgumentNullException("command");
 
             var commandExecutor = Kernel.Resolve<CommandExecutor>();
-            var result = commandExecutor.ExecuteCommand(CurrentUser, command);
+            var result = commandExecutor.ExecuteCommand(command, CurrentUser);
             return result;
         }
     }

@@ -61,15 +61,15 @@ namespace MinaGlosor.Web.Controllers.Api
         protected TResult ExecuteCommand<TResult>(ICommand<TResult> command)
         {
             if (command == null) throw new ArgumentNullException("command");
-            var result = CommandExecutor.ExecuteCommand(CurrentUser, command);
+            var result = CommandExecutor.ExecuteCommand(command, CurrentUser);
             return result;
         }
 
-        protected TResult ExecuteCommand<TResult>(User runAs, ICommand<TResult> command)
+        protected TResult ExecuteCommand<TResult>(ICommand<TResult> command, User runAs)
         {
             if (runAs == null) throw new ArgumentNullException("runAs");
             if (command == null) throw new ArgumentNullException("command");
-            var result = CommandExecutor.ExecuteCommand(runAs, command);
+            var result = CommandExecutor.ExecuteCommand(command, runAs);
             return result;
         }
 

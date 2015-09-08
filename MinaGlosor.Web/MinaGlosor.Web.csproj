@@ -252,6 +252,8 @@
     <Compile Include="Infrastructure\IoC\Installers\BackgroundTaskHandlerInstaller.cs" />
     <Compile Include="Infrastructure\IoC\Installers\CommandQueryInstaller.cs" />
     <Compile Include="Infrastructure\IoC\Installers\TaskRunnerInstaller.cs" />
+    <Compile Include="Infrastructure\IQueryHandler.cs" />
+    <Compile Include="Infrastructure\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\QueryExecutor.cs" />
     <Compile Include="Infrastructure\QueryHandlerBase.cs" />
     <Compile Include="Models\BackgroundTasks\BackgroundTask.cs" />

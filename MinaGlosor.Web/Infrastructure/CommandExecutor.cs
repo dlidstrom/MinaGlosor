@@ -6,19 +6,12 @@ using Castle.MicroKernel;
 using Castle.MicroKernel.Lifestyle;
 using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models;
-using Newtonsoft.Json;
 using Raven.Client;
 
 namespace MinaGlosor.Web.Infrastructure
 {
     public class CommandExecutor
     {
-        private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            ContractResolver = new PrivateMembersContractResolver(),
-            TypeNameHandling = TypeNameHandling.All
-        };
-
         private readonly IKernel kernel;
 
         public CommandExecutor(IKernel kernel)
@@ -26,7 +19,7 @@ namespace MinaGlosor.Web.Infrastructure
             this.kernel = kernel;
         }
 
-        public TResult ExecuteCommand<TResult>(User user, ICommand<TResult> command)
+        public TResult ExecuteCommand<TResult>(ICommand<TResult> command, User user)
         {
             var handlerType = typeof(CommandHandlerBase<,>).MakeGenericType(command.GetType(), typeof(TResult));
             var handleMethod = handlerType.GetMethod("Handle");
@@ -39,14 +32,15 @@ namespace MinaGlosor.Web.Infrastructure
                     command.GetType().Name))
                 using (new ModelContext(Trace.CorrelationManager.ActivityId))
                 {
-                    var commandAsJson = JsonConvert.SerializeObject(command, Formatting.Indented, Settings);
+                    var commandAsJson = command.ToJson();
                     ICommandHandler handler = null;
                     try
                     {
                         handler = (ICommandHandler)kernel.Resolve(handlerType);
-                        if (handler.CanExecute(user) == false)
+                        if (user != null && handler.CanExecute(user) == false)
                         {
-                            throw new SecurityException("Operation not allowed");
+                            var message = string.Format("Operation not allowed: {0} {1}", command.GetType().Name, user.Username);
+                            throw new SecurityException(message);
                         }
 
                         var documentSession = kernel.Resolve<IDocumentSession>();

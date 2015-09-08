@@ -62,6 +62,14 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             public const int Web_ExecuteCommandStart_3010 = 3010;
 
             public const int Web_ExecuteCommandStop_3011 = 3011;
+
+            public const int Web_ExecuteQueryStart_3012 = 3012;
+
+            public const int Web_ExecuteQueryStop_3013 = 3013;
+
+            public const int Web_ExecuteQueryLog_3014 = 3014;
+
+            public const int Web_ExecuteQueryResult_3015 = 3015;
         }
 
         /// <summary>

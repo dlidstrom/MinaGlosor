@@ -40,6 +40,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
                 new HandlersInstaller(),
                 new AdminCommandHandlerInstaller(),
                 new BackgroundTaskHandlerInstaller(),
+                new CommandQueryInstaller(),
                 new TaskRunnerInstaller(500));
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
             OnSetUp(Container);
