@@ -256,6 +256,7 @@
     <Compile Include="Infrastructure\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\QueryExecutor.cs" />
     <Compile Include="Infrastructure\QueryHandlerBase.cs" />
+    <Compile Include="Models\BackgroundTasks\AddWordToWordListTask.cs" />
     <Compile Include="Models\BackgroundTasks\BackgroundTask.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksIndex.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\TaskRunner.cs" />
@@ -337,10 +338,12 @@
     <Compile Include="Models\AdminCommands\MigrateWordUserIdAdminCommandHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\BackgroundTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\ResetWordScoreEventHandler.cs" />
-    <Compile Include="Models\BackgroundTasks\ResetWordScoreEvent.cs" />
+    <Compile Include="Models\BackgroundTasks\ResetWordScoreTask.cs" />
+    <Compile Include="Models\BackgroundTasks\UpdateWordScoreTask.cs" />
     <Compile Include="Models\ChangeLogEntry.cs" />
     <Compile Include="Models\Commands\AdminCommand.cs" />
     <Compile Include="Infrastructure\CommandExecutor.cs" />
+    <Compile Include="Models\Commands\Handlers\CreateWordListCommandHandler.cs" />
     <Compile Include="Models\Commands\RegisterAdminUsersCommand.cs" />
     <Compile Include="Models\Commands\ResetWordScoreCommand.cs" />
     <Compile Include="Models\Commands\RunAdminCommand.cs" />
@@ -380,7 +383,6 @@
     <Compile Include="Models\Commands\ToggleWordFavouriteCommand.cs" />
     <Compile Include="Models\Commands\UpdateWordCommand.cs" />
     <Compile Include="Models\Commands\UpdateWordConfidenceCommand.cs" />
-    <Compile Include="Models\Commands\UpdateWordScoreCommand.cs" />
     <Compile Include="Models\ConfidenceLevel.cs" />
     <Compile Include="Models\CreateAccountRequest.cs" />
     <Compile Include="Models\DomainEvents\AbstractHandle.cs" />
@@ -466,7 +468,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Commands\Handlers\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,4 +1,4 @@
-using MinaGlosor.Web.Models.Commands;
+using MinaGlosor.Web.Models.BackgroundTasks;
 
 namespace MinaGlosor.Web.Models.DomainEvents
 {
@@ -6,7 +6,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
     {
         public override void Handle(WordRegisteredEvent ev)
         {
-            ExecuteCommand(new AddWordToWordListCommand(ev.WordListId), ev);
+            SendTask(new AddWordToWordListTask(ev.WordListId), ev);
         }
     }
 }

@@ -1,8 +1,8 @@
 namespace MinaGlosor.Web.Models.BackgroundTasks
 {
-    public class ResetWordScoreEvent
+    public class ResetWordScoreTask
     {
-        public ResetWordScoreEvent(string wordScoreId)
+        public ResetWordScoreTask(string wordScoreId)
         {
             WordScoreId = wordScoreId;
         }

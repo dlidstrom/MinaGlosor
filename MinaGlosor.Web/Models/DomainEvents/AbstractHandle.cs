@@ -11,34 +11,35 @@ namespace MinaGlosor.Web.Models.DomainEvents
     {
         public IKernel Kernel { get; set; }
 
-        public CommandExecutor CommandExecutor { get; set; }
+        public QueryExecutor QueryExecutor { get; set; }
 
         public abstract void Handle(TEvent ev);
 
         protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)
         {
             if (query == null) throw new ArgumentNullException("query");
-            return query.Execute(Kernel.Resolve<IDocumentSession>());
+            var result = QueryExecutor.ExecuteQuery(query, null);
+            return result;
         }
 
-        protected TResult ExecuteCommand<TResult>(ICommand<TResult> command, ModelEvent causedByEvent)
-        {
-            if (command == null) throw new ArgumentNullException("command");
-            if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
+        //protected TResult ExecuteCommand<TResult>(ICommand<TResult> command, ModelEvent causedByEvent)
+        //{
+        //    if (command == null) throw new ArgumentNullException("command");
+        //    if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
 
-            using (new ModelContext(ModelContext.CorrelationId, causedByEvent.EventId))
-            {
-                var commandAsJson = command.ToJson();
-                TracingLogger.Information(
-                    EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteDependentCommand_3001,
-                    "{0} <- {1}: {2}",
-                    command.GetType().Name,
-                    causedByEvent.GetType().Name,
-                    commandAsJson);
-                var result = CommandExecutor.ExecuteCommand(command, null);
-                return result;
-            }
-        }
+        //    using (new ModelContext(ModelContext.CorrelationId, causedByEvent.EventId))
+        //    {
+        //        var commandAsJson = command.ToJson();
+        //        TracingLogger.Information(
+        //            EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteDependentCommand_3001,
+        //            "{0} <- {1}: {2}",
+        //            command.GetType().Name,
+        //            causedByEvent.GetType().Name,
+        //            commandAsJson);
+        //        var result = CommandExecutor.ExecuteCommand(command, null);
+        //        return result;
+        //    }
+        //}
 
         protected void SendTask<TBody>(TBody body, ModelEvent causedByEvent) where TBody : class
         {

@@ -10,7 +10,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
             var result = ExecuteQuery(new GetWordScoreIdsQuery(ev.ModelId));
             foreach (var wordScoreId in result.Ids)
             {
-                SendTask(new ResetWordScoreEvent(wordScoreId), ev);
+                SendTask(new ResetWordScoreTask(wordScoreId), ev);
             }
         }
     }

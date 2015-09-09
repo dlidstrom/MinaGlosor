@@ -24,7 +24,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
 
         public override void Log(ExceptionLoggerContext context)
         {
-            Assert.Fail(context.Exception.ToString());
+            Debug.WriteLine(context.Exception.ToString());
         }
 
         [SetUp]
