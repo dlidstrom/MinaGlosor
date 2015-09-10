@@ -7,6 +7,6 @@ namespace MinaGlosor.Web.Models.BackgroundTasks
             WordListId = wordListId;
         }
 
-        public string WordListId { get; set; }
+        public string WordListId { get; private set; }
     }
 }

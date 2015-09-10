@@ -53,7 +53,7 @@ namespace MinaGlosor.Web.Controllers.Api
                 return StatusCode(HttpStatusCode.Unauthorized);
             }
 
-            var result = ExecuteCommand(new RunAdminCommand(Kernel, command), runAs);
+            var result = ExecuteCommand(new RunAdminCommand(command), runAs);
             return Ok(result);
         }
 

@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security;
 using Castle.MicroKernel;
-using Castle.MicroKernel.Lifestyle;
 using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models;
 using Raven.Client;
@@ -22,10 +21,10 @@ namespace MinaGlosor.Web.Infrastructure
         public TResult ExecuteCommand<TResult>(ICommand<TResult> command, User user)
         {
             var handlerType = typeof(CommandHandlerBase<,>).MakeGenericType(command.GetType(), typeof(TResult));
+            var canExecuteMethod = handlerType.GetMethod("CanExecute");
             var handleMethod = handlerType.GetMethod("Handle");
             try
             {
-                using (kernel.BeginScope())
                 using (new ActivityScope(
                     EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteCommandStart_3010,
                     EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteCommandStop_3011,
@@ -33,25 +32,27 @@ namespace MinaGlosor.Web.Infrastructure
                 using (new ModelContext(Trace.CorrelationManager.ActivityId))
                 {
                     var commandAsJson = command.ToJson();
-                    ICommandHandler handler = null;
+                    object handler = null;
                     try
                     {
-                        handler = (ICommandHandler)kernel.Resolve(handlerType);
-                        if (user != null && handler.CanExecute(user) == false)
-                        {
-                            var message = string.Format("Operation not allowed: {0} {1}", command.GetType().Name, user.Username);
-                            throw new SecurityException(message);
-                        }
+                        handler = kernel.Resolve(handlerType);
 
-                        var documentSession = kernel.Resolve<IDocumentSession>();
                         string userId = null;
                         string email = null;
                         if (user != null)
                         {
+                            var canExecute = (bool)canExecuteMethod.Invoke(handler, new[] { command, (object)user });
+                            if (canExecute == false)
+                            {
+                                var message = string.Format("Operation not allowed: {0} {1}", command.GetType().Name, user.Username);
+                                throw new SecurityException(message);
+                            }
+
                             userId = user.Id;
                             email = user.Email;
                         }
 
+                        var documentSession = kernel.Resolve<IDocumentSession>();
                         var changeLogEntry = new ChangeLogEntry(
                             userId ?? "<unknown user>",
                             email ?? "<unknown email>",

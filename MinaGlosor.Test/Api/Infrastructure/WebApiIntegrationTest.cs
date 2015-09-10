@@ -10,6 +10,7 @@ using Castle.Facilities.Startable;
 using Castle.MicroKernel.Lifestyle;
 using Castle.Windsor;
 using MinaGlosor.Web;
+using MinaGlosor.Web.Infrastructure.BackgroundTasks;
 using MinaGlosor.Web.Infrastructure.IoC.Installers;
 using NUnit.Framework;
 using Raven.Client;
@@ -59,8 +60,12 @@ namespace MinaGlosor.Test.Api.Infrastructure
             Application.Shutdown();
         }
 
+        private AutoResetEvent taskRunnerEvent;
         public void WaitForIndexing()
         {
+            taskRunnerEvent = new AutoResetEvent(false);
+            var taskRunner = Container.Resolve<TaskRunner>();
+            taskRunner.ProcessedTasks += TaskRunnerOnProcessedTasks;
             var documentStore = Container.Resolve<IDocumentStore>();
             const int Timeout = 15000;
             var indexingTask = Task.Factory.StartNew(
@@ -80,6 +85,13 @@ namespace MinaGlosor.Test.Api.Infrastructure
                     }
                 });
             indexingTask.Wait();
+            taskRunnerEvent.WaitOne();
+            taskRunner.ProcessedTasks -= TaskRunnerOnProcessedTasks;
+        }
+
+        private void TaskRunnerOnProcessedTasks(object sender, EventArgs eventArgs)
+        {
+            taskRunnerEvent.Set();
         }
 
         protected virtual void Arrange()

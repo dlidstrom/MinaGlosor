@@ -15,6 +15,11 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
                        .BasedOn(typeof(CommandHandlerBase<,>))
                        .WithServiceBase()
                        .LifestyleTransient());
+            container.Register(
+                Classes.FromThisAssembly()
+                       .BasedOn(typeof(QueryHandlerBase<,>))
+                       .WithServiceBase()
+                       .LifestyleTransient());
         }
     }
 }

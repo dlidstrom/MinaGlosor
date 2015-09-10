@@ -2,7 +2,7 @@ using MinaGlosor.Web.Models.Commands;
 
 namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
 {
-    public class ResetWordScoreEventHandler : BackgroundTaskHandler<ResetWordScoreTask>
+    public class ResetWordScoreTaskHandler : BackgroundTaskHandler<ResetWordScoreTask>
     {
         public override void Handle(ResetWordScoreTask task)
         {

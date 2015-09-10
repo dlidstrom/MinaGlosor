@@ -3,7 +3,6 @@ using System.Diagnostics;
 using Castle.MicroKernel;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.Tracing;
-using Newtonsoft.Json;
 using Raven.Client;
 
 namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
@@ -16,24 +15,12 @@ namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
 
         public abstract void Handle(TTask task);
 
-        protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)
-        {
-            if (query == null) throw new ArgumentNullException("query");
-            return query.Execute(GetDocumentSession());
-        }
-
         protected TResult ExecuteCommand<TResult, TDependentTask>(ICommand<TResult> command, TDependentTask causedByTask)
         {
             if (command == null) throw new ArgumentNullException("command");
             if (causedByTask == null) throw new ArgumentNullException("causedByTask");
 
-            var settings = new JsonSerializerSettings
-                {
-                    ContractResolver = new PrivateMembersContractResolver(),
-                    TypeNameHandling = TypeNameHandling.All,
-                    Formatting = Formatting.Indented
-                };
-            var commandAsJson = JsonConvert.SerializeObject(command, settings);
+            var commandAsJson = command.ToJson();
             var documentSession = GetDocumentSession();
             var changeLogEntry = new ChangeLogEntry(
                 string.Empty,

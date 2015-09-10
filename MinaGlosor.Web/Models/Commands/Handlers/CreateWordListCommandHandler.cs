@@ -12,7 +12,7 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
             return new CreateWordListCommand.Result(wordList);
         }
 
-        public override bool CanExecute(User currentUser)
+        public override bool CanExecute(CreateWordListCommand command, User currentUser)
         {
             return true;
         }
