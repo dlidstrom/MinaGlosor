@@ -344,6 +344,7 @@
     <Compile Include="Models\Commands\AdminCommand.cs" />
     <Compile Include="Infrastructure\CommandExecutor.cs" />
     <Compile Include="Models\Commands\Handlers\AddWordToWordListCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\CreatePracticeSessionCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\CreateWordListCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\UpdateWordCommandHandler.cs" />
     <Compile Include="Models\Commands\RegisterAdminUsersCommand.cs" />
@@ -427,6 +428,7 @@
     <Compile Include="Models\Queries\GetWordScoreIdsQuery.cs" />
     <Compile Include="Models\Queries\GetWordsQuery.cs" />
     <Compile Include="Models\Queries\GetWordsResult.cs" />
+    <Compile Include="Models\Queries\Handlers\GetWordListQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordScoreIdsQueryHandler.cs" />
     <Compile Include="Models\Queries\HasAdminUserQuery.cs" />
     <Compile Include="Models\Queries\IsPracticeSessionFinishedQuery.cs" />

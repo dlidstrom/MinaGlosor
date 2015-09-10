@@ -1,29 +1,17 @@
 using System;
 using MinaGlosor.Web.Infrastructure;
-using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Queries
 {
     public class GetWordListQuery : IQuery<GetWordListQuery.Result>
     {
-        private readonly string wordListId;
-
         public GetWordListQuery(string wordListId)
         {
             if (wordListId == null) throw new ArgumentNullException("wordListId");
-            this.wordListId = WordList.ToId(wordListId);
+            this.WordListId = WordList.ToId(wordListId);
         }
 
-        public bool CanExecute(IDocumentSession session, User currentUser)
-        {
-            return true;
-        }
-
-        public Result Execute(IDocumentSession session)
-        {
-            var wordList = session.Load<WordList>(wordListId);
-            return new Result(wordList);
-        }
+        public string WordListId { get; private set; }
 
         public class Result
         {
