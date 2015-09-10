@@ -41,7 +41,7 @@ namespace MinaGlosor.Web.Infrastructure
                         string email = null;
                         if (user != null)
                         {
-                            var canExecute = (bool)canExecuteMethod.Invoke(handler, new[] { command, (object)user });
+                            var canExecute = (bool)canExecuteMethod.Invoke(handler, new object[] { command, user });
                             if (canExecute == false)
                             {
                                 var message = string.Format("Operation not allowed: {0} {1}", command.GetType().Name, user.Username);

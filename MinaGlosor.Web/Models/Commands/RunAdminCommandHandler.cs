@@ -18,11 +18,12 @@ namespace MinaGlosor.Web.Models.Commands
             object handler = null;
             try
             {
+                var adminCommand = command.AdminCommand;
                 var handlerType = typeof(IAdminCommandHandler<>)
-                    .MakeGenericType(command.AdminCommand.GetType());
+                    .MakeGenericType(adminCommand.GetType());
                 handler = kernel.Resolve(handlerType);
                 var methodInfo = handlerType.GetMethod("Run");
-                var result = methodInfo.Invoke(handler, new[] { (object)command });
+                var result = methodInfo.Invoke(handler, new[] { (object)adminCommand });
                 return result;
             }
             finally

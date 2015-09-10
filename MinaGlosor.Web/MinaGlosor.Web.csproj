@@ -251,7 +251,6 @@
     <Compile Include="Infrastructure\IoC\Installers\BackgroundTaskHandlerInstaller.cs" />
     <Compile Include="Infrastructure\IoC\Installers\CommandQueryInstaller.cs" />
     <Compile Include="Infrastructure\IoC\Installers\TaskRunnerInstaller.cs" />
-    <Compile Include="Infrastructure\IQueryHandler.cs" />
     <Compile Include="Infrastructure\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\QueryExecutor.cs" />
     <Compile Include="Infrastructure\QueryHandlerBase.cs" />
@@ -416,9 +415,9 @@
     <Compile Include="Models\Queries\GetCreateAccountRequestQuery.cs" />
     <Compile Include="Models\Queries\GetNextPracticeWordQuery.cs" />
     <Compile Include="Models\Queries\GetPracticeWordQuery.cs" />
-    <Compile Include="Models\Queries\GetPracticeWordQueryBase.cs" />
     <Compile Include="Models\Queries\GetResetPasswordRequestQuery.cs" />
     <Compile Include="Models\Queries\GetUnfinishedPracticeSessionsQuery.cs" />
+    <Compile Include="Models\Queries\GetUnfinishedPracticeSessionsQueryHandler.cs" />
     <Compile Include="Models\Queries\GetUserByEmailQuery.cs" />
     <Compile Include="Models\Queries\GetUserByUsernameQuery.cs" />
     <Compile Include="Models\Queries\GetWordFavouritesQuery.cs" />
@@ -428,6 +427,12 @@
     <Compile Include="Models\Queries\GetWordScoreIdsQuery.cs" />
     <Compile Include="Models\Queries\GetWordsQuery.cs" />
     <Compile Include="Models\Queries\GetWordsResult.cs" />
+    <Compile Include="Models\Queries\Handlers\GetAdminUsersQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetCreateAccountRequestQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetNextPracticeWordQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetPracticeWordQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetPracticeWordQueryHandlerBase.cs" />
+    <Compile Include="Models\Queries\Handlers\GetResetPasswordRequestQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordListQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordScoreIdsQueryHandler.cs" />
     <Compile Include="Models\Queries\HasAdminUserQuery.cs" />

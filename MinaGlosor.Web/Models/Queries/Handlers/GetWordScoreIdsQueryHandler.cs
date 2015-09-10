@@ -7,7 +7,7 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
 {
     public class GetWordScoreIdsQueryHandler : QueryHandlerBase<GetWordScoreIdsQuery, GetWordScoreIdsQuery.Result>
     {
-        public override bool CanExecute(User currentUser)
+        public override bool CanExecute(GetWordScoreIdsQuery query, User currentUser)
         {
             return true;
         }

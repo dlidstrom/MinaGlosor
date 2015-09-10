@@ -20,6 +20,7 @@ namespace MinaGlosor.Web.Infrastructure
         public TResult ExecuteQuery<TResult>(IQuery<TResult> query, User user)
         {
             var handlerType = typeof(QueryHandlerBase<,>).MakeGenericType(query.GetType(), typeof(TResult));
+            var canExecuteMethod = handlerType.GetMethod("CanExecute");
             var handleMethod = handlerType.GetMethod("Handle");
             try
             {
@@ -30,11 +31,11 @@ namespace MinaGlosor.Web.Infrastructure
                 {
                     var queryAsJson = query.ToJson();
                     TracingLogger.Information(EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteQueryLog_3014, queryAsJson);
-                    IQueryHandler handler = null;
+                    object handler = null;
                     try
                     {
-                        handler = (IQueryHandler)kernel.Resolve(handlerType);
-                        if (user != null && handler.CanExecute(user) == false)
+                        handler = kernel.Resolve(handlerType);
+                        if (user != null && (bool)canExecuteMethod.Invoke(handler, new object[] { query, user }) == false)
                         {
                             var message = string.Format("Operation not allowed: {0} {1}", query.GetType().Name, user.Username);
                             throw new SecurityException(message);

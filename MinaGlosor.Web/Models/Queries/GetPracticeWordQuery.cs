@@ -1,40 +1,25 @@
 using System;
-using Raven.Client;
+using MinaGlosor.Web.Infrastructure;
 
 namespace MinaGlosor.Web.Models.Queries
 {
-    public class GetPracticeWordQuery : GetPracticeWordQueryBase
+    public class GetPracticeWordQuery : IQuery<PracticeWordResult>
     {
-        private readonly string practiceSessionId;
-        private readonly string practiceWordId;
-        private readonly string userId;
-
         public GetPracticeWordQuery(string practiceSessionId, string practiceWordId, string userId)
         {
             if (practiceSessionId == null) throw new ArgumentNullException("practiceSessionId");
             if (practiceWordId == null) throw new ArgumentNullException("practiceWordId");
             if (userId == null) throw new ArgumentNullException("userId");
 
-            this.practiceSessionId = PracticeSession.ToId(practiceSessionId);
-            this.practiceWordId = practiceWordId;
-            this.userId = userId;
+            PracticeSessionId = PracticeSession.ToId(practiceSessionId);
+            PracticeWordId = practiceWordId;
+            UserId = userId;
         }
 
-        public override bool CanExecute(IDocumentSession session, User currentUser)
-        {
-            return DefaultCanExecute(session, currentUser, practiceSessionId);
-        }
+        public string PracticeSessionId { get; private set; }
 
-        public override PracticeWordResult Execute(IDocumentSession session)
-        {
-            var practiceSession = session.Load<PracticeSession>(practiceSessionId);
-            var practiceWord = practiceSession.GetWordById(practiceWordId);
-            var word = session.Include<Word>(x => x.WordListId).Load<Word>(practiceWord.WordId);
-            var wordList = session.Load<WordList>(word.WordListId);
-            var wordFavourite = session.Load<WordFavourite>(WordFavourite.GetId(word.Id, userId));
-            var isFavourite = wordFavourite != null && wordFavourite.IsFavourite;
-            var result = new PracticeWordResult(practiceWord, word, practiceSession, wordList, isFavourite);
-            return result;
-        }
+        public string PracticeWordId { get; private set; }
+
+        public string UserId { get; private set; }
     }
 }

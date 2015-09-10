@@ -3,11 +3,11 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Infrastructure
 {
-    public abstract class QueryHandlerBase<TQuery, TResult> : IQueryHandler where TQuery : IQuery<TResult>
+    public abstract class QueryHandlerBase<TQuery, TResult> where TQuery : IQuery<TResult>
     {
         public IDocumentSession Session { get; set; }
 
-        public abstract bool CanExecute(User currentUser);
+        public abstract bool CanExecute(TQuery query, User currentUser);
 
         public abstract TResult Handle(TQuery query);
     }
