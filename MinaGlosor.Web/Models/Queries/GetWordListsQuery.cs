@@ -1,60 +1,19 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Indexes;
 using Newtonsoft.Json;
-using Raven.Abstractions;
-using Raven.Client;
-using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Models.Queries
 {
     public class GetWordListsQuery : IQuery<GetWordListsQuery.Result>
     {
-        private readonly string userId;
-
         public GetWordListsQuery(string userId)
         {
             if (userId == null) throw new ArgumentNullException("userId");
-            this.userId = userId;
+            UserId = userId;
         }
 
-        public bool CanExecute(IDocumentSession session, User currentUser)
-        {
-            return true;
-        }
-
-        public Result Execute(IDocumentSession session)
-        {
-            var wordLists = session.Query<WordListIndex.Result, WordListIndex>()
-                                   .Customize(x => x.WaitForNonStaleResultsAsOfNow())
-                                   .Where(x => x.OwnerId == userId)
-                                   .ToArray();
-
-            var wordListResults = new List<WordListResult>();
-            foreach (var wordList in wordLists)
-            {
-                var expiredCount = session.Query<WordScore, WordScoreIndex>()
-                                          .Count(x => x.RepeatAfterDate < SystemTime.UtcNow && x.WordListId == wordList.Id);
-                var wordListResult = new WordListResult(wordList, expiredCount);
-                wordListResults.Add(wordListResult);
-            }
-
-            var orderedResults = wordListResults.OrderByDescending(x => x.NumberOfWords > 0 ? 1 : 0)
-                                                .ThenBy(x => x.PercentDone == 100 ? 1 : 0)
-                                                .ThenByDescending(x => x.PercentExpired)
-                                                .ThenBy(x => x.Rank)
-                                                .ToArray();
-
-            // favourites
-            var numberOfFavourites = session.Query<WordFavourite, WordFavouriteIndex>()
-                .Where(x => x.UserId == userId)
-                .Count(x => x.IsFavourite);
-            var result = new Result(orderedResults, numberOfFavourites);
-
-            return result;
-        }
+        public string UserId { get; private set; }
 
         public class Result
         {

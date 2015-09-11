@@ -3,7 +3,7 @@ using System.Threading;
 using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web.Infrastructure.BackgroundTasks;
 using MinaGlosor.Web.Models;
-using MinaGlosor.Web.Models.Commands;
+using MinaGlosor.Web.Models.Commands.Handlers;
 using NUnit.Framework;
 
 namespace MinaGlosor.Test.Api

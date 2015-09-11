@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using MinaGlosor.Web.Models.Commands;
+using MinaGlosor.Web.Models.Commands.Handlers;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Client;
 

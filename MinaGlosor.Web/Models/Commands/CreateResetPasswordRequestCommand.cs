@@ -4,25 +4,18 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands
 {
-    public class CreateResetPasswordRequestCommand : ICommand<object>
+    public class CreateResetPasswordRequestCommand : ICommand<string>
     {
-        private readonly string email;
-
         public CreateResetPasswordRequestCommand(string email)
         {
             if (email == null) throw new ArgumentNullException("email");
-            this.email = email;
+            Email = email;
         }
 
-        public bool CanExecute(IDocumentSession session, User currentUser)
-        {
-            return true;
-        }
+        public string Email { get; private set; }
 
         public void Execute(IDocumentSession session)
         {
-            var id = KeyGeneratorBase.Generate<ResetPasswordRequest>(session);
-            session.Store(new ResetPasswordRequest(id, email));
         }
     }
 }

@@ -17,8 +17,8 @@ namespace MinaGlosor.Web.Models.Commands
         public string WordListId { get; private set; }
 
         public string CurrentUserId { get; private set; }
-        public class Result
 
+        public class Result
         {
             public Result(string practiceSessionId)
             {

@@ -1,47 +1,25 @@
 using System;
 using MinaGlosor.Web.Infrastructure;
-using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands
 {
     public class ToggleWordFavouriteCommand : ICommand<ToggleWordFavouriteCommand.Result>
     {
-        private readonly string wordId;
-        private readonly bool isFavourite;
-        private readonly string userId;
-
         public ToggleWordFavouriteCommand(string wordId, bool isFavourite, string userId)
         {
             if (wordId == null) throw new ArgumentNullException("wordId");
             if (userId == null) throw new ArgumentNullException("userId");
 
-            this.wordId = Word.ToId(wordId);
-            this.isFavourite = isFavourite;
-            this.userId = userId;
+            WordId = Word.ToId(wordId);
+            IsFavourite = isFavourite;
+            UserId = userId;
         }
 
-        public bool CanExecute(IDocumentSession session, User currentUser)
-        {
-            return userId == currentUser.Id;
-        }
+        public string WordId { get; private set; }
 
-        public Result Execute(IDocumentSession session)
-        {
-            var id = WordFavourite.GetId(wordId, userId);
-            var wordFavourite = session.Load<WordFavourite>(id);
-            if (wordFavourite == null)
-            {
-                // is favourite by default
-                wordFavourite = new WordFavourite(wordId, userId);
-                session.Store(wordFavourite);
-            }
-            else
-            {
-                wordFavourite.Toggle(isFavourite);
-            }
+        public bool IsFavourite { get; private set; }
 
-            return new Result(wordFavourite.IsFavourite);
-        }
+        public string UserId { get; private set; }
 
         public class Result
         {

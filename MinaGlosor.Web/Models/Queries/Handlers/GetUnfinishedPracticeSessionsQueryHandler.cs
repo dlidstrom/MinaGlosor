@@ -3,7 +3,7 @@ using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Client.Linq;
 
-namespace MinaGlosor.Web.Models.Queries
+namespace MinaGlosor.Web.Models.Queries.Handlers
 {
     public class GetUnfinishedPracticeSessionsQueryHandler : QueryHandlerBase<GetUnfinishedPracticeSessionsQuery, GetUnfinishedPracticeSessionsQuery.Result[]>
     {

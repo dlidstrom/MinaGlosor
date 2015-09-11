@@ -8,7 +8,7 @@ namespace MinaGlosor.Web.Models.Queries
         public GetWordListQuery(string wordListId)
         {
             if (wordListId == null) throw new ArgumentNullException("wordListId");
-            this.WordListId = WordList.ToId(wordListId);
+            WordListId = WordList.ToId(wordListId);
         }
 
         public string WordListId { get; private set; }

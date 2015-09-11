@@ -1,7 +1,7 @@
 using System.Net.Http;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.AdminCommands;
-using MinaGlosor.Web.Models.Commands;
+using MinaGlosor.Web.Models.Commands.Handlers;
 using Newtonsoft.Json;
 using NUnit.Framework;
 

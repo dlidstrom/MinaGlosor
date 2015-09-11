@@ -2,7 +2,7 @@ using Castle.MicroKernel;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.AdminCommands;
 
-namespace MinaGlosor.Web.Models.Commands
+namespace MinaGlosor.Web.Models.Commands.Handlers
 {
     public class RunAdminCommandHandler : CommandHandlerBase<RunAdminCommand, object>
     {
