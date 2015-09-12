@@ -109,9 +109,10 @@ namespace MinaGlosor.Web.Models
 
         public void ResetAfterWordEdit()
         {
-            const int NewIntervalInDays = 1;
+            const int NewIntervalInDays = 0;
             const int NewCount = 1;
-            Apply(new RestartWordScoreEvent(Id, NewIntervalInDays, NewCount, TimesForgotten));
+            var repeatAfterDate = SystemTime.UtcNow.AddDays(NewIntervalInDays);
+            Apply(new RestartAfterEditEvent(Id, NewIntervalInDays, NewCount, repeatAfterDate));
         }
 
         private void ApplyEvent(WordScoreRegisteredEvent @event)
@@ -135,6 +136,13 @@ namespace MinaGlosor.Web.Models
             IntervalInDays = @event.IntervalInDays;
             RepeatAfterDate = @event.RepeatAfterDate;
             Score = @event.Score;
+        }
+
+        private void ApplyEvent(RestartAfterEditEvent @event)
+        {
+            Count = @event.Count;
+            IntervalInDays = @event.IntervalInDays;
+            RepeatAfterDate = @event.RepeatAfterDate;
         }
     }
 }

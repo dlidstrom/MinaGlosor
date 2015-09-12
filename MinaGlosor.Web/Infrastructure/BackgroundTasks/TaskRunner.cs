@@ -39,7 +39,12 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             HostingEnvironment.RegisterObject(this);
         }
 
-        public event EventHandler ProcessedTasks;
+        public event EventHandler<EventArgs> ProcessedTasks;
+
+        public bool IsEnabled
+        {
+            get { return timer.Enabled; }
+        }
 
         public IDisposable PauseScoped()
         {
@@ -89,7 +94,13 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
 
             try
             {
-                PerformWork();
+                var remaining = PerformWork();
+                while (remaining > 0)
+                {
+                    System.Diagnostics.Debug.WriteLine("{0} Remaining tasks: {1}", DateTime.Now, remaining);
+                    remaining = PerformWork();
+                }
+
                 OnProcessedTasks();
             }
             catch (Exception e)
@@ -103,15 +114,19 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             }
         }
 
-        private void PerformWork()
+        private int PerformWork()
         {
             try
             {
                 using (kernel.BeginScope())
                 using (var session = kernel.Resolve<IDocumentSession>())
                 {
-                    if (ProcessTask(session))
+                    var results = ProcessTask(session);
+                    if (results > 0)
+                    {
                         session.SaveChanges();
+                        return results - 1;
+                    }
                 }
             }
             catch (Exception e)
@@ -119,15 +134,23 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                 TracingLogger.Error(EventIds.Error_Permanent_5XXX.Web_UnhandledException_5000, e);
                 ErrorLog.GetDefault(null).Log(new Error(e));
             }
+
+            return 0;
         }
 
-        private bool ProcessTask(IDocumentSession session)
+        private int ProcessTask(IDocumentSession session)
         {
+            RavenQueryStatistics stats;
             var task = session.Query<BackgroundTask, BackgroundTasksIndex>()
+                              .Customize(x => x.WaitForNonStaleResults())
+                              .Statistics(out stats)
                               .Where(x => x.IsFinished == false && x.IsFailed == false)
                               .OrderBy(x => x.NextTry)
                               .FirstOrDefault();
-            if (task == null) return false;
+            if (task == null || task.IsFinished)
+            {
+                return stats.TotalResults;
+            }
 
             object handler = null;
             try
@@ -154,7 +177,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                 if (handler != null) kernel.ReleaseComponent(handler);
             }
 
-            return true;
+            return stats.TotalResults;
         }
 
         private class EnableDisposable : IDisposable

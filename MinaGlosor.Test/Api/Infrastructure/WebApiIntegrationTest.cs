@@ -85,7 +85,12 @@ namespace MinaGlosor.Test.Api.Infrastructure
                     }
                 });
             indexingTask.Wait();
-            taskRunnerEvent.WaitOne();
+
+            if (taskRunner.IsEnabled)
+            {
+                taskRunnerEvent.WaitOne();
+            }
+
             taskRunner.ProcessedTasks -= TaskRunnerOnProcessedTasks;
         }
 
