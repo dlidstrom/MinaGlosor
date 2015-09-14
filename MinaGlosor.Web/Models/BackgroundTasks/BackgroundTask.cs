@@ -68,7 +68,7 @@ namespace MinaGlosor.Web.Models.BackgroundTasks
 
         public string GetInfo()
         {
-            var info = string.Format("Type: {0}{1}{2}", Body.GetType(), Environment.NewLine, Body);
+            var info = string.Format("{0}{1}", Body.GetType(), Body);
             return info;
         }
     }

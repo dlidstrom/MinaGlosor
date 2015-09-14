@@ -8,5 +8,10 @@ namespace MinaGlosor.Web.Models.BackgroundTasks
         }
 
         public string WordListId { get; private set; }
+
+        public override string ToString()
+        {
+            return string.Format("WordListId: {0}", WordListId);
+        }
     }
 }

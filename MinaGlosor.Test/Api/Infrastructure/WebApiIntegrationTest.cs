@@ -19,6 +19,8 @@ namespace MinaGlosor.Test.Api.Infrastructure
 {
     public abstract class WebApiIntegrationTest : ExceptionLogger
     {
+        private AutoResetEvent taskRunnerEvent;
+
         public HttpClient Client { get; private set; }
 
         protected IWindsorContainer Container { get; set; }
@@ -60,23 +62,30 @@ namespace MinaGlosor.Test.Api.Infrastructure
             Application.Shutdown();
         }
 
-        private AutoResetEvent taskRunnerEvent;
         public void WaitForIndexing()
         {
-            taskRunnerEvent = new AutoResetEvent(false);
+            // wait for tasks
             var taskRunner = Container.Resolve<TaskRunner>();
             taskRunner.ProcessedTasks += TaskRunnerOnProcessedTasks;
+            taskRunnerEvent = new AutoResetEvent(false);
+            Debug.WriteLine("Waiting for task runner");
+            taskRunnerEvent.WaitOne();
+            Debug.WriteLine("Task runner done");
+            taskRunner.ProcessedTasks -= TaskRunnerOnProcessedTasks;
+
+            // wait for indexes
+            Debug.WriteLine("Waiting for indexing");
             var documentStore = Container.Resolve<IDocumentStore>();
-            const int Timeout = 15000;
             var indexingTask = Task.Factory.StartNew(
                 () =>
                 {
-                    var sw = Stopwatch.StartNew();
-                    while (sw.Elapsed.TotalMilliseconds < Timeout)
+                    while (true)
                     {
-                        var s = documentStore.DatabaseCommands.GetStatistics()
-                                             .StaleIndexes;
-                        if (s.Length == 0)
+                        var staleIndexes = documentStore.DatabaseCommands
+                                                        .GetStatistics()
+                                                        .StaleIndexes;
+                        Debug.WriteLine("Stale indexes: {0}", staleIndexes.Length);
+                        if (staleIndexes.Length == 0)
                         {
                             break;
                         }
@@ -85,18 +94,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
                     }
                 });
             indexingTask.Wait();
-
-            if (taskRunner.IsEnabled)
-            {
-                taskRunnerEvent.WaitOne();
-            }
-
-            taskRunner.ProcessedTasks -= TaskRunnerOnProcessedTasks;
-        }
-
-        private void TaskRunnerOnProcessedTasks(object sender, EventArgs eventArgs)
-        {
-            taskRunnerEvent.Set();
+            Debug.WriteLine("Indexing done");
         }
 
         protected virtual void Arrange()
@@ -127,6 +125,11 @@ namespace MinaGlosor.Test.Api.Infrastructure
 
         protected virtual void OnTearDown()
         {
+        }
+
+        private void TaskRunnerOnProcessedTasks(object sender, EventArgs eventArgs)
+        {
+            taskRunnerEvent.Set();
         }
     }
 }

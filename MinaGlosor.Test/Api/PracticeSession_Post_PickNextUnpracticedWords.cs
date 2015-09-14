@@ -31,6 +31,7 @@ namespace MinaGlosor.Test.Api
             var createSessionContent = await createSessionResponse.Content.ReadAsAsync<CreateSessionContent>();
 
             // should be the next 10 words
+            Debug.WriteLine("Verifying expected words");
             Transact(session =>
                 {
                     var practiceSession = session.Load<PracticeSession>(PracticeSession.ToId(createSessionContent.PracticeSessionId));

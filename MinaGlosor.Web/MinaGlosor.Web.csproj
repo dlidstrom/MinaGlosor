@@ -337,9 +337,9 @@
     <Compile Include="Models\BackgroundTasks\Handlers\AddWordToWordListTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\BackgroundTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\ResetWordScoreTaskHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\Handlers\UpdateWordScoreTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\ResetWordScoreTask.cs" />
     <Compile Include="Models\BackgroundTasks\UpdateWordScoreTask.cs" />
-    <Compile Include="Models\BackgroundTasks\UpdateWordScoreTaskHandler.cs" />
     <Compile Include="Models\ChangeLogEntry.cs" />
     <Compile Include="Models\Commands\AdminCommand.cs" />
     <Compile Include="Infrastructure\CommandExecutor.cs" />

@@ -23,5 +23,10 @@ namespace MinaGlosor.Web.Models.BackgroundTasks
         public ConfidenceLevel ConfidenceLevel { get; private set; }
 
         public string OwnerId { get; private set; }
+
+        public override string ToString()
+        {
+            return string.Format("WordId: {0}, WordListId: {1}, ConfidenceLevel: {2}, OwnerId: {3}", WordId, WordListId, ConfidenceLevel, OwnerId);
+        }
     }
 }

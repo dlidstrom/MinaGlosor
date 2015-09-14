@@ -1,7 +1,6 @@
-using MinaGlosor.Web.Models.BackgroundTasks.Handlers;
 using MinaGlosor.Web.Models.Commands;
 
-namespace MinaGlosor.Web.Models.BackgroundTasks
+namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
 {
     public class UpdateWordScoreTaskHandler : BackgroundTaskHandler<UpdateWordScoreTask>
     {

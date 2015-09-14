@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Timers;
@@ -16,8 +17,10 @@ using Timer = System.Timers.Timer;
 
 namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
 {
+    [DebuggerDisplay("{uniqueId}")]
     public class TaskRunner : IRegisteredObject
     {
+        private readonly Guid uniqueId = Guid.NewGuid();
         private readonly IKernel kernel;
         private readonly Timer timer;
         private readonly object locker = new object();
@@ -40,17 +43,6 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
         }
 
         public event EventHandler<EventArgs> ProcessedTasks;
-
-        public bool IsEnabled
-        {
-            get { return timer.Enabled; }
-        }
-
-        public IDisposable PauseScoped()
-        {
-            timer.Stop();
-            return new EnableDisposable { Timer = timer };
-        }
 
         public void Stop(bool immediate)
         {
@@ -81,7 +73,11 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
         protected virtual void OnProcessedTasks()
         {
             var handler = ProcessedTasks;
-            if (handler != null) handler(this, EventArgs.Empty);
+            if (handler != null)
+            {
+                Debug.WriteLine("Signalling tasks done");
+                handler(this, EventArgs.Empty);
+            }
         }
 
         private void TimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
@@ -97,7 +93,6 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                 var remaining = PerformWork();
                 while (remaining > 0)
                 {
-                    System.Diagnostics.Debug.WriteLine("{0} Remaining tasks: {1}", DateTime.Now, remaining);
                     remaining = PerformWork();
                 }
 
@@ -147,6 +142,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                               .Where(x => x.IsFinished == false && x.IsFailed == false)
                               .OrderBy(x => x.NextTry)
                               .FirstOrDefault();
+            Debug.WriteLine("Remaining tasks: {0}", stats.TotalResults);
             if (task == null || task.IsFinished)
             {
                 return stats.TotalResults;
@@ -158,6 +154,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                 using (new ModelContext(task.CorrelationId))
                 using (new ActivityScope(EventIds.Informational_ApplicationLog_3XXX.Web_StartTask_3007, EventIds.Informational_ApplicationLog_3XXX.Web_EndTask_3008, task.ToString()))
                 {
+                    Debug.WriteLine("Handling task " + task.GetInfo());
                     var handlerType = typeof(BackgroundTaskHandler<>).MakeGenericType(task.Body.GetType());
                     handler = kernel.Resolve(handlerType);
                     var method = handler.GetType().GetMethod("Handle");
@@ -178,16 +175,6 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             }
 
             return stats.TotalResults;
-        }
-
-        private class EnableDisposable : IDisposable
-        {
-            public Timer Timer { private get; set; }
-
-            public void Dispose()
-            {
-                Timer.Start();
-            }
         }
     }
 }
