@@ -20,7 +20,6 @@ namespace MinaGlosor.Test.Api.Infrastructure
             };
             var response = await test.Client.PostAsJsonAsync("http://temp.uri/api/wordconfidence", request);
             response.EnsureSuccessStatusCode();
-            test.WaitForIndexing();
             var content = await response.Content.ReadAsAsync<Response>();
             return content;
         }

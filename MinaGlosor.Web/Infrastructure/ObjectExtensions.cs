@@ -6,7 +6,6 @@ namespace MinaGlosor.Web.Infrastructure
     {
         private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
-            ContractResolver = new PrivateMembersContractResolver(),
             TypeNameHandling = TypeNameHandling.All
         };
 

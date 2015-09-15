@@ -75,7 +75,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             var handler = ProcessedTasks;
             if (handler != null)
             {
-                Debug.WriteLine("Signalling tasks done");
+                TracingLogger.Information("Signalling tasks done");
                 handler(this, EventArgs.Empty);
             }
         }
@@ -142,7 +142,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                               .Where(x => x.IsFinished == false && x.IsFailed == false)
                               .OrderBy(x => x.NextTry)
                               .FirstOrDefault();
-            Debug.WriteLine("Remaining tasks: {0}", stats.TotalResults);
+            TracingLogger.Information("Remaining tasks: {0}", stats.TotalResults);
             if (task == null || task.IsFinished)
             {
                 return stats.TotalResults;
@@ -154,7 +154,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                 using (new ModelContext(task.CorrelationId))
                 using (new ActivityScope(EventIds.Informational_ApplicationLog_3XXX.Web_StartTask_3007, EventIds.Informational_ApplicationLog_3XXX.Web_EndTask_3008, task.ToString()))
                 {
-                    Debug.WriteLine("Handling task " + task.GetInfo());
+                    TracingLogger.Information("Handling task " + task.GetInfo());
                     var handlerType = typeof(BackgroundTaskHandler<>).MakeGenericType(task.Body.GetType());
                     handler = kernel.Resolve(handlerType);
                     var method = handler.GetType().GetMethod("Handle");

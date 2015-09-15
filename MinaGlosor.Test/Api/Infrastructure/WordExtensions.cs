@@ -15,7 +15,6 @@ namespace MinaGlosor.Test.Api.Infrastructure
             };
             var response = await test.Client.PostAsJsonAsync("http://temp.uri/api/word", request);
             response.EnsureSuccessStatusCode();
-            test.WaitForIndexing();
             var content = await response.Content.ReadAsAsync<PostWordResponse>();
             return content;
         }
@@ -30,7 +29,6 @@ namespace MinaGlosor.Test.Api.Infrastructure
             };
             var response = await test.Client.PutAsJsonAsync("http://temp.uri/api/word", request);
             response.EnsureSuccessStatusCode();
-            test.WaitForIndexing();
         }
 
         public class PostWordResponse

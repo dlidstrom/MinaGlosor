@@ -34,6 +34,7 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
                 Template = "{DateTime:HH':'mm':'ss.fffZ};[{Thread,2}];{Source};{EventType,-11};{Id,4};{PrincipalName};{Message}{Data}"
             };
             TraceSource.Listeners.Add(listener);
+            TraceSource.Listeners.Add(new ConsoleTraceListener());
         }
 
         public static void Information(string message)

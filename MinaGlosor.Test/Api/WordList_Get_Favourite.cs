@@ -15,7 +15,6 @@ namespace MinaGlosor.Test.Api
         public async void GetsWithFavourite()
         {
             // Act
-            WaitForIndexing();
             var response = await Client.GetAsync("http://temp.uri/api/wordlist");
             var content = response.Content;
 

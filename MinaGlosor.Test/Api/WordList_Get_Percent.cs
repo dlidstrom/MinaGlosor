@@ -16,7 +16,6 @@ namespace MinaGlosor.Test.Api
         public async void GetsWithPercentComplete()
         {
             // Act
-            WaitForIndexing();
             SystemTime.UtcDateTime = () => new DateTime(2012, 1, 2, 0, 0, 5);
             var response = await Client.GetAsync("http://temp.uri/api/wordlist");
             var content = response.Content;
