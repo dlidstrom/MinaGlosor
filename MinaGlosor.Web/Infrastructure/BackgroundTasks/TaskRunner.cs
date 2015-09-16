@@ -85,6 +85,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             if (Monitor.TryEnter(locker) == false)
             {
                 TracingLogger.Warning(EventIds.Warning_Transient_4XXX.Web_TaskInProcess_4003, "Abort: Task in process");
+                if (exiting == false) timer.Start();
                 return;
             }
 
