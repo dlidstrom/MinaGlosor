@@ -15,6 +15,10 @@ namespace MinaGlosor.Web.Controllers
     {
         public IKernel Kernel { get; set; }
 
+        public CommandExecutor CommandExecutor { get; set; }
+
+        public QueryExecutor QueryExecutor { get; set; }
+
         // TODO Is this needed?
         protected User CurrentUser { get; private set; }
 
@@ -52,18 +56,22 @@ namespace MinaGlosor.Web.Controllers
         {
             if (query == null) throw new ArgumentNullException("query");
 
-            var queryExecutor = Kernel.Resolve<QueryExecutor>();
-            var result = queryExecutor.ExecuteQuery(query, CurrentUser);
-            return result;
+            using (Kernel.BeginScope())
+            {
+                var result = QueryExecutor.ExecuteQuery(query, CurrentUser);
+                return result;
+            }
         }
 
         protected TResult ExecuteCommand<TResult>(ICommand<TResult> command)
         {
             if (command == null) throw new ArgumentNullException("command");
 
-            var commandExecutor = Kernel.Resolve<CommandExecutor>();
-            var result = commandExecutor.ExecuteCommand(command, CurrentUser);
-            return result;
+            using (Kernel.BeginScope())
+            {
+                var result = CommandExecutor.ExecuteCommand(command, CurrentUser);
+                return result;
+            }
         }
     }
 }
