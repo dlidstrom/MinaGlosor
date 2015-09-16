@@ -19,6 +19,12 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
 
             var id = KeyGeneratorBase.Generate<User>(Session);
             Session.Store(new User(id, command.Email, command.Password, command.Username, command.UserRole));
+            if (command.UserRole == UserRole.Admin)
+            {
+                var config = Session.Load<WebsiteConfig>(WebsiteConfig.GlobalId);
+                config.AddAdminUser(id);
+            }
+
             return id;
         }
 
