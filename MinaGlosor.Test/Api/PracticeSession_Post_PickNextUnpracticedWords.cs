@@ -7,8 +7,9 @@ using System.Net.Http;
 using System.Security.Principal;
 using System.Threading;
 using MinaGlosor.Test.Api.Infrastructure;
+using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models;
-using MinaGlosor.Web.Models.Commands;
+using MinaGlosor.Web.Models.Commands.Handlers;
 using NUnit.Framework;
 using Raven.Abstractions;
 
@@ -31,6 +32,7 @@ namespace MinaGlosor.Test.Api
             var createSessionContent = await createSessionResponse.Content.ReadAsAsync<CreateSessionContent>();
 
             // should be the next 10 words
+            TracingLogger.Information("Verifying expected words");
             Transact(session =>
                 {
                     var practiceSession = session.Load<PracticeSession>(PracticeSession.ToId(createSessionContent.PracticeSessionId));

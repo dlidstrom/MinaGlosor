@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Timers;
@@ -16,8 +17,10 @@ using Timer = System.Timers.Timer;
 
 namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
 {
+    [DebuggerDisplay("{uniqueId}")]
     public class TaskRunner : IRegisteredObject
     {
+        private readonly Guid uniqueId = Guid.NewGuid();
         private readonly IKernel kernel;
         private readonly Timer timer;
         private readonly object locker = new object();
@@ -39,13 +42,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             HostingEnvironment.RegisterObject(this);
         }
 
-        public event EventHandler ProcessedTasks;
-
-        public IDisposable PauseScoped()
-        {
-            timer.Stop();
-            return new EnableDisposable { Timer = timer };
-        }
+        public event EventHandler<EventArgs> ProcessedTasks;
 
         public void Stop(bool immediate)
         {
@@ -76,7 +73,11 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
         protected virtual void OnProcessedTasks()
         {
             var handler = ProcessedTasks;
-            if (handler != null) handler(this, EventArgs.Empty);
+            if (handler != null)
+            {
+                TracingLogger.Information("Signalling tasks done");
+                handler(this, EventArgs.Empty);
+            }
         }
 
         private void TimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
@@ -84,12 +85,18 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             if (Monitor.TryEnter(locker) == false)
             {
                 TracingLogger.Warning(EventIds.Warning_Transient_4XXX.Web_TaskInProcess_4003, "Abort: Task in process");
+                if (exiting == false) timer.Start();
                 return;
             }
 
             try
             {
-                PerformWork();
+                var remaining = PerformWork();
+                while (remaining > 0)
+                {
+                    remaining = PerformWork();
+                }
+
                 OnProcessedTasks();
             }
             catch (Exception e)
@@ -103,15 +110,19 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             }
         }
 
-        private void PerformWork()
+        private int PerformWork()
         {
             try
             {
                 using (kernel.BeginScope())
                 using (var session = kernel.Resolve<IDocumentSession>())
                 {
-                    if (ProcessTask(session))
+                    var results = ProcessTask(session);
+                    if (results > 0)
+                    {
                         session.SaveChanges();
+                        return results - 1;
+                    }
                 }
             }
             catch (Exception e)
@@ -119,15 +130,23 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                 TracingLogger.Error(EventIds.Error_Permanent_5XXX.Web_UnhandledException_5000, e);
                 ErrorLog.GetDefault(null).Log(new Error(e));
             }
+
+            return 0;
         }
 
-        private bool ProcessTask(IDocumentSession session)
+        private int ProcessTask(IDocumentSession session)
         {
+            RavenQueryStatistics stats;
             var task = session.Query<BackgroundTask, BackgroundTasksIndex>()
+                              .Customize(x => x.WaitForNonStaleResults())
+                              .Statistics(out stats)
                               .Where(x => x.IsFinished == false && x.IsFailed == false)
                               .OrderBy(x => x.NextTry)
                               .FirstOrDefault();
-            if (task == null) return false;
+            if (task == null || task.IsFinished)
+            {
+                return stats.TotalResults;
+            }
 
             object handler = null;
             try
@@ -135,6 +154,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                 using (new ModelContext(task.CorrelationId))
                 using (new ActivityScope(EventIds.Informational_ApplicationLog_3XXX.Web_StartTask_3007, EventIds.Informational_ApplicationLog_3XXX.Web_EndTask_3008, task.ToString()))
                 {
+                    TracingLogger.Information("Handling task " + task.GetInfo());
                     var handlerType = typeof(BackgroundTaskHandler<>).MakeGenericType(task.Body.GetType());
                     handler = kernel.Resolve(handlerType);
                     var method = handler.GetType().GetMethod("Handle");
@@ -154,17 +174,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                 if (handler != null) kernel.ReleaseComponent(handler);
             }
 
-            return true;
-        }
-
-        private class EnableDisposable : IDisposable
-        {
-            public Timer Timer { private get; set; }
-
-            public void Dispose()
-            {
-                Timer.Start();
-            }
+            return stats.TotalResults;
         }
     }
 }

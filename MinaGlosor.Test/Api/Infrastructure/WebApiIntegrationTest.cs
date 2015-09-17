@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Security.Principal;
 using System.Threading;
@@ -10,7 +9,9 @@ using Castle.Facilities.Startable;
 using Castle.MicroKernel.Lifestyle;
 using Castle.Windsor;
 using MinaGlosor.Web;
+using MinaGlosor.Web.Infrastructure.BackgroundTasks;
 using MinaGlosor.Web.Infrastructure.IoC.Installers;
+using MinaGlosor.Web.Infrastructure.Tracing;
 using NUnit.Framework;
 using Raven.Client;
 
@@ -18,13 +19,15 @@ namespace MinaGlosor.Test.Api.Infrastructure
 {
     public abstract class WebApiIntegrationTest : ExceptionLogger
     {
+        private AutoResetEvent taskRunnerEvent;
+
         public HttpClient Client { get; private set; }
 
         protected IWindsorContainer Container { get; set; }
 
         public override void Log(ExceptionLoggerContext context)
         {
-            Assert.Fail(context.Exception.ToString());
+            TracingLogger.Information(context.Exception.ToString());
         }
 
         [SetUp]
@@ -32,6 +35,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
         {
             var configuration = new HttpConfiguration();
             configuration.Services.Add(typeof(IExceptionLogger), this);
+            configuration.Filters.Add(new WaitForIndexingFilter(WaitForIndexing));
             Container = new WindsorContainer();
             Container.AddFacility<StartableFacility>();
             Container.Install(
@@ -40,6 +44,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
                 new HandlersInstaller(),
                 new AdminCommandHandlerInstaller(),
                 new BackgroundTaskHandlerInstaller(),
+                new CommandQueryInstaller(),
                 new TaskRunnerInstaller(500));
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("e@d.com"), new string[0]);
             OnSetUp(Container);
@@ -60,17 +65,28 @@ namespace MinaGlosor.Test.Api.Infrastructure
 
         public void WaitForIndexing()
         {
+            // wait for tasks
+            var taskRunner = Container.Resolve<TaskRunner>();
+            taskRunner.ProcessedTasks += TaskRunnerOnProcessedTasks;
+            taskRunnerEvent = new AutoResetEvent(false);
+            TracingLogger.Information("Waiting for task runner");
+            taskRunnerEvent.WaitOne();
+            TracingLogger.Information("Task runner done");
+            taskRunner.ProcessedTasks -= TaskRunnerOnProcessedTasks;
+
+            // wait for indexes
+            TracingLogger.Information("Waiting for indexing");
             var documentStore = Container.Resolve<IDocumentStore>();
-            const int Timeout = 15000;
             var indexingTask = Task.Factory.StartNew(
                 () =>
                 {
-                    var sw = Stopwatch.StartNew();
-                    while (sw.Elapsed.TotalMilliseconds < Timeout)
+                    while (true)
                     {
-                        var s = documentStore.DatabaseCommands.GetStatistics()
-                                             .StaleIndexes;
-                        if (s.Length == 0)
+                        var staleIndexes = documentStore.DatabaseCommands
+                                                        .GetStatistics()
+                                                        .StaleIndexes;
+                        TracingLogger.Information("Stale indexes: {0}", staleIndexes.Length);
+                        if (staleIndexes.Length == 0)
                         {
                             break;
                         }
@@ -79,6 +95,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
                     }
                 });
             indexingTask.Wait();
+            TracingLogger.Information("Indexing done");
         }
 
         protected virtual void Arrange()
@@ -91,8 +108,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
 
         protected void Transact(Action<IDocumentSession> action)
         {
-            WaitForIndexing();
-
+            TracingLogger.Information("Transaction START");
             using (Container.BeginScope())
             using (var session = Container.Resolve<IDocumentSession>())
             {
@@ -101,6 +117,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
             }
 
             WaitForIndexing();
+            TracingLogger.Information("Transaction END");
         }
 
         protected virtual void OnSetUp(IWindsorContainer container)
@@ -109,6 +126,11 @@ namespace MinaGlosor.Test.Api.Infrastructure
 
         protected virtual void OnTearDown()
         {
+        }
+
+        private void TaskRunnerOnProcessedTasks(object sender, EventArgs eventArgs)
+        {
+            taskRunnerEvent.Set();
         }
     }
 }

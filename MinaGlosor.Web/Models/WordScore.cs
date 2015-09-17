@@ -9,6 +9,8 @@ namespace MinaGlosor.Web.Models
 {
     public class WordScore : DomainModel
     {
+        private const double DefaultScore = 2.5;
+
         public WordScore(string id, string ownerId, string wordId, string wordListId)
             : base(id)
         {
@@ -16,7 +18,7 @@ namespace MinaGlosor.Web.Models
             if (wordId == null) throw new ArgumentNullException("wordId");
             if (wordListId == null) throw new ArgumentNullException("wordListId");
 
-            Apply(new WordScoreRegisteredEvent(id, ownerId, wordId, wordListId, 2.5));
+            Apply(new WordScoreRegisteredEvent(id, ownerId, wordId, wordListId, DefaultScore));
         }
 
 #pragma warning disable 612, 618
@@ -109,9 +111,11 @@ namespace MinaGlosor.Web.Models
 
         public void ResetAfterWordEdit()
         {
-            const int NewIntervalInDays = 1;
-            const int NewCount = 1;
-            Apply(new RestartWordScoreEvent(Id, NewIntervalInDays, NewCount, TimesForgotten));
+            const int NewIntervalInDays = 0;
+            const int NewCount = 0;
+            const double NewScore = DefaultScore;
+            var repeatAfterDate = SystemTime.UtcNow.AddDays(NewIntervalInDays);
+            Apply(new RestartAfterEditEvent(Id, NewIntervalInDays, NewCount, repeatAfterDate, NewScore));
         }
 
         private void ApplyEvent(WordScoreRegisteredEvent @event)
@@ -130,6 +134,14 @@ namespace MinaGlosor.Web.Models
         }
 
         private void ApplyEvent(UpdateWordScoreEvent @event)
+        {
+            Count = @event.Count;
+            IntervalInDays = @event.IntervalInDays;
+            RepeatAfterDate = @event.RepeatAfterDate;
+            Score = @event.Score;
+        }
+
+        private void ApplyEvent(RestartAfterEditEvent @event)
         {
             Count = @event.Count;
             IntervalInDays = @event.IntervalInDays;

@@ -2,7 +2,7 @@
 using System.Net.Http;
 using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web.Models;
-using MinaGlosor.Web.Models.Commands;
+using MinaGlosor.Web.Models.Commands.Handlers;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -15,7 +15,6 @@ namespace MinaGlosor.Test.Api
         public async void GetsWithFavourite()
         {
             // Act
-            WaitForIndexing();
             var response = await Client.GetAsync("http://temp.uri/api/wordlist");
             var content = response.Content;
 
