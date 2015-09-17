@@ -1,10 +1,8 @@
 using System;
-using System.Linq;
 using System.Security;
 using Castle.MicroKernel;
 using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models;
-using Raven.Client;
 
 namespace MinaGlosor.Web.Infrastructure
 {
@@ -43,15 +41,6 @@ namespace MinaGlosor.Web.Infrastructure
 
                         var result = (TResult)handleMethod.Invoke(handler, new[] { (object)query });
                         TracingLogger.Information(EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteQueryResult_3015, result.ToJson());
-                        var documentSession = kernel.Resolve<IDocumentSession>();
-                        var whatChanged = documentSession.Advanced.WhatChanged();
-                        if (whatChanged.Any())
-                        {
-                            TracingLogger.Warning(
-                                EventIds.Warning_Transient_4XXX.Web_ChangesFromQuery_4002,
-                                "Change detected from query: {0}",
-                                whatChanged.ToJson());
-                        }
                         return result;
                     }
                     finally

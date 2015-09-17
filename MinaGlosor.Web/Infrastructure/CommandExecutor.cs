@@ -32,6 +32,7 @@ namespace MinaGlosor.Web.Infrastructure
                 using (new ModelContext(Trace.CorrelationManager.ActivityId))
                 {
                     var commandAsJson = command.ToJson();
+                    TracingLogger.Information(EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteCommandLog_3019, commandAsJson);
                     object handler = null;
                     try
                     {
@@ -63,6 +64,7 @@ namespace MinaGlosor.Web.Infrastructure
                         documentSession.Store(changeLogEntry);
 
                         var result = (TResult)handleMethod.Invoke(handler, new[] { (object)command });
+                        TracingLogger.Information(EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteCommandResult_3020, result.ToJson());
 
                         var whatChanged = documentSession.Advanced.WhatChanged();
                         if (whatChanged.Any())
