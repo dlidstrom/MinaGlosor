@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Reflection;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -54,7 +55,10 @@ namespace MinaGlosor.Web
 
         protected void Application_End()
         {
-            TracingLogger.Information(EventIds.Information_Finalization_8XXX.Web_Stopping_8000, "Stopping application");
+            TracingLogger.Information(
+                EventIds.Information_Finalization_8XXX.Web_Stopping_8000,
+                "Stopping application due to {0}",
+                HostingEnvironment.ShutdownReason);
             Cleanup();
             TracingLogger.Information(EventIds.Information_Finalization_8XXX.Web_Stopped_8001, "Stopped application");
         }
@@ -79,7 +83,7 @@ namespace MinaGlosor.Web
         private static IWindsorContainer CreateContainer(int taskRunnerPollingIntervalMillis)
         {
             var container = new WindsorContainer();
-            container.AddFacility<StartableFacility>();
+            container.AddFacility<StartableFacility>(x => x.DeferredStart());
             container.Install(
                 new AdminCommandHandlerInstaller(),
                 new ControllerInstaller(),

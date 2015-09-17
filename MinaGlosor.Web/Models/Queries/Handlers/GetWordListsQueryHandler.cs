@@ -17,7 +17,6 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
         public override GetWordListsQuery.Result Handle(GetWordListsQuery query)
         {
             var wordLists = Session.Query<WordListIndex.Result, WordListIndex>()
-                                   .Customize(x => x.WaitForNonStaleResultsAsOfNow())
                                    .Where(x => x.OwnerId == query.UserId)
                                    .ToArray();
 

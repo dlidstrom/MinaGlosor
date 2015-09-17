@@ -64,6 +64,7 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
             TracingLogger.Information("Initializing document store done");
             documentStore.Conventions.DefaultQueryingConsistency = ConsistencyOptions.AlwaysWaitForNonStaleResultsAsOfLastWrite;
             documentStore.Conventions.MaxNumberOfRequestsPerSession = 1024;
+            documentStore.Listeners.RegisterListener(new NonStaleQueryListener());
             if (InitializeIndexes || ShouldInitializeIndexes(documentStore, Application.GetAppVersion()))
             {
                 TracingLogger.Information("Initializing indexes");

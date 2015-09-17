@@ -35,6 +35,7 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             };
             TraceSource.Listeners.Add(listener);
             TraceSource.Listeners.Add(new ConsoleTraceListener());
+            TraceSource.Switch.Level = SourceLevels.All;
         }
 
         public static void Information(string message)

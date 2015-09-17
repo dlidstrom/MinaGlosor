@@ -143,7 +143,6 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                               .Where(x => x.IsFinished == false && x.IsFailed == false)
                               .OrderBy(x => x.NextTry)
                               .FirstOrDefault();
-            TracingLogger.Information("Remaining tasks: {0}", stats.TotalResults);
             if (task == null || task.IsFinished)
             {
                 return stats.TotalResults;
