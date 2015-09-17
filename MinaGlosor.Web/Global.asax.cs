@@ -6,12 +6,10 @@ using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Castle.Facilities.Startable;
 using Castle.Windsor;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.BackgroundTasks;
 using MinaGlosor.Web.Infrastructure.IoC;
-using MinaGlosor.Web.Infrastructure.IoC.Installers;
 using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models.DomainEvents;
 
@@ -48,7 +46,7 @@ namespace MinaGlosor.Web
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
             // TODO Read settings into typed class or interface
-            var container = CreateContainer(int.Parse(ConfigurationManager.AppSettings["TaskRunnerPollingIntervalMillis"]));
+            var container = ContainerFactory.Create(int.Parse(ConfigurationManager.AppSettings["TaskRunnerPollingIntervalMillis"]));
             Configure(container, GlobalConfiguration.Configuration);
             TracingLogger.Information(EventIds.Informational_Completion_2XXX.Web_Started_2000, "Application started");
         }
@@ -77,28 +75,6 @@ namespace MinaGlosor.Web
             configuration.DependencyResolver = new WindsorHttpDependencyResolver(container.Kernel);
             DomainEvent.SetContainer(container);
             Container = container;
-        }
-
-        // TODO Change Raven installer to use Web.config so that we can transform for deploy.
-        private static IWindsorContainer CreateContainer(int taskRunnerPollingIntervalMillis)
-        {
-            var container = new WindsorContainer();
-            container.AddFacility<StartableFacility>(x => x.DeferredStart());
-            container.Install(
-                new AdminCommandHandlerInstaller(),
-                new ControllerInstaller(),
-                new WindsorWebApiInstaller(),
-                new HandlersInstaller(),
-                new BackgroundTaskHandlerInstaller(),
-                new TaskRunnerInstaller(taskRunnerPollingIntervalMillis),
-                new CommandQueryInstaller(),
-#if DEBUG
- RavenInstaller.CreateForServer("RavenDB")
-#else
-                RavenInstaller.CreateForEmbedded()
-#endif
-);
-            return container;
         }
     }
 }

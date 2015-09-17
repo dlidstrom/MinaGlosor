@@ -37,7 +37,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
             configuration.Services.Add(typeof(IExceptionLogger), this);
             configuration.Filters.Add(new WaitForIndexingFilter(WaitForIndexing));
             Container = new WindsorContainer();
-            Container.AddFacility<StartableFacility>();
+            Container.AddFacility<StartableFacility>(x => x.DeferredStart());
             Container.Install(
                 RavenInstaller.CreateForTests(),
                 new WindsorWebApiInstaller(),

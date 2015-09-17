@@ -248,8 +248,10 @@
     <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\HttpRequestScopeAttribute.cs" />
     <Compile Include="Infrastructure\CommandHandlerBase.cs" />
+    <Compile Include="Infrastructure\IoC\ContainerFactory.cs" />
     <Compile Include="Infrastructure\IoC\Installers\BackgroundTaskHandlerInstaller.cs" />
     <Compile Include="Infrastructure\IoC\Installers\CommandQueryInstaller.cs" />
+    <Compile Include="Infrastructure\IoC\Installers\ControllerFactoryInstaller.cs" />
     <Compile Include="Infrastructure\IoC\Installers\TaskRunnerInstaller.cs" />
     <Compile Include="Infrastructure\NonStaleQueryListener.cs" />
     <Compile Include="Infrastructure\ObjectExtensions.cs" />
