@@ -35,3 +35,5 @@ MinaGlosor.Web/App_Data
 MinaGlosor.Web/cassette-cache/**
 MinaGlosor.Web/CompiledIndexCache/
 MinaGlosor.Web/Assemblies/
+MinaGlosor.Test/CompiledIndexCache/
+MinaGlosor.Test/Assemblies/

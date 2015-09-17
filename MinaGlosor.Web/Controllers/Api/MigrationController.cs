@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
+using Castle.MicroKernel.Lifestyle;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Client;
@@ -21,21 +22,25 @@ namespace MinaGlosor.Web.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            var session = GetDocumentSession();
-
-            // validate credentials
-            var runAsQuery = from user in session.Query<User, UserIndex>()
-                             where user.Email == request.RequestUsername
-                             select user;
-            var runAs = runAsQuery.FirstOrDefault();
-            Debug.Assert(request != null, "request != null");
-            if (runAs == null || runAs.ValidatePassword(request.RequestPassword) == false)
+            using (Kernel.BeginScope())
             {
-                return StatusCode(HttpStatusCode.Unauthorized);
-            }
+                var session = GetDocumentSession();
 
-            var result = func.Invoke(session);
-            return result;
+                // validate credentials
+                var runAsQuery = from user in session.Query<User, UserIndex>()
+                                 where user.Email == request.RequestUsername
+                                 select user;
+                var runAs = runAsQuery.FirstOrDefault();
+                Debug.Assert(request != null, "request != null");
+                if (runAs == null || runAs.ValidatePassword(request.RequestPassword) == false)
+                {
+                    return StatusCode(HttpStatusCode.Unauthorized);
+                }
+
+                var result = func.Invoke(session);
+                session.SaveChanges();
+                return result;
+            }
         }
 
         public abstract class MigrationRequest

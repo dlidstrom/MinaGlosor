@@ -15,7 +15,7 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
 
             public const int Web_Request_Executing_1001 = 1001;
 
-            // Notification service starts at 1100
+            public const int Web_Register_TaskRunner_1002 = 1002;
         }
 
         /// <summary>
@@ -29,8 +29,6 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             public const int Web_Started_2000 = 2000;
 
             public const int Web_Request_Executed_2001 = 2001;
-
-            // Notification service starts at 2100
         }
 
         /// <summary>
@@ -55,7 +53,29 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
 
             public const int Web_ExecuteAdminCommand_3006 = 3006;
 
-            // Notification service starts at 3100
+            public const int Web_StartTask_3007 = 3007;
+
+            public const int Web_EndTask_3008 = 3008;
+
+            public const int Web_SendTask_3009 = 3009;
+
+            public const int Web_ExecuteCommandStart_3010 = 3010;
+
+            public const int Web_ExecuteCommandStop_3011 = 3011;
+
+            public const int Web_ExecuteQueryStart_3012 = 3012;
+
+            public const int Web_ExecuteQueryStop_3013 = 3013;
+
+            public const int Web_ExecuteQueryLog_3014 = 3014;
+
+            public const int Web_ExecuteQueryResult_3015 = 3015;
+
+            public const int Web_ExecuteAdminCommandResult_3016 = 3016;
+
+            public const int Web_ExecuteAdminQuery_3017 = 3017;
+
+            public const int Web_ExecuteAdminQueryResult_3018 = 3018;
         }
 
         /// <summary>
@@ -72,7 +92,9 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
 
             public const int Web_ChangesFromQuery_4002 = 4002;
 
-            // Notification service starts at 4100
+            public const int Web_TaskInProcess_4003 = 4003;
+
+            public const int Web_TaskRunner_TimeOut_4004 = 4004;
         }
 
         /// <summary>
@@ -90,8 +112,6 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             public const int Web_GetNextPracticeWord_Unauthorized_5002 = 5002;
 
             public const int Web_MissingApplyEvent_5003 = 5003;
-
-            // Notification service starts at 5100
         }
 
         /// <summary>
@@ -106,7 +126,7 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
 
             public const int Web_Stopped_8001 = 8001;
 
-            // Notification service starts at 8100
+            public const int Web_Unregister_TaskRunner_8002 = 8002;
         }
 
         /// <summary>

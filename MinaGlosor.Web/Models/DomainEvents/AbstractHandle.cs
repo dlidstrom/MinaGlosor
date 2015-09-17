@@ -2,7 +2,7 @@
 using Castle.MicroKernel;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.Tracing;
-using Newtonsoft.Json;
+using MinaGlosor.Web.Models.BackgroundTasks;
 using Raven.Client;
 
 namespace MinaGlosor.Web.Models.DomainEvents
@@ -11,39 +11,51 @@ namespace MinaGlosor.Web.Models.DomainEvents
     {
         public IKernel Kernel { get; set; }
 
+        public QueryExecutor QueryExecutor { get; set; }
+
         public abstract void Handle(TEvent ev);
 
         protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)
         {
             if (query == null) throw new ArgumentNullException("query");
-            return query.Execute(GetDocumentSession());
+            var result = QueryExecutor.ExecuteQuery(query, null);
+            return result;
         }
 
-        protected void ExecuteCommand(ICommand command, ModelEvent causedByEvent)
+        //protected TResult ExecuteCommand<TResult>(ICommand<TResult> command, ModelEvent causedByEvent)
+        //{
+        //    if (command == null) throw new ArgumentNullException("command");
+        //    if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
+
+        //    using (new ModelContext(ModelContext.CorrelationId, causedByEvent.EventId))
+        //    {
+        //        var commandAsJson = command.ToJson();
+        //        TracingLogger.Information(
+        //            EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteDependentCommand_3001,
+        //            "{0} <- {1}: {2}",
+        //            command.GetType().Name,
+        //            causedByEvent.GetType().Name,
+        //            commandAsJson);
+        //        var result = CommandExecutor.ExecuteCommand(command, null);
+        //        return result;
+        //    }
+        //}
+
+        protected void SendTask<TBody>(TBody body, ModelEvent causedByEvent) where TBody : class
         {
-            if (command == null) throw new ArgumentNullException("command");
+            if (body == null) throw new ArgumentNullException("body");
             if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
-            using (new ModelContext(ModelContext.CorrelationId, causedByEvent.EventId))
-            {
-                var settings = new JsonSerializerSettings
-                {
-                    ContractResolver = new PrivateMembersContractResolver(),
-                    TypeNameHandling = TypeNameHandling.All
-                };
-                var commandAsJson = JsonConvert.SerializeObject(command, Formatting.Indented, settings);
-                TracingLogger.Information(
-                    EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteDependentCommand_3001,
-                    "{0} <- {1}: {2}",
-                    command.GetType().Name,
-                    causedByEvent.GetType().Name,
-                    commandAsJson);
-                command.Execute(GetDocumentSession());
-            }
-        }
 
-        private IDocumentSession GetDocumentSession()
-        {
-            return Kernel.Resolve<IDocumentSession>();
+            var bodyAsJson = body.ToJson();
+            TracingLogger.Information(
+                EventIds.Informational_ApplicationLog_3XXX.Web_SendTask_3009,
+                "{0} <- {1}: {2}",
+                body.GetType().Name,
+                causedByEvent.GetType().Name,
+                bodyAsJson);
+            var session = Kernel.Resolve<IDocumentSession>();
+            var task = BackgroundTask.Create(ModelContext.CorrelationId, causedByEvent.EventId, body);
+            session.Store(task);
         }
     }
 }

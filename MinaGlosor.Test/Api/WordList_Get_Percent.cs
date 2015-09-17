@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Net.Http;
+using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web.Models;
-using MinaGlosor.Web.Models.Commands;
+using MinaGlosor.Web.Models.Commands.Handlers;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Raven.Abstractions;
@@ -15,7 +16,6 @@ namespace MinaGlosor.Test.Api
         public async void GetsWithPercentComplete()
         {
             // Act
-            WaitForIndexing();
             SystemTime.UtcDateTime = () => new DateTime(2012, 1, 2, 0, 0, 5);
             var response = await Client.GetAsync("http://temp.uri/api/wordlist");
             var content = response.Content;

@@ -1,61 +1,55 @@
 using System;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.Tracing;
-using Newtonsoft.Json;
 using Raven.Client;
 
 namespace MinaGlosor.Web.Models.AdminCommands
 {
-    public abstract class AbstractAdminCommandHandler<TCommand> : IAdminCommandHandler<TCommand> where TCommand : IAdminCommand
+    public abstract class AbstractAdminCommandHandler<TAdminCommand>
+        : IAdminCommandHandler<TAdminCommand> where TAdminCommand : IAdminCommand
     {
         public IDocumentStore DocumentStore { get; set; }
 
         public IDocumentSession DocumentSession { get; set; }
 
-        public abstract object Run(TCommand command);
+        public CommandExecutor CommandExecutor { get; set; }
+
+        public QueryExecutor QueryExecutor { get; set; }
+
+        public abstract object Run(TAdminCommand command);
 
         protected TResult ExecuteQuery<TResult>(IQuery<TResult> query)
         {
             if (query == null) throw new ArgumentNullException("query");
-            return query.Execute(DocumentSession);
-        }
 
-        protected void ExecuteCommand(ICommand command)
-        {
-            if (command == null) throw new ArgumentNullException("command");
+            TracingLogger.Information(
+                EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteAdminQuery_3017,
+                query.ToJson());
 
-            DoExecuteCommand(command, session =>
-            {
-                command.Execute(session);
-                return false;
-            });
+            // already in scope from RunAdminCommand
+            var result = QueryExecutor.ExecuteQuery(query, null);
+
+            TracingLogger.Information(
+                EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteAdminQueryResult_3018,
+                result.ToJson());
+            return result;
         }
 
         protected TResult ExecuteCommand<TResult>(ICommand<TResult> command)
         {
             if (command == null) throw new ArgumentNullException("command");
 
-            return DoExecuteCommand(command, command.Execute);
-        }
+            TracingLogger.Information(
+                EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteAdminCommand_3006,
+                command.ToJson());
 
-        private TResult DoExecuteCommand<TResult, TCommandType>(
-            TCommandType command,
-            Func<IDocumentSession, TResult> func)
-        {
-            if (command == null) throw new ArgumentNullException("command");
-            using (new ModelContext(ModelContext.CorrelationId))
-            {
-                var settings = new JsonSerializerSettings
-                {
-                    ContractResolver = new PrivateMembersContractResolver(),
-                    TypeNameHandling = TypeNameHandling.All
-                };
-                var commandAsJson = JsonConvert.SerializeObject(command, Formatting.Indented, settings);
-                TracingLogger.Information(
-                    EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteAdminCommand_3006,
-                    commandAsJson);
-                return func.Invoke(DocumentSession);
-            }
+            // already in scope from RunAdminCommand
+            var result = CommandExecutor.ExecuteCommand(command, null);
+
+            TracingLogger.Information(
+                EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteAdminCommandResult_3016,
+                result.ToJson());
+            return result;
         }
     }
 }

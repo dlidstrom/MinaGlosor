@@ -67,6 +67,10 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Windsor.Lifestyles, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Windsor.Lifestyles.0.4.0\lib\net45\Castle.Windsor.Lifestyles.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="dotless.ClientOnly">
       <HintPath>..\packages\DotlessClientOnly.1.4.0.0\lib\dotless.ClientOnly.dll</HintPath>
     </Reference>
@@ -74,8 +78,8 @@
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Elmah.Contrib.WebApi, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Elmah.Contrib.WebApi.1.0.9.0\lib\net45\Elmah.Contrib.WebApi.dll</HintPath>
+    <Reference Include="Elmah.Contrib.WebApi, Version=1.0.10.25, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elmah.Contrib.WebApi.1.0.10.25\lib\net45\Elmah.Contrib.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Essential.Diagnostics">
@@ -242,7 +246,19 @@
     <Compile Include="Controllers\Api\WordFavouriteController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
-    <Compile Include="Infrastructure\Attributes\CorrelationIdAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\HttpRequestScopeAttribute.cs" />
+    <Compile Include="Infrastructure\CommandHandlerBase.cs" />
+    <Compile Include="Infrastructure\IoC\Installers\BackgroundTaskHandlerInstaller.cs" />
+    <Compile Include="Infrastructure\IoC\Installers\CommandQueryInstaller.cs" />
+    <Compile Include="Infrastructure\IoC\Installers\TaskRunnerInstaller.cs" />
+    <Compile Include="Infrastructure\NonStaleQueryListener.cs" />
+    <Compile Include="Infrastructure\ObjectExtensions.cs" />
+    <Compile Include="Infrastructure\QueryExecutor.cs" />
+    <Compile Include="Infrastructure\QueryHandlerBase.cs" />
+    <Compile Include="Models\BackgroundTasks\AddWordToWordListTask.cs" />
+    <Compile Include="Models\BackgroundTasks\BackgroundTask.cs" />
+    <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksIndex.cs" />
+    <Compile Include="Infrastructure\BackgroundTasks\TaskRunner.cs" />
     <Compile Include="Infrastructure\IoC\Installers\AdminCommandHandlerInstaller.cs" />
     <Compile Include="Infrastructure\JetBrains.Annotations.cs" />
     <Content Include="NLog.config">
@@ -295,7 +311,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Attributes\SaveChangesAttribute.cs" />
     <Compile Include="Infrastructure\Emails.cs" />
     <Compile Include="Infrastructure\GuidBinder.cs" />
     <Compile Include="Infrastructure\ICommand.cs" />
@@ -320,15 +335,40 @@
     <Compile Include="Models\AdminCommands\MigrateAdminUserAdminCommandHandler.cs" />
     <Compile Include="Models\AdminCommands\MigrateWordUserIdAdminCommand.cs" />
     <Compile Include="Models\AdminCommands\MigrateWordUserIdAdminCommandHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\Handlers\AddWordToWordListTaskHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\Handlers\BackgroundTaskHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\Handlers\ResetWordScoreTaskHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\Handlers\UpdateWordScoreTaskHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\ResetWordScoreTask.cs" />
+    <Compile Include="Models\BackgroundTasks\UpdateWordScoreTask.cs" />
     <Compile Include="Models\ChangeLogEntry.cs" />
     <Compile Include="Models\Commands\AdminCommand.cs" />
+    <Compile Include="Infrastructure\CommandExecutor.cs" />
+    <Compile Include="Models\Commands\Handlers\AddWordToWordListCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\CreateAccountRequestCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\CreatePracticeSessionCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\CreateResetPasswordRequestCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\CreateUserCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\CreateWordCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\CreateWordListCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\RegisterAdminUsersCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\ResetWordScoreCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\RunAdminCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\ToggleWordFavouriteCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\UpdateLastPickedDateCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\UpdateWordCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\UpdateWordConfidenceCommandHandler.cs" />
     <Compile Include="Models\Commands\RegisterAdminUsersCommand.cs" />
+    <Compile Include="Models\Commands\ResetWordScoreCommand.cs" />
     <Compile Include="Models\Commands\RunAdminCommand.cs" />
     <Compile Include="Models\Commands\UpdateLastPickedDateCommand.cs" />
+    <Compile Include="Models\Commands\UpdateWordScoreCommand.cs" />
+    <Compile Include="Models\Commands\UpdateWordScoreCommandHandler.cs" />
     <Compile Include="Models\DomainEvents\AddWordEvent.cs" />
     <Compile Include="Models\DomainEvents\MarkCreateAccountRequestUsedEvent.cs" />
     <Compile Include="Models\DomainEvents\MarkResetPasswordRequestUsedEvent.cs" />
     <Compile Include="Models\DomainEvents\PracticeSessionCreatedEvent.cs" />
+    <Compile Include="Models\DomainEvents\RestartAfterEditEvent.cs" />
     <Compile Include="Models\DomainEvents\RestartWordScoreEvent.cs" />
     <Compile Include="Models\DomainEvents\SetPasswordEvent.cs" />
     <Compile Include="Models\DomainEvents\SetRoleEvent.cs" />
@@ -344,9 +384,10 @@
     <Compile Include="Models\DomainEvents\WordListRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordScoreRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordUpdatedEvent.cs" />
+    <Compile Include="Models\DomainEvents\WordUpdatedEventHandler.cs" />
     <Compile Include="Models\Indexes\ChangeLogEntryIndex.cs" />
     <Compile Include="Models\ModelContext.cs" />
-    <Compile Include="Models\Commands\KeyGeneratorBase.cs" />
+    <Compile Include="Models\Commands\Handlers\KeyGeneratorBase.cs" />
     <Compile Include="Models\DomainEvents\SetCreatedDateFromMigrationEvent.cs" />
     <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Models\Commands\CreateAccountRequestCommand.cs" />
@@ -359,7 +400,6 @@
     <Compile Include="Models\Commands\ToggleWordFavouriteCommand.cs" />
     <Compile Include="Models\Commands\UpdateWordCommand.cs" />
     <Compile Include="Models\Commands\UpdateWordConfidenceCommand.cs" />
-    <Compile Include="Models\Commands\UpdateWordScoreCommand.cs" />
     <Compile Include="Models\ConfidenceLevel.cs" />
     <Compile Include="Models\CreateAccountRequest.cs" />
     <Compile Include="Models\DomainEvents\AbstractHandle.cs" />
@@ -389,7 +429,6 @@
     <Compile Include="Models\Queries\GetCreateAccountRequestQuery.cs" />
     <Compile Include="Models\Queries\GetNextPracticeWordQuery.cs" />
     <Compile Include="Models\Queries\GetPracticeWordQuery.cs" />
-    <Compile Include="Models\Queries\GetPracticeWordQueryBase.cs" />
     <Compile Include="Models\Queries\GetResetPasswordRequestQuery.cs" />
     <Compile Include="Models\Queries\GetUnfinishedPracticeSessionsQuery.cs" />
     <Compile Include="Models\Queries\GetUserByEmailQuery.cs" />
@@ -398,8 +437,27 @@
     <Compile Include="Models\Queries\GetWordListQuery.cs" />
     <Compile Include="Models\Queries\GetWordListsQuery.cs" />
     <Compile Include="Models\Queries\GetWordQuery.cs" />
+    <Compile Include="Models\Queries\GetWordScoreIdsQuery.cs" />
     <Compile Include="Models\Queries\GetWordsQuery.cs" />
     <Compile Include="Models\Queries\GetWordsResult.cs" />
+    <Compile Include="Models\Queries\Handlers\GetAdminUsersQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetCreateAccountRequestQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetNextPracticeWordQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetPracticeWordQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetPracticeWordQueryHandlerBase.cs" />
+    <Compile Include="Models\Queries\Handlers\GetResetPasswordRequestQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetUnfinishedPracticeSessionsQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetUserByEmailQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetUserByUsernameQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetWordFavouritesQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetWordListQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetWordListsQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetWordQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetWordScoreIdsQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetWordsQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\HasAdminUserQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\IsPracticeSessionFinishedQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\SearchQueryHandler.cs" />
     <Compile Include="Models\Queries\HasAdminUserQuery.cs" />
     <Compile Include="Models\Queries\IsPracticeSessionFinishedQuery.cs" />
     <Compile Include="Models\Queries\PracticeWordResult.cs" />

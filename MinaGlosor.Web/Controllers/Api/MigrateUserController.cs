@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Http;
 using MinaGlosor.Web.Models;
-using MinaGlosor.Web.Models.Commands;
+using MinaGlosor.Web.Models.Commands.Handlers;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Client.Linq;
 

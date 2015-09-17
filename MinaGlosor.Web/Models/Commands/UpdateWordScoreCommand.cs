@@ -1,47 +1,27 @@
-using System;
-using System.Linq;
 using MinaGlosor.Web.Infrastructure;
-using MinaGlosor.Web.Models.Indexes;
-using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands
 {
-    public class UpdateWordScoreCommand : ICommand
+    public class UpdateWordScoreCommand : ICommand<object>
     {
-        private readonly string wordId;
-        private readonly ConfidenceLevel confidenceLevel;
-        private readonly string ownerId;
-        private readonly string wordListId;
-
-        public UpdateWordScoreCommand(string wordId, string wordListId, ConfidenceLevel confidenceLevel, string ownerId)
+        public UpdateWordScoreCommand(
+            string ownerId,
+            string wordId,
+            string wordListId,
+            ConfidenceLevel confidenceLevel)
         {
-            if (wordId == null) throw new ArgumentNullException("wordId");
-            if (wordListId == null) throw new ArgumentNullException("wordListId");
-            if (ownerId == null) throw new ArgumentNullException("ownerId");
-
-            this.wordId = wordId;
-            this.wordListId = wordListId;
-            this.confidenceLevel = confidenceLevel;
-            this.ownerId = ownerId;
+            OwnerId = ownerId;
+            WordId = wordId;
+            WordListId = wordListId;
+            ConfidenceLevel = confidenceLevel;
         }
 
-        public bool CanExecute(IDocumentSession session, User currentUser)
-        {
-            return true;
-        }
+        public string OwnerId { get; private set; }
 
-        public void Execute(IDocumentSession session)
-        {
-            var wordScore = session.Query<WordScore, WordScoreIndex>()
-                                   .SingleOrDefault(x => x.OwnerId == ownerId && x.WordId == wordId);
-            if (wordScore == null)
-            {
-                var id = KeyGeneratorBase.Generate<WordScore>(session);
-                wordScore = new WordScore(id, ownerId, wordId, wordListId);
-                session.Store(wordScore);
-            }
+        public string WordId { get; private set; }
 
-            wordScore.ScoreWord(confidenceLevel);
-        }
+        public string WordListId { get; private set; }
+
+        public ConfidenceLevel ConfidenceLevel { get; private set; }
     }
 }

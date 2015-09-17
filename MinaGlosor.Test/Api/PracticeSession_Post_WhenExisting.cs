@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web.Models;
-using MinaGlosor.Web.Models.Commands;
+using MinaGlosor.Web.Models.Commands.Handlers;
 using NUnit.Framework;
 using Raven.Abstractions;
 

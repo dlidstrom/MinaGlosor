@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Configuration;
 using System.Reflection;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Castle.Facilities.Startable;
 using Castle.Windsor;
 using MinaGlosor.Web.Infrastructure;
+using MinaGlosor.Web.Infrastructure.BackgroundTasks;
 using MinaGlosor.Web.Infrastructure.IoC;
 using MinaGlosor.Web.Infrastructure.IoC.Installers;
 using MinaGlosor.Web.Infrastructure.Tracing;
@@ -25,6 +29,8 @@ namespace MinaGlosor.Web
 
         public static void Shutdown()
         {
+            var taskRunner = Container.Resolve<TaskRunner>();
+            taskRunner.Stop(true);
             Cleanup();
         }
 
@@ -37,16 +43,22 @@ namespace MinaGlosor.Web
 
         protected void Application_Start()
         {
+            TracingLogger.Initialize(Server.MapPath("~/App_Data"));
             TracingLogger.Information(EventIds.Informational_Preliminary_1XXX.Web_Starting_1000, "Starting application");
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            var container = CreateContainer();
+
+            // TODO Read settings into typed class or interface
+            var container = CreateContainer(int.Parse(ConfigurationManager.AppSettings["TaskRunnerPollingIntervalMillis"]));
             Configure(container, GlobalConfiguration.Configuration);
             TracingLogger.Information(EventIds.Informational_Completion_2XXX.Web_Started_2000, "Application started");
         }
 
         protected void Application_End()
         {
-            TracingLogger.Information(EventIds.Information_Finalization_8XXX.Web_Stopping_8000, "Stopping application");
+            TracingLogger.Information(
+                EventIds.Information_Finalization_8XXX.Web_Stopping_8000,
+                "Stopping application due to {0}",
+                HostingEnvironment.ShutdownReason);
             Cleanup();
             TracingLogger.Information(EventIds.Information_Finalization_8XXX.Web_Stopped_8001, "Stopped application");
         }
@@ -68,19 +80,24 @@ namespace MinaGlosor.Web
         }
 
         // TODO Change Raven installer to use Web.config so that we can transform for deploy.
-        private static IWindsorContainer CreateContainer()
+        private static IWindsorContainer CreateContainer(int taskRunnerPollingIntervalMillis)
         {
             var container = new WindsorContainer();
+            container.AddFacility<StartableFacility>(x => x.DeferredStart());
             container.Install(
                 new AdminCommandHandlerInstaller(),
                 new ControllerInstaller(),
                 new WindsorWebApiInstaller(),
+                new HandlersInstaller(),
+                new BackgroundTaskHandlerInstaller(),
+                new TaskRunnerInstaller(taskRunnerPollingIntervalMillis),
+                new CommandQueryInstaller(),
 #if DEBUG
- RavenInstaller.CreateForServer("RavenDB"),
+ RavenInstaller.CreateForServer("RavenDB")
 #else
-                RavenInstaller.CreateForEmbedded(),
+                RavenInstaller.CreateForEmbedded()
 #endif
- new HandlersInstaller());
+);
             return container;
         }
     }

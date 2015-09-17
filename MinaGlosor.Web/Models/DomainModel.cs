@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models.DomainEvents;
-using Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models
 {
@@ -32,7 +32,7 @@ namespace MinaGlosor.Web.Models
 
             TracingLogger.Information(
                 EventIds.Informational_ApplicationLog_3XXX.Web_RaiseEvent_3002,
-                JsonConvert.SerializeObject(@event, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }));
+                @event.ToJson());
             var type = GetType();
             var methodInfo = type.GetMethod(
                 "ApplyEvent",

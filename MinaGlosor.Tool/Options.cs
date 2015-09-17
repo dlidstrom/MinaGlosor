@@ -133,6 +133,7 @@ using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Text;
 using System.Text.RegularExpressions;
+// ReSharper disable ArrangeThisQualifier
 
 #if LINQ
 using System.Linq;

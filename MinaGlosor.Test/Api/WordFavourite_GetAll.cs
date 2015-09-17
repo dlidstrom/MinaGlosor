@@ -1,5 +1,6 @@
-﻿using MinaGlosor.Web.Models;
-using MinaGlosor.Web.Models.Commands;
+﻿using MinaGlosor.Test.Api.Infrastructure;
+using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands.Handlers;
 using Newtonsoft.Json;
 using NUnit.Framework;
 

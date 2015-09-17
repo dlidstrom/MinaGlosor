@@ -1,5 +1,6 @@
 using System.Threading;
 using Castle.Windsor;
+using MinaGlosor.Test.Api.Infrastructure;
 
 namespace MinaGlosor.Test.Api
 {
