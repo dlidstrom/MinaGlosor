@@ -275,6 +275,16 @@
     <Content Include="wwwroot\images\apple-touch-icon-57x57.png" />
     <Content Include="wwwroot\images\apple-touch-icon-72x72.png" />
     <Content Include="wwwroot\images\apple-touch-icon-76x76.png" />
+    <Content Include="wwwroot\images\apple-touch-startup-image-1182x2208.png" />
+    <Content Include="wwwroot\images\apple-touch-startup-image-1242x2148.png" />
+    <Content Include="wwwroot\images\apple-touch-startup-image-1496x2048.png" />
+    <Content Include="wwwroot\images\apple-touch-startup-image-1536x2008.png" />
+    <Content Include="wwwroot\images\apple-touch-startup-image-320x460.png" />
+    <Content Include="wwwroot\images\apple-touch-startup-image-640x1096.png" />
+    <Content Include="wwwroot\images\apple-touch-startup-image-640x920.png" />
+    <Content Include="wwwroot\images\apple-touch-startup-image-748x1024.png" />
+    <Content Include="wwwroot\images\apple-touch-startup-image-750x1294.png" />
+    <Content Include="wwwroot\images\apple-touch-startup-image-768x1004.png" />
     <Content Include="wwwroot\spinner.less" />
     <Content Include="wwwroot\toaster.min.css" />
     <None Include="NLog.xsd">
