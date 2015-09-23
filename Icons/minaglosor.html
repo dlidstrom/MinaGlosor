@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+	<style type="text/css">
+		html {
+			background-color: white;
+		}
+
+		body {
+			margin: 0;
+		}
+
+		.logo {
+			border: 1px solid black;
+			position: relative;
+			display: inline-block;
+			width: 32px;
+			height: 32px;
+		}
+
+		.box {
+			position: absolute;
+			width: 10px;
+			height: 10px;
+			border-radius: 2px;
+		}
+
+		.box.success {
+			background-color: #3fad46;
+			left: 4px;
+			top: 4px;
+		}
+
+		.box.info {
+			background-color: #5bc0de;
+			top: 4px;
+			left: 18px;
+		}
+
+		.box.warning {
+			background-color: #f0ad4e;
+			top: 18px;
+			left: 4px;
+		}
+
+		.box.danger {
+			background-color: #d9534f;
+			left: 18px;
+			top: 18px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="logo">
+		<div class="box success"></div>
+		<div class="box info"></div>
+		<div class="box warning"></div>
+		<div class="box danger"></div>
+	</div>
+</body>
+
+</html>

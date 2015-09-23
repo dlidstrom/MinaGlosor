@@ -176,7 +176,7 @@
     <Content Include="cassette-cache\manifest.xml" />
     <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
     <Content Include="cassette-cache\script\wwwroot\app\53d7a28bc4f722f856f8b99c8930e4a9c568def7.js" />
-    <Content Include="cassette-cache\script\wwwroot\external\footer_js\f308ae7655a9ad5891e60d0806f926d4190a7000.js" />
+    <Content Include="cassette-cache\script\wwwroot\external\footer_js\3298234ad9c1e642baff29871dbeb13bc8a15eb2.js" />
     <Content Include="cassette-cache\script\wwwroot\external\head_js\c134f1ab45298668fdb7915032e98243fc73433b.js" />
     <Content Include="cassette-cache\stylesheet\wwwroot\2e161873ee988fd28631f16b4f8a3c8a9f6190aa.css" />
     <Content Include="Global.asax" />
@@ -201,6 +201,7 @@
     <Content Include="wwwroot\external\footer_js\json3.min.js" />
     <Content Include="wwwroot\external\footer_js\spin.min.js" />
     <Content Include="wwwroot\external\footer_js\toaster.min.js" />
+    <Content Include="wwwroot\external\footer_js\waypoints-0.0.1.min.js" />
     <Content Include="wwwroot\external\head_js\angular-animate.min.js" />
     <Content Include="wwwroot\external\head_js\angular-messages.min.js" />
     <Content Include="wwwroot\external\head_js\angular-route.min.js" />
@@ -267,6 +268,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\bundle.txt" />
+    <Content Include="wwwroot\images\apple-touch-icon-114x114.png" />
+    <Content Include="wwwroot\images\apple-touch-icon-120x120.png" />
+    <Content Include="wwwroot\images\apple-touch-icon-144x144.png" />
+    <Content Include="wwwroot\images\apple-touch-icon-152x152.png" />
+    <Content Include="wwwroot\images\apple-touch-icon-57x57.png" />
+    <Content Include="wwwroot\images\apple-touch-icon-72x72.png" />
+    <Content Include="wwwroot\images\apple-touch-icon-76x76.png" />
     <Content Include="wwwroot\spinner.less" />
     <Content Include="wwwroot\toaster.min.css" />
     <None Include="NLog.xsd">
@@ -281,6 +289,7 @@
     <Content Include="Raven.Studio.Html5.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Views\Shared\_WebApp.cshtml" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap.css" />

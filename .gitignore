@@ -37,3 +37,4 @@ MinaGlosor.Web/CompiledIndexCache/
 MinaGlosor.Web/Assemblies/
 MinaGlosor.Test/CompiledIndexCache/
 MinaGlosor.Test/Assemblies/
+Icons/*.png

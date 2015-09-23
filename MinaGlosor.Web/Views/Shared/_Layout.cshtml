@@ -5,12 +5,17 @@
 }<!DOCTYPE HTML>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    @Html.Partial("_WebApp")
     <title>Mina Glosor</title>
     @Bundles.RenderScripts("head")
     <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/readable/bootstrap.min.css" rel="stylesheet">
     @Bundles.RenderStylesheets()
+    <script>
+        $(function () {
+            Waypoints.debug(true).intercept('a');
+        });
+    </script>
 </head>
     <body ng-app="app">
         <div class="container ng-cloak">

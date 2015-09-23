@@ -9,17 +9,20 @@
 }<!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <meta name="appVersion" content="@Application.GetAppVersion()" />
     <meta name="isDebuggingEnabled" content="@Html.ViewContext.HttpContext.IsDebuggingEnabled.ToString().ToLowerInvariant()" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    @Html.Partial("_WebApp")
     <title>Mina Glosor</title>
     <base href="@string.Format("{0}://{1}:{2}/{3}/", Request.Url.Scheme, Request.Url.Host, Request.Url.Port, Model.Username)" />
     @Bundles.RenderScripts("head")
     <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/readable/bootstrap.min.css" rel="stylesheet">
     @Bundles.RenderStylesheets()
+    <script>
+        $(function () {
+            Waypoints.debug(true).intercept('a');
+        });
+    </script>
 </head>
 <body ng-app="mgApp">
     <toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
