@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Lifestyle;
 using MinaGlosor.Web.Infrastructure;
-using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Client;
@@ -24,7 +23,6 @@ namespace MinaGlosor.Web.Controllers
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            TracingLogger.Start(EventIds.Informational_Preliminary_1XXX.Web_Request_Executing_1001);
             if (Response.IsRequestBeingRedirected) return;
 
             using (Kernel.BeginScope())
