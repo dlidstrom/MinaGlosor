@@ -258,6 +258,7 @@
     <Compile Include="Infrastructure\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\QueryExecutor.cs" />
     <Compile Include="Infrastructure\QueryHandlerBase.cs" />
+    <Compile Include="Infrastructure\UrlExtensions.cs" />
     <Compile Include="Models\BackgroundTasks\AddWordToWordListTask.cs" />
     <Compile Include="Models\BackgroundTasks\BackgroundTask.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksIndex.cs" />

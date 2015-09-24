@@ -24,8 +24,8 @@ if (system.args.length > 3 && system.args[3].substr(-2) === "px") {
         pageHeight = parseInt(size[1], 10);
         page.viewportSize = { width: pageWidth, height: pageHeight };
         page.clipRect = {
-            top: page.zoomFactor,
-            left: page.zoomFactor,
+            top: 0,
+            left: 0,
             width: pageWidth,
             height: pageHeight
         };
