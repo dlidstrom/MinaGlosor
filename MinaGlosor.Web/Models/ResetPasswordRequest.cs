@@ -13,7 +13,8 @@ namespace MinaGlosor.Web.Models
         {
             if (email == null) throw new ArgumentNullException("email");
 
-            Apply(new ResetPasswordRequestedEvent(id, Email, ActivationCode));
+            var activationCode = Guid.NewGuid().ToString();
+            Apply(new ResetPasswordRequestedEvent(id, email, activationCode));
         }
 
 #pragma warning disable 612, 618
