@@ -58,6 +58,11 @@ namespace MinaGlosor.Web.Models.Queries
 
             [JsonIgnore]
             public int Rank { get; private set; }
+
+            public Tuple<int, int, int, int> GetValuesForComparison()
+            {
+                return Tuple.Create(NumberOfWords > 0 ? -1 : 1, PercentDone < 100 ? 0 : 1, PercentExpired > 0 ? -PercentExpired : 0, Rank);
+            } 
         }
     }
 }

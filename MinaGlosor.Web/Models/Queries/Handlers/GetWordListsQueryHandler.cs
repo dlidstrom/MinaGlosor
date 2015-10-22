@@ -29,11 +29,7 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
                 wordListResults.Add(wordListResult);
             }
 
-            var orderedResults = wordListResults.OrderByDescending(x => x.NumberOfWords > 0 ? 1 : 0)
-                                                .ThenBy(x => x.PercentDone == 100 ? 1 : 0)
-                                                .ThenBy(x => x.PercentExpired == 0 ? 100 : x.PercentExpired)
-                                                .ThenBy(x => x.Rank)
-                                                .ToArray();
+            var orderedResults = wordListResults.OrderBy(x => x.GetValuesForComparison()).ToArray();
 
             // favourites
             var numberOfFavourites = Session.Query<WordFavourite, WordFavouriteIndex>()
