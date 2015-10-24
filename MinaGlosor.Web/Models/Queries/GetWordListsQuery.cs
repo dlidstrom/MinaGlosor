@@ -61,7 +61,7 @@ namespace MinaGlosor.Web.Models.Queries
 
             public Tuple<int, int, int, int> GetValuesForComparison()
             {
-                return Tuple.Create(NumberOfWords > 0 ? -1 : 1, PercentDone < 100 ? 0 : 1, PercentExpired == 100 ? 100 : -PercentExpired, Rank);
+                return Tuple.Create(NumberOfWords > 0 ? -1 : 1, PercentDone < 100 ? 0 : 1, PercentExpired, Rank);
             } 
         }
     }
