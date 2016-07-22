@@ -29,7 +29,6 @@ namespace MinaGlosor.Test.Api.Domain
                 yield return "aaa--";
                 yield return ".aaa";
                 yield return "a.aa";
-                yield return ".aaa";
                 yield return "a.ba";
                 yield return "9aa-";
                 yield return "a9a.";
