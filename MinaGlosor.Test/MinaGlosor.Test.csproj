@@ -119,7 +119,7 @@
     <Compile Include="Api\WordList_Get_Percent.cs" />
     <Compile Include="Api\WordList_Post.cs" />
     <Compile Include="Api\Word_GetAll.cs" />
-    <Compile Include="Api\Word_Put.cs" />
+    <Compile Include="Api\WordUpdate_Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Api\Word_Get.cs" />
     <Compile Include="Api\Word_Post.cs" />

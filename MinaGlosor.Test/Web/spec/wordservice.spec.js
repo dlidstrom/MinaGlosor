@@ -31,7 +31,7 @@ describe('WordService', function () {
         });
 
         it('should update word', function () {
-            httpMock.expectPUT('/api/word', { wordId: 2, text: 'new word', definition: 'new def' }).respond(201);
+            httpMock.expectPOST('/api/updateword', { wordId: 2, text: 'new word', definition: 'new def' }).respond(201);
             wordService.update(2, 'new word', 'new def');
         });
 

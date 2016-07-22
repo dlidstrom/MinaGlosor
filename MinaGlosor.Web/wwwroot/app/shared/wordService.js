@@ -5,12 +5,13 @@
 
     WordService.$inject = ['$http', '$q'];
     function WordService($http, $q) {
-        var url = '/api/word';
+        var mainUrl = '/api/word';
+        var updateUrl = '/api/updateword';
         return {
             create: function (wordListId, text, definition) {
                 var deferred = $q.defer();
                 $http.post(
-                    url,
+                    mainUrl,
                     {
                         wordListId: wordListId,
                         text: text,
@@ -26,8 +27,8 @@
             },
             update: function (wordId, text, definition) {
                 var deferred = $q.defer();
-                $http.put(
-                    url,
+                $http.post(
+                    updateUrl,
                     {
                         wordId: wordId,
                         text: text,
@@ -44,7 +45,7 @@
             getAll: function (wordListId) {
                 var deferred = $q.defer();
                 $http.get(
-                    url,
+                    mainUrl,
                     {
                         params: {
                             wordListId: wordListId
@@ -61,7 +62,7 @@
             get: function (wordId) {
                 var deferred = $q.defer();
                 $http.get(
-                    url,
+                    mainUrl,
                     {
                         params: {
                             wordId: wordId

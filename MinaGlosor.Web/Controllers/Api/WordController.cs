@@ -48,38 +48,6 @@ namespace MinaGlosor.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.Created, new { wordId });
         }
 
-        public HttpResponseMessage Put(PutWordRequest request)
-        {
-            if (request == null)
-                ModelState.AddModelError("request", "Not specified");
-
-            if (ModelState.IsValid == false)
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
-
-            Debug.Assert(request != null, "request != null");
-            ExecuteCommand(new UpdateWordCommand(request.WordId, request.Text, request.Definition));
-            return Request.CreateResponse(HttpStatusCode.NoContent);
-        }
-
-        public class PutWordRequest
-        {
-            public PutWordRequest(string wordId, string text, string definition)
-            {
-                Definition = definition;
-                Text = text;
-                WordId = wordId;
-            }
-
-            [Required]
-            public string WordId { get; private set; }
-
-            [Required, MaxLength(1024)]
-            public string Text { get; private set; }
-
-            [Required, MaxLength(1024)]
-            public string Definition { get; private set; }
-        }
-
         public class PostWordRequest
         {
             public PostWordRequest(string text, string definition, string wordListId)

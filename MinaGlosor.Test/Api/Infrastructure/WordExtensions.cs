@@ -27,7 +27,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
                 text,
                 definition
             };
-            var response = await test.Client.PutAsJsonAsync("http://temp.uri/api/word", request);
+            var response = await test.Client.PostAsJsonAsync("http://temp.uri/api/updateword", request);
             response.EnsureSuccessStatusCode();
         }
 
