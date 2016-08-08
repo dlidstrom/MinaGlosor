@@ -358,8 +358,10 @@
     <Compile Include="Models\AdminCommands\MigrateAdminUserAdminCommandHandler.cs" />
     <Compile Include="Models\AdminCommands\MigrateWordUserIdAdminCommand.cs" />
     <Compile Include="Models\AdminCommands\MigrateWordUserIdAdminCommandHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\CreateWordListProgressTask.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\AddWordToWordListTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\BackgroundTaskHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\Handlers\CreateWordListProgressTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\ResetWordScoreTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\UpdateWordScoreTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\ResetWordScoreTask.cs" />
@@ -367,6 +369,7 @@
     <Compile Include="Models\ChangeLogEntry.cs" />
     <Compile Include="Models\Commands\AdminCommand.cs" />
     <Compile Include="Infrastructure\CommandExecutor.cs" />
+    <Compile Include="Models\Commands\CreateWordListProgressCommand.cs" />
     <Compile Include="Models\Commands\Handlers\AddWordToWordListCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\CreateAccountRequestCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\CreatePracticeSessionCommandHandler.cs" />
@@ -374,6 +377,7 @@
     <Compile Include="Models\Commands\Handlers\CreateUserCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\CreateWordCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\CreateWordListCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\CreateWordListProgressCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\RegisterAdminUsersCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\ResetWordScoreCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\RunAdminCommandHandler.cs" />
@@ -404,11 +408,14 @@
     <Compile Include="Models\DomainEvents\UpdateWordScoreEvent.cs" />
     <Compile Include="Models\DomainEvents\UserRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordFavouriteRegisteredEvent.cs" />
+    <Compile Include="Models\DomainEvents\WordListProgressCeatedEvent.cs" />
     <Compile Include="Models\DomainEvents\WordListRegisteredEvent.cs" />
+    <Compile Include="Models\DomainEvents\WordListRegisteredEventHandler.cs" />
     <Compile Include="Models\DomainEvents\WordScoreRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordUpdatedEvent.cs" />
     <Compile Include="Models\DomainEvents\WordUpdatedEventHandler.cs" />
     <Compile Include="Models\Indexes\ChangeLogEntryIndex.cs" />
+    <Compile Include="Models\Indexes\WordListProgressIndex.cs" />
     <Compile Include="Models\ModelContext.cs" />
     <Compile Include="Models\Commands\Handlers\KeyGeneratorBase.cs" />
     <Compile Include="Models\DomainEvents\SetCreatedDateFromMigrationEvent.cs" />
@@ -457,6 +464,7 @@
     <Compile Include="Models\Queries\GetUserByEmailQuery.cs" />
     <Compile Include="Models\Queries\GetUserByUsernameQuery.cs" />
     <Compile Include="Models\Queries\GetWordFavouritesQuery.cs" />
+    <Compile Include="Models\Queries\GetWordListProgressesQuery.cs" />
     <Compile Include="Models\Queries\GetWordListQuery.cs" />
     <Compile Include="Models\Queries\GetWordListsQuery.cs" />
     <Compile Include="Models\Queries\GetWordQuery.cs" />
@@ -473,6 +481,8 @@
     <Compile Include="Models\Queries\Handlers\GetUserByEmailQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetUserByUsernameQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordFavouritesQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetWordListProgressesQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetWordListProgressQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordListQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordListsQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordQueryHandler.cs" />
@@ -492,6 +502,7 @@
     <Compile Include="Models\Word.cs" />
     <Compile Include="Models\WordFavourite.cs" />
     <Compile Include="Models\WordList.cs" />
+    <Compile Include="Models\WordListProgress.cs" />
     <Compile Include="Models\WordScore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\IoC\WindsorDependencyResolver.cs" />

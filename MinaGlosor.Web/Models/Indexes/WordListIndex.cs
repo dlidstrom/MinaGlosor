@@ -3,6 +3,7 @@ using Raven.Client.Indexes;
 
 namespace MinaGlosor.Web.Models.Indexes
 {
+    // todo remove through admin command?
     public class WordListIndex : AbstractMultiMapIndexCreationTask<WordListIndex.Result>
     {
         public WordListIndex()

@@ -58,6 +58,18 @@ namespace MinaGlosor.Web.Models
             Apply(new AddWordEvent(Id, NumberOfWords + 1));
         }
 
+        public WordListProgress CreateProgressForUser(string ownerId)
+        {
+            var id = string.Format("WordListProgress-{0}-{1}", User.FromId(ownerId), FromId(Id));
+            var wordListProgress = new WordListProgress(
+                id,
+                ownerId,
+                Id,
+                Name,
+                NumberOfWords);
+            return wordListProgress;
+        }
+
         private void ApplyEvent(AddWordEvent @event)
         {
             NumberOfWords = @event.NumberOfWords;

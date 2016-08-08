@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using MinaGlosor.Test.Api.Infrastructure;
+using MinaGlosor.Web.Controllers.Api;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands.Handlers;
 using Newtonsoft.Json;
@@ -34,7 +35,8 @@ namespace MinaGlosor.Test.Api
                                     name = "list",
                                     numberOfWords = 10,
                                     percentDone = 20,
-                                    percentExpired = 10
+                                    percentExpired = 10,
+                                    difficultWords = 1
                                 }
                         },
                     numberOfFavourites = 0
@@ -50,16 +52,15 @@ namespace MinaGlosor.Test.Api
             {
                 var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(owner);
-                var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
-                session.Store(wordList);
-
-                // add some words to the word list
-                var generator = new KeyGenerator<Word>(session);
-                for (var i = 0; i < 10; i++)
-                {
-                    session.Store(Word.Create(generator.Generate(), 1 + i + "t", 1 + i + "d", wordList));
-                }
             });
+
+            var wordListResponse = await this.PostWordList("list");
+
+            // add some words to the word list
+            for (var i = 0; i < 10; i++)
+            {
+                await this.PostWord(1 + i + "t", 1 + i + "d", wordListResponse.WordListId);
+            }
 
             // practice the first word
             var request = new
@@ -70,22 +71,23 @@ namespace MinaGlosor.Test.Api
             Assert.That(createSessionResponse.Content, Is.Not.Null);
             var createSessionContent = await createSessionResponse.Content.ReadAsAsync<CreateSessionContent>();
 
+            var secondsToAdd = new [] { 0, 10, 20, 30, 40 };
+            var answers = new[] { "PerfectResponse", "PerfectResponse", "IncorrectWithEasyRecall" };
             for (var i = 0; i < 2; i++)
             {
-                var second = 10 * i;
+                var second = secondsToAdd[i];
+                var answer = answers[i];
                 SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1, 0, 0, second);
                 var getWordResponse1 = await Client.GetAsync("http://temp.uri/api/practiceword?practiceSessionId=" + createSessionContent.PracticeSessionId);
                 Assert.That(getWordResponse1.Content, Is.Not.Null);
                 var getWordContent = await getWordResponse1.Content.ReadAsAsync<GetWordContent>();
 
-                var postWordConfidenceRequest1 = new
-                {
+                var postWordConfidenceRequest = new WordConfidenceController.WordConfidenceRequest(
                     createSessionContent.PracticeSessionId,
                     getWordContent.PracticeWordId,
-                    ConfidenceLevel = "PerfectResponse"
-                };
+                    answer);
                 var wordConfidenceResponse = await Client.PostAsJsonAsync(
-                    "http://temp.uri/api/wordconfidence", postWordConfidenceRequest1);
+                    "http://temp.uri/api/wordconfidence", postWordConfidenceRequest);
                 Assert.That(wordConfidenceResponse.Content, Is.Not.Null);
                 var wordConfidenceContent = await wordConfidenceResponse.Content.ReadAsAsync<WordConfidenceContent>();
                 Assert.That(wordConfidenceContent.IsFinished, Is.False);

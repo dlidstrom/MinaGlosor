@@ -22,25 +22,6 @@ namespace MinaGlosor.Web.Models.DomainEvents
             return result;
         }
 
-        //protected TResult ExecuteCommand<TResult>(ICommand<TResult> command, ModelEvent causedByEvent)
-        //{
-        //    if (command == null) throw new ArgumentNullException("command");
-        //    if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
-
-        //    using (new ModelContext(ModelContext.CorrelationId, causedByEvent.EventId))
-        //    {
-        //        var commandAsJson = command.ToJson();
-        //        TracingLogger.Information(
-        //            EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteDependentCommand_3001,
-        //            "{0} <- {1}: {2}",
-        //            command.GetType().Name,
-        //            causedByEvent.GetType().Name,
-        //            commandAsJson);
-        //        var result = CommandExecutor.ExecuteCommand(command, null);
-        //        return result;
-        //    }
-        //}
-
         protected void SendTask<TBody>(TBody body, ModelEvent causedByEvent) where TBody : class
         {
             if (body == null) throw new ArgumentNullException("body");

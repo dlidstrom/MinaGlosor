@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 
 namespace MinaGlosor.Web.Models.Queries
 {
+    // todo deprecated?
     public class GetWordListsQuery : IQuery<GetWordListsQuery.Result>
     {
         public GetWordListsQuery(string userId)

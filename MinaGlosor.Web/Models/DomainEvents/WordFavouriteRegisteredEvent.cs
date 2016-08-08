@@ -14,7 +14,6 @@ namespace MinaGlosor.Web.Models.DomainEvents
         }
 
 #pragma warning disable 612, 618
-
         [JsonConstructor, UsedImplicitly]
         private WordFavouriteRegisteredEvent()
 #pragma warning restore 612, 618

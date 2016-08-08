@@ -1,6 +1,4 @@
-﻿using System.Net;
-using System.Net.Http;
-using MinaGlosor.Test.Api.Infrastructure;
+﻿using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands.Handlers;
 using Newtonsoft.Json;
@@ -44,35 +42,24 @@ namespace MinaGlosor.Test.Api
         {
             // Arrange
             Transact(session =>
-                {
-                    var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
-                    var anotherUser = new User(KeyGeneratorBase.Generate<User>(session), "f@d.com", "pwd", "username");
-                    session.Store(owner);
-                    session.Store(anotherUser);
-                    var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
-                    session.Store(wordList);
-
-                    // add some words to the word list
-                    var generator = new KeyGenerator<Word>(session);
-                    var firstWord = Word.Create(generator.Generate(), 1 + 1 + "t", 1 + 1 + "d", wordList);
-                    session.Store(firstWord);
-                    for (var i = 1; i < 10; i++)
-                    {
-                        session.Store(Word.Create(generator.Generate(), 1 + i + "t", 1 + i + "d", wordList));
-                    }
-
-                    // store favourite for another user
-                    session.Store(new WordFavourite(firstWord.Id, anotherUser.Id));
-                });
-
-            // mark first word favourite
-            var vm = new
             {
-                wordId = 1,
-                isFavourite = true
-            };
-            var response = await Client.PostAsJsonAsync("http://temp.uri/api/wordfavourite", vm);
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
+                var anotherUser = new User(KeyGeneratorBase.Generate<User>(session), "f@d.com", "pwd", "username");
+                session.Store(owner);
+                session.Store(anotherUser);
+            });
+
+            var wordListResponse = await this.PostWordList("list");
+
+            // add some words to the word list
+            var wordResponse = await this.PostWord(1 + "t", 1 + "d", wordListResponse.WordListId);
+            for (var i = 1; i < 10; i++)
+            {
+                await this.PostWord(1 + i + "t", 1 + i + "d", wordListResponse.WordListId);
+            }
+
+            // store favourite for another user
+            await this.MarkWordAsFavourite(wordResponse.WordId, true);
         }
     }
 }

@@ -7,6 +7,7 @@ using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Models.Queries.Handlers
 {
+    // todo deprecated?
     public class GetWordListsQueryHandler : QueryHandlerBase<GetWordListsQuery, GetWordListsQuery.Result>
     {
         public override bool CanExecute(GetWordListsQuery query, User currentUser)
