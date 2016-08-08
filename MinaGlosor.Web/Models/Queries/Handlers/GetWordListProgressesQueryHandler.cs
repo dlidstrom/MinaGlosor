@@ -17,8 +17,10 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
             var wordListProgresses = Session.Query<WordListProgress, WordListProgressIndex>()
                                             .Where(x => x.OwnerId == query.UserId)
                                             .ToArray();
-            // todo read all wordlists of the above, construct results using dictionary of word lists
-            var result = new GetWordListProgressesQuery.Result(wordListProgresses);
+            var wordLists = Session.Load<WordList>(wordListProgresses.Select(x => x.WordListId)).ToDictionary(x => x.Id);
+            var wordListProgressResults = wordListProgresses.Select(x => new GetWordListProgressesQuery.WordListProgressResult(x, wordLists[x.WordListId]))
+                                                            .ToArray();
+            var result = new GetWordListProgressesQuery.Result(wordListProgressResults);
             return result;
         }
     }

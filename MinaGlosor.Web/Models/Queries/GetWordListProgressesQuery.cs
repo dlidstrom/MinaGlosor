@@ -1,4 +1,3 @@
-using System.Linq;
 using MinaGlosor.Web.Infrastructure;
 
 namespace MinaGlosor.Web.Models.Queries
@@ -14,9 +13,9 @@ namespace MinaGlosor.Web.Models.Queries
 
         public class Result
         {
-            public Result(WordListProgress[] wordListProgresses)
+            public Result(WordListProgressResult[] wordListProgresses)
             {
-                WordLists = wordListProgresses.Select(x => new WordListProgressResult(x)).ToArray();
+                WordLists = wordListProgresses;
             }
 
             public WordListProgressResult[] WordLists { get; private set; }

@@ -64,9 +64,7 @@ namespace MinaGlosor.Web.Models
             var wordListProgress = new WordListProgress(
                 id,
                 ownerId,
-                Id,
-                Name,
-                NumberOfWords);
+                Id);
             return wordListProgress;
         }
 
