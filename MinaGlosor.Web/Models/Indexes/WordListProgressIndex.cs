@@ -1,9 +1,10 @@
 using System.Linq;
+using MinaGlosor.Web.Models.Domain.WordListProgressModel;
 using Raven.Client.Indexes;
 
 namespace MinaGlosor.Web.Models.Indexes
 {
-    public class WordListProgressIndex : AbstractIndexCreationTask<WordListProgress>
+    public class WordListProgressIndex : AbstractIndexCreationTask<WordListProgress.Model>
     {
         public WordListProgressIndex()
         {

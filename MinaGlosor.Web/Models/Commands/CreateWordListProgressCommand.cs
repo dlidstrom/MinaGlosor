@@ -1,4 +1,5 @@
 using MinaGlosor.Web.Infrastructure;
+using MinaGlosor.Web.Models.Domain.WordListProgressModel;
 
 namespace MinaGlosor.Web.Models.Commands
 {
@@ -16,7 +17,7 @@ namespace MinaGlosor.Web.Models.Commands
 
         public class Result
         {
-            public Result(WordListProgress wordListProgress)
+            public Result(WordListProgress.Model wordListProgress)
             {
                 WordListProgressId = wordListProgress.Id;
             }

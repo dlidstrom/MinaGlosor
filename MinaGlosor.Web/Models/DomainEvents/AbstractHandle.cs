@@ -22,7 +22,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
             return result;
         }
 
-        protected void SendTask<TBody>(TBody body, ModelEvent causedByEvent) where TBody : class
+        protected void SendTask<TBody>(TBody body, ModelEvent causedByEvent, DateTimeOffset? nextTry = null) where TBody : class
         {
             if (body == null) throw new ArgumentNullException("body");
             if (causedByEvent == null) throw new ArgumentNullException("causedByEvent");
@@ -35,7 +35,11 @@ namespace MinaGlosor.Web.Models.DomainEvents
                 causedByEvent.GetType().Name,
                 bodyAsJson);
             var session = Kernel.Resolve<IDocumentSession>();
-            var task = BackgroundTask.Create(ModelContext.CorrelationId, causedByEvent.EventId, body);
+            var task = BackgroundTask.Create(
+                ModelContext.CorrelationId,
+                causedByEvent.EventId,
+                body,
+                nextTry.GetValueOrDefault(DateTimeOffset.UtcNow));
             session.Store(task);
         }
     }

@@ -45,6 +45,8 @@ namespace MinaGlosor.Web.Models
 
         public int TimesForgotten { get; private set; }
 
+        public bool SignalledWordExpired { get; private set; }
+
         public void ScoreWord(ConfidenceLevel confidenceLevel)
         {
             switch (confidenceLevel)
@@ -107,6 +109,7 @@ namespace MinaGlosor.Web.Models
             var repeatAfterDate = utcNow.AddDays(intervalInDays);
             var score = Math.Max(1.3, Score + (0.1 - (5 - level) * (0.08 + (5 - level) * 0.02)));
             Apply(new UpdateWordScoreEvent(Id, count, intervalInDays, repeatAfterDate, score));
+            Apply(new CheckIfWordExpiresEvent(Id, repeatAfterDate));
         }
 
         public void ResetAfterWordEdit()
@@ -116,6 +119,15 @@ namespace MinaGlosor.Web.Models
             const double NewScore = DefaultScore;
             var repeatAfterDate = SystemTime.UtcNow.AddDays(NewIntervalInDays);
             Apply(new RestartAfterEditEvent(Id, NewIntervalInDays, NewCount, repeatAfterDate, NewScore));
+            Apply(new CheckIfWordExpiresEvent(Id, repeatAfterDate));
+        }
+
+        public void CheckIfWordExpires()
+        {
+            if (SignalledWordExpired == false && RepeatAfterDate < SystemTime.UtcNow)
+            {
+                Apply(new WordExpiredEvent(Id));
+            }
         }
 
         private void ApplyEvent(WordScoreRegisteredEvent @event)
@@ -139,6 +151,7 @@ namespace MinaGlosor.Web.Models
             IntervalInDays = @event.IntervalInDays;
             RepeatAfterDate = @event.RepeatAfterDate;
             Score = @event.Score;
+            SignalledWordExpired = false;
         }
 
         private void ApplyEvent(RestartAfterEditEvent @event)
@@ -147,6 +160,17 @@ namespace MinaGlosor.Web.Models
             IntervalInDays = @event.IntervalInDays;
             RepeatAfterDate = @event.RepeatAfterDate;
             Score = @event.Score;
+            SignalledWordExpired = false;
+        }
+
+        private void ApplyEvent(WordExpiredEvent @event)
+        {
+            SignalledWordExpired = true;
+        }
+
+        private void ApplyEvent(CheckIfWordExpiresEvent @event)
+        {
+            // to let the world know about the date
         }
     }
 }

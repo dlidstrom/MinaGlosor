@@ -5,17 +5,17 @@ namespace MinaGlosor.Web.Models.Commands
 {
     public class CreateWordListCommand : ICommand<CreateWordListCommand.Result>
     {
-        public CreateWordListCommand(string name, User owner)
+        public CreateWordListCommand(string name, string ownerId)
         {
-            Name = name;
-            Owner = owner;
             if (name == null) throw new ArgumentNullException("name");
-            if (owner == null) throw new ArgumentNullException("owner");
+            if (ownerId == null) throw new ArgumentNullException("ownerId");
+            Name = name;
+            OwnerId = ownerId;
         }
 
         public string Name { get; private set; }
 
-        public User Owner { get; private set; }
+        public string OwnerId { get; private set; }
 
         public class Result
         {

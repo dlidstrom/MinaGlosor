@@ -11,6 +11,7 @@ using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.BackgroundTasks;
 using MinaGlosor.Web.Models.BackgroundTasks.Handlers;
+using Raven.Abstractions;
 using Raven.Client;
 using Raven.Client.Linq;
 using Timer = System.Timers.Timer;
@@ -140,7 +141,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             var task = session.Query<BackgroundTask, BackgroundTasksIndex>()
                               .Customize(x => x.WaitForNonStaleResults())
                               .Statistics(out stats)
-                              .Where(x => x.IsFinished == false && x.IsFailed == false)
+                              .Where(x => x.IsFinished == false && x.IsFailed == false && x.NextTry >= SystemTime.UtcNow)
                               .OrderBy(x => x.NextTry)
                               .FirstOrDefault();
             if (task == null || task.IsFinished)

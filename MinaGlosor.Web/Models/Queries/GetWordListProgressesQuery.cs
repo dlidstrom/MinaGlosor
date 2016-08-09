@@ -1,4 +1,6 @@
+using System;
 using MinaGlosor.Web.Infrastructure;
+using MinaGlosor.Web.Models.Domain.WordListProgressModel;
 
 namespace MinaGlosor.Web.Models.Queries
 {
@@ -6,6 +8,7 @@ namespace MinaGlosor.Web.Models.Queries
     {
         public GetWordListProgressesQuery(string userId)
         {
+            if (userId == null) throw new ArgumentNullException("userId");
             UserId = userId;
         }
 
@@ -13,17 +16,20 @@ namespace MinaGlosor.Web.Models.Queries
 
         public class Result
         {
-            public Result(WordListProgressResult[] wordListProgresses)
+            public Result(WordListProgressResult[] wordListProgresses, int numberOfFavourites)
             {
                 WordLists = wordListProgresses;
+                NumberOfFavourites = numberOfFavourites;
             }
 
             public WordListProgressResult[] WordLists { get; private set; }
+
+            public int NumberOfFavourites { get; private set; }
         }
 
         public class WordListProgressResult
         {
-            public WordListProgressResult(WordListProgress wordListProgress, WordList wordList)
+            public WordListProgressResult(WordListProgress.Model wordListProgress, WordList wordList)
             {
                 WordListId = WordList.FromId(wordListProgress.WordListId);
                 OwnerId = User.FromId(wordListProgress.OwnerId);
@@ -38,6 +44,10 @@ namespace MinaGlosor.Web.Models.Queries
             public string Name { get; private set; }
 
             public int NumberOfWords { get; private set; }
+
+            public int PercentDone { get; private set; }
+
+            public int PercentExpired { get; private set; }
         }
     }
 }

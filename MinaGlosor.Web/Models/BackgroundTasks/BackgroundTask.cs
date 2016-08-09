@@ -7,13 +7,13 @@ namespace MinaGlosor.Web.Models.BackgroundTasks
     public class BackgroundTask
     {
         [JsonConstructor]
-        private BackgroundTask(Guid correlationId, Guid causationId, object body)
+        private BackgroundTask(Guid correlationId, Guid causationId, object body, DateTimeOffset nextTry)
         {
             CorrelationId = correlationId;
             CausationId = causationId;
             Body = body;
             Exceptions = new List<Exception>();
-            NextTry = DateTimeOffset.UtcNow;
+            NextTry = nextTry;
         }
 
         public string Id { get; private set; }
@@ -34,10 +34,10 @@ namespace MinaGlosor.Web.Models.BackgroundTasks
 
         public List<Exception> Exceptions { get; private set; }
 
-        public static BackgroundTask Create<TBody>(Guid correlationId, Guid causationId, TBody body) where TBody : class
+        public static BackgroundTask Create<TBody>(Guid correlationId, Guid causationId, TBody body, DateTimeOffset nextTry) where TBody : class
         {
             if (body == null) throw new ArgumentNullException("body");
-            return new BackgroundTask(correlationId, causationId, body);
+            return new BackgroundTask(correlationId, causationId, body, nextTry);
         }
 
         public void MarkFinished()

@@ -358,9 +358,11 @@
     <Compile Include="Models\AdminCommands\MigrateAdminUserAdminCommandHandler.cs" />
     <Compile Include="Models\AdminCommands\MigrateWordUserIdAdminCommand.cs" />
     <Compile Include="Models\AdminCommands\MigrateWordUserIdAdminCommandHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\CheckIfWordExpiresTask.cs" />
     <Compile Include="Models\BackgroundTasks\CreateWordListProgressTask.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\AddWordToWordListTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\BackgroundTaskHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\Handlers\CheckIfWordExpiresTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\CreateWordListProgressTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\ResetWordScoreTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\UpdateWordScoreTaskHandler.cs" />
@@ -369,8 +371,10 @@
     <Compile Include="Models\ChangeLogEntry.cs" />
     <Compile Include="Models\Commands\AdminCommand.cs" />
     <Compile Include="Infrastructure\CommandExecutor.cs" />
+    <Compile Include="Models\Commands\CheckIfWordExpiresCommand.cs" />
     <Compile Include="Models\Commands\CreateWordListProgressCommand.cs" />
     <Compile Include="Models\Commands\Handlers\AddWordToWordListCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\CheckIfWordExpiresCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\CreateAccountRequestCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\CreatePracticeSessionCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\CreateResetPasswordRequestCommandHandler.cs" />
@@ -392,6 +396,8 @@
     <Compile Include="Models\Commands\UpdateWordScoreCommand.cs" />
     <Compile Include="Models\Commands\UpdateWordScoreCommandHandler.cs" />
     <Compile Include="Models\DomainEvents\AddWordEvent.cs" />
+    <Compile Include="Models\DomainEvents\CheckIfWordExpiresEvent.cs" />
+    <Compile Include="Models\DomainEvents\CheckIfWordExpiresEventHandler.cs" />
     <Compile Include="Models\DomainEvents\MarkCreateAccountRequestUsedEvent.cs" />
     <Compile Include="Models\DomainEvents\MarkResetPasswordRequestUsedEvent.cs" />
     <Compile Include="Models\DomainEvents\PracticeSessionCreatedEvent.cs" />
@@ -407,6 +413,8 @@
     <Compile Include="Models\DomainEvents\UpdateLastPickedDateEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateWordScoreEvent.cs" />
     <Compile Include="Models\DomainEvents\UserRegisteredEvent.cs" />
+    <Compile Include="Models\DomainEvents\WordExpiredEvent.cs" />
+    <Compile Include="Models\DomainEvents\WordExpiredEventHandler.cs" />
     <Compile Include="Models\DomainEvents\WordFavouriteRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordListProgressCeatedEvent.cs" />
     <Compile Include="Models\DomainEvents\WordListRegisteredEvent.cs" />
@@ -414,6 +422,7 @@
     <Compile Include="Models\DomainEvents\WordScoreRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordUpdatedEvent.cs" />
     <Compile Include="Models\DomainEvents\WordUpdatedEventHandler.cs" />
+    <Compile Include="Models\Domain\WordListProgressModel\WordListProgress.cs" />
     <Compile Include="Models\Indexes\ChangeLogEntryIndex.cs" />
     <Compile Include="Models\Indexes\WordListProgressIndex.cs" />
     <Compile Include="Models\ModelContext.cs" />
@@ -502,7 +511,6 @@
     <Compile Include="Models\Word.cs" />
     <Compile Include="Models\WordFavourite.cs" />
     <Compile Include="Models\WordList.cs" />
-    <Compile Include="Models\WordListProgress.cs" />
     <Compile Include="Models\WordScore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\IoC\WindsorDependencyResolver.cs" />

@@ -38,7 +38,7 @@ namespace MinaGlosor.Test.Api
                 eventType.Name + " constructor must be decorated with JsonConstructor attribute");
             Assert.That(ctor.IsPrivate, Is.True);
             Assert.That(eventType.Name, Is.StringEnding("Event"));
-            Assert.That(eventType.Namespace, Is.EqualTo("MinaGlosor.Web.Models.DomainEvents"));
+            Assert.That(eventType.Namespace, Is.EqualTo("MinaGlosor.Web.Models.DomainEvents").Or.StartsWith("MinaGlosor.Web.Models.Domain."), "Wrong namespace");
         }
     }
 }

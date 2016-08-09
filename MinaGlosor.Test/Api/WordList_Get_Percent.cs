@@ -35,8 +35,7 @@ namespace MinaGlosor.Test.Api
                                     name = "list",
                                     numberOfWords = 10,
                                     percentDone = 20,
-                                    percentExpired = 10,
-                                    difficultWords = 1
+                                    percentExpired = 10
                                 }
                         },
                     numberOfFavourites = 0

@@ -1,5 +1,6 @@
 ﻿using System;
 using JetBrains.Annotations;
+using MinaGlosor.Web.Models.Domain.WordListProgressModel;
 using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Imports.Newtonsoft.Json;
 
@@ -58,10 +59,11 @@ namespace MinaGlosor.Web.Models
             Apply(new AddWordEvent(Id, NumberOfWords + 1));
         }
 
-        public WordListProgress CreateProgressForUser(string ownerId)
+        public WordListProgress.Model CreateProgressForUser(string ownerId)
         {
+            if (ownerId == null) throw new ArgumentNullException("ownerId");
             var id = string.Format("WordListProgress-{0}-{1}", User.FromId(ownerId), FromId(Id));
-            var wordListProgress = new WordListProgress(
+            var wordListProgress = new WordListProgress.Model(
                 id,
                 ownerId,
                 Id);

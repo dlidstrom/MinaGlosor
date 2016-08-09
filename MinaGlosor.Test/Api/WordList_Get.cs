@@ -9,17 +9,12 @@ namespace MinaGlosor.Test.Api
     [TestFixture]
     public class WordList_Get : WebApiIntegrationTest
     {
+        private User owner;
+
         [Test]
         public async void GetsEmptyWordList()
         {
             // Arrange
-            User owner = null;
-            Transact(session =>
-            {
-                owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
-                session.Store(owner);
-            });
-
             await this.PostWordList("list");
 
             // Act
@@ -76,7 +71,7 @@ namespace MinaGlosor.Test.Api
                                 },
                             new
                                 {
-                                    wordListId = "2",
+                                    wordListId = "5",
                                     ownerId = "1",
                                     name = "Then one more",
                                     numberOfWords = 3,
@@ -113,6 +108,12 @@ namespace MinaGlosor.Test.Api
 
         private async void ArrangeThreeWordLists()
         {
+            Transact(session =>
+            {
+                owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
+                session.Store(owner);
+            });
+
             var wordListResult1 = await this.PostWordList("Some name");
             await this.PostWord("Word1", "Def1", wordListResult1.WordListId);
             await this.PostWord("Word2", "Def2", wordListResult1.WordListId);

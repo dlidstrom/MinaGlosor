@@ -7,7 +7,7 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
         public override CreateWordListCommand.Result Handle(CreateWordListCommand command)
         {
             var id = KeyGeneratorBase.Generate<WordList>(Session);
-            var wordList = new WordList(id, command.Name, command.Owner.Id);
+            var wordList = new WordList(id, command.Name, command.OwnerId);
             Session.Store(wordList);
             return new CreateWordListCommand.Result(wordList);
         }
