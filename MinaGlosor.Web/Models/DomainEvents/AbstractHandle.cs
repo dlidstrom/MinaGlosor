@@ -3,6 +3,7 @@ using Castle.MicroKernel;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models.BackgroundTasks;
+using Raven.Abstractions;
 using Raven.Client;
 
 namespace MinaGlosor.Web.Models.DomainEvents
@@ -39,7 +40,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
                 ModelContext.CorrelationId,
                 causedByEvent.EventId,
                 body,
-                nextTry.GetValueOrDefault(DateTimeOffset.UtcNow));
+                nextTry.GetValueOrDefault(SystemTime.UtcNow));
             session.Store(task);
         }
     }

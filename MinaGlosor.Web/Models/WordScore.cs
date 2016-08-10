@@ -124,9 +124,10 @@ namespace MinaGlosor.Web.Models
 
         public void CheckIfWordExpires()
         {
-            if (SignalledWordExpired == false && RepeatAfterDate < SystemTime.UtcNow)
+            var utcNow = SystemTime.UtcNow;
+            if (SignalledWordExpired == false && RepeatAfterDate < utcNow)
             {
-                Apply(new WordExpiredEvent(Id));
+                Apply(new WordExpiredEvent(Id, WordId, OwnerId));
             }
         }
 

@@ -13,7 +13,6 @@ using MinaGlosor.Web.Models.BackgroundTasks;
 using MinaGlosor.Web.Models.BackgroundTasks.Handlers;
 using Raven.Abstractions;
 using Raven.Client;
-using Raven.Client.Linq;
 using Timer = System.Timers.Timer;
 
 namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
@@ -137,18 +136,29 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
 
         private int ProcessTask(IDocumentSession session)
         {
-            RavenQueryStatistics stats;
-            var task = session.Query<BackgroundTask, BackgroundTasksIndex>()
-                              .Customize(x => x.WaitForNonStaleResults())
-                              .Statistics(out stats)
-                              .Where(x => x.IsFinished == false && x.IsFailed == false && x.NextTry >= SystemTime.UtcNow)
-                              .OrderBy(x => x.NextTry)
-                              .FirstOrDefault();
-            if (task == null || task.IsFinished)
+            var utcNow = SystemTime.UtcNow;
+            var totalTasksInQueueToBeProcessed = session.Query<BackgroundTask, BackgroundTasksIndex>()
+                                                        .Customize(x => x.WaitForNonStaleResults())
+                                                        .Count(x => x.IsFinished == false
+                                                                    && x.IsFailed == false
+                                                                    && x.NextTry > utcNow);
+            var taskToBeProcessedNow = session.Query<BackgroundTask, BackgroundTasksIndex>()
+                                              .Customize(x => x.WaitForNonStaleResults())
+                                              .Where(x => x.IsFinished == false
+                                                  && x.IsFailed == false
+                                                  && x.NextTry <= utcNow)
+                                              .OrderBy(x => x.NextTry)
+                                              .ToArray();
+            TracingLogger.Information(
+                "Tasks to be processed: {0}, total queued: {1}",
+                taskToBeProcessedNow.Length,
+                totalTasksInQueueToBeProcessed);
+            if (taskToBeProcessedNow.Any() == false)
             {
-                return stats.TotalResults;
+                return 0;
             }
 
+            var task = taskToBeProcessedNow.First();
             object handler = null;
             try
             {
@@ -175,7 +185,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                 if (handler != null) kernel.ReleaseComponent(handler);
             }
 
-            return stats.TotalResults;
+            return taskToBeProcessedNow.Length;
         }
     }
 }

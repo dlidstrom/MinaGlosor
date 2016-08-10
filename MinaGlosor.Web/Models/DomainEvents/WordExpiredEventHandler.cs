@@ -1,4 +1,4 @@
-using System;
+using MinaGlosor.Web.Models.BackgroundTasks;
 
 namespace MinaGlosor.Web.Models.DomainEvents
 {
@@ -6,7 +6,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
     {
         public override void Handle(WordExpiredEvent ev)
         {
-            throw new NotImplementedException();
+            SendTask(new WordExpiredTask(ev.WordId, ev.OwnerId), ev);
         }
     }
 }

@@ -10,14 +10,13 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
         public class Model : DomainModel
         {
             public Model(
-                string id,
                 string ownerId,
                 string wordListId)
-                : base(id)
+                : base(GetIdFromWordListForUser(wordListId, ownerId))
             {
                 if (ownerId == null) throw new ArgumentNullException("ownerId");
                 if (wordListId == null) throw new ArgumentNullException("wordListId");
-                Apply(new CeatedEvent(id, ownerId, wordListId));
+                Apply(new CeatedEvent(Id, ownerId, wordListId));
             }
 
 #pragma warning disable 612, 618
@@ -40,6 +39,12 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
             public int NumberOfWordsExpired { get; private set; }
 
             public int PercentExpired { get; private set; }
+
+            public static string GetIdFromWordListForUser(string wordListId, string ownerId)
+            {
+                var id = string.Format("WordListProgress-{0}-{1}", User.FromId(ownerId), WordList.FromId(wordListId));
+                return id;
+            }
 
             // todo make sure this gets called
             public void WordHasExpired(int numberOfWords)

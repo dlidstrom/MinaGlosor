@@ -1,4 +1,5 @@
 using MinaGlosor.Web.Infrastructure;
+using MinaGlosor.Web.Models.Domain.WordListProgressModel;
 
 namespace MinaGlosor.Web.Models.Commands.Handlers
 {
@@ -6,8 +7,9 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
     {
         public override CreateWordListProgressCommand.Result Handle(CreateWordListProgressCommand command)
         {
-            var wordList = Session.Load<WordList>(command.WordListId);
-            var wordListProgress = wordList.CreateProgressForUser(command.OwnerId);
+            var wordListProgress = new WordListProgress.Model(
+                command.OwnerId,
+                command.WordListId);
             Session.Store(wordListProgress);
             return new CreateWordListProgressCommand.Result(wordListProgress);
         }
