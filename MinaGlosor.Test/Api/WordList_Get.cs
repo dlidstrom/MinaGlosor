@@ -1,4 +1,5 @@
-﻿using MinaGlosor.Test.Api.Infrastructure;
+﻿using Castle.Windsor;
+using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands.Handlers;
 using Newtonsoft.Json;
@@ -106,14 +107,17 @@ namespace MinaGlosor.Test.Api
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
         }
 
-        private async void ArrangeThreeWordLists()
+        protected override void Arrange()
         {
             Transact(session =>
             {
                 owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(owner);
             });
+        }
 
+        private async void ArrangeThreeWordLists()
+        {
             var wordListResult1 = await this.PostWordList("Some name");
             await this.PostWord("Word1", "Def1", wordListResult1.WordListId);
             await this.PostWord("Word2", "Def2", wordListResult1.WordListId);
