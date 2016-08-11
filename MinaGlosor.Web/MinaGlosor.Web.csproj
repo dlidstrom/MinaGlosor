@@ -425,7 +425,6 @@
     <Compile Include="Models\DomainEvents\WordIsUpToDateEventHandler.cs" />
     <Compile Include="Models\DomainEvents\WordScoreEventHandler.cs" />
     <Compile Include="Models\DomainEvents\WordFavouriteRegisteredEvent.cs" />
-    <Compile Include="Models\DomainEvents\WordListProgressCeatedEvent.cs" />
     <Compile Include="Models\DomainEvents\WordListRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordListRegisteredEventHandler.cs" />
     <Compile Include="Models\DomainEvents\WordScoreRegisteredEvent.cs" />
