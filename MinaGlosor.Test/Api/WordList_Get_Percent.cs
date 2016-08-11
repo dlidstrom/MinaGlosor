@@ -35,7 +35,7 @@ namespace MinaGlosor.Test.Api
                                     ownerId = "1",
                                     name = "list",
                                     numberOfWords = 10,
-                                    percentDone = 20,
+                                    percentDone = 0,
                                     percentExpired = 30
                                 }
                         },
