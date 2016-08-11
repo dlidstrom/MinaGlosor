@@ -46,10 +46,11 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
                 return id;
             }
 
-            // todo make sure this gets called
             public void WordHasExpired(int numberOfWords)
             {
-                Apply(new WordHasExpiredEvent(Id, NumberOfWordsExpired + 1, CalculatePercentExpired(numberOfWords)));
+                var newNumberOfWordsExpired = NumberOfWordsExpired + 1;
+                var percentExpired = CalculatePercentExpired(newNumberOfWordsExpired, numberOfWords);
+                Apply(new WordHasExpiredEvent(Id, newNumberOfWordsExpired, percentExpired));
             }
 
             // todo make sure this gets called
@@ -66,9 +67,9 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
                 //PercentDone = (int)Math.Floor(100.0 * NumberOfWordScores / Math.Max(1, numberOfWords));
             }
 
-            private int CalculatePercentExpired(int numberOfWords)
+            private int CalculatePercentExpired(int newNumberOfWordsExpired, int numberOfWords)
             {
-                var percentExpired = (int)Math.Floor(100.0 * NumberOfWordsExpired / Math.Max(1, numberOfWords));
+                var percentExpired = (int)Math.Floor(100.0 * newNumberOfWordsExpired / Math.Max(1, numberOfWords));
                 return percentExpired;
             }
 

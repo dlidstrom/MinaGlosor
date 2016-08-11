@@ -35,6 +35,7 @@ namespace MinaGlosor.Web.Models.Queries
                 OwnerId = User.FromId(wordListProgress.OwnerId);
                 Name = wordList.Name;
                 NumberOfWords = wordList.NumberOfWords;
+                PercentExpired = wordListProgress.PercentExpired;
             }
 
             public string WordListId { get; private set; }

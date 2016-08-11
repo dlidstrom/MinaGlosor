@@ -63,14 +63,20 @@ namespace MinaGlosor.Test.Api.Infrastructure
             Application.Shutdown();
         }
 
-        public void WaitForIndexing()
+        protected void WaitForIndexing()
         {
             // wait for tasks
             var taskRunner = Container.Resolve<TaskRunner>();
             taskRunner.ProcessedTasks += TaskRunnerOnProcessedTasks;
-            taskRunnerEvent = new AutoResetEvent(false);
             TracingLogger.Information("Waiting for task runner");
-            taskRunnerEvent.WaitOne();
+
+            // twice to make sure it's fresh
+            for (var i = 0; i < 2; i++)
+            {
+                taskRunnerEvent = new AutoResetEvent(false);
+                taskRunnerEvent.WaitOne();
+            }
+
             TracingLogger.Information("Task runner done");
             taskRunner.ProcessedTasks -= TaskRunnerOnProcessedTasks;
 
@@ -128,9 +134,12 @@ namespace MinaGlosor.Test.Api.Infrastructure
         {
         }
 
-        private void TaskRunnerOnProcessedTasks(object sender, EventArgs eventArgs)
+        private void TaskRunnerOnProcessedTasks(object sender, TaskRunner.QueueStatusEventArgs eventArgs)
         {
-            taskRunnerEvent.Set();
+            if (eventArgs.QueueStatus.TasksToBeProcessedNow == 0)
+            {
+                taskRunnerEvent.Set();
+            }
         }
     }
 }

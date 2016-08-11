@@ -17,7 +17,8 @@ namespace MinaGlosor.Test.Api
         public async void GetsWithPercentComplete()
         {
             // Act
-            SystemTime.UtcDateTime = () => new DateTime(2012, 1, 2, 0, 0, 5);
+            SystemTime.UtcDateTime = () => new DateTime(2012, 1, 3, 0, 0, 0);
+            WaitForIndexing();
             var response = await Client.GetAsync("http://temp.uri/api/wordlist");
             var content = response.Content;
 
@@ -35,7 +36,7 @@ namespace MinaGlosor.Test.Api
                                     name = "list",
                                     numberOfWords = 10,
                                     percentDone = 20,
-                                    percentExpired = 10
+                                    percentExpired = 30
                                 }
                         },
                     numberOfFavourites = 0
@@ -70,9 +71,9 @@ namespace MinaGlosor.Test.Api
             Assert.That(createSessionResponse.Content, Is.Not.Null);
             var createSessionContent = await createSessionResponse.Content.ReadAsAsync<CreateSessionContent>();
 
-            var secondsToAdd = new [] { 0, 10, 20, 30, 40 };
+            var secondsToAdd = new [] { 0, 10, 20 };
             var answers = new[] { "PerfectResponse", "PerfectResponse", "IncorrectWithEasyRecall" };
-            for (var i = 0; i < 2; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var second = secondsToAdd[i];
                 var answer = answers[i];

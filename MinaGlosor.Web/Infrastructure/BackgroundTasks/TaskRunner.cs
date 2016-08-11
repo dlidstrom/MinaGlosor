@@ -42,7 +42,7 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             HostingEnvironment.RegisterObject(this);
         }
 
-        public event EventHandler<EventArgs> ProcessedTasks;
+        public event EventHandler<QueueStatusEventArgs> ProcessedTasks;
 
         public void Stop(bool immediate)
         {
@@ -70,13 +70,13 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             HostingEnvironment.UnregisterObject(this);
         }
 
-        protected virtual void OnProcessedTasks()
+        protected virtual void OnProcessedTasks(QueueStatusEventArgs eventArgs)
         {
             var handler = ProcessedTasks;
             if (handler != null)
             {
                 TracingLogger.Information("Signalling tasks done");
-                handler(this, EventArgs.Empty);
+                handler(this, eventArgs);
             }
         }
 
@@ -91,13 +91,13 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
 
             try
             {
-                var remaining = PerformWork();
-                while (remaining > 0)
+                var queueStatus = PerformWork();
+                while (queueStatus.TasksToBeProcessedNow > 0)
                 {
-                    remaining = PerformWork();
+                    queueStatus = PerformWork();
                 }
 
-                OnProcessedTasks();
+                OnProcessedTasks(new QueueStatusEventArgs(queueStatus));
             }
             catch (Exception e)
             {
@@ -110,38 +110,40 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
             }
         }
 
-        private int PerformWork()
+        private QueueStatus PerformWork()
         {
             try
             {
                 using (kernel.BeginScope())
                 using (var session = kernel.Resolve<IDocumentSession>())
                 {
-                    var results = ProcessTask(session);
-                    if (results > 0)
+                    var queueStatus = ProcessTask(session);
+                    if (queueStatus.TasksToBeProcessedNow > 0)
                     {
                         session.SaveChanges();
-                        return results - 1;
+                        return new QueueStatus(
+                            queueStatus.TotalTasksInQueueToBeProcessed,
+                            queueStatus.TasksToBeProcessedNow - 1);
                     }
+
+                    return new QueueStatus(queueStatus.TotalTasksInQueueToBeProcessed, queueStatus.TasksToBeProcessedNow);
                 }
             }
             catch (Exception e)
             {
                 TracingLogger.Error(EventIds.Error_Permanent_5XXX.Web_UnhandledException_5000, e);
                 ErrorLog.GetDefault(null).Log(new Error(e));
+                return new QueueStatus(0, 0);
             }
-
-            return 0;
         }
 
-        private int ProcessTask(IDocumentSession session)
+        private QueueStatus ProcessTask(IDocumentSession session)
         {
             var utcNow = SystemTime.UtcNow;
             var totalTasksInQueueToBeProcessed = session.Query<BackgroundTask, BackgroundTasksIndex>()
                                                         .Customize(x => x.WaitForNonStaleResults())
-                                                        .Count(x => x.IsFinished == false
-                                                                    && x.IsFailed == false
-                                                                    && x.NextTry > utcNow);
+                                                        .Where(x => x.IsFinished == false && x.IsFailed == false)
+                                                        .ToArray();
             var taskToBeProcessedNow = session.Query<BackgroundTask, BackgroundTasksIndex>()
                                               .Customize(x => x.WaitForNonStaleResults())
                                               .Where(x => x.IsFinished == false
@@ -150,12 +152,13 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                                               .OrderBy(x => x.NextTry)
                                               .ToArray();
             TracingLogger.Information(
-                "Tasks to be processed: {0}, total queued: {1}",
+                "{0} - Tasks to be processed: {1}, total queued: {2}",
+                utcNow,
                 taskToBeProcessedNow.Length,
-                totalTasksInQueueToBeProcessed);
+                totalTasksInQueueToBeProcessed.Length);
             if (taskToBeProcessedNow.Any() == false)
             {
-                return 0;
+                return new QueueStatus(totalTasksInQueueToBeProcessed.Length, 0);
             }
 
             var task = taskToBeProcessedNow.First();
@@ -185,7 +188,30 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                 if (handler != null) kernel.ReleaseComponent(handler);
             }
 
-            return taskToBeProcessedNow.Length;
+            return new QueueStatus(totalTasksInQueueToBeProcessed.Length, taskToBeProcessedNow.Length);
+        }
+
+        public class QueueStatus
+        {
+            public QueueStatus(int totalTasksInQueueToBeProcessed, int tasksToBeProcessedNow)
+            {
+                TotalTasksInQueueToBeProcessed = totalTasksInQueueToBeProcessed;
+                TasksToBeProcessedNow = tasksToBeProcessedNow;
+            }
+
+            public int TotalTasksInQueueToBeProcessed { get; private set; }
+
+            public int TasksToBeProcessedNow { get; private set; }
+        }
+
+        public class QueueStatusEventArgs : EventArgs
+        {
+            public QueueStatusEventArgs(QueueStatus queueStatus)
+            {
+                QueueStatus = queueStatus;
+            }
+
+            public QueueStatus QueueStatus { get; private set; }
         }
     }
 }
