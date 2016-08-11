@@ -108,8 +108,14 @@ namespace MinaGlosor.Web.Models
 
             var repeatAfterDate = utcNow.AddDays(intervalInDays);
             var score = Math.Max(1.3, Score + (0.1 - (5 - level) * (0.08 + (5 - level) * 0.02)));
+            var oldRepeatAfterDate = RepeatAfterDate;
             Apply(new UpdateWordScoreEvent(Id, count, intervalInDays, repeatAfterDate, score));
             Apply(new CheckIfWordExpiresEvent(Id, repeatAfterDate));
+            if (oldRepeatAfterDate != default(DateTime) && oldRepeatAfterDate < SystemTime.UtcNow)
+            {
+                // word was expired, now is up to date
+                Apply(new WordIsUpToDateEvent(Id, WordId, OwnerId));
+            }
         }
 
         public void ResetAfterWordEdit()
@@ -172,6 +178,11 @@ namespace MinaGlosor.Web.Models
         private void ApplyEvent(CheckIfWordExpiresEvent @event)
         {
             // to let the world know about the date
+        }
+
+        private void ApplyEvent(WordIsUpToDateEvent @event)
+        {
+            // to let the world know
         }
     }
 }

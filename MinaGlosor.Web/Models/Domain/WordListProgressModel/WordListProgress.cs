@@ -53,11 +53,11 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
                 Apply(new WordHasExpiredEvent(Id, newNumberOfWordsExpired, percentExpired));
             }
 
-            // todo make sure this gets called
             public void WordIsUpToDate(int numberOfWords)
             {
-                //NumberOfWordsExpired--;
-                //PercentExpired = CalculatePercentExpired(numberOfWords);
+                var newNumberOfWordsExpired = NumberOfWordsExpired--;
+                var percentExpired = CalculatePercentExpired(newNumberOfWordsExpired, numberOfWords);
+                Apply(new WordIsUpToDateEvent(Id, newNumberOfWordsExpired, percentExpired));
             }
 
             // todo make sure this gets called
@@ -129,6 +129,27 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
             public int NewNumberOfWordsExpired { get; private set; }
 
             public int CalculatedPercentExpired { get; private set; }
+        }
+
+        public class WordIsUpToDateEvent : ModelEvent
+        {
+            public WordIsUpToDateEvent(string modelId, int newNumberOfWordsExpired, int percentExpired)
+                : base(modelId)
+            {
+                NewNumberOfWordsExpired = newNumberOfWordsExpired;
+                PercentExpired = percentExpired;
+            }
+
+#pragma warning disable 612, 618
+            [JsonConstructor, UsedImplicitly]
+            private WordIsUpToDateEvent()
+#pragma warning restore 612, 618
+            {
+            }
+
+            public int NewNumberOfWordsExpired { get; private set; }
+
+            public int PercentExpired { get; private set; }
         }
     }
 }
