@@ -366,11 +366,14 @@
     <Compile Include="Models\BackgroundTasks\Handlers\CreateWordListProgressTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\ResetWordScoreTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\UpdateWordScoreTaskHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\Handlers\WordIsUpToDateTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\WordListProgressTaskHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\Handlers\WordScoreRegisteredTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\ResetWordScoreTask.cs" />
     <Compile Include="Models\BackgroundTasks\UpdateWordScoreTask.cs" />
     <Compile Include="Models\BackgroundTasks\WordExpiredTask.cs" />
     <Compile Include="Models\BackgroundTasks\WordIsUpToDateTask.cs" />
+    <Compile Include="Models\BackgroundTasks\WordScoreRegisteredTask.cs" />
     <Compile Include="Models\ChangeLogEntry.cs" />
     <Compile Include="Models\Commands\AdminCommand.cs" />
     <Compile Include="Infrastructure\CommandExecutor.cs" />
@@ -394,6 +397,7 @@
     <Compile Include="Models\Commands\Handlers\UpdateWordConfidenceCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\WordExpiredCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\WordIsUpToDateCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\WordScoreRegisteredCommandHandler.cs" />
     <Compile Include="Models\Commands\RegisterAdminUsersCommand.cs" />
     <Compile Include="Models\Commands\ResetWordScoreCommand.cs" />
     <Compile Include="Models\Commands\RunAdminCommand.cs" />
@@ -402,6 +406,7 @@
     <Compile Include="Models\Commands\UpdateWordScoreCommandHandler.cs" />
     <Compile Include="Models\Commands\WordExpiredCommand.cs" />
     <Compile Include="Models\Commands\WordIsUpToDateCommand.cs" />
+    <Compile Include="Models\Commands\WordScoreRegisteredCommand.cs" />
     <Compile Include="Models\DomainEvents\AddWordEvent.cs" />
     <Compile Include="Models\DomainEvents\CheckIfWordExpiresEvent.cs" />
     <Compile Include="Models\DomainEvents\CheckIfWordExpiresEventHandler.cs" />
@@ -428,6 +433,7 @@
     <Compile Include="Models\DomainEvents\WordListRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordListRegisteredEventHandler.cs" />
     <Compile Include="Models\DomainEvents\WordScoreRegisteredEvent.cs" />
+    <Compile Include="Models\DomainEvents\WordScoreRegisteredEventHandler.cs" />
     <Compile Include="Models\DomainEvents\WordUpdatedEvent.cs" />
     <Compile Include="Models\DomainEvents\WordUpdatedEventHandler.cs" />
     <Compile Include="Models\Domain\WordListProgressModel\WordListProgress.cs" />

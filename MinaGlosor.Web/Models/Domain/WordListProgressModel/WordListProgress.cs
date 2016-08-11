@@ -32,8 +32,6 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
 
             public int NumberOfWordScores { get; private set; }
 
-            public int NumberOfWordsCurrentlyDone { get; private set; }
-
             public int PercentDone { get; private set; }
 
             public int NumberOfWordsExpired { get; private set; }
@@ -60,17 +58,23 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
                 Apply(new WordIsUpToDateEvent(Id, newNumberOfWordsExpired, percentExpired));
             }
 
-            // todo make sure this gets called
             public void NewWordHasBeenPracticed(int numberOfWords)
             {
-                //NumberOfWordScores++;
-                //PercentDone = (int)Math.Floor(100.0 * NumberOfWordScores / Math.Max(1, numberOfWords));
+                var newNumberOfWordScores = NumberOfWordScores + 1;
+                var percentDone = CalculatePercentDone(newNumberOfWordScores, numberOfWords);
+                Apply(new WordHasBeenPracticedEvent(Id, newNumberOfWordScores, percentDone));
             }
 
             private static int CalculatePercentExpired(int newNumberOfWordsExpired, int numberOfWords)
             {
                 var percentExpired = (int)Math.Floor(100.0 * newNumberOfWordsExpired / Math.Max(1, numberOfWords));
                 return percentExpired;
+            }
+
+            private static int CalculatePercentDone(int newNumberOfWordScores, int numberOfWords)
+            {
+                var percentDone = (int)Math.Floor(100.0 * newNumberOfWordScores / Math.Max(1, numberOfWords));
+                return percentDone;
             }
 
             private void ApplyEvent(CeatedEvent @event)
@@ -89,6 +93,12 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
             {
                 NumberOfWordsExpired = @event.NewNumberOfWordsExpired;
                 PercentExpired = @event.PercentExpired;
+            }
+
+            private void ApplyEvent(WordHasBeenPracticedEvent @event)
+            {
+                NumberOfWordScores = @event.NewNumberOfWordScores;
+                PercentDone = @event.PercentDone;
             }
         }
 
@@ -156,6 +166,27 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
             public int NewNumberOfWordsExpired { get; private set; }
 
             public int PercentExpired { get; private set; }
+        }
+
+        public class WordHasBeenPracticedEvent : ModelEvent
+        {
+            public WordHasBeenPracticedEvent(string modelId, int newNumberOfWordScores, int percentDone)
+                : base(modelId)
+            {
+                NewNumberOfWordScores = newNumberOfWordScores;
+                PercentDone = percentDone;
+            }
+
+            #pragma warning disable 612, 618
+            [JsonConstructor, UsedImplicitly]
+            private WordHasBeenPracticedEvent()
+#pragma warning restore 612, 618
+            {
+            }
+
+            public int NewNumberOfWordScores { get; private set; }
+
+            public int PercentDone { get; private set; }
         }
     }
 }
