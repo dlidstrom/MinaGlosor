@@ -213,6 +213,20 @@
                         ]
                     }
                 })
+            .when(
+                '/browse',
+                {
+                    templateUrl: '/wwwroot/app/browse/index.html',
+                    controller: 'BrowseController',
+                    resolve: {
+                        result: [
+                            'BrowseService',
+                            function (browseService) {
+                                return browseService.search();
+                            }
+                        ]
+                    }
+                })
             .otherwise({
                 redirectTo: '/wordlist'
             });

@@ -185,6 +185,8 @@
     <Content Include="wwwroot\angular-route.js" />
     <Content Include="wwwroot\angular.js" />
     <Content Include="wwwroot\app\app.js" />
+    <Content Include="wwwroot\app\browse\index.html" />
+    <Content Include="wwwroot\app\browse\browseController.js" />
     <Content Include="wwwroot\app\bundle.txt" />
     <Content Include="wwwroot\app\exceptionHandler.js" />
     <Content Include="wwwroot\app\search\searchIndexController.js" />
@@ -192,6 +194,7 @@
     <Content Include="wwwroot\app\search\searchRedirectController.js" />
     <Content Include="wwwroot\app\shared\clickOnce.js" />
     <Content Include="wwwroot\app\shared\closeNavbarDirective.js" />
+    <Content Include="wwwroot\app\shared\browseService.js" />
     <Content Include="wwwroot\app\shared\searchService.js" />
     <Content Include="wwwroot\app\shared\spinnerDirective.js" />
     <Content Include="wwwroot\external\footer_js\angular-spinner.min.js" />
