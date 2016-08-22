@@ -1,6 +1,15 @@
 ﻿<div class="row">
     <div class="col-xs-12">
         <h4>Alla ordlistor</h4>
-        <table class="table table-bordered"></table>
+        <table class="table table-bordered">
+            <tr>
+                <th>Namn</th>
+            </tr>
+            <tr ng-repeat="item in controller.wordLists">
+                <td>
+                    {{item.name}}
+                </td>
+            </tr>
+        </table>
     </div>
 </div>

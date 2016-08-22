@@ -2,6 +2,7 @@
 exceptionHandler.js
 routes.js
 httpInterceptor.js
+browse\browseController.js
 practice\practiceIndexController.js
 practice\practiceSessionController.js
 practice\practiceSessionMeaningController.js

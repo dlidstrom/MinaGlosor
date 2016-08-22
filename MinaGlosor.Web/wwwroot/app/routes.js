@@ -218,6 +218,7 @@
                 {
                     templateUrl: '/wwwroot/app/browse/index.html',
                     controller: 'BrowseController',
+                    controllerAs: 'controller',
                     resolve: {
                         result: [
                             'BrowseService',
