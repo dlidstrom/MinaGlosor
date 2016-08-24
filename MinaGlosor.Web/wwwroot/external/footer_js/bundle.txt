@@ -4,4 +4,4 @@ json3.min.js
 toaster.min.js
 spin.min.js
 angular-spinner.min.js
-waypoints-0.0.1.min.js
+waypoints-0.0.1.js

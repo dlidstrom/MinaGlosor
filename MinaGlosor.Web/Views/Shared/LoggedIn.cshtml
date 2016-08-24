@@ -20,7 +20,10 @@
     @Bundles.RenderStylesheets()
     <script>
         $(function () {
-            Waypoints.debug(true).intercept('a');
+            // https://github.com/Skookum/waypoints
+            // TODO: Causes full page reload
+            //Waypoints.debug(true).intercept('a');
+            // check if this can be solved like this instead: http://stackoverflow.com/questions/31299394/
         });
     </script>
 </head>

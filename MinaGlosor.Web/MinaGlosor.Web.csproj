@@ -204,6 +204,7 @@
     <Content Include="wwwroot\external\footer_js\json3.min.js" />
     <Content Include="wwwroot\external\footer_js\spin.min.js" />
     <Content Include="wwwroot\external\footer_js\toaster.min.js" />
+    <Content Include="wwwroot\external\footer_js\waypoints-0.0.1.js" />
     <Content Include="wwwroot\external\footer_js\waypoints-0.0.1.min.js" />
     <Content Include="wwwroot\external\head_js\angular-animate.min.js" />
     <Content Include="wwwroot\external\head_js\angular-messages.min.js" />
