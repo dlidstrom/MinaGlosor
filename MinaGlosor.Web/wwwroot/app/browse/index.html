@@ -1,4 +1,4 @@
-﻿<div class="row">
+﻿<div c  lass="row">
     <div class="col-xs-12">
         <h4>Alla ordlistor</h4>
         <table class="table table-bordered">
@@ -11,5 +11,10 @@
                 </td>
             </tr>
         </table>
+        <ul uib-pagination
+            total-items="controller.paging.totalItems"
+            items-per-page="controller.paging.itemsPerPage"
+            ng-model="controller.paging.currentPage"
+            ng-change="controller.pageChanged()"></ul>
     </div>
 </div>

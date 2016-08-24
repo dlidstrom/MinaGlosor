@@ -274,6 +274,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\bundle.txt" />
+    <Content Include="wwwroot\external\head_js\ui-bootstrap-tpls-2.1.1.min.js" />
     <Content Include="wwwroot\images\apple-touch-icon-114x114.png" />
     <Content Include="wwwroot\images\apple-touch-icon-120x120.png" />
     <Content Include="wwwroot\images\apple-touch-icon-144x144.png" />

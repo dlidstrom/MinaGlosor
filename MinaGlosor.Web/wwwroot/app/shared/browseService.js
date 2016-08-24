@@ -7,9 +7,15 @@
     function BrowseService($http, $q) {
         var url = '/api/browse';
         return {
-            search: function () {
+            search: function (page) {
                 var deferred = $q.defer();
-                $http.get(url)
+                $http.get(
+                    url,
+                    {
+                        params: {
+                            page: page || 1
+                        }
+                    })
                     .success(function (data) {
                         deferred.resolve(data);
                     })

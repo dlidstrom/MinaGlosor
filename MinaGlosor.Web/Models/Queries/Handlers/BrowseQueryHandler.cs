@@ -1,6 +1,7 @@
 using System.Linq;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Indexes;
+using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Queries.Handlers
 {
@@ -13,8 +14,13 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
 
         public override BrowseQuery.Result Handle(BrowseQuery query)
         {
-            var wordLists = Session.Query<WordList, WordListIndex>().ToArray();
-            return new BrowseQuery.Result(wordLists);
+            RavenQueryStatistics stats;
+            var wordLists = Session.Query<WordList, WordListIndex>()
+                                   .Statistics(out stats)
+                                   .Skip((query.Page - 1) * query.ItemsPerPage)
+                                   .Take(query.ItemsPerPage)
+                                   .ToArray();
+            return new BrowseQuery.Result(wordLists, stats.TotalResults, query.Page, query.ItemsPerPage);
         }
     }
 }

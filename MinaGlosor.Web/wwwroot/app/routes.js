@@ -221,9 +221,10 @@
                     controllerAs: 'controller',
                     resolve: {
                         result: [
+                            '$route',
                             'BrowseService',
-                            function (browseService) {
-                                return browseService.search();
+                            function ($route, browseService) {
+                                return browseService.search($route.current.params.page);
                             }
                         ]
                     }

@@ -9,7 +9,7 @@
         var interceptor = {
             request: function (config) {
                 $rootScope.$emit('events:beginRequest');
-                config.url += '?' + 'v=' + appVersion;
+                config.headers['Application-Version-Key'] = appVersion;
                 return config;
             },
             response: function (response) {

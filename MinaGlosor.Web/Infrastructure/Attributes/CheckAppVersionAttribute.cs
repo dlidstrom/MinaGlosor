@@ -9,6 +9,7 @@ namespace MinaGlosor.Web.Infrastructure.Attributes
     {
         public override void OnActionExecuting(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
+            // TODO: Check request headers
             var nvp = actionContext.Request.GetQueryNameValuePairs().ToDictionary(x => x.Key, x => x.Value);
             if (nvp.ContainsKey("v") && nvp["v"] != Application.GetAppVersion())
             {

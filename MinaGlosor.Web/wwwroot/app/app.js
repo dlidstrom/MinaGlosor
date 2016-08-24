@@ -2,7 +2,7 @@
     'use strict';
 
     var appVersion = $('meta[name="appVersion"]').attr('content');
-    angular.module('mgApp', ['ngRoute', 'ngMessages', 'ngSanitize', 'toaster'])
+    angular.module('mgApp', ['ngRoute', 'ngMessages', 'ngSanitize', 'toaster', 'ui.bootstrap'])
         .value('AppVersion', appVersion)
         .config(Config);
 

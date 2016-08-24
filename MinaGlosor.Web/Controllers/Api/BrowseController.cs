@@ -5,9 +5,11 @@ namespace MinaGlosor.Web.Controllers.Api
 {
     public class BrowseController : AbstractApiController
     {
-        public IHttpActionResult Get()
+        private const int ItemsPerPage = 1;
+
+        public IHttpActionResult Get(int? page)
         {
-            var result = ExecuteQuery(new BrowseQuery());
+            var result = ExecuteQuery(new BrowseQuery(page.GetValueOrDefault(1), ItemsPerPage));
             return Ok(result);
         }
     }
