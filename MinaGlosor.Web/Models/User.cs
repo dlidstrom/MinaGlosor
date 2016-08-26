@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using MinaGlosor.Web.Models.DomainEvents;
@@ -99,6 +101,22 @@ namespace MinaGlosor.Web.Models
         {
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
             Apply(new SetPasswordEvent(Id, hashedPassword));
+        }
+
+        public string GetGravatarHash()
+        {
+            using (var md5 = MD5.Create())
+            {
+                var hash = md5.ComputeHash(Encoding.ASCII.GetBytes(Email));
+                var sb = new StringBuilder();
+
+                foreach (var t in hash)
+                {
+                    sb.Append(t.ToString("x2"));
+                }
+
+                return sb.ToString();
+            }
         }
 
         private void ApplyEvent(SetRoleEvent @event)

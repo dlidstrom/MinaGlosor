@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Indexes;
@@ -20,7 +21,15 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
                                    .Skip((query.Page - 1) * query.ItemsPerPage)
                                    .Take(query.ItemsPerPage)
                                    .ToArray();
-            return new BrowseQuery.Result(wordLists, stats.TotalResults, query.Page, query.ItemsPerPage);
+            var ownerIds = new HashSet<string>(wordLists.Select(x => x.OwnerId));
+            var owners = Session.Load<User>(ownerIds);
+            var ownersDict = owners.ToDictionary(x => x.Id);
+            return new BrowseQuery.Result(
+                wordLists,
+                ownersDict,
+                stats.TotalResults,
+                query.Page,
+                query.ItemsPerPage);
         }
     }
 }

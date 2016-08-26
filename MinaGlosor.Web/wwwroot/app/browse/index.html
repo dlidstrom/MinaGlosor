@@ -3,11 +3,22 @@
         <h4>Alla ordlistor</h4>
         <table class="table table-bordered">
             <tr>
+                <th>Skapare</th>
                 <th>Namn</th>
+                <th>Ord</th>
             </tr>
             <tr ng-repeat="item in controller.wordLists">
                 <td>
+                    <img src="https://www.gravatar.com/avatar/{{item.gravatarHash}}"
+                         alt="Skapare"
+                         width="80"
+                         height="80" />
+                </td>
+                <td>
                     {{item.name}}
+                </td>
+                <td>
+                    {{item.numberOfWords}}
                 </td>
             </tr>
         </table>

@@ -4,6 +4,7 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=EF6FE2C7_002D6620_002D4026_002D8348_002D2FE927C873FB_002Fd_003AInfrastructure_002Ff_003AJetBrains_002EAnnotations_002Ecs/@EntryIndexedValue">ExplicitlyExcluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=EF6FE2C7_002D6620_002D4026_002D8348_002D2FE927C873FB_002Fd_003Awwwroot_002Fd_003Aapp_002Fd_003Aexternal/@EntryIndexedValue">ExplicitlyExcluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=EF6FE2C7_002D6620_002D4026_002D8348_002D2FE927C873FB_002Fd_003Awwwroot_002Fd_003Abootstrap/@EntryIndexedValue">ExplicitlyExcluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=EF6FE2C7_002D6620_002D4026_002D8348_002D2FE927C873FB_002Fd_003Awwwroot_002Fd_003Aexternal_002Fd_003Afooter_005Fjs_002Ff_003Awaypoints_002D0_002E0_002E1_002Ejs/@EntryIndexedValue">ExplicitlyExcluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=EF6FE2C7_002D6620_002D4026_002D8348_002D2FE927C873FB_002Fd_003Awwwroot_002Ff_003Aangular_002Droute_002Ejs/@EntryIndexedValue">ExplicitlyExcluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=EF6FE2C7_002D6620_002D4026_002D8348_002D2FE927C873FB_002Fd_003Awwwroot_002Ff_003Aangular_002Ejs/@EntryIndexedValue">ExplicitlyExcluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/Highlighting/AnalysisEnabled/@EntryValue">SOLUTION</s:String>
