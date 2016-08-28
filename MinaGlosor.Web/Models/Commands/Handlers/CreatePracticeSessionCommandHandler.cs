@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MinaGlosor.Web.Infrastructure;
-using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Abstractions;
 using Raven.Client;
@@ -53,18 +52,20 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
 
         public override bool CanExecute(CreatePracticeSessionCommand command, User currentUser)
         {
-            var wordList = Session.Load<WordList>(command.WordListId);
-            var canExecute = wordList.HasAccess(currentUser.Id);
-            if (canExecute == false)
-            {
-                var owner = Session.Load<User>(wordList.OwnerId);
-                var message = string.Format("Current user={0}, owner={1}", currentUser.Email, owner.Email);
-                TracingLogger.Error(
-                    EventIds.Error_Permanent_5XXX.Web_CreatePracticeSession_Unauthorized_5001,
-                    message);
-            }
+            // TODO: Check if word list is published?
+            return true;
+            //var wordList = Session.Load<WordList>(command.WordListId);
+            //var canExecute = wordList.HasAccess(currentUser.Id);
+            //if (canExecute == false)
+            //{
+            //    var owner = Session.Load<User>(wordList.OwnerId);
+            //    var message = string.Format("Current user={0}, owner={1}", currentUser.Email, owner.Email);
+            //    TracingLogger.Error(
+            //        EventIds.Error_Permanent_5XXX.Web_CreatePracticeSession_Unauthorized_5001,
+            //        message);
+            //}
 
-            return canExecute;
+            //return canExecute;
         }
 
         private void FillWithNewWords(IDocumentSession session, ISet<string> wordIdsForPractice, string wordListId, string currentUserId)

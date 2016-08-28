@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands;
 using MinaGlosor.Web.Models.Queries;
 
@@ -43,7 +44,7 @@ namespace MinaGlosor.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
 
             Debug.Assert(request != null, "request != null");
-            var wordList = ExecuteQuery(new GetWordListQuery(request.WordListId));
+            var wordList = ExecuteQuery(new GetWordListQuery(WordList.ToId(request.WordListId)));
             var wordId = ExecuteCommand(new CreateWordCommand(request.Text, request.Definition, wordList.WordListId));
             return Request.CreateResponse(HttpStatusCode.Created, new { wordId });
         }

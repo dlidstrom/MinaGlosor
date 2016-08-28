@@ -6,7 +6,7 @@ namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
     {
         public override void Handle(CreateWordListProgressTask task)
         {
-            ExecuteCommand(new CreateWordListProgressCommand(task.ModelId, task.OwnerId), task);
+            ExecuteCommand(new CreateWordListProgressCommand(task.WordListId, task.OwnerId), task);
         }
     }
 }

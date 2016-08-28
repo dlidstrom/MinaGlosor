@@ -100,6 +100,7 @@ namespace MinaGlosor.Test.Api
             var expected = new
             {
                 wordListId = "1",
+                ownerId = "1",
                 name = "Some name",
                 numberOfWords = 2
             };

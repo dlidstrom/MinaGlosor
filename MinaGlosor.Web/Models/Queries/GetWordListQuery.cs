@@ -8,7 +8,7 @@ namespace MinaGlosor.Web.Models.Queries
         public GetWordListQuery(string wordListId)
         {
             if (wordListId == null) throw new ArgumentNullException("wordListId");
-            WordListId = WordList.ToId(wordListId);
+            WordListId = wordListId;
         }
 
         public string WordListId { get; private set; }
@@ -20,11 +20,14 @@ namespace MinaGlosor.Web.Models.Queries
                 if (wordList == null) throw new ArgumentNullException("wordList");
 
                 WordListId = WordList.FromId(wordList.Id);
+                OwnerId = User.FromId(wordList.OwnerId);
                 Name = wordList.Name;
                 NumberOfWords = wordList.NumberOfWords;
             }
 
             public string WordListId { get; private set; }
+
+            public string OwnerId { get; private set; }
 
             public string Name { get; private set; }
 

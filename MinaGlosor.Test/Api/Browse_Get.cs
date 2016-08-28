@@ -18,8 +18,8 @@ namespace MinaGlosor.Test.Api
             Transact(session =>
             {
                 // fortsätt här
-                session.Store(new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username", UserRole.Admin));
-                session.Store(new User(KeyGeneratorBase.Generate<User>(session), "f@d.com", "pwd", "username", UserRole.Admin));
+                session.Store(new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username1", UserRole.Admin));
+                session.Store(new User(KeyGeneratorBase.Generate<User>(session), "f@d.com", "pwd", "username2", UserRole.Admin));
             });
 
             // belongs to e@d.com
@@ -30,7 +30,7 @@ namespace MinaGlosor.Test.Api
             await this.PostWordList("list2");
 
             // Act
-            var response = await Client.GetAsync("http://temp.uri/api/browse");
+            var response = await Client.GetAsync("http://temp.uri/api/browse?page=1");
             var content = response.Content;
 
             // Assert
@@ -43,13 +43,25 @@ namespace MinaGlosor.Test.Api
                     new
                     {
                         wordListId = "1",
-                        name = "list1"
+                        name = "list1",
+                        numberOfWords = 0,
+                        username = "username1",
+                        gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
                     },
                     new
                     {
                         wordListId = "5",
-                        name = "list2"
+                        name = "list2",
+                        numberOfWords = 0,
+                        username = "username2",
+                        gravatarHash = "e84879df1fe98a8cb559cf7ee65eb16f"
                     }
+                },
+                paging = new
+                {
+                    totalItems = 2,
+                    currentPage = 1,
+                    itemsPerPage = 50
                 }
             };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));

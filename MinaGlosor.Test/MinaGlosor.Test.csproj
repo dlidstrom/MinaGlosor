@@ -93,6 +93,7 @@
     <Compile Include="Api\Domain\WordScore_WhenPracticingEarly.cs" />
     <Compile Include="Api\Infrastructure\WordExtensions.cs" />
     <Compile Include="Api\Infrastructure\WordListExtensions.cs" />
+    <Compile Include="Api\PracticeSession_Post_OtherUsers.cs" />
     <Compile Include="Api\Word_WhenEditing.cs" />
     <Compile Include="Api\EventIdsMetaTests.cs" />
     <Compile Include="Api\HighlightingsTest.cs" />

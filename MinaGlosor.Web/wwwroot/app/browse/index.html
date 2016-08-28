@@ -6,6 +6,7 @@
                 <th>Skapare</th>
                 <th>Namn</th>
                 <th>Ord</th>
+                <th></th>
             </tr>
             <tr ng-repeat="item in controller.wordLists">
                 <td>
@@ -19,6 +20,11 @@
                 </td>
                 <td>
                     {{item.numberOfWords}}
+                </td>
+                <td>
+                    <a ng-if="item.numberOfWords" href="{{'./wordlist/' + item.wordListId + '/practice/'}}" class="btn btn-primary btn-xs">
+                        öva
+                    </a>
                 </td>
             </tr>
         </table>

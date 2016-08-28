@@ -9,9 +9,8 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
     {
         public override bool CanExecute(GetUnfinishedPracticeSessionsQuery query, User currentUser)
         {
-            var wordList = Session.Load<WordList>(query.WordListId);
-            var hasAccess = wordList.HasAccess(currentUser.Id);
-            return hasAccess;
+            // TODO: Check if word list is published?
+            return true;
         }
 
         public override GetUnfinishedPracticeSessionsQuery.Result[] Handle(GetUnfinishedPracticeSessionsQuery query)

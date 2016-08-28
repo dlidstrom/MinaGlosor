@@ -419,6 +419,7 @@
     <Compile Include="Models\DomainEvents\MarkCreateAccountRequestUsedEvent.cs" />
     <Compile Include="Models\DomainEvents\MarkResetPasswordRequestUsedEvent.cs" />
     <Compile Include="Models\DomainEvents\PracticeSessionCreatedEvent.cs" />
+    <Compile Include="Models\DomainEvents\PracticeSessionCreatedEventHandler.cs" />
     <Compile Include="Models\DomainEvents\RestartAfterEditEvent.cs" />
     <Compile Include="Models\DomainEvents\RestartWordScoreEvent.cs" />
     <Compile Include="Models\DomainEvents\SetPasswordEvent.cs" />
