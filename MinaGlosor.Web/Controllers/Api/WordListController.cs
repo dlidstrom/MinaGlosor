@@ -11,12 +11,6 @@ namespace MinaGlosor.Web.Controllers.Api
 {
     public class WordListController : AbstractApiController
     {
-        public HttpResponseMessage GetAll()
-        {
-            var wordLists = ExecuteQuery(new GetWordListProgressesQuery(CurrentUser.Id));
-            return Request.CreateResponse(HttpStatusCode.OK, wordLists);
-        }
-
         public HttpResponseMessage GetById(string wordListId)
         {
             var wordList = ExecuteQuery(new GetWordListQuery(WordList.ToId(wordListId)));

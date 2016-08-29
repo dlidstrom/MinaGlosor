@@ -20,6 +20,7 @@ shared\searchService.js
 shared\spinnerDirective.js
 shared\wordFavouriteDirective.js
 shared\wordFavouriteService.js
+shared\wordListProgressService.js
 shared\wordListService.js
 shared\wordService.js
 word\editWordController.js

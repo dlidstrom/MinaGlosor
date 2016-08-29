@@ -16,9 +16,9 @@
                     resolve: {
                         UserWordLists:
                         [
-                            'WordListService',
-                            function (wordListService) {
-                                return wordListService.getAll();
+                            'WordListProgressService',
+                            function (wordListProgressService) {
+                                return wordListProgressService.getAll();
                             }
                         ]
                     }

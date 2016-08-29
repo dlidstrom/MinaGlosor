@@ -197,6 +197,7 @@
     <Content Include="wwwroot\app\shared\browseService.js" />
     <Content Include="wwwroot\app\shared\searchService.js" />
     <Content Include="wwwroot\app\shared\spinnerDirective.js" />
+    <Content Include="wwwroot\app\shared\wordListProgressService.js" />
     <Content Include="wwwroot\external\footer_js\angular-spinner.min.js" />
     <Content Include="wwwroot\external\footer_js\bootstrap.min.js" />
     <Content Include="wwwroot\external\footer_js\bundle.txt" />
@@ -251,6 +252,7 @@
     <Compile Include="Controllers\Api\Search2Controller.cs" />
     <Compile Include="Controllers\Api\UpdateWordController.cs" />
     <Compile Include="Controllers\Api\WordFavouriteController.cs" />
+    <Compile Include="Controllers\Api\WordListProgressController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\HttpRequestScopeAttribute.cs" />

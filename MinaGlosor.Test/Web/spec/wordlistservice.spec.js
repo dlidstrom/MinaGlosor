@@ -19,22 +19,6 @@ describe('WordListService', function () {
     });
 
     describe('api', function () {
-        it('should get word lists', function () {
-            var result = {
-                wordLists: [
-                    {
-                        wordListId: "1",
-                        ownerId: "1",
-                        name: "Some name",
-                        numberOfWords: 2
-                    }
-                ],
-                numberOfFavourites: 1
-            };
-            httpMock.expectGET('/api/wordlist').respond(200, result);
-            wordListService.getAll();
-        });
-
         it('should get by id', function () {
             httpMock.expectGET(
                 '/api/wordlist?wordListId=1')

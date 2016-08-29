@@ -7,18 +7,6 @@
     function WordListService($http, $q) {
         var url = '/api/wordlist';
         return {
-            getAll: function () {
-                // needs lower-level promise for routes
-                var deferred = $q.defer();
-                $http.get(url)
-                    .success(function (data) {
-                        deferred.resolve(data);
-                    })
-                    .error(function (response) {
-                        deferred.reject(response);
-                    });
-                return deferred.promise;
-            },
             getById: function (wordListId) {
                 // needs lower-level promise for routes
                 var deferred = $q.defer();
