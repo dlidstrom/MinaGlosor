@@ -8,17 +8,17 @@
         $locationProvider.html5Mode(true);
         $routeProvider
             .when(
-                '/wordlist',
+                '/progress',
                 {
                     templateUrl: '/wwwroot/app/wordlist/index.html',
-                    controller: 'WordListController',
-                    controllerAs: 'wordLists',
+                    controller: 'ProgressController',
+                    controllerAs: 'progress',
                     resolve: {
-                        UserWordLists:
+                        result:
                         [
-                            'WordListProgressService',
-                            function (wordListProgressService) {
-                                return wordListProgressService.getAll();
+                            'ProgressService',
+                            function (progressService) {
+                                return progressService.getAll();
                             }
                         ]
                     }
@@ -230,7 +230,7 @@
                     }
                 })
             .otherwise({
-                redirectTo: '/wordlist'
+                redirectTo: '/progress'
             });
     }
 })();

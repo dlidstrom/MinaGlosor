@@ -1,8 +1,8 @@
-describe('WordListProgressService', function () {
+describe('ProgressService', function () {
     'use strict';
 
     var httpMock;
-    var wordListProgressService;
+    var progressService;
 
     beforeEach(module('mgApp'));
 
@@ -10,12 +10,12 @@ describe('WordListProgressService', function () {
         httpMock = $httpBackend;
     }));
 
-    beforeEach(inject(['WordListProgressService', function (service) {
-        wordListProgressService = service;
+    beforeEach(inject(['ProgressService', function (service) {
+        progressService = service;
     }]));
 
     it('should inject service', function () {
-        expect(wordListProgressService).toBeDefined();
+        expect(progressService).toBeDefined();
     });
 
     describe('api', function () {
@@ -31,8 +31,8 @@ describe('WordListProgressService', function () {
                 ],
                 numberOfFavourites: 1
             };
-            httpMock.expectGET('/api/wordlistprogress').respond(200, result);
-            wordListProgressService.getAll();
+            httpMock.expectGET('/api/progress?page=1').respond(200, result);
+            progressService.getAll();
         });
 
         afterEach(function () {

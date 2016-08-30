@@ -1,16 +1,22 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('mgApp').factory('WordListProgressService', WordListProgressService);
+    angular.module('mgApp').factory('ProgressService', ProgressService);
 
-    WordListProgressService.$inject = ['$http', '$q'];
-    function WordListProgressService($http, $q) {
-        var url = '/api/wordlistprogress';
+    ProgressService.$inject = ['$http', '$q'];
+    function ProgressService($http, $q) {
+        var url = '/api/progress';
         return {
-            getAll: function () {
+            getAll: function (page) {
                 // needs lower-level promise for routes
                 var deferred = $q.defer();
-                $http.get(url)
+                $http.get(
+                    url,
+                    {
+                        params: {
+                            page: page || 1
+                        }
+                    })
                     .success(function (data) {
                         deferred.resolve(data);
                     })

@@ -4,15 +4,21 @@ using MinaGlosor.Web.Models.Domain.WordListProgressModel;
 
 namespace MinaGlosor.Web.Models.Queries
 {
-    public class GetWordListProgressesQuery : IQuery<GetWordListProgressesQuery.Result>
+    public class GetProgressQuery : IQuery<GetProgressQuery.Result>
     {
-        public GetWordListProgressesQuery(string userId)
+        public GetProgressQuery(string userId, int page, int itemsPerPage)
         {
             if (userId == null) throw new ArgumentNullException("userId");
             UserId = userId;
+            Page = page;
+            ItemsPerPage = itemsPerPage;
         }
 
         public string UserId { get; private set; }
+
+        public int Page { get; private set; }
+
+        public int ItemsPerPage { get; private set; }
 
         public class Result
         {

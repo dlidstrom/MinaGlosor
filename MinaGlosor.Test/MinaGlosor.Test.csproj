@@ -157,7 +157,7 @@
     <Content Include="Web\spec\practiceWordService.spec.js" />
     <Content Include="Web\spec\practiceService.spec.js" />
     <Content Include="Web\spec\routes.spec.js" />
-    <Content Include="Web\spec\wordListProgressService.spec.js" />
+    <Content Include="Web\spec\progressService.spec.js" />
     <Content Include="Web\spec\wordListService.spec.js" />
     <Content Include="Web\spec\wordService.spec.js" />
   </ItemGroup>

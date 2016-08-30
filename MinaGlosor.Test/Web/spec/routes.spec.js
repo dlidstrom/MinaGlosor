@@ -10,11 +10,11 @@
     }));
 
     it('should map default route', function () {
-        expect(route.routes[null].redirectTo).toBe('/wordlist');
+        expect(route.routes[null].redirectTo).toBe('/progress');
     });
 
     it('should map wordlist route', function () {
-        expect(route.routes['/wordlist'].controller).toBe('WordListController');
+        expect(route.routes['/progress'].controller).toBe('ProgressController');
     });
 
     it('should map add word', function () {

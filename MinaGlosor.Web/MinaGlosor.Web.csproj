@@ -197,7 +197,7 @@
     <Content Include="wwwroot\app\shared\browseService.js" />
     <Content Include="wwwroot\app\shared\searchService.js" />
     <Content Include="wwwroot\app\shared\spinnerDirective.js" />
-    <Content Include="wwwroot\app\shared\wordListProgressService.js" />
+    <Content Include="wwwroot\app\shared\progressService.js" />
     <Content Include="wwwroot\external\footer_js\angular-spinner.min.js" />
     <Content Include="wwwroot\external\footer_js\bootstrap.min.js" />
     <Content Include="wwwroot\external\footer_js\bundle.txt" />
@@ -241,8 +241,8 @@
     <Content Include="wwwroot\app\wordlist\view.html" />
     <Content Include="wwwroot\app\wordlist\new.html" />
     <Content Include="wwwroot\app\wordlist\newWordListController.js" />
-    <Content Include="wwwroot\app\wordlist\wordListController.js" />
-    <Content Include="wwwroot\app\wordlist\index.html" />
+    <Content Include="wwwroot\app\progress\progressController.js" />
+    <Content Include="wwwroot\app\progress\index.html" />
     <Compile Include="Controllers\AccountLogoffController.cs" />
     <Compile Include="Controllers\AccountPasswordController.cs" />
     <Compile Include="Controllers\Api\BrowseController.cs" />
@@ -252,7 +252,7 @@
     <Compile Include="Controllers\Api\Search2Controller.cs" />
     <Compile Include="Controllers\Api\UpdateWordController.cs" />
     <Compile Include="Controllers\Api\WordFavouriteController.cs" />
-    <Compile Include="Controllers\Api\WordListProgressController.cs" />
+    <Compile Include="Controllers\Api\ProgressController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\HttpRequestScopeAttribute.cs" />
@@ -497,7 +497,7 @@
     <Compile Include="Models\Queries\GetUserByEmailQuery.cs" />
     <Compile Include="Models\Queries\GetUserByUsernameQuery.cs" />
     <Compile Include="Models\Queries\GetWordFavouritesQuery.cs" />
-    <Compile Include="Models\Queries\GetWordListProgressesQuery.cs" />
+    <Compile Include="Models\Queries\GetProgressQuery.cs" />
     <Compile Include="Models\Queries\GetWordListQuery.cs" />
     <Compile Include="Models\Queries\GetWordQuery.cs" />
     <Compile Include="Models\Queries\GetWordScoreIdsQuery.cs" />
@@ -514,8 +514,7 @@
     <Compile Include="Models\Queries\Handlers\GetUserByEmailQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetUserByUsernameQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordFavouritesQueryHandler.cs" />
-    <Compile Include="Models\Queries\Handlers\GetWordListProgressesQueryHandler.cs" />
-    <Compile Include="Models\Queries\Handlers\GetWordListProgressQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetProgressQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordListQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordScoreIdsQueryHandler.cs" />
