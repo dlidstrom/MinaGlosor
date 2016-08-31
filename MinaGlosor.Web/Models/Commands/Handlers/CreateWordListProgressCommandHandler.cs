@@ -7,11 +7,11 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
     {
         public override CreateWordListProgressCommand.Result Handle(CreateWordListProgressCommand command)
         {
-            var wordListProgress = new WordListProgress.Model(
+            var progress = new Progress(
                 command.OwnerId,
                 command.WordListId);
-            Session.Store(wordListProgress);
-            return new CreateWordListProgressCommand.Result(wordListProgress);
+            Session.Store(progress);
+            return new CreateWordListProgressCommand.Result(progress);
         }
 
         public override bool CanExecute(CreateWordListProgressCommand command, User currentUser)

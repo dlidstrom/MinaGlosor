@@ -11,7 +11,7 @@ using Raven.Abstractions;
 namespace MinaGlosor.Test.Api
 {
     [TestFixture]
-    public class WordListProgress_Get_Percent : WebApiIntegrationTest
+    public class Progress_Get_Percent : WebApiIntegrationTest
     {
         [Test]
         public async void GetsWithPercentComplete()

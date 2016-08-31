@@ -5,15 +5,15 @@
 
     ProgressController.$inject = ['$location', 'result'];
     function ProgressController($location, result) {
-        var wordLists = this;
+        var progress = this;
 
-        wordLists.userWordLists = result.wordLists;
-        wordLists.numberOfFavourites = result.numberOfFavourites;
-        controller.paging = result.paging;
-        controller.pageChanged = pageChanged;
+        progress.userWordLists = result.wordLists;
+        progress.numberOfFavourites = result.numberOfFavourites;
+        progress.paging = result.paging;
+        progress.pageChanged = pageChanged;
 
         function pageChanged() {
-            $location.path('/progress').search('page', controller.paging.currentPage);
+            $location.path('/progress').search('page', progress.paging.currentPage);
         }
     };
 })();

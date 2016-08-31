@@ -29,13 +29,13 @@
                 <td colspan="2">
                     <a href="./wordlist/favourites" class="favourite">
                         <i class="glyphicon glyphicon-star yes"></i>
-                        <ng-pluralize count="wordLists.numberOfFavourites"
+                        <ng-pluralize count="progress.numberOfFavourites"
                                       when="{'0': 'Inga favoriter', '1': 'En favorit', 'other': '{} favoriter'}">
                         </ng-pluralize>
                     </a>
                 </td>
             </tr>
-            <tbody ng-repeat="item in wordLists.userWordLists">
+            <tbody ng-repeat="item in progress.userWordLists">
                 <tr>
                     <td colspan="2">
                         <a href="{{'./wordlist/' + item.wordListId}}">
@@ -59,9 +59,9 @@
             </tbody>
         </table>
         <ul uib-pagination
-            total-items="controller.paging.totalItems"
-            items-per-page="controller.paging.itemsPerPage"
-            ng-model="controller.paging.currentPage"
-            ng-change="controller.pageChanged()"></ul>
+            total-items="progress.paging.totalItems"
+            items-per-page="progress.paging.itemsPerPage"
+            ng-model="progress.paging.currentPage"
+            ng-change="progress.pageChanged()"></ul>
     </div>
 </div>

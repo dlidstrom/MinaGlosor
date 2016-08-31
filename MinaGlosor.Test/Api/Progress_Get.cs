@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace MinaGlosor.Test.Api
 {
     [TestFixture]
-    public class WordListProgress_Get : WebApiIntegrationTest
+    public class Progress_Get : WebApiIntegrationTest
     {
         private User owner;
 

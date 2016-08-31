@@ -115,10 +115,10 @@
     <Compile Include="Api\WordConfidence_Post.cs" />
     <Compile Include="Api\WordFavourite_GetAll.cs" />
     <Compile Include="Api\WordFavourite_Post.cs" />
-    <Compile Include="Api\WordListProgress_Get.cs" />
+    <Compile Include="Api\Progress_Get.cs" />
     <Compile Include="Api\Infrastructure\WebApiIntegrationTest.cs" />
-    <Compile Include="Api\WordListProgress_Get_Favourite.cs" />
-    <Compile Include="Api\WordListProgress_Get_Percent.cs" />
+    <Compile Include="Api\Progress_Get_Favourite.cs" />
+    <Compile Include="Api\Progress_Get_Percent.cs" />
     <Compile Include="Api\WordList_Post.cs" />
     <Compile Include="Api\Word_GetAll.cs" />
     <Compile Include="Api\WordUpdate_Post.cs" />

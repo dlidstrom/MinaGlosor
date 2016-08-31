@@ -10,9 +10,9 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
         {
             var word = Session.Load<Word>(command.WordId);
             var wordList = Session.Load<WordList>(word.WordListId);
-            var wordListProgressId = WordListProgress.Model.GetIdFromWordListForUser(word.WordListId, command.OwnerId);
-            var wordListProgress = Session.Load<WordListProgress.Model>(wordListProgressId);
-            wordListProgress.WordHasExpired(wordList.NumberOfWords);
+            var progressId = Progress.GetIdFromWordListForUser(word.WordListId, command.OwnerId);
+            var progress = Session.Load<Progress>(progressId);
+            progress.WordHasExpired(wordList.NumberOfWords);
             return new object();
         }
 

@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace MinaGlosor.Test.Api
 {
     [TestFixture]
-    public class WordListProgress_Get_Favourite : WebApiIntegrationTest
+    public class Progress_Get_Favourite : WebApiIntegrationTest
     {
         [Test]
         public async void GetsWithFavourite()

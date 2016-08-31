@@ -498,6 +498,7 @@
     <Compile Include="Models\Queries\GetUserByUsernameQuery.cs" />
     <Compile Include="Models\Queries\GetWordFavouritesQuery.cs" />
     <Compile Include="Models\Queries\GetProgressQuery.cs" />
+    <Compile Include="Models\Queries\GetWordListProgressQuery.cs" />
     <Compile Include="Models\Queries\GetWordListQuery.cs" />
     <Compile Include="Models\Queries\GetWordQuery.cs" />
     <Compile Include="Models\Queries\GetWordScoreIdsQuery.cs" />
@@ -515,6 +516,7 @@
     <Compile Include="Models\Queries\Handlers\GetUserByUsernameQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordFavouritesQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetProgressQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetWordListProgressQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordListQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordScoreIdsQueryHandler.cs" />
@@ -524,6 +526,7 @@
     <Compile Include="Models\Queries\Handlers\SearchQueryHandler.cs" />
     <Compile Include="Models\Queries\HasAdminUserQuery.cs" />
     <Compile Include="Models\Queries\IsPracticeSessionFinishedQuery.cs" />
+    <Compile Include="Models\Queries\Paging.cs" />
     <Compile Include="Models\Queries\PracticeWordResult.cs" />
     <Compile Include="Models\Queries\SearchQuery.cs" />
     <Compile Include="Models\ResetPasswordRequest.cs" />

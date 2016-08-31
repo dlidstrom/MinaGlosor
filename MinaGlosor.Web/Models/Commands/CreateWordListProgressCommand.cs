@@ -17,12 +17,12 @@ namespace MinaGlosor.Web.Models.Commands
 
         public class Result
         {
-            public Result(WordListProgress.Model wordListProgress)
+            public Result(Progress progress)
             {
-                WordListProgressId = wordListProgress.Id;
+                ProgressId = progress.Id;
             }
 
-            public string WordListProgressId { get; private set; }
+            public string ProgressId { get; private set; }
         }
     }
 }

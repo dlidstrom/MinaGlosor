@@ -16,6 +16,7 @@ namespace MinaGlosor.Web
             // camelCase by default
             var formatter = configuration.Formatters.JsonFormatter;
             formatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            formatter.Indent = true;
 
             configuration.Routes.MapHttpRoute(
                 name: "DefaultApi",

@@ -1,4 +1,5 @@
 using MinaGlosor.Web.Models.BackgroundTasks;
+using MinaGlosor.Web.Models.Domain.WordListProgressModel;
 using MinaGlosor.Web.Models.Queries;
 
 namespace MinaGlosor.Web.Models.DomainEvents
@@ -7,8 +8,9 @@ namespace MinaGlosor.Web.Models.DomainEvents
     {
         public override void Handle(PracticeSessionCreatedEvent ev)
         {
-            var wordList = ExecuteQuery(new GetWordListQuery(ev.WordListId));
-            if (wordList.OwnerId != User.FromId(ev.OwnerId))
+            var progressId = Progress.GetIdFromWordListForUser(ev.WordListId, ev.OwnerId);
+            var progress = ExecuteQuery(new GetWordListProgressQuery(progressId));
+            if (progress == null)
             {
                 SendTask(new CreateWordListProgressTask(ev.WordListId, ev.OwnerId), ev);
             }

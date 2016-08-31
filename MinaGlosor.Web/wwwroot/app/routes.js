@@ -10,15 +10,15 @@
             .when(
                 '/progress',
                 {
-                    templateUrl: '/wwwroot/app/wordlist/index.html',
+                    templateUrl: '/wwwroot/app/progress/index.html',
                     controller: 'ProgressController',
                     controllerAs: 'progress',
                     resolve: {
-                        result:
-                        [
+                        result: [
+                            '$route',
                             'ProgressService',
-                            function (progressService) {
-                                return progressService.getAll();
+                            function ($route, progressService) {
+                                return progressService.getAll($route.current.params.page);
                             }
                         ]
                     }

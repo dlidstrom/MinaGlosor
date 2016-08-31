@@ -4,16 +4,16 @@ using Raven.Client.Indexes;
 
 namespace MinaGlosor.Web.Models.Indexes
 {
-    public class WordListProgressIndex : AbstractIndexCreationTask<WordListProgress.Model>
+    public class WordListProgressIndex : AbstractIndexCreationTask<Progress>
     {
         public WordListProgressIndex()
         {
-            Map = wordListProgresses => from wordListProgress in wordListProgresses
-                                        select new
-                                        {
-                                            wordListProgress.Id,
-                                            wordListProgress.OwnerId
-                                        };
+            Map = progresses => from progress in progresses
+                                select new
+                                {
+                                    progress.Id,
+                                    progress.OwnerId
+                                };
         }
     }
 }

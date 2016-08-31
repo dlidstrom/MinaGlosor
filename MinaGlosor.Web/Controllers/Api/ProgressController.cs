@@ -6,7 +6,7 @@ namespace MinaGlosor.Web.Controllers.Api
 {
     public class ProgressController : AbstractApiController
     {
-        private const int ItemsPerPage = 1;
+        private const int ItemsPerPage = 20;
 
         public HttpResponseMessage GetAll(int? page)
         {

@@ -22,26 +22,35 @@ namespace MinaGlosor.Web.Models.Queries
 
         public class Result
         {
-            public Result(WordListProgressResult[] wordListProgresses, int numberOfFavourites)
+            public Result(
+                ProgressResult[] progresses,
+                int numberOfFavourites,
+                int totalItems,
+                int currentPage,
+                int itemsPerPage)
             {
-                WordLists = wordListProgresses;
+                Progresses = progresses;
                 NumberOfFavourites = numberOfFavourites;
+                Paging = new Paging(totalItems, currentPage, itemsPerPage);
             }
 
-            public WordListProgressResult[] WordLists { get; private set; }
-
             public int NumberOfFavourites { get; private set; }
+
+            public ProgressResult[] Progresses { get; private set; }
+
+            public Paging Paging { get; private set; }
         }
 
-        public class WordListProgressResult
+        public class ProgressResult
         {
-            public WordListProgressResult(WordListProgress.Model wordListProgress, WordList wordList)
+            public ProgressResult(Progress progress, WordList wordList)
             {
-                WordListId = WordList.FromId(wordListProgress.WordListId);
-                OwnerId = User.FromId(wordListProgress.OwnerId);
+                WordListId = WordList.FromId(progress.WordListId);
+                OwnerId = User.FromId(progress.OwnerId);
                 Name = wordList.Name;
                 NumberOfWords = wordList.NumberOfWords;
-                PercentExpired = wordListProgress.PercentExpired;
+                PercentDone = progress.PercentDone;
+                PercentExpired = progress.PercentExpired;
             }
 
             public string WordListId { get; private set; }
