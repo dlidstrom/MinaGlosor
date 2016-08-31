@@ -18,7 +18,7 @@ namespace MinaGlosor.Test.Api
             await this.PostWordList("list");
 
             // Act
-            var response = await Client.GetAsync("http://temp.uri/api/wordlistprogress");
+            var response = await Client.GetAsync("http://temp.uri/api/progress");
             var content = response.Content;
 
             // Assert
@@ -50,7 +50,7 @@ namespace MinaGlosor.Test.Api
             ArrangeThreeWordLists();
 
             // Act
-            var response = await Client.GetAsync("http://temp.uri/api/wordlistprogress");
+            var response = await Client.GetAsync("http://temp.uri/api/progress");
             var content = response.Content;
 
             // Assert
