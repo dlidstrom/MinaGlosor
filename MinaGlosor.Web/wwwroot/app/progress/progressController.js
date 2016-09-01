@@ -7,7 +7,7 @@
     function ProgressController($location, result) {
         var progress = this;
 
-        progress.userWordLists = result.wordLists;
+        progress.progresses = result.progresses;
         progress.numberOfFavourites = result.numberOfFavourites;
         progress.paging = result.paging;
         progress.pageChanged = pageChanged;
