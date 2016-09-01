@@ -9,7 +9,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
         public override void Handle(PracticeSessionCreatedEvent ev)
         {
             var progressId = Progress.GetIdFromWordListForUser(ev.WordListId, ev.OwnerId);
-            var progress = ExecuteQuery(new GetWordListProgressQuery(progressId));
+            var progress = ExecuteQuery(new GetProgressQuery(progressId));
             if (progress == null)
             {
                 SendTask(new CreateWordListProgressTask(ev.WordListId, ev.OwnerId), ev);

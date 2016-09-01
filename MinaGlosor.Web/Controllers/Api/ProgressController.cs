@@ -10,7 +10,7 @@ namespace MinaGlosor.Web.Controllers.Api
 
         public HttpResponseMessage GetAll(int? page)
         {
-            var wordLists = ExecuteQuery(new GetProgressQuery(CurrentUser.Id, page.GetValueOrDefault(1), ItemsPerPage));
+            var wordLists = ExecuteQuery(new GetProgressListQuery(CurrentUser.Id, page.GetValueOrDefault(1), ItemsPerPage));
             return Request.CreateResponse(HttpStatusCode.OK, wordLists);
         }
     }

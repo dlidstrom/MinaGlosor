@@ -497,8 +497,8 @@
     <Compile Include="Models\Queries\GetUserByEmailQuery.cs" />
     <Compile Include="Models\Queries\GetUserByUsernameQuery.cs" />
     <Compile Include="Models\Queries\GetWordFavouritesQuery.cs" />
+    <Compile Include="Models\Queries\GetProgressListQuery.cs" />
     <Compile Include="Models\Queries\GetProgressQuery.cs" />
-    <Compile Include="Models\Queries\GetWordListProgressQuery.cs" />
     <Compile Include="Models\Queries\GetWordListQuery.cs" />
     <Compile Include="Models\Queries\GetWordQuery.cs" />
     <Compile Include="Models\Queries\GetWordScoreIdsQuery.cs" />
@@ -515,8 +515,8 @@
     <Compile Include="Models\Queries\Handlers\GetUserByEmailQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetUserByUsernameQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordFavouritesQueryHandler.cs" />
+    <Compile Include="Models\Queries\Handlers\GetProgressListQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetProgressQueryHandler.cs" />
-    <Compile Include="Models\Queries\Handlers\GetWordListProgressQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordListQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\GetWordScoreIdsQueryHandler.cs" />

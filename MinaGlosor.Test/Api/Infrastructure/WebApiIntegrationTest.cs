@@ -50,6 +50,8 @@ namespace MinaGlosor.Test.Api.Infrastructure
             OnSetUp(Container);
 
             Application.Bootstrap(Container, configuration);
+            var formatter = configuration.Formatters.JsonFormatter;
+            formatter.Indent = false;
             Client = new HttpClient(new HttpServer(configuration));
 
             Arrange();
