@@ -19,7 +19,7 @@ namespace MinaGlosor.Test.Api
             // Act
             SystemTime.UtcDateTime = () => new DateTime(2012, 1, 3, 0, 0, 0);
             WaitForIndexing();
-            var response = await Client.GetAsync("http://temp.uri/api/progress");
+            var response = await Client.GetAsync("http://temp.uri/api/progress?page=1");
             var content = response.Content;
 
             // Assert
@@ -27,7 +27,8 @@ namespace MinaGlosor.Test.Api
             var result = await content.ReadAsStringAsync();
             var expected = new
                 {
-                    wordLists = new[]
+                    numberOfFavourites = 0,
+                    progresses = new[]
                         {
                             new
                                 {
@@ -35,11 +36,16 @@ namespace MinaGlosor.Test.Api
                                     ownerId = "1",
                                     name = "list",
                                     numberOfWords = 10,
-                                    percentDone = 0,
+                                    percentDone = 30,
                                     percentExpired = 30
                                 }
                         },
-                    numberOfFavourites = 0
+                    paging = new
+                    {
+                        totalItems = 1,
+                        currentPage = 1,
+                        itemsPerPage = 20
+                    }
                 };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
         }

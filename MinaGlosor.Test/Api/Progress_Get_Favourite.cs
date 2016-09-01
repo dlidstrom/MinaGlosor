@@ -13,7 +13,7 @@ namespace MinaGlosor.Test.Api
         public async void GetsWithFavourite()
         {
             // Act
-            var response = await Client.GetAsync("http://temp.uri/api/progress");
+            var response = await Client.GetAsync("http://temp.uri/api/progress?page=1");
             var content = response.Content;
 
             // Assert
@@ -21,7 +21,8 @@ namespace MinaGlosor.Test.Api
             var result = await content.ReadAsStringAsync();
             var expected = new
                 {
-                    wordLists = new[]
+                    numberOfFavourites = 1,
+                    progresses = new[]
                         {
                             new
                                 {
@@ -33,7 +34,12 @@ namespace MinaGlosor.Test.Api
                                     percentExpired = 0
                                 }
                         },
-                    numberOfFavourites = 1
+                    paging = new
+                    {
+                        totalItems = 1,
+                        currentPage = 1,
+                        itemsPerPage = 20
+                    }
                 };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
         }
