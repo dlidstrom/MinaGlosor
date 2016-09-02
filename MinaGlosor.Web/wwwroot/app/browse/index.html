@@ -1,33 +1,36 @@
-﻿<div c  lass="row">
+﻿<div class="row">
     <div class="col-xs-12">
         <h4>Alla ordlistor</h4>
-        <table class="table table-bordered">
-            <tr>
-                <th>Skapare</th>
-                <th>Namn</th>
-                <th>Ord</th>
-                <th></th>
-            </tr>
-            <tr ng-repeat="item in controller.wordLists">
-                <td>
-                    <img src="https://www.gravatar.com/avatar/{{item.gravatarHash}}"
-                         alt="Skapare"
-                         width="80"
-                         height="80" />
-                </td>
-                <td>
-                    {{item.name}}
-                </td>
-                <td>
-                    {{item.numberOfWords}}
-                </td>
-                <td>
-                    <a ng-if="item.numberOfWords" href="{{'./wordlist/' + item.wordListId + '/practice/'}}" class="btn btn-primary btn-xs">
-                        öva
-                    </a>
-                </td>
-            </tr>
-        </table>
+    </div>
+</div>
+<div ng-repeat="item in controller.wordLists">
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <img src="https://www.gravatar.com/avatar/{{item.gravatarHash}}"
+                     alt="Skapare"
+                     width="40"
+                     height="40"/>
+                {{item.username}}
+            </div>
+            <div class="panel-body">
+                <dl>
+                    <dt>Namn</dt>
+                    <dd>{{item.name}}</dd>
+                    <dt>Antal ord</dt>
+                    <dd>{{item.numberOfWords}}</dd>
+                </dl>
+            </div>
+            <div class="panel-footer">
+                <a ng-if="item.numberOfWords" href="{{'./wordlist/' + item.wordListId + '/practice/'}}" class="btn btn-primary btn-xs">
+                    öva
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
         <ul uib-pagination
             total-items="controller.paging.totalItems"
             items-per-page="controller.paging.itemsPerPage"
