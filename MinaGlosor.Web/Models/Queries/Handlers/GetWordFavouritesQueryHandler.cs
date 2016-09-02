@@ -1,6 +1,7 @@
 using System.Linq;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Indexes;
+using Raven.Client;
 using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Models.Queries.Handlers
@@ -14,12 +15,15 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
 
         public override GetWordsResult Handle(GetWordFavouritesQuery query)
         {
-            var linq = from favourite in Session.Query<WordFavourite, WordFavouriteIndex>()
-                       where favourite.IsFavourite && favourite.UserId == query.UserId
-                       select favourite;
+            RavenQueryStatistics stats;
+            var linq = Session.Query<WordFavourite, WordFavouriteIndex>()
+                              .Statistics(out stats)
+                              .Skip((query.Page - 1) * query.ItemsPerPage)
+                              .Take(query.ItemsPerPage)
+                              .Where(x => x.IsFavourite && x.UserId == query.UserId);
             var favourites = linq.ToArray();
             var words = Session.Load<Word>(favourites.Select(x => x.WordId));
-            var result = new GetWordsResult(string.Empty, words);
+            var result = new GetWordsResult(string.Empty, words, stats.TotalResults, query.Page, query.ItemsPerPage);
             return result;
         }
     }

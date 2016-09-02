@@ -6,17 +6,25 @@ namespace MinaGlosor.Web.Models.Queries
 {
     public class GetWordsResult
     {
-        public GetWordsResult(string wordListName, IEnumerable<Word> words)
+        public GetWordsResult(
+            string wordListName,
+            IEnumerable<Word> words,
+            int totalItems,
+            int currentPage,
+            int itemsPerPage)
         {
             if (wordListName == null) throw new ArgumentNullException("wordListName");
             if (words == null) throw new ArgumentNullException("words");
             WordListName = wordListName;
             Words = words.Select(x => new WordResult(x)).ToArray();
+            Paging = new Paging(totalItems, currentPage, itemsPerPage);
         }
 
         public string WordListName { get; private set; }
 
         public WordResult[] Words { get; private set; }
+
+        public Paging Paging { get; private set; }
 
         public class WordResult
         {

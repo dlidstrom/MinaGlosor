@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using System.Linq;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Indexes;
+using Raven.Client;
 using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Models.Queries.Handlers
@@ -16,21 +16,16 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
         public override GetWordsResult Handle(GetWordsQuery query)
         {
             var wordList = Session.Load<WordList>(query.WordListId);
-            var linq = from word in Session.Query<Word, WordIndex>()
-                       where word.WordListId == query.WordListId
-                       orderby word.CreatedDate
-                       select word;
-            var words = new List<Word>();
-            var current = 0;
-            while (true)
-            {
-                var subset = linq.Skip(current).Take(128).ToArray();
-                if (subset.Length == 0) break;
-                words.AddRange(subset);
-                current += subset.Length;
-            }
+            RavenQueryStatistics stats;
+            var linq = Session.Query<Word, WordIndex>()
+                              .Statistics(out stats)
+                              .Where(x => x.WordListId == query.WordListId)
+                              .Skip((query.Page - 1) * query.ItemsPerPage)
+                              .Take(query.ItemsPerPage)
+                              .OrderBy(x => x.CreatedDate);
+            var words = linq.ToArray();
 
-            var result = new GetWordsResult(wordList.Name, words);
+            var result = new GetWordsResult(wordList.Name, words, stats.TotalResults, query.Page, query.ItemsPerPage);
             return result;
         }
     }

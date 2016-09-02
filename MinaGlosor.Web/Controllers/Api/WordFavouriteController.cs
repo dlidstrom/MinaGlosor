@@ -8,6 +8,8 @@ namespace MinaGlosor.Web.Controllers.Api
 {
     public class WordFavouriteController : AbstractApiController
     {
+        private const int ItemsPerPage = 50;
+
         public IHttpActionResult Post(RegisterFavouriteRequest request)
         {
             if (request == null)
@@ -26,9 +28,9 @@ namespace MinaGlosor.Web.Controllers.Api
             return Ok(result);
         }
 
-        public IHttpActionResult GetAll()
+        public IHttpActionResult GetAll(int? page)
         {
-            var result = ExecuteQuery(new GetWordFavouritesQuery(CurrentUser.Id));
+            var result = ExecuteQuery(new GetWordFavouritesQuery(CurrentUser.Id, page.GetValueOrDefault(1), ItemsPerPage));
             return Ok(result);
         }
 

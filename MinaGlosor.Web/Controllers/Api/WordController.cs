@@ -11,6 +11,8 @@ namespace MinaGlosor.Web.Controllers.Api
 {
     public class WordController : AbstractApiController
     {
+        private const int ItemsPerPage = 50;
+
         public HttpResponseMessage Get(string wordId)
         {
             if (wordId == null)
@@ -23,7 +25,7 @@ namespace MinaGlosor.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, word);
         }
 
-        public HttpResponseMessage GetAll(string wordListId)
+        public HttpResponseMessage GetAll(string wordListId, int? page)
         {
             if (wordListId == null)
                 ModelState.AddModelError("wordListId", "Not specified");
@@ -31,7 +33,7 @@ namespace MinaGlosor.Web.Controllers.Api
             if (ModelState.IsValid == false)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
 
-            var words = ExecuteQuery(new GetWordsQuery(wordListId));
+            var words = ExecuteQuery(new GetWordsQuery(wordListId, page.GetValueOrDefault(1), ItemsPerPage));
             return Request.CreateResponse(HttpStatusCode.OK, words);
         }
 
