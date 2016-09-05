@@ -7,6 +7,7 @@ namespace MinaGlosor.Web.Models.Queries
             TotalItems = totalItems;
             CurrentPage = currentPage;
             ItemsPerPage = itemsPerPage;
+            HasPages = CurrentPage > ItemsPerPage;
         }
 
         public int TotalItems { get; private set; }
@@ -14,5 +15,7 @@ namespace MinaGlosor.Web.Models.Queries
         public int CurrentPage { get; private set; }
 
         public int ItemsPerPage { get; private set; }
+
+        public bool HasPages { get; private set; }
     }
 }

@@ -3,11 +3,11 @@
         <h4>Alla ordlistor</h4>
     </div>
 </div>
-<div ng-repeat="item in controller.wordLists">
+<div class="row" ng-repeat="item in controller.wordLists">
     <div class="col-xs-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <img src="https://www.gravatar.com/avatar/{{item.gravatarHash}}"
+                <img src="https://www.gravatar.com/avatar/{{item.gravatarHash}}?s=40"
                      alt="Skapare"
                      width="40"
                      height="40"/>
@@ -29,7 +29,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" ng-show="controller.paging.hasPages">
     <div class="col-xs-12">
         <ul uib-pagination
             total-items="controller.paging.totalItems"

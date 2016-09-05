@@ -22,6 +22,10 @@
                     <a href="./wordlist/new" class="btn btn-xs btn-primary">
                         skapa ny ordlista
                     </a>
+                    - eller -
+                    <a href="./browse" class="btn btn-xs btn-primary">
+                        utforska andras
+                    </a>
                 </th>
             </tr>
             </thead>
@@ -35,32 +39,36 @@
                     </a>
                 </td>
             </tr>
-            <tbody ng-repeat="item in progress.progresses">
-            <tr>
-                <td colspan="2">
-                    <a href="{{'./wordlist/' + item.wordListId}}">
-                        <i class="glyphicon glyphicon-arrow-right"></i>
-                        {{item.name + ' (' + item.numberOfWords + ' ord)'}}
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <a ng-if="item.numberOfWords" href="{{'./wordlist/' + item.wordListId + '/practice/'}}" class="btn btn-primary btn-xs">
-                        öva
-                    </a>
-                </td>
-                <td>
-                    <progress green="{{item.percentDone - item.percentExpired}}"
-                              yellow="{{item.percentExpired}}"
-                              done="{{item.percentDone}}"/>
-                </td>
-            </tr>
-            </tbody>
         </table>
     </div>
 </div>
-<div class="row">
+<div class="row" ng-repeat="item in progress.progresses">
+    <div class="row-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href="{{'./wordlist/' + item.wordListId}}">
+                    <i class="glyphicon glyphicon-arrow-right"></i>
+                    Visa {{item.name + ' (' + item.numberOfWords + ' ord)'}}
+                </a>
+                <a ng-if="item.numberOfWords" href="{{'./wordlist/' + item.wordListId + '/practice/'}}" class="btn btn-primary btn-xs pull-right">
+                    öva
+                </a>
+            </div>
+            <div class="panel-body">
+                <progress green="{{item.percentDone - item.percentExpired}}"
+                          yellow="{{item.percentExpired}}"
+                          done="{{item.percentDone}}" />
+            </div>
+            <div class="panel-footer">
+                <img src="https://www.gravatar.com/avatar/dace7c7957244b852ae1e9a991256f2c?s=40"
+                     alt="Skapad av admin"
+                     width="40"
+                     height="40" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" ng-show="progress.paging.hasPages">
     <div class="col-xs-12">
         <ul uib-pagination
             total-items="progress.paging.totalItems"

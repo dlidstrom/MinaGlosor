@@ -28,7 +28,7 @@ namespace MinaGlosor.Web.Controllers.Api
             return Ok(result);
         }
 
-        public IHttpActionResult GetAll(int? page)
+        public IHttpActionResult GetAll(int? page = 1)
         {
             var result = ExecuteQuery(new GetWordFavouritesQuery(CurrentUser.Id, page.GetValueOrDefault(1), ItemsPerPage));
             return Ok(result);

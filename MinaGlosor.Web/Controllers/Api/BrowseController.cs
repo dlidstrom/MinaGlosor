@@ -7,7 +7,7 @@ namespace MinaGlosor.Web.Controllers.Api
     {
         private const int ItemsPerPage = 50;
 
-        public IHttpActionResult Get(int? page)
+        public IHttpActionResult Get(int? page = 1)
         {
             var result = ExecuteQuery(new BrowseQuery(page.GetValueOrDefault(1), ItemsPerPage));
             return Ok(result);

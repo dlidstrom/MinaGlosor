@@ -35,7 +35,7 @@ namespace MinaGlosor.Test.Api
             await this.StartPracticeSession(wordListResponse.WordListId);
 
             // Assert
-            var response = await Client.GetAsync("http://temp.uri/api/progress?page=1");
+            var response = await Client.GetAsync("http://temp.uri/api/progress");
             var content = await response.Content.ReadAsStringAsync();
             var expected = new
             {

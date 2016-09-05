@@ -30,7 +30,7 @@ namespace MinaGlosor.Test.Api
             await this.PostWordList("list2");
 
             // Act
-            var response = await Client.GetAsync("http://temp.uri/api/browse?page=1");
+            var response = await Client.GetAsync("http://temp.uri/api/browse");
             var content = response.Content;
 
             // Assert

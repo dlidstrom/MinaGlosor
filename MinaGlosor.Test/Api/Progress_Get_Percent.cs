@@ -19,7 +19,7 @@ namespace MinaGlosor.Test.Api
             // Act
             SystemTime.UtcDateTime = () => new DateTime(2012, 1, 3, 0, 0, 0);
             WaitForIndexing();
-            var response = await Client.GetAsync("http://temp.uri/api/progress?page=1");
+            var response = await Client.GetAsync("http://temp.uri/api/progress");
             var content = response.Content;
 
             // Assert

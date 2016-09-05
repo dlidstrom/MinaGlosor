@@ -13,7 +13,7 @@ namespace MinaGlosor.Test.Api
         public async void GetsWithFavourite()
         {
             // Act
-            var response = await Client.GetAsync("http://temp.uri/api/progress?page=1");
+            var response = await Client.GetAsync("http://temp.uri/api/progress");
             var content = response.Content;
 
             // Assert

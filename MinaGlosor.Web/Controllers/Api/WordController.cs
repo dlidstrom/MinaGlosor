@@ -25,7 +25,7 @@ namespace MinaGlosor.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, word);
         }
 
-        public HttpResponseMessage GetAll(string wordListId, int? page)
+        public HttpResponseMessage GetAll(string wordListId, int? page = 1)
         {
             if (wordListId == null)
                 ModelState.AddModelError("wordListId", "Not specified");
