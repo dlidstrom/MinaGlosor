@@ -52,12 +52,12 @@
                     controller: 'ViewFavouritesController',
                     controllerAs: 'viewer',
                     resolve: {
-                        Words:
+                        result:
                         [
                             '$route',
                             'WordFavouriteService',
                             function ($route, wordFavouriteService) {
-                                return wordFavouriteService.getAll($route.current.params.id);
+                                return wordFavouriteService.getAll($route.current.params.page);
                             }
                         ]
                     }
@@ -69,18 +69,18 @@
                     controller: 'ViewWordListController',
                     controllerAs: 'viewer',
                     resolve: {
-                        WordListId: [
+                        wordListId: [
                             '$route',
                             function ($route) {
                                 return $route.current.params.id;
                             }
                         ],
-                        Words:
+                        result:
                         [
                             '$route',
                             'WordService',
                             function ($route, wordService) {
-                                return wordService.getAll($route.current.params.id);
+                                return wordService.getAll($route.current.params.id, $route.current.params.page);
                             }
                         ]
                     }

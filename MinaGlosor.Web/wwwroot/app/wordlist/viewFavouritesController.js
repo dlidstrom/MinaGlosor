@@ -3,13 +3,13 @@
 
     angular.module('mgApp').controller('ViewFavouritesController', ViewFavouritesController);
 
-    ViewFavouritesController.$inject = ['$location', 'Words'];
-    function ViewFavouritesController($location, words) {
+    ViewFavouritesController.$inject = ['$location', 'result'];
+    function ViewFavouritesController($location, result) {
         var viewer = this;
 
         viewer.wordListId = 0;
-        viewer.wordListName = words.wordListName || 'Favoriter';
-        viewer.words = words.words.map(function (x) {
+        viewer.wordListName = result.wordListName || 'Favoriter';
+        viewer.words = result.words.map(function (x) {
             return {
                 id: x.id,
                 isFavourite: true,
@@ -19,6 +19,14 @@
         });
         viewer.canPractice = false;
         viewer.canAdd = false;
+        viewer.paging = result.paging;
         viewer.returnUrl = $location.url();
+
+        viewer.pageChanged = pageChanged;
+
+        function pageChanged() {
+            var url = $location.path();
+            $location.path(url).search('page', viewer.paging.currentPage);
+        }
     }
 })();

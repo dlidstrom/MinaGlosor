@@ -37,3 +37,12 @@
         </table>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-12">
+        <ul uib-pagination
+            total-items="viewer.paging.totalItems"
+            items-per-page="viewer.paging.itemsPerPage"
+            ng-model="viewer.paging.currentPage"
+            ng-change="viewer.pageChanged()"></ul>
+    </div>
+</div>

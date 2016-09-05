@@ -15,9 +15,15 @@
                         isFavourite: isFavourite
                     });
             },
-            getAll: function () {
+            getAll: function (page) {
                 var deferred = $q.defer();
-                $http.get(url)
+                $http.get(
+                    url,
+                    {
+                        params: {
+                            page: page || 1
+                        }
+                    })
                     .success(function (data) {
                         deferred.resolve(data);
                     }).error(function (response) {

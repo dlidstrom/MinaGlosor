@@ -14,16 +14,16 @@
     <div class="col-xs-12">
         <table class="table table-striped table-fixed">
             <thead>
-                <tr>
-                    <th>
-                        Ordlista
-                    </th>
-                    <th>
-                        <a href="./wordlist/new" class="btn btn-xs btn-primary">
-                            skapa ny ordlista
-                        </a>
-                    </th>
-                </tr>
+            <tr>
+                <th>
+                    Ordlista
+                </th>
+                <th>
+                    <a href="./wordlist/new" class="btn btn-xs btn-primary">
+                        skapa ny ordlista
+                    </a>
+                </th>
+            </tr>
             </thead>
             <tr>
                 <td colspan="2">
@@ -36,28 +36,32 @@
                 </td>
             </tr>
             <tbody ng-repeat="item in progress.progresses">
-                <tr>
-                    <td colspan="2">
-                        <a href="{{'./wordlist/' + item.wordListId}}">
-                            <i class="glyphicon glyphicon-arrow-right"></i>
-                            {{item.name + ' (' + item.numberOfWords + ' ord)'}}
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <a ng-if="item.numberOfWords" href="{{'./wordlist/' + item.wordListId + '/practice/'}}" class="btn btn-primary btn-xs">
-                            öva
-                        </a>
-                    </td>
-                    <td>
-                        <progress green="{{item.percentDone - item.percentExpired}}"
-                                  yellow="{{item.percentExpired}}"
-                                  done="{{item.percentDone}}" />
-                    </td>
-                </tr>
+            <tr>
+                <td colspan="2">
+                    <a href="{{'./wordlist/' + item.wordListId}}">
+                        <i class="glyphicon glyphicon-arrow-right"></i>
+                        {{item.name + ' (' + item.numberOfWords + ' ord)'}}
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a ng-if="item.numberOfWords" href="{{'./wordlist/' + item.wordListId + '/practice/'}}" class="btn btn-primary btn-xs">
+                        öva
+                    </a>
+                </td>
+                <td>
+                    <progress green="{{item.percentDone - item.percentExpired}}"
+                              yellow="{{item.percentExpired}}"
+                              done="{{item.percentDone}}"/>
+                </td>
+            </tr>
             </tbody>
         </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
         <ul uib-pagination
             total-items="progress.paging.totalItems"
             items-per-page="progress.paging.itemsPerPage"

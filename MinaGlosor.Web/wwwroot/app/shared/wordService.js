@@ -42,13 +42,14 @@
                     });
                 return deferred.promise;
             },
-            getAll: function (wordListId) {
+            getAll: function (wordListId, page) {
                 var deferred = $q.defer();
                 $http.get(
                     mainUrl,
                     {
                         params: {
-                            wordListId: wordListId
+                            wordListId: wordListId,
+                            page: page || 1
                         }
                     })
                     .success(function (data) {
