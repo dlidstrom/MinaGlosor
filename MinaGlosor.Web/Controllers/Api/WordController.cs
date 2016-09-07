@@ -33,7 +33,7 @@ namespace MinaGlosor.Web.Controllers.Api
             if (ModelState.IsValid == false)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new HttpError(ModelState, true));
 
-            var words = ExecuteQuery(new GetWordsQuery(wordListId, page.GetValueOrDefault(1), ItemsPerPage));
+            var words = ExecuteQuery(new GetWordsQuery(CurrentUser.Id, wordListId, page.GetValueOrDefault(1), ItemsPerPage));
             return Request.CreateResponse(HttpStatusCode.OK, words);
         }
 

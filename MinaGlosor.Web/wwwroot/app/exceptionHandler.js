@@ -43,12 +43,12 @@
         if (stack == null && ex.stack != null) stack = ex.stack;
 
         // format output
-        var out = ex.message != null ? ex.name + ": " + ex.message : ex;
-        out += ": at document path '" + url + "'.";
+        var out = ex.message != null ? ex.name + ': ' + ex.message : ex;
+        out += ': at document path \'' + url + '\'.';
         if (stack != null) {
             try {
                 // not sure about the stack property, best be careful...
-                out += "\n  at " + stack;
+                out += '\n  at ' + stack;
             } catch (e) {
             }
         }

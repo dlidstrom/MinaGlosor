@@ -3,7 +3,7 @@
 
     angular.module('mgApp')
         .directive('wordFavourite', WordFavouriteDirective)
-        .controller('WordFavouriteController', WordFavouriteController);
+        .controller('WordFavouriteDirectiveController', WordFavouriteDirectiveController);
 
     function WordFavouriteDirective() {
         var template
@@ -14,16 +14,16 @@
             restrict: 'E',
             replace: true,
             template: template,
-            controller: 'WordFavouriteController',
+            controller: 'WordFavouriteDirectiveController',
             scope: {
-                wordId: "=",
-                isFavourite: "="
+                wordId: '=',
+                isFavourite: '='
             }
         };
     }
 
-    WordFavouriteController.$inject = ['$scope', 'WordFavouriteService'];
-    function WordFavouriteController($scope, wordFavouriteService) {
+    WordFavouriteDirectiveController.$inject = ['$scope', 'WordFavouriteService'];
+    function WordFavouriteDirectiveController($scope, wordFavouriteService) {
         var wordFavourite = $scope;
 
         wordFavourite.inProgress = false;

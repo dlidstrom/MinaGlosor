@@ -29,7 +29,9 @@
                 <td>{{item.definition}}</td>
                 <td>
                     <word-favourite word-id="item.id" is-favourite="item.isFavourite"></word-favourite>
-                    <a href="{{'./word/' + item.id + '/edit?returnUrl=' + viewer.returnUrl}}" class="btn btn-xs btn-default pull-right">
+                    <a href="{{'./word/' + item.id + '/edit?returnUrl=' + viewer.returnUrl}}"
+                       class="btn btn-xs btn-default pull-right"
+                       ng-show="viewer.canEdit">
                         <i class="glyphicon glyphicon-pencil"></i>
                     </a>
                 </td>
@@ -37,12 +39,4 @@
         </table>
     </div>
 </div>
-<div class="row">
-    <div class="col-xs-12">
-        <ul uib-pagination
-            total-items="viewer.paging.totalItems"
-            items-per-page="viewer.paging.itemsPerPage"
-            ng-model="viewer.paging.currentPage"
-            ng-change="viewer.pageChanged()"></ul>
-    </div>
-</div>
+<paging paging="viewer.paging"></paging>

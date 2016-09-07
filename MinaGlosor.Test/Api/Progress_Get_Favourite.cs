@@ -38,7 +38,8 @@ namespace MinaGlosor.Test.Api
                     {
                         totalItems = 1,
                         currentPage = 1,
-                        itemsPerPage = 20
+                        itemsPerPage = 20,
+                        hasPages = false
                     }
                 };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));

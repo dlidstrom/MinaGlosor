@@ -29,12 +29,4 @@
         </div>
     </div>
 </div>
-<div class="row" ng-show="controller.paging.hasPages">
-    <div class="col-xs-12">
-        <ul uib-pagination
-            total-items="controller.paging.totalItems"
-            items-per-page="controller.paging.itemsPerPage"
-            ng-model="controller.paging.currentPage"
-            ng-change="controller.pageChanged()"></ul>
-    </div>
-</div>
+<paging paging="controller.paging"></paging>

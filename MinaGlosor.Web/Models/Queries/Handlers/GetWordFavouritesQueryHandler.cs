@@ -23,7 +23,16 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
                               .Where(x => x.IsFavourite && x.UserId == query.UserId);
             var favourites = linq.ToArray();
             var words = Session.Load<Word>(favourites.Select(x => x.WordId));
-            var result = new GetWordsResult(string.Empty, words, stats.TotalResults, query.Page, query.ItemsPerPage);
+            var canEdit = query.UserId == query.CurrentUserId;
+            const bool CanAdd = false;
+            var result = new GetWordsResult(
+                string.Empty,
+                canEdit,
+                CanAdd,
+                words,
+                stats.TotalResults,
+                query.Page,
+                query.ItemsPerPage);
             return result;
         }
     }

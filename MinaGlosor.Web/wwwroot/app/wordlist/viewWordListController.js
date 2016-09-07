@@ -11,15 +11,9 @@
         viewer.wordListName = result.wordListName;
         viewer.words = result.words;
         viewer.canPractice = result.words.length > 0;
-        viewer.canAdd = true;
+        viewer.canAdd = result.canAdd;
+        viewer.canEdit = result.canEdit;
         viewer.paging = result.paging;
         viewer.returnUrl = $location.url();
-
-        viewer.pageChanged = pageChanged;
-
-        function pageChanged() {
-            var url = $location.path();
-            $location.path(url).search('page', viewer.paging.currentPage);
-        }
     }
 })();

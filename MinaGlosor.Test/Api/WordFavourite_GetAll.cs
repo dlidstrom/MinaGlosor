@@ -22,6 +22,8 @@ namespace MinaGlosor.Test.Api
             var expected = new
                 {
                     wordListName = "",
+                    canEdit = true,
+                    canAdd = false,
                     words = new[]
                         {
                             new
@@ -30,7 +32,14 @@ namespace MinaGlosor.Test.Api
                                     text = "w2",
                                     definition = "d2"
                                 }
-                        }
+                        },
+                    paging = new
+                    {
+                        totalItems = 1,
+                        currentPage = 1,
+                        itemsPerPage = 50,
+                        hasPages = false
+                    }
                 };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
         }

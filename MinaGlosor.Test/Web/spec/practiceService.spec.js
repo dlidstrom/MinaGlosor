@@ -52,8 +52,8 @@ describe('PracticeService', function () {
 
             it('should return unfinished sessions', function () {
                 expect(unfinished.length).toBe(1);
-                expect(unfinished[0].practiceSessionId).toBe("1");
-                expect(unfinished[0].createdDate).toBe("2012-01-01T00:00:00");
+                expect(unfinished[0].practiceSessionId).toBe('1');
+                expect(unfinished[0].createdDate).toBe('2012-01-01T00:00:00');
             });
         });
 

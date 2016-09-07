@@ -23,9 +23,9 @@ describe('ProgressService', function () {
             var result = {
                 wordLists: [
                     {
-                        wordListId: "1",
-                        ownerId: "1",
-                        name: "Some name",
+                        wordListId: '1',
+                        ownerId: '1',
+                        name: 'Some name',
                         numberOfWords: 2
                     }
                 ],

@@ -25,7 +25,15 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
                               .OrderBy(x => x.CreatedDate);
             var words = linq.ToArray();
 
-            var result = new GetWordsResult(wordList.Name, words, stats.TotalResults, query.Page, query.ItemsPerPage);
+            var isOwner = query.UserId == wordList.OwnerId;
+            var result = new GetWordsResult(
+                wordList.Name,
+                isOwner,
+                isOwner,
+                words,
+                stats.TotalResults,
+                query.Page,
+                query.ItemsPerPage);
             return result;
         }
     }

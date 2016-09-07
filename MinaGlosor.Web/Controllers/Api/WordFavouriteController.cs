@@ -30,7 +30,13 @@ namespace MinaGlosor.Web.Controllers.Api
 
         public IHttpActionResult GetAll(int? page = 1)
         {
-            var result = ExecuteQuery(new GetWordFavouritesQuery(CurrentUser.Id, page.GetValueOrDefault(1), ItemsPerPage));
+            // TODO Fix this constructor
+            var query = new GetWordFavouritesQuery(
+                CurrentUser.Id,
+                CurrentUser.Id,
+                page.GetValueOrDefault(1),
+                ItemsPerPage);
+            var result = ExecuteQuery(query);
             return Ok(result);
         }
 

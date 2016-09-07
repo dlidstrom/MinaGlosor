@@ -7,9 +7,9 @@
         return {
             restrict: 'E',
             scope: {
-                green: "@",
-                blue: "@",
-                yellow: "@"
+                green: '@',
+                blue: '@',
+                yellow: '@'
             },
             replace: true,
             template: '<div class="progress practice progress-flat">'

@@ -22,8 +22,8 @@ describe('WordListService', function () {
         it('should get by id', function () {
             httpMock.expectGET(
                 '/api/wordlist?wordListId=1')
-                .respond(200, { wordListId: "1", ownerId: "1", name: "Some name", numberOfWords: 2 });
-            wordListService.getById("1");
+                .respond(200, { wordListId: '1', ownerId: '1', name: 'Some name', numberOfWords: 2 });
+            wordListService.getById('1');
         });
 
         it('should create word list', function () {
