@@ -255,6 +255,7 @@
     <Compile Include="Controllers\Api\MigrationController.cs" />
     <Compile Include="Controllers\Api\Search2Controller.cs" />
     <Compile Include="Controllers\Api\UpdateWordController.cs" />
+    <Compile Include="Controllers\Api\UpdateWordListNameController.cs" />
     <Compile Include="Controllers\Api\WordFavouriteController.cs" />
     <Compile Include="Controllers\Api\ProgressController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
