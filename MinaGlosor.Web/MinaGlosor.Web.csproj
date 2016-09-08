@@ -182,8 +182,6 @@
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
     <Content Include="Web.config" />
-    <Content Include="wwwroot\angular-route.js" />
-    <Content Include="wwwroot\angular.js" />
     <Content Include="wwwroot\app\app.js" />
     <Content Include="wwwroot\app\browse\index.html" />
     <Content Include="wwwroot\app\browse\browseController.js" />
@@ -208,10 +206,15 @@
     <Content Include="wwwroot\external\footer_js\toaster.min.js" />
     <Content Include="wwwroot\external\footer_js\waypoints-0.0.1.js" />
     <Content Include="wwwroot\external\footer_js\waypoints-0.0.1.min.js" />
+    <Content Include="wwwroot\external\head_js\angular-animate.js" />
     <Content Include="wwwroot\external\head_js\angular-animate.min.js" />
+    <Content Include="wwwroot\external\head_js\angular-messages.js" />
     <Content Include="wwwroot\external\head_js\angular-messages.min.js" />
+    <Content Include="wwwroot\external\head_js\angular-route.js" />
     <Content Include="wwwroot\external\head_js\angular-route.min.js" />
+    <Content Include="wwwroot\external\head_js\angular-sanitize.js" />
     <Content Include="wwwroot\external\head_js\angular-sanitize.min.js" />
+    <Content Include="wwwroot\external\head_js\angular.js" />
     <Content Include="wwwroot\external\head_js\angular.min.js" />
     <Content Include="wwwroot\external\head_js\bundle.txt" />
     <Content Include="wwwroot\external\head_js\jquery-2.1.3.min.js" />

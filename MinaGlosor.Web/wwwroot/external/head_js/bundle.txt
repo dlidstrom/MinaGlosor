@@ -1,7 +1,7 @@
 ﻿jquery-2.1.3.min.js
-angular.min.js
-angular-animate.min.js
-angular-route.min.js
-angular-messages.min.js
-angular-sanitize.min.js
+angular.js
+angular-animate.js
+angular-route.js
+angular-messages.js
+angular-sanitize.js
 ui-bootstrap-tpls-2.1.1.min.js

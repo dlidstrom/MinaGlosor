@@ -1,10 +1,12 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('mgApp').controller('ViewWordListController', ViewWordListController);
+    angular.module('mgApp')
+        .controller('ViewWordListController', ViewWordListController)
+        .controller('ModalInstanceController', ModalInstanceController);
 
-    ViewWordListController.$inject = ['$location', 'wordListId', 'result'];
-    function ViewWordListController($location, wordListId, result) {
+    ViewWordListController.$inject = ['$location', '$route', '$uibModal', 'wordListId', 'result'];
+    function ViewWordListController($location, $route, $uibModal, wordListId, result) {
         var viewer = this;
 
         viewer.wordListId = wordListId;
@@ -15,5 +17,40 @@
         viewer.canEdit = result.canEdit;
         viewer.paging = result.paging;
         viewer.returnUrl = $location.url();
+
+        viewer.publish = publish;
+
+        function publish(size) {
+            var modalInstance = $uibModal.open({
+                animation: false,
+                templateUrl: 'myModalContent.html',
+                controller: 'ModalInstanceController',
+                controllerAs: 'modal',
+                size: size,
+                resolve: {
+                    wordListName: function () {
+                        return viewer.wordListName;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                $route.reload();
+            });
+        };
+    }
+
+    ModalInstanceController.$inject = ['$uibModalInstance', 'wordListName'];
+    function ModalInstanceController($uibModalInstance, wordListName) {
+        var modal = this;
+        modal.wordListName = wordListName;
+
+        modal.ok = function () {
+            $uibModalInstance.close();
+        };
+
+        modal.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
     }
 })();

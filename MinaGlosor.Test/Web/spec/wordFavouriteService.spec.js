@@ -26,7 +26,7 @@ describe('WordFavouriteService', function () {
         });
 
         it('should get all words', function () {
-            httpMock.expectGET('/api/wordfavourite').respond(200);
+            httpMock.expectGET('/api/wordfavourite?page=1').respond(200);
             wordFavouriteService.getAll();
         });
     });

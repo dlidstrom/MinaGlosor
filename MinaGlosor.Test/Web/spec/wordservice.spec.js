@@ -36,7 +36,7 @@ describe('WordService', function () {
         });
 
         it('should get all words', function () {
-            httpMock.expectGET('/api/word?wordListId=1').respond(200);
+            httpMock.expectGET('/api/word?page=1&wordListId=1').respond(200);
             wordService.getAll(1);
         });
 
