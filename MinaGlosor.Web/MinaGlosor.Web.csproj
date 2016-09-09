@@ -408,6 +408,7 @@
     <Compile Include="Models\Commands\Handlers\UpdateLastPickedDateCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\UpdateWordCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\UpdateWordConfidenceCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\UpdateWordListNameCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\WordExpiredCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\WordIsUpToDateCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\WordScoreRegisteredCommandHandler.cs" />
@@ -415,6 +416,7 @@
     <Compile Include="Models\Commands\ResetWordScoreCommand.cs" />
     <Compile Include="Models\Commands\RunAdminCommand.cs" />
     <Compile Include="Models\Commands\UpdateLastPickedDateCommand.cs" />
+    <Compile Include="Models\Commands\UpdateWordListNameCommand.cs" />
     <Compile Include="Models\Commands\UpdateWordScoreCommand.cs" />
     <Compile Include="Models\Commands\UpdateWordScoreCommandHandler.cs" />
     <Compile Include="Models\Commands\WordExpiredCommand.cs" />
@@ -437,6 +439,7 @@
     <Compile Include="Models\DomainEvents\UpdateConfidenceEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateConfidenceEventHandler.cs" />
     <Compile Include="Models\DomainEvents\UpdateLastPickedDateEvent.cs" />
+    <Compile Include="Models\DomainEvents\UpdateWordListNameEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateWordScoreEvent.cs" />
     <Compile Include="Models\DomainEvents\UserRegisteredEvent.cs" />
     <Compile Include="Models\DomainEvents\WordExpiredEvent.cs" />

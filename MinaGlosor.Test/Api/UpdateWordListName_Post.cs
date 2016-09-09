@@ -30,7 +30,7 @@ namespace MinaGlosor.Test.Api
             var response = await Client.PostAsJsonAsync("http://temp.uri/api/updatewordlistname", request);
 
             // Assert
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Transact(session =>
             {
                 var wordList = session.Load<WordList>(WordList.ToId(firstResponse.WordListId));

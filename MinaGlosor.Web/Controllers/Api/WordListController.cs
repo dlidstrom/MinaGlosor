@@ -17,6 +17,7 @@ namespace MinaGlosor.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, wordList);
         }
 
+        // TODO Fixa alla såna här (gamla sorten)
         public HttpResponseMessage Post(NewWordListRequest request)
         {
             if (request == null) ModelState.AddModelError("Request", "Invalid request");

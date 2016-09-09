@@ -59,6 +59,13 @@ namespace MinaGlosor.Web.Models
             Apply(new AddWordEvent(Id, NumberOfWords + 1));
         }
 
+        public void UpdateName(string wordListName)
+        {
+            if (wordListName == null) throw new ArgumentNullException("wordListName");
+            if (wordListName.Length > 1000) throw new ArgumentOutOfRangeException("wordListName", "Max 1000 characters");
+            Apply(new UpdateWordListNameEvent(Id, wordListName));
+        }
+
         private void ApplyEvent(AddWordEvent @event)
         {
             NumberOfWords = @event.NumberOfWords;
@@ -68,6 +75,11 @@ namespace MinaGlosor.Web.Models
         {
             Name = @event.Name;
             OwnerId = @event.OwnerId;
+        }
+
+        private void ApplyEvent(UpdateWordListNameEvent @event)
+        {
+            Name = @event.WordListName;
         }
     }
 }
