@@ -283,6 +283,8 @@
     </Content>
     <Content Include="wwwroot\bundle.txt" />
     <Content Include="wwwroot\external\head_js\ui-bootstrap-tpls-2.1.1.min.js" />
+    <Content Include="wwwroot\external\head_js\xeditable.js" />
+    <Content Include="wwwroot\external\head_js\xeditable.min.js" />
     <Content Include="wwwroot\images\apple-touch-icon-114x114.png" />
     <Content Include="wwwroot\images\apple-touch-icon-120x120.png" />
     <Content Include="wwwroot\images\apple-touch-icon-144x144.png" />
@@ -301,7 +303,10 @@
     <Content Include="wwwroot\images\apple-touch-startup-image-750x1294.png" />
     <Content Include="wwwroot\images\apple-touch-startup-image-768x1004.png" />
     <Content Include="wwwroot\spinner.less" />
+    <Content Include="wwwroot\toaster.css" />
     <Content Include="wwwroot\toaster.min.css" />
+    <Content Include="wwwroot\xeditable.css" />
+    <Content Include="wwwroot\xeditable.min.css" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

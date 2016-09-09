@@ -12,12 +12,13 @@
         viewer.wordListId = wordListId;
         viewer.wordListName = result.wordListName;
         viewer.words = result.words;
-        viewer.canPractice = result.words.length > 0;
+        viewer.canPractice = result.words.length > 0; // TODO: Flytta till backend
         viewer.canAdd = result.canAdd;
         viewer.canEdit = result.canEdit;
         viewer.paging = result.paging;
         viewer.returnUrl = $location.url();
 
+        viewer.validateName = validateName;
         viewer.publish = publish;
 
         function publish(size) {
@@ -38,6 +39,12 @@
                 $route.reload();
             });
         };
+
+        function validateName(data) {
+            if (data.length === 0) {
+                return 'Tomt namn är inte tillåtet';
+            }
+        }
     }
 
     ModalInstanceController.$inject = ['$uibModalInstance', 'wordListName'];
