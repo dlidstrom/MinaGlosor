@@ -6,6 +6,7 @@
     WordListService.$inject = ['$http', '$q'];
     function WordListService($http, $q) {
         var url = '/api/wordlist';
+        var updateWordListNameUrl = '/api/updatewordlistname';
         return {
             getById: function (wordListId) {
                 // needs lower-level promise for routes
@@ -24,6 +25,15 @@
                     url,
                     {
                         name: name
+                    });
+                return promise;
+            },
+            updateName: function (wordListId, wordListName) {
+                var promise = $http.post(
+                    updateWordListNameUrl,
+                    {
+                        wordListId: wordListId,
+                        wordListName: wordListName
                     });
                 return promise;
             }

@@ -5,8 +5,20 @@
         .controller('ViewWordListController', ViewWordListController)
         .controller('ModalInstanceController', ModalInstanceController);
 
-    ViewWordListController.$inject = ['$location', '$route', '$uibModal', 'wordListId', 'result'];
-    function ViewWordListController($location, $route, $uibModal, wordListId, result) {
+    ViewWordListController.$inject = [
+        '$location',
+        '$route',
+        '$uibModal',
+        'WordListService',
+        'wordListId',
+        'result'];
+    function ViewWordListController(
+        $location,
+        $route,
+        $uibModal,
+        wordListService,
+        wordListId,
+        result) {
         var viewer = this;
 
         viewer.wordListId = wordListId;
@@ -44,6 +56,7 @@
             if (data.length === 0) {
                 return 'Tomt namn är inte tillåtet';
             }
+            return wordListService.updateName(wordListId, data);
         }
     }
 
