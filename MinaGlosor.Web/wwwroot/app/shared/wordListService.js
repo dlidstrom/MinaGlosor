@@ -7,6 +7,7 @@
     function WordListService($http, $q) {
         var url = '/api/wordlist';
         var updateWordListNameUrl = '/api/updatewordlistname';
+        var publishUrl = '/api/publishwordlist';
         return {
             getById: function (wordListId) {
                 // needs lower-level promise for routes
@@ -34,6 +35,24 @@
                     {
                         wordListId: wordListId,
                         wordListName: wordListName
+                    });
+                return promise;
+            },
+            publish: function (wordListId) {
+                var promise = $http.post(
+                    publishUrl,
+                    {
+                        wordListId: wordListId,
+                        publish: true
+                    });
+                return promise;
+            },
+            unpublish: function (wordListId) {
+                var promise = $http.post(
+                    publishUrl,
+                    {
+                        wordListId: wordListId,
+                        publish: false
                     });
                 return promise;
             }

@@ -253,6 +253,7 @@
     <Compile Include="Controllers\Api\LogErrorController.cs" />
     <Compile Include="Controllers\Api\AdminCommandController.cs" />
     <Compile Include="Controllers\Api\MigrationController.cs" />
+    <Compile Include="Controllers\Api\PublishWordListController.cs" />
     <Compile Include="Controllers\Api\Search2Controller.cs" />
     <Compile Include="Controllers\Api\UpdateWordController.cs" />
     <Compile Include="Controllers\Api\UpdateWordListNameController.cs" />
@@ -406,6 +407,7 @@
     <Compile Include="Models\Commands\Handlers\CreateWordCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\CreateWordListCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\CreateWordListProgressCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\PublishWordListCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\RegisterAdminUsersCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\ResetWordScoreCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\RunAdminCommandHandler.cs" />
@@ -417,6 +419,7 @@
     <Compile Include="Models\Commands\Handlers\WordExpiredCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\WordIsUpToDateCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\WordScoreRegisteredCommandHandler.cs" />
+    <Compile Include="Models\Commands\PublishWorListCommand.cs" />
     <Compile Include="Models\Commands\RegisterAdminUsersCommand.cs" />
     <Compile Include="Models\Commands\ResetWordScoreCommand.cs" />
     <Compile Include="Models\Commands\RunAdminCommand.cs" />
@@ -434,6 +437,7 @@
     <Compile Include="Models\DomainEvents\MarkResetPasswordRequestUsedEvent.cs" />
     <Compile Include="Models\DomainEvents\PracticeSessionCreatedEvent.cs" />
     <Compile Include="Models\DomainEvents\PracticeSessionCreatedEventHandler.cs" />
+    <Compile Include="Models\DomainEvents\PublishWordListEvent.cs" />
     <Compile Include="Models\DomainEvents\RestartAfterEditEvent.cs" />
     <Compile Include="Models\DomainEvents\RestartWordScoreEvent.cs" />
     <Compile Include="Models\DomainEvents\SetPasswordEvent.cs" />
@@ -441,6 +445,7 @@
     <Compile Include="Models\DomainEvents\SetUserCreatedEvent.cs" />
     <Compile Include="Models\DomainEvents\SetWordUserIdEvent.cs" />
     <Compile Include="Models\DomainEvents\ToggleWordFavouriteEvent.cs" />
+    <Compile Include="Models\DomainEvents\UnpublishWordListEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateConfidenceEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateConfidenceEventHandler.cs" />
     <Compile Include="Models\DomainEvents\UpdateLastPickedDateEvent.cs" />
@@ -549,6 +554,7 @@
     <Compile Include="Models\Word.cs" />
     <Compile Include="Models\WordFavourite.cs" />
     <Compile Include="Models\WordList.cs" />
+    <Compile Include="Models\WordListPublishState.cs" />
     <Compile Include="Models\WordScore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\IoC\WindsorDependencyResolver.cs" />

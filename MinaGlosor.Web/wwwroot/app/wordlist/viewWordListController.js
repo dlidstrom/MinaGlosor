@@ -28,9 +28,10 @@
         viewer.canAdd = result.canAdd;
         viewer.canEdit = result.canEdit;
         viewer.paging = result.paging;
+        viewer.published = result.publishState === 'Published'; // TODO Fix with TypeScript
         viewer.returnUrl = $location.url();
 
-        viewer.validateName = validateName;
+        viewer.updateName = updateName;
         viewer.publish = publish;
 
         function publish(size) {
@@ -42,17 +43,21 @@
                 size: size,
                 resolve: {
                     wordListName: function () {
-                        return viewer.wordListName;
-                    }
+                        return result.wordListName;
+                    },
+                    published: result.published
                 }
             });
 
-            modalInstance.result.then(function () {
-                $route.reload();
+            // fortsätt här, fel på nåt sätt
+            modalInstance.result.then(function (wordListId, published) {
+                wordListService.publish(published).then(function () {
+                    $route.reload(); // TODO: Fix with TypeScript + Redux
+                });
             });
         };
 
-        function validateName(data) {
+        function updateName(data) {
             if (data.length === 0) {
                 return 'Tomt namn är inte tillåtet';
             }
@@ -60,13 +65,18 @@
         }
     }
 
-    ModalInstanceController.$inject = ['$uibModalInstance', 'wordListName'];
-    function ModalInstanceController($uibModalInstance, wordListName) {
+    ModalInstanceController.$inject = ['$uibModalInstance', 'wordListName', 'published'];
+    function ModalInstanceController($uibModalInstance, wordListName, published) {
         var modal = this;
         modal.wordListName = wordListName;
+        modal.published = published;
 
-        modal.ok = function () {
-            $uibModalInstance.close();
+        modal.publish = function () {
+            $uibModalInstance.close(true);
+        };
+
+        modal.unpublish = function () {
+            $uibModalInstance.close(false);
         };
 
         modal.cancel = function () {

@@ -36,6 +36,8 @@ namespace MinaGlosor.Web.Models
 
         public int NumberOfWords { get; private set; }
 
+        public WordListPublishState PublishState { get; private set; }
+
         public static string FromId(string wordListId)
         {
             if (wordListId == null) throw new ArgumentNullException("wordListId");
@@ -66,6 +68,16 @@ namespace MinaGlosor.Web.Models
             Apply(new UpdateWordListNameEvent(Id, wordListName));
         }
 
+        public void Publish()
+        {
+            Apply(new PublishWordListEvent(Id));
+        }
+
+        public void Unpublish()
+        {
+            Apply(new UnpublishWordListEvent(Id));
+        }
+
         private void ApplyEvent(AddWordEvent @event)
         {
             NumberOfWords = @event.NumberOfWords;
@@ -80,6 +92,16 @@ namespace MinaGlosor.Web.Models
         private void ApplyEvent(UpdateWordListNameEvent @event)
         {
             Name = @event.WordListName;
+        }
+
+        private void ApplyEvent(PublishWordListEvent @event)
+        {
+            PublishState = WordListPublishState.Published;
+        }
+
+        private void ApplyEvent(UnpublishWordListEvent @event)
+        {
+            PublishState = WordListPublishState.Private;
         }
     }
 }
