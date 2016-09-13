@@ -23,6 +23,7 @@ namespace MinaGlosor.Web.Models.Queries
                 OwnerId = User.FromId(wordList.OwnerId);
                 Name = wordList.Name;
                 NumberOfWords = wordList.NumberOfWords;
+                PublishState = wordList.PublishState;
             }
 
             public string WordListId { get; private set; }
@@ -32,6 +33,8 @@ namespace MinaGlosor.Web.Models.Queries
             public string Name { get; private set; }
 
             public int NumberOfWords { get; private set; }
+
+            public WordListPublishState PublishState { get; private set; }
         }
     }
 }

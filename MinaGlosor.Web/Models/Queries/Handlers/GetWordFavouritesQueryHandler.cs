@@ -25,8 +25,7 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
             var words = Session.Load<Word>(favourites.Select(x => x.WordId));
             var canEdit = query.UserId == query.CurrentUserId;
             const bool CanAdd = false;
-            var result = new GetWordsResult(
-                string.Empty,
+            var result = GetWordsResult.CreateFromFavourites(
                 canEdit,
                 CanAdd,
                 words,

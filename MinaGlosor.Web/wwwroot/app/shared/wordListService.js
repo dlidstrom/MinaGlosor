@@ -38,21 +38,12 @@
                     });
                 return promise;
             },
-            publish: function (wordListId) {
+            publish: function (wordListId, published) {
                 var promise = $http.post(
                     publishUrl,
                     {
                         wordListId: wordListId,
-                        publish: true
-                    });
-                return promise;
-            },
-            unpublish: function (wordListId) {
-                var promise = $http.post(
-                    publishUrl,
-                    {
-                        wordListId: wordListId,
-                        publish: false
+                        publish: published
                     });
                 return promise;
             }

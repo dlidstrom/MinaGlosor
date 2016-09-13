@@ -49,9 +49,8 @@
                 }
             });
 
-            // fortsätt här, fel på nåt sätt
-            modalInstance.result.then(function (wordListId, published) {
-                wordListService.publish(published).then(function () {
+            modalInstance.result.then(function (published) {
+                wordListService.publish(wordListId, published).then(function () {
                     $route.reload(); // TODO: Fix with TypeScript + Redux
                 });
             });
