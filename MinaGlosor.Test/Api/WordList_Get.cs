@@ -30,7 +30,7 @@ namespace MinaGlosor.Test.Api
             {
                 wordListId = "1",
                 ownerId = "1",
-                name = "Some name",
+                name = "some name",
                 numberOfWords = 2,
                 publishState = "Private"
             };
