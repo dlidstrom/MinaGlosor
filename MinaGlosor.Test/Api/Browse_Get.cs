@@ -24,6 +24,8 @@ namespace MinaGlosor.Test.Api
 
             // belongs to e@d.com
             await this.PostWordList("list1");
+            var publishedWordListResponse = await this.PostWordList("list2");
+            await this.PublishWordList(publishedWordListResponse.WordListId, true);
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("f@d.com"), new string[0]);
 
             // belongs to f@d.com
@@ -42,8 +44,8 @@ namespace MinaGlosor.Test.Api
                 {
                     new
                     {
-                        wordListId = "1",
-                        name = "list1",
+                        wordListId = "2",
+                        name = "list2",
                         numberOfWords = 0,
                         username = "username1",
                         gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
