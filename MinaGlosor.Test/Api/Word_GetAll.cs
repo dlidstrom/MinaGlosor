@@ -40,6 +40,7 @@ namespace MinaGlosor.Test.Api
             var expected = new
                 {
                     wordListName = "list name",
+                    publishState = "Private",
                     canEdit = true,
                     canAdd = true,
                     words = new[]

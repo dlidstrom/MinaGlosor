@@ -98,29 +98,6 @@ namespace MinaGlosor.Test.Api
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
         }
 
-        [Test]
-        public async void GetsById()
-        {
-            // Arrange
-            ArrangeThreeWordLists();
-
-            // Act
-            var response = await Client.GetAsync("http://temp.uri/api/wordlist?wordListId=1");
-            var content = response.Content;
-
-            // Assert
-            Assert.That(content, Is.Not.Null);
-            var result = await content.ReadAsStringAsync();
-            var expected = new
-            {
-                wordListId = "1",
-                ownerId = "1",
-                name = "Some name",
-                numberOfWords = 2
-            };
-            Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
-        }
-
         protected override void Arrange()
         {
             Transact(session =>

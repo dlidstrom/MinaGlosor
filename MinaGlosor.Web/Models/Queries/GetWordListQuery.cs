@@ -1,5 +1,7 @@
 using System;
 using MinaGlosor.Web.Infrastructure;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace MinaGlosor.Web.Models.Queries
 {
@@ -34,6 +36,7 @@ namespace MinaGlosor.Web.Models.Queries
 
             public int NumberOfWords { get; private set; }
 
+            [JsonConverter(typeof(StringEnumConverter))]
             public WordListPublishState PublishState { get; private set; }
         }
     }

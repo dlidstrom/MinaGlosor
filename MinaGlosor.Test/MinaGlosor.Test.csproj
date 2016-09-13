@@ -96,6 +96,7 @@
     <Compile Include="Api\PracticeSession_Post_OtherUsers.cs" />
     <Compile Include="Api\PublishWordList_Post.cs" />
     <Compile Include="Api\UpdateWordListName_Post.cs" />
+    <Compile Include="Api\WordList_Get.cs" />
     <Compile Include="Api\Word_WhenEditing.cs" />
     <Compile Include="Api\EventIdsMetaTests.cs" />
     <Compile Include="Api\HighlightingsTest.cs" />
