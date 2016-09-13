@@ -17,7 +17,7 @@ namespace MinaGlosor.Test.Api
             {
                 session.Store(new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username"));
             });
-            await this.PostWordList("name");
+            await this.PostWordList();
 
             // Act
             var response = await Client.GetAsync("http://temp.uri/api/wordlist?wordListId=1");
