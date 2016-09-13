@@ -45,7 +45,7 @@
                     wordListName: function () {
                         return result.wordListName;
                     },
-                    published: result.published
+                    published: viewer.published
                 }
             });
 

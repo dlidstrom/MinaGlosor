@@ -9,13 +9,19 @@
 <div class="row">
     <div class="col-xs-12">
         <div ng-hide="viewer.published">
-            <span class="label label-info">Privat</span>
+            <span class="label label-info">
+                <i class="glyphicon glyphicon-eye-close"></i>
+                Privat
+            </span>
             <span>
                 bara du kan se den här ordlistan
             </span>
         </div>
         <div ng-show="viewer.published">
-            <span class="label label-info">Publicerad</span>
+            <span class="label label-info">
+                <i class="glyphicon glyphicon-eye-open"></i>
+                Publicerad
+            </span>
             <span>
                 andra medlemmar kan se den här ordlistan.
             </span>
@@ -75,12 +81,17 @@
         <h3 class="modal-title" id="modal-title">Publicera ordlista</h3>
     </div>
     <div class="modal-body" id="modal-body">
-        Du kan välja att publicera dina ordlistor. Då kan andra medlemmar öva och ta del av ditt arbete.
-        Välj 'Publicera' för att dela '{{modal.wordListName}}'.
+        <span ng-hide="modal.published">
+            Du kan välja att publicera dina ordlistor. Då kan andra medlemmar öva och ta del av ditt arbete.
+            Välj 'Publicera' för att dela '{{modal.wordListName}}'.
+        </span>
+        <span ng-show="modal.published">
+            Välj 'Gör privat' för att göra '{{modal.wordListName}}' osynlig för andra.
+        </span>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="modal.publish()" ng-hide="model.published">Publicera</button>
-        <button class="btn btn-primary" ng-click="modal.unpublish()" ng-show="model.published">Gör privat</button>
+        <button class="btn btn-primary" ng-click="modal.publish()" ng-hide="modal.published">Publicera</button>
+        <button class="btn btn-primary" ng-click="modal.unpublish()" ng-show="modal.published">Gör privat</button>
         <button class="btn btn-default" ng-click="modal.cancel()">Avbryt</button>
     </div>
 </script>
