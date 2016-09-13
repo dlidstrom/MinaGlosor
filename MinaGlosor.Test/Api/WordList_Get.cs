@@ -1,4 +1,6 @@
 using MinaGlosor.Test.Api.Infrastructure;
+using MinaGlosor.Web.Models;
+using MinaGlosor.Web.Models.Commands.Handlers;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -11,6 +13,10 @@ namespace MinaGlosor.Test.Api
         public async void GetsById()
         {
             // Arrange
+            Transact(session =>
+            {
+                session.Store(new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username"));
+            });
             await this.PostWordList("name");
 
             // Act
