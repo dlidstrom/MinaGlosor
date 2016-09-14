@@ -17,11 +17,11 @@ namespace MinaGlosor.Test.Api.Infrastructure
             return content;
         }
 
-        public static async Task PublishWordList(this WebApiIntegrationTest test, string id, bool publish)
+        public static async Task PublishWordList(this WebApiIntegrationTest test, string wordListId, bool publish)
         {
             var request = new
             {
-                id,
+                wordListId,
                 publish
             };
             var response = await test.Client.PostAsJsonAsync("http://temp.uri/api/publishwordlist", request);

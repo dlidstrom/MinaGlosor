@@ -18,6 +18,7 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
             RavenQueryStatistics stats;
             var wordLists = Session.Query<WordList, WordListIndex>()
                                    .Statistics(out stats)
+                                   .Where(x => x.PublishState == WordListPublishState.Published)
                                    .OrderBy(x => x.Name)
                                    .Skip((query.Page - 1) * query.ItemsPerPage)
                                    .Take(query.ItemsPerPage)

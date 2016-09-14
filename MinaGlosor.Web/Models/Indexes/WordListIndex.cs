@@ -13,7 +13,8 @@ namespace MinaGlosor.Web.Models.Indexes
                                    wordList.Id,
                                    wordList.OwnerId,
                                    wordList.Name,
-                                   wordList.NumberOfWords
+                                   wordList.NumberOfWords,
+                                   wordList.PublishState
                                };
         }
     }
