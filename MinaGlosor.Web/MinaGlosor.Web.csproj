@@ -195,7 +195,7 @@
     <Content Include="wwwroot\app\shared\browseService.js" />
     <Content Include="wwwroot\app\shared\pagingDirective.js" />
     <Content Include="wwwroot\app\shared\gravatarImageDirective.js" />
-    <Content Include="wwwroot\app\shared\publishedStateDirective.js" />
+    <Content Include="wwwroot\app\shared\publishedStateDirective\publishedStateDirective.js" />
     <Content Include="wwwroot\app\shared\searchService.js" />
     <Content Include="wwwroot\app\shared\spinnerDirective.js" />
     <Content Include="wwwroot\app\shared\progressService.js" />
@@ -323,6 +323,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Shared\_WebApp.cshtml" />
+    <Content Include="wwwroot\app\shared\publishedStateDirective\publishedState.less" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap.css" />

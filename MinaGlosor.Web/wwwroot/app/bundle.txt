@@ -20,7 +20,7 @@ shared\practiceWordService.js
 shared\progressDirective.js
 shared\practiceProgressDirective.js
 shared\progressService.js
-shared\publishedStateDirective.js
+shared\publishedStateDirective\publishedStateDirective.js
 shared\searchService.js
 shared\spinnerDirective.js
 shared\wordFavouriteDirective.js

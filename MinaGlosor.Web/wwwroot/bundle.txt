@@ -2,3 +2,4 @@
 main.less
 spinner.less
 xeditable.css
+app\shared\publishedStateDirective\publishedState.less
