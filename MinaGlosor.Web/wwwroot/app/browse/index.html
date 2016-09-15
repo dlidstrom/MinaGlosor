@@ -1,16 +1,16 @@
 ﻿<div class="row">
     <div class="col-xs-12">
-        <h4>Alla ordlistor</h4>
+        <h4>
+            <i class="glyphicon glyphicon-eye-open"></i>
+            Publicerade ordlistor
+        </h4>
     </div>
 </div>
 <div class="row" ng-repeat="item in controller.wordLists">
     <div class="col-xs-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <img src="https://www.gravatar.com/avatar/{{item.gravatarHash}}?s=40"
-                     alt="Skapare"
-                     width="40"
-                     height="40"/>
+                <gravatar-image hash="item.gravatarHash" owner="item.username" size="40"></gravatar-image>
                 {{item.username}}
             </div>
             <div class="panel-body">

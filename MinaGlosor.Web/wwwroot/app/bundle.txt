@@ -13,6 +13,7 @@ search\searchRedirectController.js
 shared\browseService.js
 shared\clickOnce.js
 shared\closeNavbarDirective.js
+shared\gravatarImageDirective.js
 shared\pagingDirective.js
 shared\practiceService.js
 shared\practiceWordService.js

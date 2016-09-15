@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Domain.WordListProgressModel;
@@ -25,7 +26,9 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
                                     .ToArray();
             var wordLists = Session.Load<WordList>(progresses.Select(x => x.WordListId))
                                    .ToDictionary(x => x.Id);
-            var progressResults = progresses.Select(x => new GetProgressListQuery.ProgressResult(x, wordLists[x.WordListId]))
+            var users = Session.Load<User>(new HashSet<string>(wordLists.Values.Select(x => x.OwnerId)))
+                               .ToDictionary(x => x.Id);
+            var progressResults = progresses.Select(x => new GetProgressListQuery.ProgressResult(x, wordLists[x.WordListId], users[x.OwnerId]))
                                             .ToArray();
             var numberOfFavourites = Session.Query<WordFavourite, WordFavouriteIndex>()
                                             .Where(x => x.UserId == query.UserId)
