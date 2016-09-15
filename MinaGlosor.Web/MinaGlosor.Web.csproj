@@ -194,6 +194,7 @@
     <Content Include="wwwroot\app\shared\closeNavbarDirective.js" />
     <Content Include="wwwroot\app\shared\browseService.js" />
     <Content Include="wwwroot\app\shared\pagingDirective.js" />
+    <Content Include="wwwroot\app\shared\publishedStateDirective.js" />
     <Content Include="wwwroot\app\shared\searchService.js" />
     <Content Include="wwwroot\app\shared\spinnerDirective.js" />
     <Content Include="wwwroot\app\shared\progressService.js" />

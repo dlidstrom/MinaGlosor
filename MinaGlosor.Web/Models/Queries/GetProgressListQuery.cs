@@ -1,6 +1,8 @@
 using System;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Domain.WordListProgressModel;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace MinaGlosor.Web.Models.Queries
 {
@@ -51,6 +53,7 @@ namespace MinaGlosor.Web.Models.Queries
                 NumberOfWords = wordList.NumberOfWords;
                 PercentDone = progress.PercentDone;
                 PercentExpired = progress.PercentExpired;
+                PublishState = wordList.PublishState;
             }
 
             public string WordListId { get; private set; }
@@ -64,6 +67,9 @@ namespace MinaGlosor.Web.Models.Queries
             public int PercentDone { get; private set; }
 
             public int PercentExpired { get; private set; }
+
+            [JsonConverter(typeof(StringEnumConverter))]
+            public WordListPublishState PublishState { get; private set; }
         }
     }
 }

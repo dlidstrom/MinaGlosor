@@ -8,24 +8,7 @@
 <hr class="spacer5" />
 <div class="row">
     <div class="col-xs-12">
-        <div ng-hide="viewer.published">
-            <span class="label label-info">
-                <i class="glyphicon glyphicon-eye-close"></i>
-                Privat
-            </span>
-            <span>
-                bara du kan se den här ordlistan
-            </span>
-        </div>
-        <div ng-show="viewer.published">
-            <span class="label label-info">
-                <i class="glyphicon glyphicon-eye-open"></i>
-                Publicerad
-            </span>
-            <span>
-                andra medlemmar kan se den här ordlistan.
-            </span>
-        </div>
+        <published-state published="viewer.published"></published-state>
     </div>
 </div>
 <hr class="spacer5" />

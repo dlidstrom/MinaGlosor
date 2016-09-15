@@ -50,6 +50,7 @@
                     <i class="glyphicon glyphicon-arrow-right"></i>
                     Visa {{item.name + ' (' + item.numberOfWords + ' ord)'}}
                 </a>
+                <published-state published="item.published"></published-state>
                 <a ng-if="item.numberOfWords" href="{{'./wordlist/' + item.wordListId + '/practice/'}}" class="btn btn-primary btn-xs pull-right">
                     öva
                 </a>
