@@ -49,7 +49,9 @@ namespace MinaGlosor.Test.Api
                         name = "list",
                         numberOfWords = 1,
                         percentDone = 0,
-                        percentExpired = 0
+                        percentExpired = 0,
+                        published = false,
+                        gravatarHash = "e84879df1fe98a8cb559cf7ee65eb16f"
                     }
                 },
                 paging = new
