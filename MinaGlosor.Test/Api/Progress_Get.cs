@@ -36,7 +36,9 @@ namespace MinaGlosor.Test.Api
                                     name = "list",
                                     numberOfWords = 0,
                                     percentDone = 0,
-                                    percentExpired = 0
+                                    percentExpired = 0,
+                                    published = false,
+                                    gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
                                 }
                         },
                     paging = new
@@ -75,7 +77,9 @@ namespace MinaGlosor.Test.Api
                                     name = "Some name",
                                     numberOfWords = 2,
                                     percentDone = 0,
-                                    percentExpired = 0
+                                    percentExpired = 0,
+                                    published = false,
+                                    gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
                                 },
                             new
                                 {
@@ -84,7 +88,9 @@ namespace MinaGlosor.Test.Api
                                     name = "Then one more",
                                     numberOfWords = 3,
                                     percentDone = 0,
-                                    percentExpired = 0
+                                    percentExpired = 0,
+                                    published = false,
+                                    gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
                                 }
                         },
                     paging = new
