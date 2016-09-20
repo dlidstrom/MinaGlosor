@@ -36,25 +36,7 @@ namespace MinaGlosor.Web.Models
 
         public DateTime CreatedDate { get; private set; }
 
-        public bool IsFinished
-        {
-            get { return Words.Any(x => x.Confidence < (int)ConfidenceLevel.CorrectAfterHesitation) == false; }
-        }
-
-        private int NumberOfWordsEasilyLearnt
-        {
-            get { return Words.Count(x => x.Confidence >= (int)ConfidenceLevel.CorrectAfterHesitation); }
-        }
-
-        private int NumberOfWordsRecalledWithDifficulty
-        {
-            get { return Words.Count(x => x.Confidence == (int)ConfidenceLevel.RecalledWithSeriousDifficulty); }
-        }
-
-        private int NumberOfWordsForgotten
-        {
-            get { return Words.Count(x => x.Confidence < (int)ConfidenceLevel.RecalledWithSeriousDifficulty && x.Confidence > (int)ConfidenceLevel.CompleteBlackout); }
-        }
+        public bool IsFinished { get; private set; }
 
         public static string ToId(string practiceSessionId)
         {
@@ -92,14 +74,20 @@ namespace MinaGlosor.Web.Models
             if (IsFinished)
                 throw new ApplicationException("Practice session is finished");
 
+            PracticeWord nextWord;
             var firstUnscored = Words.FirstOrDefault(x => x.Confidence < 0);
             if (firstUnscored != null)
             {
-                return firstUnscored;
+                nextWord = firstUnscored;
+            }
+            else
+            {
+
+                var oldestWord = Words.Where(x => x.Confidence < 4).OrderBy(x => x.LastPickedDate).FirstOrDefault();
+                if (oldestWord == null) throw new ApplicationException("No more words to practice");
+                nextWord = oldestWord;
             }
 
-            var nextWord = Words.Where(x => x.Confidence < 4).OrderBy(x => x.LastPickedDate).FirstOrDefault();
-            if (nextWord == null) throw new ApplicationException("No more words to practice");
             return nextWord;
         }
 
@@ -114,6 +102,11 @@ namespace MinaGlosor.Web.Models
             if (practiceWordId == null) throw new ArgumentNullException("practiceWordId");
             var practiceWord = Words.Single(x => x.PracticeWordId == practiceWordId);
             Apply(new UpdateConfidenceEvent(Id, practiceWordId, confidenceLevel, practiceWord.WordId, practiceWord.WordListId, OwnerId));
+            if (Words.All(x => x.Confidence >= (int)ConfidenceLevel.CorrectAfterHesitation))
+            {
+                var wordResults = Words.Select(x => new PracticeSessionFinishedEvent.PracticeWordResult(x)).ToArray();
+                Apply(new PracticeSessionFinishedEvent(Id, wordResults));
+            }
         }
 
         public PracticeWord GetWordById(string practiceWordId)
@@ -121,6 +114,21 @@ namespace MinaGlosor.Web.Models
             if (practiceWordId == null) throw new ArgumentNullException("practiceWordId");
             var practiceWord = Words.Single(x => x.PracticeWordId == practiceWordId);
             return practiceWord;
+        }
+
+        private int NumberOfWordsEasilyLearnt
+        {
+            get { return Words.Count(x => x.Confidence >= (int)ConfidenceLevel.CorrectAfterHesitation); }
+        }
+
+        private int NumberOfWordsRecalledWithDifficulty
+        {
+            get { return Words.Count(x => x.Confidence == (int)ConfidenceLevel.RecalledWithSeriousDifficulty); }
+        }
+
+        private int NumberOfWordsForgotten
+        {
+            get { return Words.Count(x => x.Confidence < (int)ConfidenceLevel.RecalledWithSeriousDifficulty && x.Confidence > (int)ConfidenceLevel.CompleteBlackout); }
         }
 
         private void ApplyEvent(UpdateConfidenceEvent @event)
@@ -141,6 +149,11 @@ namespace MinaGlosor.Web.Models
             Words = @event.Words;
             OwnerId = @event.OwnerId;
             CreatedDate = @event.CreatedDateTime;
+        }
+
+        private void ApplyEvent(PracticeSessionFinishedEvent @event)
+        {
+            IsFinished = true;
         }
     }
 }

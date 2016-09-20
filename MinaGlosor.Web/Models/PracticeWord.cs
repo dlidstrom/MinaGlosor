@@ -17,6 +17,7 @@ namespace MinaGlosor.Web.Models
             Confidence = (int)ConfidenceLevel.Unknown;
             PracticeWordId = Guid.NewGuid().ToString("N").Substring(0, 7);
             OwnerId = ownerId;
+            WordDifficulty = WordDifficulty.Unknown;
         }
 
         [JsonConstructor]
@@ -38,6 +39,8 @@ namespace MinaGlosor.Web.Models
 
         public string OwnerId { get; private set; }
 
+        public WordDifficulty WordDifficulty { get; private set; }
+
         public void UpdateConfidence(ConfidenceLevel confidenceLevel)
         {
             if (confidenceLevel < ConfidenceLevel.CompleteBlackout || confidenceLevel > ConfidenceLevel.PerfectResponse)
@@ -47,6 +50,10 @@ namespace MinaGlosor.Web.Models
                 throw new ApplicationException("Cannot score word twice");
 
             Confidence = (int)confidenceLevel;
+            if (Confidence < (int)ConfidenceLevel.CorrectAfterHesitation)
+            {
+                WordDifficulty = WordDifficulty.Difficult;
+            }
         }
 
         public void UpdateLastPickedDate(DateTime date)

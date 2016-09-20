@@ -5,13 +5,14 @@ namespace MinaGlosor.Web.Models.DomainEvents
 {
     public class WordScoreRegisteredEvent : ModelEvent
     {
-        public WordScoreRegisteredEvent(string id, string ownerId, string wordId, string wordListId, double score)
+        public WordScoreRegisteredEvent(string id, string ownerId, string wordId, string wordListId, double score, WordDifficulty wordDifficulty)
             : base(id)
         {
             OwnerId = ownerId;
             WordId = wordId;
             WordListId = wordListId;
             Score = score;
+            WordDifficulty = wordDifficulty;
         }
 
 #pragma warning disable 612, 618
@@ -29,5 +30,7 @@ namespace MinaGlosor.Web.Models.DomainEvents
         public string WordListId { get; private set; }
 
         public double Score { get; private set; }
+
+        public WordDifficulty WordDifficulty { get; private set; }
     }
 }

@@ -10,7 +10,9 @@ namespace MinaGlosor.Web.Models
     public class WordScore : DomainModel
     {
         private const double DefaultScore = 2.5;
+        private const WordDifficulty DefaultWordDifficulty = WordDifficulty.Unknown;
 
+        // TODO: Id can be computed from ownerId and wordId
         public WordScore(string id, string ownerId, string wordId, string wordListId)
             : base(id)
         {
@@ -18,7 +20,7 @@ namespace MinaGlosor.Web.Models
             if (wordId == null) throw new ArgumentNullException("wordId");
             if (wordListId == null) throw new ArgumentNullException("wordListId");
 
-            Apply(new WordScoreRegisteredEvent(id, ownerId, wordId, wordListId, DefaultScore));
+            Apply(new WordScoreRegisteredEvent(id, ownerId, wordId, wordListId, DefaultScore, DefaultWordDifficulty));
         }
 
 #pragma warning disable 612, 618
@@ -46,6 +48,8 @@ namespace MinaGlosor.Web.Models
         public int TimesForgotten { get; private set; }
 
         public bool SignalledWordExpired { get; private set; }
+
+        public WordDifficulty WordDifficulty { get; private set; }
 
         public void ScoreWord(ConfidenceLevel confidenceLevel)
         {
@@ -137,6 +141,11 @@ namespace MinaGlosor.Web.Models
             }
         }
 
+        public void UpdateDifficulty(WordDifficulty wordDifficulty)
+        {
+            Apply(new UpdateWordScoreDifficultyEvent(Id, wordDifficulty));
+        }
+
         private void ApplyEvent(WordScoreRegisteredEvent @event)
         {
             OwnerId = @event.OwnerId;
@@ -183,6 +192,11 @@ namespace MinaGlosor.Web.Models
         private void ApplyEvent(WordIsUpToDateEvent @event)
         {
             // to let the world know
+        }
+
+        private void ApplyEvent(UpdateWordScoreDifficultyEvent @event)
+        {
+            WordDifficulty = @event.WordDifficulty;
         }
     }
 }
