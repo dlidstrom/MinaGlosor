@@ -1,5 +1,6 @@
 using System;
 using Castle.Windsor;
+using MinaGlosor.Web.Models.DomainEvents.Handlers;
 
 namespace MinaGlosor.Web.Models.DomainEvents
 {

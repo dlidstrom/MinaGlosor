@@ -1,7 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using MinaGlosor.Web.Models.DomainEvents;
+using MinaGlosor.Web.Models.DomainEvents.Handlers;
 
 namespace MinaGlosor.Web.Infrastructure.IoC.Installers
 {

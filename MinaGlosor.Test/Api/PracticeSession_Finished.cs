@@ -85,10 +85,5 @@ namespace MinaGlosor.Test.Api
             var response = await Client.GetAsync("http://temp.uri/api/progress");
             content = response.Content;
         }
-
-        public class ExpectedContent
-        {
-            public string PracticeSessionId { get; set; }
-        }
     }
 }
