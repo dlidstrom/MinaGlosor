@@ -1,7 +1,7 @@
 ﻿using MinaGlosor.Web.Models.BackgroundTasks;
 using MinaGlosor.Web.Models.Queries;
 
-namespace MinaGlosor.Web.Models.DomainEvents
+namespace MinaGlosor.Web.Models.DomainEvents.Handlers
 {
     public class WordUpdatedEventHandler : AbstractHandle<WordUpdatedEvent>
     {

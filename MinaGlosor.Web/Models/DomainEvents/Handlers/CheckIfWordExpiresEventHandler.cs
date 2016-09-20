@@ -1,6 +1,6 @@
 using MinaGlosor.Web.Models.BackgroundTasks;
 
-namespace MinaGlosor.Web.Models.DomainEvents
+namespace MinaGlosor.Web.Models.DomainEvents.Handlers
 {
     public class CheckIfWordExpiresEventHandler : AbstractHandle<CheckIfWordExpiresEvent>
     {
