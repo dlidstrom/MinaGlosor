@@ -36,6 +36,14 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
 
         public int PercentExpired { get; private set; }
 
+        public int NumberOfEasyWords { get; private set; }
+
+        public int PercentEasyWords { get; private set; }
+
+        public int NumberOfDifficultWords { get; private set; }
+
+        public int PercentDifficultWords { get; private set; }
+
         public static string GetIdFromWordListForUser(string wordListId, string ownerId)
         {
             var id = string.Format("WordListProgress-{0}-{1}", User.FromId(ownerId), WordList.FromId(wordListId));
@@ -45,33 +53,74 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
         public void WordHasExpired(int numberOfWords)
         {
             var newNumberOfWordsExpired = NumberOfWordsExpired + 1;
-            var percentExpired = CalculatePercentExpired(newNumberOfWordsExpired, numberOfWords);
+            var percentExpired = CalculatePercent(newNumberOfWordsExpired, numberOfWords);
             Apply(new WordHasExpiredEvent(Id, newNumberOfWordsExpired, percentExpired));
         }
 
         public void WordIsUpToDate(int numberOfWords)
         {
             var newNumberOfWordsExpired = NumberOfWordsExpired - 1;
-            var percentExpired = CalculatePercentExpired(newNumberOfWordsExpired, numberOfWords);
+            var percentExpired = CalculatePercent(newNumberOfWordsExpired, numberOfWords);
             Apply(new WordIsUpToDateEvent(Id, newNumberOfWordsExpired, percentExpired));
         }
 
         public void NewWordHasBeenPracticed(int numberOfWords)
         {
             var newNumberOfWordScores = NumberOfWordScores + 1;
-            var percentDone = CalculatePercentDone(newNumberOfWordScores, numberOfWords);
-            Apply(new WordHasBeenPracticedEvent(Id, newNumberOfWordScores, percentDone));
+            var percentDone = CalculatePercent(newNumberOfWordScores, numberOfWords);
+            var newPercentEasyWords = CalculatePercent(NumberOfEasyWords, numberOfWords);
+            var newPercentDifficultWords = CalculatePercent(NumberOfDifficultWords, numberOfWords);
+            Apply(new WordHasBeenPracticedEvent(Id, newNumberOfWordScores, percentDone, newPercentEasyWords, newPercentDifficultWords));
         }
 
-        private static int CalculatePercentExpired(int newNumberOfWordsExpired, int numberOfWords)
+        public void UpdateDifficultyCounts(WordScoreDifficultyLifecycle lifecycle)
         {
-            var percentExpired = (int)Math.Floor(100.0 * newNumberOfWordsExpired / Math.Max(1, numberOfWords));
-            return percentExpired;
+            var newNumberOfEasyWords = NumberOfEasyWords;
+            var newNumberOfDifficultWords = NumberOfDifficultWords;
+            switch (lifecycle)
+            {
+                case WordScoreDifficultyLifecycle.FirstTimeDifficult:
+                {
+                    newNumberOfDifficultWords++;
+                    break;
+                }
+
+                case WordScoreDifficultyLifecycle.TurnedDifficult:
+                {
+                    newNumberOfDifficultWords++;
+                    newNumberOfEasyWords--;
+                    break;
+                }
+
+                case WordScoreDifficultyLifecycle.FirstTimeEasy:
+                {
+                    // TODO Hur blir det här?
+                    newNumberOfEasyWords++;
+                    break;
+                }
+
+                case WordScoreDifficultyLifecycle.TurnedEasy:
+                {
+                    newNumberOfEasyWords++;
+                    newNumberOfDifficultWords--;
+                    break;
+                }
+            }
+
+            var newPercentEasyWords = CalculatePercent(newNumberOfEasyWords, NumberOfWordScores);
+            var newPercentDifficultWords = CalculatePercent(newNumberOfDifficultWords, NumberOfWordScores);
+            var @event = new DifficultyCountsUpdatedEvent(
+                Id,
+                newNumberOfEasyWords,
+                newPercentEasyWords,
+                newNumberOfDifficultWords,
+                newPercentDifficultWords);
+            Apply(@event);
         }
 
-        private static int CalculatePercentDone(int newNumberOfWordScores, int numberOfWords)
+        private static int CalculatePercent(int wordScores, int numberOfWords)
         {
-            var percentDone = (int)Math.Floor(100.0 * newNumberOfWordScores / Math.Max(1, numberOfWords));
+            var percentDone = (int)Math.Floor(100.0 * wordScores / Math.Max(1, numberOfWords));
             return percentDone;
         }
 
@@ -97,6 +146,16 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
         {
             NumberOfWordScores = @event.NewNumberOfWordScores;
             PercentDone = @event.PercentDone;
+            PercentEasyWords = @event.NewPercentEasyWords;
+            PercentDifficultWords = @event.NewPercentDifficultWords;
+        }
+
+        private void ApplyEvent(DifficultyCountsUpdatedEvent @event)
+        {
+            NumberOfEasyWords = @event.NewNumberOfEasyWords;
+            PercentEasyWords = @event.NewPercentEasyWords;
+            NumberOfDifficultWords = @event.NewNumberOfDifficultWords;
+            PercentDifficultWords = @event.NewPercentDifficultWords;
         }
     }
 
@@ -168,11 +227,18 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
 
     public class WordHasBeenPracticedEvent : ModelEvent
     {
-        public WordHasBeenPracticedEvent(string modelId, int newNumberOfWordScores, int percentDone)
+        public WordHasBeenPracticedEvent(
+            string modelId,
+            int newNumberOfWordScores,
+            int percentDone,
+            int newPercentEasyWords,
+            int newPercentDifficultWords)
             : base(modelId)
         {
             NewNumberOfWordScores = newNumberOfWordScores;
             PercentDone = percentDone;
+            NewPercentEasyWords = newPercentEasyWords;
+            NewPercentDifficultWords = newPercentDifficultWords;
         }
 
 #pragma warning disable 612, 618
@@ -185,5 +251,41 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
         public int NewNumberOfWordScores { get; private set; }
 
         public int PercentDone { get; private set; }
+
+        public int NewPercentEasyWords { get; private set; }
+
+        public int NewPercentDifficultWords { get; private set; }
+    }
+
+    public class DifficultyCountsUpdatedEvent : ModelEvent
+    {
+        public DifficultyCountsUpdatedEvent(
+            string modelId,
+            int newNumberOfEasyWords,
+            int newPercentEasyWords,
+            int newNumberOfDifficultWords,
+            int newPercentDifficultWords)
+            : base(modelId)
+        {
+            NewNumberOfEasyWords = newNumberOfEasyWords;
+            NewPercentEasyWords = newPercentEasyWords;
+            NewNumberOfDifficultWords = newNumberOfDifficultWords;
+            NewPercentDifficultWords = newPercentDifficultWords;
+        }
+
+#pragma warning disable 612, 618
+        [JsonConstructor, UsedImplicitly]
+        private DifficultyCountsUpdatedEvent()
+#pragma warning restore 612, 618
+        {
+        }
+
+        public int NewNumberOfEasyWords { get; private set; }
+
+        public int NewPercentEasyWords { get; private set; }
+        
+        public int NewNumberOfDifficultWords { get; private set; }
+
+        public int NewPercentDifficultWords { get; private set; }
     }
 }

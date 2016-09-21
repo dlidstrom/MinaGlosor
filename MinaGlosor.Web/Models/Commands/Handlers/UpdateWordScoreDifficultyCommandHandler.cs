@@ -10,7 +10,7 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
         {
             var wordScore = Session.Query<WordScore, WordScoreIndex>()
                                    .Single(x => x.OwnerId == command.OwnerId && x.WordId == command.WordId);
-            wordScore.UpdateDifficulty(command.WordDifficulty);
+            wordScore.UpdateDifficultyAfterPractice(command.ConfidenceLevels);
             return new object();
         }
 

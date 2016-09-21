@@ -6,7 +6,7 @@ namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
     {
         public override void Handle(UpdateWordScoreDifficultyTask task)
         {
-            ExecuteCommand(new UpdateWordScoreDifficultyCommand(task.WordDifficulty, task.WordId, task.OwnerId), task);
+            ExecuteCommand(new UpdateWordScoreDifficultyCommand(task.ConfidenceLevels, task.WordId, task.OwnerId), task);
         }
     }
 }

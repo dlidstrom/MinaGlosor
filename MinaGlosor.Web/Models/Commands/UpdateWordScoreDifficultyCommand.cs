@@ -5,16 +5,17 @@ namespace MinaGlosor.Web.Models.Commands
 {
     public class UpdateWordScoreDifficultyCommand : ICommand<object>
     {
-        public UpdateWordScoreDifficultyCommand(WordDifficulty wordDifficulty, string wordId, string ownerId)
+        public UpdateWordScoreDifficultyCommand(ConfidenceLevel[] confidenceLevels, string wordId, string ownerId)
         {
+            if (confidenceLevels == null) throw new ArgumentNullException("confidenceLevels");
             if (wordId == null) throw new ArgumentNullException("wordId");
             if (ownerId == null) throw new ArgumentNullException("ownerId");
-            WordDifficulty = wordDifficulty;
+            ConfidenceLevels = confidenceLevels;
             WordId = wordId;
             OwnerId = ownerId;
         }
 
-        public WordDifficulty WordDifficulty { get; private set; }
+        public ConfidenceLevel[] ConfidenceLevels { get; private set; }
 
         public string WordId { get; private set; }
 

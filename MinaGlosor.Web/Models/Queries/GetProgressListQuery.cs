@@ -51,6 +51,8 @@ namespace MinaGlosor.Web.Models.Queries
                 NumberOfWords = wordList.NumberOfWords;
                 PercentDone = progress.PercentDone;
                 PercentExpired = progress.PercentExpired;
+                NumberOfDifficultWords = progress.NumberOfDifficultWords;
+                PercentDifficultWords = progress.PercentDifficultWords;
                 Published = wordList.PublishState == WordListPublishState.Published;
                 GravatarHash = user.GetGravatarHash();
             }
@@ -66,6 +68,10 @@ namespace MinaGlosor.Web.Models.Queries
             public int PercentDone { get; private set; }
 
             public int PercentExpired { get; private set; }
+
+            public int NumberOfDifficultWords { get; private set; }
+
+            public int PercentDifficultWords { get; private set; }
 
             public bool Published { get; private set; }
 

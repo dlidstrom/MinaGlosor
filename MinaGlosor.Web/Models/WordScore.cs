@@ -10,7 +10,7 @@ namespace MinaGlosor.Web.Models
     public class WordScore : DomainModel
     {
         private const double DefaultScore = 2.5;
-        private const WordDifficulty DefaultWordDifficulty = WordDifficulty.Unknown;
+        private const WordDifficulty DefaultWordDifficulty = WordDifficulty.NotYetScored;
 
         // TODO: Id can be computed from ownerId and wordId
         public WordScore(string id, string ownerId, string wordId, string wordListId)
@@ -141,9 +141,79 @@ namespace MinaGlosor.Web.Models
             }
         }
 
-        public void UpdateDifficulty(WordDifficulty wordDifficulty)
+        public void UpdateDifficultyAfterPractice(ConfidenceLevel[] confidenceLevels)
         {
-            Apply(new UpdateWordScoreDifficultyEvent(Id, wordDifficulty));
+            WordScoreChangedDifficultyEvent @event = null;
+            var firstAnswer = confidenceLevels[0];
+            switch (WordDifficulty)
+            {
+                case WordDifficulty.Difficult:
+                {
+                    if (firstAnswer >= ConfidenceLevel.CorrectAfterHesitation)
+                    {
+                        @event = new WordScoreChangedDifficultyEvent(
+                            Id,
+                            WordListId,
+                            OwnerId,
+                            WordDifficulty.Easy,
+                            WordScoreDifficultyLifecycle.TurnedEasy);
+                    }
+                    else
+                    {
+                        // still difficult
+                    }
+
+                    break;
+                }
+
+                case WordDifficulty.Easy:
+                {
+                    if (firstAnswer < ConfidenceLevel.CorrectAfterHesitation)
+                    {
+                        @event = new WordScoreChangedDifficultyEvent(
+                            Id,
+                            WordListId,
+                            OwnerId,
+                            WordDifficulty.Difficult,
+                            WordScoreDifficultyLifecycle.TurnedDifficult);
+                    }
+                    else
+                    {
+                        // still easy
+                    }
+
+                    break;
+                }
+
+                case WordDifficulty.NotYetScored:
+                {
+                    if (firstAnswer >= ConfidenceLevel.CorrectAfterHesitation)
+                    {
+                        @event = new WordScoreChangedDifficultyEvent(
+                            Id,
+                            WordListId,
+                            OwnerId,
+                            WordDifficulty.Easy,
+                            WordScoreDifficultyLifecycle.FirstTimeEasy);
+                    }
+                    else
+                    {
+                        @event = new WordScoreChangedDifficultyEvent(
+                            Id,
+                            WordListId,
+                            OwnerId,
+                            WordDifficulty.Difficult,
+                            WordScoreDifficultyLifecycle.FirstTimeDifficult);
+                    }
+
+                    break;
+                }
+            }
+
+            if (@event != null)
+            {
+                Apply(@event);
+            }
         }
 
         private void ApplyEvent(WordScoreRegisteredEvent @event)
@@ -195,6 +265,11 @@ namespace MinaGlosor.Web.Models
         }
 
         private void ApplyEvent(UpdateWordScoreDifficultyEvent @event)
+        {
+            WordDifficulty = @event.WordDifficulty;
+        }
+
+        private void ApplyEvent(WordScoreChangedDifficultyEvent @event)
         {
             WordDifficulty = @event.WordDifficulty;
         }

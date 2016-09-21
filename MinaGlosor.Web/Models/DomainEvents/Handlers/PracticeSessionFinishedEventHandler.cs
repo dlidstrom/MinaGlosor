@@ -8,7 +8,7 @@ namespace MinaGlosor.Web.Models.DomainEvents.Handlers
         {
             foreach (var wordResult in ev.WordResults)
             {
-                SendTask(new UpdateWordScoreDifficultyTask(wordResult.WordDifficulty, wordResult.WordId, wordResult.OwnerId), ev);
+                SendTask(new UpdateWordScoreDifficultyTask(wordResult.ConfidenceLevels, wordResult.WordId, wordResult.OwnerId), ev);
             }
         }
     }

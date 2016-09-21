@@ -2,7 +2,8 @@
 {
     public enum WordDifficulty
     {
-        Unknown,
-        Difficult
+        NotYetScored,
+        Difficult,
+        Easy
     }
 }

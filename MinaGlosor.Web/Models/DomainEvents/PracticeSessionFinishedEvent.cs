@@ -27,16 +27,16 @@ namespace MinaGlosor.Web.Models.DomainEvents
             public PracticeWordResult(PracticeWord practiceWord)
             {
                 if (practiceWord == null) throw new ArgumentNullException("practiceWord");
-                WordDifficulty = practiceWord.WordDifficulty;
                 WordId = practiceWord.WordId;
                 OwnerId = practiceWord.OwnerId;
+                ConfidenceLevels = practiceWord.ConfidenceLevels;
             }
-
-            public WordDifficulty WordDifficulty { get; private set; }
 
             public string WordId { get; private set; }
 
             public string OwnerId { get; private set; }
+
+            public ConfidenceLevel[] ConfidenceLevels { get; private set; }
         }
     }
 }

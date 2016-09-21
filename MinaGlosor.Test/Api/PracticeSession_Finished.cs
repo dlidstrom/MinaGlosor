@@ -72,15 +72,30 @@ namespace MinaGlosor.Test.Api
             // Act
             var practiceSessionResponse = await this.StartPracticeSession(postWordListResponse.WordListId);
 
-            var responses = new[] { ConfidenceLevel.PerfectResponse, ConfidenceLevel.PerfectResponse };
-            for (int i = 0; i < 2; i++)
+            var responses = new[] { ConfidenceLevel.RecalledWithSeriousDifficulty, ConfidenceLevel.PerfectResponse };
+            PracticeSessionExtensions.PracticeWordResponse practiceWordResponse;
+            WordConfidenceExtensions.Response wordConfidenceResponse;
+            for (var i = 0; i < 2; i++)
             {
                 // get next practice word
-                var practiceWordResponse = await this.GetNextPracticeWord(practiceSessionResponse.PracticeSessionId);
+                practiceWordResponse = await this.GetNextPracticeWord(practiceSessionResponse.PracticeSessionId);
 
                 // post word confidence
-                await this.PostWordConfidence(practiceSessionResponse.PracticeSessionId, practiceWordResponse.PracticeWordId, responses[i]);
+                wordConfidenceResponse = await this.PostWordConfidence(
+                    practiceSessionResponse.PracticeSessionId,
+                    practiceWordResponse.PracticeWordId,
+                    responses[i]);
+                Assert.That(wordConfidenceResponse.IsFinished, Is.False);
             }
+
+            // finish off
+            // get next practice word
+            practiceWordResponse = await this.GetNextPracticeWord(practiceSessionResponse.PracticeSessionId);
+            wordConfidenceResponse = await this.PostWordConfidence(
+                practiceSessionResponse.PracticeSessionId,
+                practiceWordResponse.PracticeWordId,
+                ConfidenceLevel.PerfectResponse);
+            Assert.That(wordConfidenceResponse.IsFinished);
 
             var response = await Client.GetAsync("http://temp.uri/api/progress");
             content = response.Content;
