@@ -32,8 +32,8 @@ namespace MinaGlosor.Test.Api
                                     numberOfWords = 2,
                                     percentDone = 100,
                                     percentExpired = 0,
-                                    percentDifficultWords = 50,
                                     numberOfDifficultWords = 1,
+                                    percentDifficultWords = 50,
                                     published = false,
                                     gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
                                 }

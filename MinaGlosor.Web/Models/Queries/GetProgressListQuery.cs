@@ -50,7 +50,10 @@ namespace MinaGlosor.Web.Models.Queries
                 Name = wordList.Name;
                 NumberOfWords = wordList.NumberOfWords;
                 PercentDone = progress.PercentDone;
+                NumberOfWordsExpired = progress.NumberOfWordsExpired;
                 PercentExpired = progress.PercentExpired;
+                NumberOfEasyWords = progress.NumberOfEasyWords;
+                PercentEasyWords = progress.PercentEasyWords;
                 NumberOfDifficultWords = progress.NumberOfDifficultWords;
                 PercentDifficultWords = progress.PercentDifficultWords;
                 Published = wordList.PublishState == WordListPublishState.Published;
@@ -67,7 +70,13 @@ namespace MinaGlosor.Web.Models.Queries
 
             public int PercentDone { get; private set; }
 
+            public int NumberOfWordsExpired { get; private set; }
+
             public int PercentExpired { get; private set; }
+
+            public int NumberOfEasyWords { get; private set; }
+
+            public int PercentEasyWords { get; private set; }
 
             public int NumberOfDifficultWords { get; private set; }
 

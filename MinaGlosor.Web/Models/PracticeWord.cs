@@ -44,7 +44,6 @@ namespace MinaGlosor.Web.Models
 
         public string OwnerId { get; private set; }
 
-        [JsonIgnore]
         public ConfidenceLevel[] ConfidenceLevels
         {
             get
