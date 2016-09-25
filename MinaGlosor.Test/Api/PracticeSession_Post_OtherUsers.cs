@@ -49,7 +49,12 @@ namespace MinaGlosor.Test.Api
                         name = "list",
                         numberOfWords = 1,
                         percentDone = 0,
+                        numberOfWordsExpired = 0,
                         percentExpired = 0,
+                        numberOfEasyWords = 0,
+                        percentEasyWords = 0,
+                        numberOfDifficultWords = 0,
+                        percentDifficultWords = 0,
                         published = false,
                         gravatarHash = "e84879df1fe98a8cb559cf7ee65eb16f"
                     }

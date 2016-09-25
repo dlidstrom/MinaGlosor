@@ -31,7 +31,10 @@ namespace MinaGlosor.Test.Api
                                     name = "list",
                                     numberOfWords = 2,
                                     percentDone = 100,
+                                    numberOfWordsExpired = 0,
                                     percentExpired = 0,
+                                    numberOfEasyWords = 1,
+                                    percentEasyWords = 50,
                                     numberOfDifficultWords = 1,
                                     percentDifficultWords = 50,
                                     published = false,
@@ -40,7 +43,7 @@ namespace MinaGlosor.Test.Api
                         },
                 paging = new
                 {
-                    totalItems = 2,
+                    totalItems = 1,
                     currentPage = 1,
                     itemsPerPage = 20,
                     hasPages = false

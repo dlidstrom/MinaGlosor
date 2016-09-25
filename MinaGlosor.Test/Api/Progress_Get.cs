@@ -36,7 +36,12 @@ namespace MinaGlosor.Test.Api
                                     name = "list",
                                     numberOfWords = 0,
                                     percentDone = 0,
+                                    numberOfWordsExpired = 0,
                                     percentExpired = 0,
+                                    numberOfEasyWords = 0,
+                                    percentEasyWords = 0,
+                                    numberOfDifficultWords = 0,
+                                    percentDifficultWords = 0,
                                     published = false,
                                     gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
                                 }
@@ -77,7 +82,12 @@ namespace MinaGlosor.Test.Api
                                     name = "Some name",
                                     numberOfWords = 2,
                                     percentDone = 0,
+                                    numberOfWordsExpired = 0,
                                     percentExpired = 0,
+                                    numberOfEasyWords = 0,
+                                    percentEasyWords = 0,
+                                    numberOfDifficultWords = 0,
+                                    percentDifficultWords = 0,
                                     published = false,
                                     gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
                                 },
@@ -88,7 +98,12 @@ namespace MinaGlosor.Test.Api
                                     name = "Then one more",
                                     numberOfWords = 3,
                                     percentDone = 0,
+                                    numberOfWordsExpired = 0,
                                     percentExpired = 0,
+                                    numberOfEasyWords = 0,
+                                    percentEasyWords = 0,
+                                    numberOfDifficultWords = 0,
+                                    percentDifficultWords = 0,
                                     published = false,
                                     gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
                                 }
