@@ -12,9 +12,11 @@ namespace MinaGlosor.Test.Api
     public class PracticeSession_Finished : WebApiIntegrationTest
     {
         private HttpContent content;
+        private PracticeSessionExtensions.PracticeSessionResponse practiceSessionResponse;
+        private WordListExtensions.PostWordListResponse postWordListResponse;
 
         [Test]
-        public async void SignalsDifficultWord()
+        public async void OneEasyOneDifficult()
         {
             // Assert
             Assert.That(content, Is.Not.Null);
@@ -52,6 +54,131 @@ namespace MinaGlosor.Test.Api
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
         }
 
+        [Test]
+        public async void BothHard()
+        {
+            // Act
+            practiceSessionResponse = await this.StartPracticeSession(postWordListResponse.WordListId);
+
+            for (int i = 0; i < 2; i++)
+            {
+                var practiceWordResponse = await this.GetNextPracticeWord(practiceSessionResponse.PracticeSessionId);
+                await this.PostWordConfidence(
+                    practiceSessionResponse.PracticeSessionId,
+                    practiceWordResponse.PracticeWordId,
+                    ConfidenceLevel.RecalledWithSeriousDifficulty);
+            }
+
+            var response = await Client.GetAsync("http://temp.uri/api/progress");
+            content = response.Content;
+
+            // Assert
+            Assert.That(content, Is.Not.Null);
+            var result = await content.ReadAsStringAsync();
+            var expected = new
+            {
+                numberOfFavourites = 0,
+                progresses = new[]
+                        {
+                            new
+                                {
+                                    wordListId = "1",
+                                    ownerId = "1",
+                                    name = "list",
+                                    numberOfWords = 2,
+                                    percentDone = 100,
+                                    numberOfWordsExpired = 0,
+                                    percentExpired = 0,
+                                    numberOfEasyWords = 0,
+                                    percentEasyWords = 0,
+                                    numberOfDifficultWords = 2,
+                                    percentDifficultWords = 100,
+                                    published = false,
+                                    gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
+                                }
+                        },
+                paging = new
+                {
+                    totalItems = 1,
+                    currentPage = 1,
+                    itemsPerPage = 20,
+                    hasPages = false
+                }
+            };
+            Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
+        }
+
+        [Test]
+        public async void BothEasy()
+        {
+            // Act
+            practiceSessionResponse = await this.StartPracticeSession(postWordListResponse.WordListId);
+
+            PracticeSessionExtensions.PracticeWordResponse practiceWordResponse;
+            WordConfidenceExtensions.Response wordConfidenceResponse = null;
+            for (int i = 0; i < 2; i++)
+            {
+                practiceWordResponse = await this.GetNextPracticeWord(practiceSessionResponse.PracticeSessionId);
+                wordConfidenceResponse = await this.PostWordConfidence(
+                    practiceSessionResponse.PracticeSessionId,
+                    practiceWordResponse.PracticeWordId,
+                    ConfidenceLevel.PerfectResponse);
+                Assert.False(wordConfidenceResponse.IsFinished);
+            }
+
+            // finish off
+            // get next practice word
+            for (int i = 0; i < 2; i++)
+            {
+                practiceWordResponse = await this.GetNextPracticeWord(practiceSessionResponse.PracticeSessionId);
+                wordConfidenceResponse = await this.PostWordConfidence(
+                    practiceSessionResponse.PracticeSessionId,
+                    practiceWordResponse.PracticeWordId,
+                    ConfidenceLevel.PerfectResponse);
+            }
+
+            Assert.That(wordConfidenceResponse.IsFinished);
+
+
+            var response = await Client.GetAsync("http://temp.uri/api/progress");
+            content = response.Content;
+
+            // Assert
+            Assert.That(content, Is.Not.Null);
+            var result = await content.ReadAsStringAsync();
+            var expected = new
+            {
+                numberOfFavourites = 0,
+                progresses = new[]
+                        {
+                            new
+                                {
+                                    wordListId = "1",
+                                    ownerId = "1",
+                                    name = "list",
+                                    numberOfWords = 2,
+                                    percentDone = 100,
+                                    numberOfWordsExpired = 0,
+                                    percentExpired = 0,
+                                    numberOfEasyWords = 2,
+                                    percentEasyWords = 100,
+                                    numberOfDifficultWords = 0,
+                                    percentDifficultWords = 0,
+                                    published = false,
+                                    gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
+                                }
+                        },
+                paging = new
+                {
+                    totalItems = 1,
+                    currentPage = 1,
+                    itemsPerPage = 20,
+                    hasPages = false
+                }
+            };
+            Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
+        }
+
         protected override async void Act()
         {
             // Arrange
@@ -61,7 +188,7 @@ namespace MinaGlosor.Test.Api
                 session.Store(owner);
             });
 
-            var postWordListResponse = await this.PostWordList("list");
+            postWordListResponse = await this.PostWordList("list");
 
             // add some words to the word list
             for (var i = 0; i < 2; i++)
@@ -73,7 +200,7 @@ namespace MinaGlosor.Test.Api
             }
 
             // Act
-            var practiceSessionResponse = await this.StartPracticeSession(postWordListResponse.WordListId);
+            practiceSessionResponse = await this.StartPracticeSession(postWordListResponse.WordListId);
 
             var responses = new[] { ConfidenceLevel.RecalledWithSeriousDifficulty, ConfidenceLevel.PerfectResponse };
             PracticeSessionExtensions.PracticeWordResponse practiceWordResponse;
