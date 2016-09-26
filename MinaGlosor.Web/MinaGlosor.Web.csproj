@@ -480,7 +480,12 @@
     <Compile Include="Models\DomainEvents\Handlers\WordScoreRegisteredEventHandler.cs" />
     <Compile Include="Models\DomainEvents\WordUpdatedEvent.cs" />
     <Compile Include="Models\DomainEvents\Handlers\WordUpdatedEventHandler.cs" />
-    <Compile Include="Models\Domain\WordListProgressModel\WordListProgress.cs" />
+    <Compile Include="Models\Domain\WordListProgressModel\Events\DifficultyCountsUpdatedEvent.cs" />
+    <Compile Include="Models\Domain\WordListProgressModel\Events\CeatedEvent.cs" />
+    <Compile Include="Models\Domain\WordListProgressModel\Progress.cs" />
+    <Compile Include="Models\Domain\WordListProgressModel\Events\WordHasBeenPracticedEvent.cs" />
+    <Compile Include="Models\Domain\WordListProgressModel\Events\WordHasExpiredEvent.cs" />
+    <Compile Include="Models\Domain\WordListProgressModel\Events\WordIsUpToDateEvent.cs" />
     <Compile Include="Models\Indexes\ChangeLogEntryIndex.cs" />
     <Compile Include="Models\Indexes\WordListProgressIndex.cs" />
     <Compile Include="Models\ModelContext.cs" />
