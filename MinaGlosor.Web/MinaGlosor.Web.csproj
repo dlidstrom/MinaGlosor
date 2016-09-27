@@ -573,6 +573,7 @@
     <Compile Include="Models\WebsiteConfig.cs" />
     <Compile Include="Models\Word.cs" />
     <Compile Include="Models\WordDifficulty.cs" />
+    <Compile Include="Models\WordDifficultyUpdate.cs" />
     <Compile Include="Models\WordFavourite.cs" />
     <Compile Include="Models\WordList.cs" />
     <Compile Include="Models\WordListPublishState.cs" />

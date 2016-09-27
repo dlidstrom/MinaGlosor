@@ -5,11 +5,12 @@ namespace MinaGlosor.Web.Models.DomainEvents
 {
     public class WordExpiredEvent : ModelEvent
     {
-        public WordExpiredEvent(string id, string wordId, string ownerId)
+        public WordExpiredEvent(string id, string wordId, string ownerId, WordDifficultyUpdate wordDifficultyUpdate)
             : base(id)
         {
             WordId = wordId;
             OwnerId = ownerId;
+            WordDifficultyUpdate = wordDifficultyUpdate;
         }
 
 #pragma warning disable 612, 618
@@ -21,5 +22,6 @@ namespace MinaGlosor.Web.Models.DomainEvents
 
         public string WordId { get; private set; }
         public string OwnerId { get; private set; }
+        public WordDifficultyUpdate WordDifficultyUpdate { get; private set; }
     }
 }

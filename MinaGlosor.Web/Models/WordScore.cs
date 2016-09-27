@@ -114,7 +114,8 @@ namespace MinaGlosor.Web.Models
             var score = Math.Max(1.3, Score + (0.1 - (5 - level) * (0.08 + (5 - level) * 0.02)));
             var oldRepeatAfterDate = RepeatAfterDate;
             Apply(new UpdateWordScoreEvent(Id, count, intervalInDays, repeatAfterDate, score));
-            Apply(new CheckIfWordExpiresEvent(Id, repeatAfterDate));
+            var wordDifficultyUpdate = UpdateDifficultyAfterPractice(confidenceLevel);
+            Apply(new CheckIfWordExpiresEvent(Id, repeatAfterDate, wordDifficultyUpdate));
             if (oldRepeatAfterDate != default(DateTime) && oldRepeatAfterDate < SystemTime.UtcNow)
             {
                 // word was expired, now is up to date
@@ -129,32 +130,33 @@ namespace MinaGlosor.Web.Models
             const double NewScore = DefaultScore;
             var repeatAfterDate = SystemTime.UtcNow.AddDays(NewIntervalInDays);
             Apply(new RestartAfterEditEvent(Id, NewIntervalInDays, NewCount, repeatAfterDate, NewScore));
-            Apply(new CheckIfWordExpiresEvent(Id, repeatAfterDate));
+            Apply(new CheckIfWordExpiresEvent(Id, repeatAfterDate, null));
         }
 
-        public void CheckIfWordExpires()
+        public void CheckIfWordExpires(WordDifficultyUpdate wordDifficultyUpdate)
         {
             var utcNow = SystemTime.UtcNow;
             if (SignalledWordExpired == false && RepeatAfterDate < utcNow)
             {
-                Apply(new WordExpiredEvent(Id, WordId, OwnerId));
+                var @event = new WordExpiredEvent(
+                    Id,
+                    WordId,
+                    OwnerId,
+                    wordDifficultyUpdate);
+                Apply(@event);
             }
         }
 
-        public void UpdateDifficultyAfterPractice(ConfidenceLevel[] confidenceLevels)
+        private WordDifficultyUpdate UpdateDifficultyAfterPractice(ConfidenceLevel confidenceLevel)
         {
-            WordScoreChangedDifficultyEvent @event = null;
-            var firstAnswer = confidenceLevels[0];
+            WordDifficultyUpdate update = null;
             switch (WordDifficulty)
             {
                 case WordDifficulty.Difficult:
                 {
-                    if (firstAnswer >= ConfidenceLevel.CorrectAfterHesitation)
+                    if (confidenceLevel >= ConfidenceLevel.CorrectAfterHesitation)
                     {
-                        @event = new WordScoreChangedDifficultyEvent(
-                            Id,
-                            WordListId,
-                            OwnerId,
+                        update = new WordDifficultyUpdate(
                             WordDifficulty.Easy,
                             WordScoreDifficultyLifecycle.TurnedEasy);
                     }
@@ -168,12 +170,9 @@ namespace MinaGlosor.Web.Models
 
                 case WordDifficulty.Easy:
                 {
-                    if (firstAnswer < ConfidenceLevel.CorrectAfterHesitation)
+                    if (confidenceLevel < ConfidenceLevel.CorrectAfterHesitation)
                     {
-                        @event = new WordScoreChangedDifficultyEvent(
-                            Id,
-                            WordListId,
-                            OwnerId,
+                        update = new WordDifficultyUpdate(
                             WordDifficulty.Difficult,
                             WordScoreDifficultyLifecycle.TurnedDifficult);
                     }
@@ -187,21 +186,15 @@ namespace MinaGlosor.Web.Models
 
                 case WordDifficulty.NotYetScored:
                 {
-                    if (firstAnswer >= ConfidenceLevel.CorrectAfterHesitation)
+                    if (confidenceLevel >= ConfidenceLevel.CorrectAfterHesitation)
                     {
-                        @event = new WordScoreChangedDifficultyEvent(
-                            Id,
-                            WordListId,
-                            OwnerId,
+                        update = new WordDifficultyUpdate(
                             WordDifficulty.Easy,
                             WordScoreDifficultyLifecycle.FirstTimeEasy);
                     }
                     else
                     {
-                        @event = new WordScoreChangedDifficultyEvent(
-                            Id,
-                            WordListId,
-                            OwnerId,
+                        update = new WordDifficultyUpdate(
                             WordDifficulty.Difficult,
                             WordScoreDifficultyLifecycle.FirstTimeDifficult);
                     }
@@ -210,10 +203,7 @@ namespace MinaGlosor.Web.Models
                 }
             }
 
-            if (@event != null)
-            {
-                Apply(@event);
-            }
+            return update;
         }
 
         private void ApplyEvent(WordScoreRegisteredEvent @event)
