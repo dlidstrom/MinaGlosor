@@ -6,8 +6,7 @@ namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
     {
         public override void Handle(UpdateWordScoreTask task)
         {
-            var command = new UpdateWordScoreCommand(task.OwnerId, task.WordId, task.WordListId, task.ConfidenceLevel);
-            ExecuteCommand(command, task);
+            ExecuteCommand(new UpdateWordScoreCommand(task.WordScoreId, task.OwnerId, task.WordId, task.WordScoreDifficultyLifecycle), task);
         }
     }
 }

@@ -5,9 +5,9 @@ using MinaGlosor.Web.Models.Indexes;
 
 namespace MinaGlosor.Web.Models.Commands
 {
-    public class UpdateWordScoreCommandHandler : CommandHandlerBase<UpdateWordScoreCommand, object>
+    public class ScoreWordCommandHandler : CommandHandlerBase<ScoreWordCommand, object>
     {
-        public override object Handle(UpdateWordScoreCommand command)
+        public override object Handle(ScoreWordCommand command)
         {
             var wordScore = Session.Query<WordScore, WordScoreIndex>()
                                    .SingleOrDefault(x => x.OwnerId == command.OwnerId && x.WordId == command.WordId);
@@ -23,7 +23,7 @@ namespace MinaGlosor.Web.Models.Commands
             return null;
         }
 
-        public override bool CanExecute(UpdateWordScoreCommand command, User currentUser)
+        public override bool CanExecute(ScoreWordCommand command, User currentUser)
         {
             return true;
         }

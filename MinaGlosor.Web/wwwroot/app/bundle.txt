@@ -26,6 +26,7 @@ shared\wordFavouriteDirective\wordFavouriteDirective.js
 shared\wordFavouriteService.js
 shared\wordListService.js
 shared\wordService.js
+shared\wordListProgressDirective\wordListProgressDirective.js
 word\editWordController.js
 wordlist\addWordController.js
 wordlist\newWordListController.js

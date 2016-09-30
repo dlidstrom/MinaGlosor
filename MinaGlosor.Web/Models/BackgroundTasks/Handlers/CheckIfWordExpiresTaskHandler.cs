@@ -6,7 +6,7 @@ namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
     {
         public override void Handle(CheckIfWordExpiresTask task)
         {
-            ExecuteCommand(new CheckIfWordExpiresCommand(task.WordScoreId, task.WordDifficultyUpdate), task);
+            ExecuteCommand(new CheckIfWordExpiresCommand(task.WordScoreId), task);
         }
     }
 }

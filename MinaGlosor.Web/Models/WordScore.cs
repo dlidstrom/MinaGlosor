@@ -51,6 +51,8 @@ namespace MinaGlosor.Web.Models
 
         public WordDifficulty WordDifficulty { get; private set; }
 
+        public WordScoreDifficultyLifecycle WordScoreDifficultyLifecycle { get; private set; }
+
         public void ScoreWord(ConfidenceLevel confidenceLevel)
         {
             switch (confidenceLevel)
@@ -113,9 +115,9 @@ namespace MinaGlosor.Web.Models
             var repeatAfterDate = utcNow.AddDays(intervalInDays);
             var score = Math.Max(1.3, Score + (0.1 - (5 - level) * (0.08 + (5 - level) * 0.02)));
             var oldRepeatAfterDate = RepeatAfterDate;
-            Apply(new UpdateWordScoreEvent(Id, count, intervalInDays, repeatAfterDate, score));
-            var wordDifficultyUpdate = UpdateDifficultyAfterPractice(confidenceLevel);
-            Apply(new CheckIfWordExpiresEvent(Id, repeatAfterDate, wordDifficultyUpdate));
+            var difficultyLifecycle = CalculateDifficultyLifecycle(confidenceLevel);
+            Apply(new UpdateWordScoreEvent(Id, WordId, OwnerId, count, intervalInDays, repeatAfterDate, score, difficultyLifecycle.Item1, difficultyLifecycle.Item2));
+            Apply(new CheckIfWordExpiresEvent(Id, repeatAfterDate));
             if (oldRepeatAfterDate != default(DateTime) && oldRepeatAfterDate < SystemTime.UtcNow)
             {
                 // word was expired, now is up to date
@@ -130,10 +132,10 @@ namespace MinaGlosor.Web.Models
             const double NewScore = DefaultScore;
             var repeatAfterDate = SystemTime.UtcNow.AddDays(NewIntervalInDays);
             Apply(new RestartAfterEditEvent(Id, NewIntervalInDays, NewCount, repeatAfterDate, NewScore));
-            Apply(new CheckIfWordExpiresEvent(Id, repeatAfterDate, null));
+            Apply(new CheckIfWordExpiresEvent(Id, repeatAfterDate));
         }
 
-        public void CheckIfWordExpires(WordDifficultyUpdate wordDifficultyUpdate)
+        public void CheckIfWordExpires()
         {
             var utcNow = SystemTime.UtcNow;
             if (SignalledWordExpired == false && RepeatAfterDate < utcNow)
@@ -141,28 +143,25 @@ namespace MinaGlosor.Web.Models
                 var @event = new WordExpiredEvent(
                     Id,
                     WordId,
-                    OwnerId,
-                    wordDifficultyUpdate);
+                    OwnerId);
                 Apply(@event);
             }
         }
 
-        private WordDifficultyUpdate UpdateDifficultyAfterPractice(ConfidenceLevel confidenceLevel)
+        private Tuple<WordDifficulty, WordScoreDifficultyLifecycle> CalculateDifficultyLifecycle(ConfidenceLevel confidenceLevel)
         {
-            WordDifficultyUpdate update = null;
+            Tuple<WordDifficulty, WordScoreDifficultyLifecycle> tuple = null;
             switch (WordDifficulty)
             {
                 case WordDifficulty.Difficult:
                 {
                     if (confidenceLevel >= ConfidenceLevel.CorrectAfterHesitation)
                     {
-                        update = new WordDifficultyUpdate(
-                            WordDifficulty.Easy,
-                            WordScoreDifficultyLifecycle.TurnedEasy);
+                        tuple = Tuple.Create(WordDifficulty.Easy, WordScoreDifficultyLifecycle.TurnedEasy);
                     }
                     else
                     {
-                        // still difficult
+                        tuple = Tuple.Create(WordDifficulty.Difficult, WordScoreDifficultyLifecycle.NoChange);
                     }
 
                     break;
@@ -172,13 +171,11 @@ namespace MinaGlosor.Web.Models
                 {
                     if (confidenceLevel < ConfidenceLevel.CorrectAfterHesitation)
                     {
-                        update = new WordDifficultyUpdate(
-                            WordDifficulty.Difficult,
-                            WordScoreDifficultyLifecycle.TurnedDifficult);
+                        tuple = Tuple.Create(WordDifficulty.Difficult, WordScoreDifficultyLifecycle.TurnedDifficult);
                     }
                     else
                     {
-                        // still easy
+                        tuple = Tuple.Create(WordDifficulty.Easy, WordScoreDifficultyLifecycle.NoChange);
                     }
 
                     break;
@@ -188,22 +185,18 @@ namespace MinaGlosor.Web.Models
                 {
                     if (confidenceLevel >= ConfidenceLevel.CorrectAfterHesitation)
                     {
-                        update = new WordDifficultyUpdate(
-                            WordDifficulty.Easy,
-                            WordScoreDifficultyLifecycle.FirstTimeEasy);
+                        tuple = Tuple.Create(WordDifficulty.Easy, WordScoreDifficultyLifecycle.FirstTimeEasy);
                     }
                     else
                     {
-                        update = new WordDifficultyUpdate(
-                            WordDifficulty.Difficult,
-                            WordScoreDifficultyLifecycle.FirstTimeDifficult);
+                        tuple = Tuple.Create(WordDifficulty.Difficult, WordScoreDifficultyLifecycle.FirstTimeDifficult);
                     }
 
                     break;
                 }
             }
 
-            return update;
+            return tuple;
         }
 
         private void ApplyEvent(WordScoreRegisteredEvent @event)
@@ -227,6 +220,8 @@ namespace MinaGlosor.Web.Models
             IntervalInDays = @event.IntervalInDays;
             RepeatAfterDate = @event.RepeatAfterDate;
             Score = @event.Score;
+            WordDifficulty = @event.WordDifficulty;
+            WordScoreDifficultyLifecycle = @event.WordScoreDifficultyLifecycle;
             SignalledWordExpired = false;
         }
 
@@ -252,16 +247,6 @@ namespace MinaGlosor.Web.Models
         private void ApplyEvent(WordIsUpToDateEvent @event)
         {
             // to let the world know
-        }
-
-        private void ApplyEvent(UpdateWordScoreDifficultyEvent @event)
-        {
-            WordDifficulty = @event.WordDifficulty;
-        }
-
-        private void ApplyEvent(WordScoreChangedDifficultyEvent @event)
-        {
-            WordDifficulty = @event.WordDifficulty;
         }
     }
 }

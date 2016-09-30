@@ -6,11 +6,10 @@ namespace MinaGlosor.Web.Models.DomainEvents
 {
     public class CheckIfWordExpiresEvent : ModelEvent
     {
-        public CheckIfWordExpiresEvent(string id, DateTime repeatAfterDate, WordDifficultyUpdate wordDifficultyUpdate)
+        public CheckIfWordExpiresEvent(string id, DateTime repeatAfterDate)
             : base(id)
         {
             RepeatAfterDate = repeatAfterDate;
-            WordDifficultyUpdate = wordDifficultyUpdate;
         }
 
 #pragma warning disable 612, 618
@@ -21,6 +20,5 @@ namespace MinaGlosor.Web.Models.DomainEvents
         }
 
         public DateTime RepeatAfterDate { get; private set; }
-        public WordDifficultyUpdate WordDifficultyUpdate { get; private set; }
     }
 }

@@ -74,7 +74,7 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
         }
 
         public void UpdateDifficultyCounts(WordScoreDifficultyLifecycle lifecycle)
-        {
+        {   
             var newNumberOfEasyWords = NumberOfEasyWords;
             var newNumberOfDifficultWords = NumberOfDifficultWords;
             switch (lifecycle)

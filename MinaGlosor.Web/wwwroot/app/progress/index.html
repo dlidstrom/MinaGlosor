@@ -43,30 +43,7 @@
     </div>
 </div>
 <div class="row" ng-repeat="item in progress.progresses">
-    <div class="row-xs-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <a href="{{'./wordlist/' + item.wordListId}}">
-                    <i class="glyphicon glyphicon-arrow-right"></i>
-                    Visa {{item.name + ' (' + item.numberOfWords + ' ord)'}}
-                </a>
-                <a ng-if="item.numberOfWords"
-                   href="{{'./wordlist/' + item.wordListId + '/practice/'}}"
-                   class="btn btn-primary btn-xs pull-right">
-                    öva
-                </a>
-                <published-state published="item.published"></published-state>
-            </div>
-            <div class="panel-body">
-                <progress green="{{item.percentDone - item.percentExpired}}"
-                          yellow="{{item.percentExpired}}"
-                          done="{{item.percentDone}}" />
-            </div>
-            <div class="panel-footer">
-                <gravatar-image hash="item.gravatarHash" owner="item.owner" size="40"></gravatar-image>
-            </div>
-        </div>
-    </div>
+    <word-list-progress class="col-xs-12" item="item"></word-list-progress>
 </div>
 <div class="row" ng-show="progress.paging.hasPages">
     <div class="col-xs-12">

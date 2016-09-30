@@ -7,7 +7,7 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
         public override object Handle(CheckIfWordExpiresCommand command)
         {
             var wordScore = Session.Load<WordScore>(command.WordScoreId);
-            wordScore.CheckIfWordExpires(command.WordDifficultyUpdate);
+            wordScore.CheckIfWordExpires();
             return new object();
         }
 

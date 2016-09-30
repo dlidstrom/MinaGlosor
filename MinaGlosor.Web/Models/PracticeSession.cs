@@ -101,7 +101,7 @@ namespace MinaGlosor.Web.Models
         {
             if (practiceWordId == null) throw new ArgumentNullException("practiceWordId");
             var practiceWord = Words.Single(x => x.PracticeWordId == practiceWordId);
-            Apply(new UpdateConfidenceEvent(Id, practiceWordId, confidenceLevel, practiceWord.WordId, practiceWord.WordListId, OwnerId));
+            Apply(new UpdateConfidenceLevelEvent(Id, practiceWordId, confidenceLevel, practiceWord.WordId, practiceWord.WordListId, OwnerId));
             if (Words.All(x => x.Confidence >= (int)ConfidenceLevel.CorrectAfterHesitation))
             {
                 var wordResults = Words.Select(x => new PracticeSessionFinishedEvent.PracticeWordResult(x)).ToArray();
@@ -131,7 +131,7 @@ namespace MinaGlosor.Web.Models
             get { return Words.Count(x => x.Confidence < (int)ConfidenceLevel.RecalledWithSeriousDifficulty && x.Confidence > (int)ConfidenceLevel.CompleteBlackout); }
         }
 
-        private void ApplyEvent(UpdateConfidenceEvent @event)
+        private void ApplyEvent(UpdateConfidenceLevelEvent @event)
         {
             var practiceWord = Words.Single(x => x.PracticeWordId == @event.PracticeWordId);
             practiceWord.UpdateConfidence(@event.ConfidenceLevel);

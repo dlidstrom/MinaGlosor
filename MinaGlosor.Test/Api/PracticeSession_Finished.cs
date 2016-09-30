@@ -1,10 +1,12 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Net.Http;
 using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands.Handlers;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using Raven.Abstractions;
 
 namespace MinaGlosor.Test.Api
 {
@@ -58,6 +60,7 @@ namespace MinaGlosor.Test.Api
         public async void BothHard()
         {
             // Act
+            SystemTime.UtcDateTime = () => new DateTime(2016, 1, 2, 0, 0, 1);
             practiceSessionResponse = await this.StartPracticeSession(postWordListResponse.WordListId);
 
             PracticeSessionExtensions.PracticeWordResponse practiceWordResponse;
@@ -127,6 +130,7 @@ namespace MinaGlosor.Test.Api
         public async void BothEasy()
         {
             // Act
+            SystemTime.UtcDateTime = () => new DateTime(2016, 1, 2, 0, 0, 1);
             practiceSessionResponse = await this.StartPracticeSession(postWordListResponse.WordListId);
 
             WordConfidenceExtensions.Response wordConfidenceResponse = null;
@@ -178,6 +182,16 @@ namespace MinaGlosor.Test.Api
                 }
             };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
+        }
+
+        protected override void Arrange()
+        {
+            SystemTime.UtcDateTime = () => new DateTime(2016, 1, 1, 0, 0, 0);
+        }
+
+        protected override void OnTearDown()
+        {
+            SystemTime.UtcDateTime = null;
         }
 
         protected override async void Act()

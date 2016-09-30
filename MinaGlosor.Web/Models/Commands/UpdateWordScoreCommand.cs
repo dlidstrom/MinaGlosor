@@ -4,24 +4,20 @@ namespace MinaGlosor.Web.Models.Commands
 {
     public class UpdateWordScoreCommand : ICommand<object>
     {
-        public UpdateWordScoreCommand(
-            string ownerId,
-            string wordId,
-            string wordListId,
-            ConfidenceLevel confidenceLevel)
+        public UpdateWordScoreCommand(string wordScoreId, string ownerId, string wordId, WordScoreDifficultyLifecycle wordScoreDifficultyLifecycle)
         {
+            WordScoreId = wordScoreId;
             OwnerId = ownerId;
             WordId = wordId;
-            WordListId = wordListId;
-            ConfidenceLevel = confidenceLevel;
+            WordScoreDifficultyLifecycle = wordScoreDifficultyLifecycle;
         }
+
+        public string WordScoreId { get; private set; }
 
         public string OwnerId { get; private set; }
 
         public string WordId { get; private set; }
 
-        public string WordListId { get; private set; }
-
-        public ConfidenceLevel ConfidenceLevel { get; private set; }
+        public WordScoreDifficultyLifecycle WordScoreDifficultyLifecycle { get; private set; }
     }
 }

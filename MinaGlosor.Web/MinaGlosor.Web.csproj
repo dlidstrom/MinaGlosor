@@ -195,6 +195,8 @@
     <Content Include="wwwroot\app\shared\browseService.js" />
     <Content Include="wwwroot\app\shared\pagingDirective\pagingDirective.js" />
     <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImageDirective.js" />
+    <Content Include="wwwroot\app\shared\wordListProgressDirective\template.html" />
+    <Content Include="wwwroot\app\shared\wordListProgressDirective\wordListProgressDirective.js" />
     <Content Include="wwwroot\app\shared\publishedStateDirective\publishedStateDirective.js" />
     <Content Include="wwwroot\app\shared\searchService.js" />
     <Content Include="wwwroot\app\shared\spinnerDirective\spinnerDirective.js" />
@@ -388,6 +390,7 @@
     <Compile Include="Models\BackgroundTasks\Handlers\ResetWordScoreTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\UpdateWordScoreDifficultyTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\UpdateWordScoreTaskHandler.cs" />
+    <Compile Include="Models\BackgroundTasks\Handlers\ScoreWordTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\WordIsUpToDateTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\WordListProgressTaskHandler.cs" />
     <Compile Include="Models\BackgroundTasks\Handlers\WordScoreChangedDifficultyTaskHandler.cs" />
@@ -395,6 +398,7 @@
     <Compile Include="Models\BackgroundTasks\ResetWordScoreTask.cs" />
     <Compile Include="Models\BackgroundTasks\UpdateWordScoreDifficultyTask.cs" />
     <Compile Include="Models\BackgroundTasks\UpdateWordScoreTask.cs" />
+    <Compile Include="Models\BackgroundTasks\ScoreWordTask.cs" />
     <Compile Include="Models\BackgroundTasks\WordExpiredTask.cs" />
     <Compile Include="Models\BackgroundTasks\WordIsUpToDateTask.cs" />
     <Compile Include="Models\BackgroundTasks\WordScoreChangedDifficultyTask.cs" />
@@ -422,6 +426,7 @@
     <Compile Include="Models\Commands\Handlers\UpdateWordCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\UpdateWordConfidenceCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\UpdateWordListNameCommandHandler.cs" />
+    <Compile Include="Models\Commands\Handlers\UpdateWordScoreCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\UpdateWordScoreDifficultyCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\WordExpiredCommandHandler.cs" />
     <Compile Include="Models\Commands\Handlers\WordIsUpToDateCommandHandler.cs" />
@@ -434,8 +439,9 @@
     <Compile Include="Models\Commands\UpdateLastPickedDateCommand.cs" />
     <Compile Include="Models\Commands\UpdateWordListNameCommand.cs" />
     <Compile Include="Models\Commands\UpdateWordScoreCommand.cs" />
-    <Compile Include="Models\Commands\UpdateWordScoreCommandHandler.cs" />
+    <Compile Include="Models\Commands\ScoreWordCommandHandler.cs" />
     <Compile Include="Models\Commands\UpdateWordScoreDifficultyCommand.cs" />
+    <Compile Include="Models\Commands\ScoreWordCommand.cs" />
     <Compile Include="Models\Commands\WordExpiredCommand.cs" />
     <Compile Include="Models\Commands\WordIsUpToDateCommand.cs" />
     <Compile Include="Models\Commands\WordScoreChangedDifficultyCommand.cs" />
@@ -446,6 +452,7 @@
     <Compile Include="Models\DomainEvents\Handlers\IHandle.cs" />
     <Compile Include="Models\DomainEvents\Handlers\PracticeSessionFinishedEventHandler.cs" />
     <Compile Include="Models\DomainEvents\Handlers\ResetPasswordHandler.cs" />
+    <Compile Include="Models\DomainEvents\Handlers\UpdateWordScoreEventHandler.cs" />
     <Compile Include="Models\DomainEvents\Handlers\WordScoreChangedDifficultyEventHandler.cs" />
     <Compile Include="Models\DomainEvents\Handlers\WordScoreEventHandler.cs" />
     <Compile Include="Models\DomainEvents\MarkCreateAccountRequestUsedEvent.cs" />
@@ -462,7 +469,7 @@
     <Compile Include="Models\DomainEvents\SetWordUserIdEvent.cs" />
     <Compile Include="Models\DomainEvents\ToggleWordFavouriteEvent.cs" />
     <Compile Include="Models\DomainEvents\UnpublishWordListEvent.cs" />
-    <Compile Include="Models\DomainEvents\UpdateConfidenceEvent.cs" />
+    <Compile Include="Models\DomainEvents\UpdateConfidenceLevelEvent.cs" />
     <Compile Include="Models\DomainEvents\Handlers\UpdateConfidenceEventHandler.cs" />
     <Compile Include="Models\DomainEvents\UpdateLastPickedDateEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateWordListNameEvent.cs" />
@@ -573,7 +580,6 @@
     <Compile Include="Models\WebsiteConfig.cs" />
     <Compile Include="Models\Word.cs" />
     <Compile Include="Models\WordDifficulty.cs" />
-    <Compile Include="Models\WordDifficultyUpdate.cs" />
     <Compile Include="Models\WordFavourite.cs" />
     <Compile Include="Models\WordList.cs" />
     <Compile Include="Models\WordListPublishState.cs" />

@@ -13,6 +13,7 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
             var progressId = Progress.GetIdFromWordListForUser(word.WordListId, command.OwnerId);
             var progress = Session.Load<Progress>(progressId);
             progress.WordHasExpired(wordList.NumberOfWords);
+
             return new object();
         }
 

@@ -6,7 +6,7 @@ namespace MinaGlosor.Web.Models.DomainEvents.Handlers
     {
         public override void Handle(CheckIfWordExpiresEvent ev)
         {
-            SendTask(new CheckIfWordExpiresTask(ev.ModelId, ev.WordDifficultyUpdate), ev, ev.RepeatAfterDate);
+            SendTask(new CheckIfWordExpiresTask(ev.ModelId), ev, ev.RepeatAfterDate);
         }
     }
 }

@@ -2,6 +2,7 @@
 {
     public enum WordScoreDifficultyLifecycle
     {
+        NoChange,
         FirstTimeDifficult,
         FirstTimeEasy,
         TurnedDifficult,
