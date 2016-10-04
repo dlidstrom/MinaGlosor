@@ -9,11 +9,15 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel.Events
         public CeatedEvent(
             string modelId,
             string ownerId,
-            string wordListId)
+            string wordListId,
+            ProgressWordCounts progressWordCounts,
+            ProgressPercentages progressPercentages)
             : base(modelId)
         {
             OwnerId = ownerId;
             WordListId = wordListId;
+            ProgressWordCounts = progressWordCounts;
+            ProgressPercentages = progressPercentages;
         }
 
 #pragma warning disable 612, 618
@@ -26,5 +30,9 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel.Events
         public string OwnerId { get; private set; }
 
         public string WordListId { get; private set; }
+
+        public ProgressWordCounts ProgressWordCounts { get; private set; }
+
+        public ProgressPercentages ProgressPercentages { get; private set; }
     }
 }

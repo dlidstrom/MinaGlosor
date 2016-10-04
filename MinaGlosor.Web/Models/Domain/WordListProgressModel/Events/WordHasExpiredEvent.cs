@@ -6,11 +6,11 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel.Events
 {
     public class WordHasExpiredEvent : ModelEvent
     {
-        public WordHasExpiredEvent(string modelId, int newNumberOfWordsExpired, int calculatedPercentExpired)
+        public WordHasExpiredEvent(string modelId, ProgressWordCounts progressWordCounts, ProgressPercentages progressPercentages)
             : base(modelId)
         {
-            NewNumberOfWordsExpired = newNumberOfWordsExpired;
-            CalculatedPercentExpired = calculatedPercentExpired;
+            ProgressWordCounts = progressWordCounts;
+            ProgressPercentages = progressPercentages;
         }
 
 #pragma warning disable 612, 618
@@ -20,8 +20,8 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel.Events
         {
         }
 
-        public int NewNumberOfWordsExpired { get; private set; }
+        public ProgressWordCounts ProgressWordCounts { get; private set; }
 
-        public int CalculatedPercentExpired { get; private set; }
+        public ProgressPercentages ProgressPercentages { get; private set; }
     }
 }

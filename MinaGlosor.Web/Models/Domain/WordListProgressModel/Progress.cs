@@ -14,7 +14,7 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
         {
             if (ownerId == null) throw new ArgumentNullException("ownerId");
             if (wordListId == null) throw new ArgumentNullException("wordListId");
-            Apply(new CeatedEvent(Id, ownerId, wordListId));
+            Apply(new CeatedEvent(Id, ownerId, wordListId, new ProgressWordCounts(), new ProgressPercentages()));
         }
 
 #pragma warning disable 612, 618
@@ -28,21 +28,9 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
 
         public string WordListId { get; private set; }
 
-        public int NumberOfWordScores { get; private set; }
+        public ProgressWordCounts WordCounts { get; private set; }
 
-        public int PercentDone { get; private set; }
-
-        public int NumberOfWordsExpired { get; private set; }
-
-        public int PercentExpired { get; private set; }
-
-        public int NumberOfEasyWords { get; private set; }
-
-        public int PercentEasyWords { get; private set; }
-
-        public int NumberOfDifficultWords { get; private set; }
-
-        public int PercentDifficultWords { get; private set; }
+        public ProgressPercentages Percentages { get; private set; }
 
         public static string GetIdFromWordListForUser(string wordListId, string ownerId)
         {
@@ -52,109 +40,93 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
 
         public void WordHasExpired(int numberOfWords)
         {
-            var newNumberOfWordsExpired = NumberOfWordsExpired + 1;
-            var percentExpired = CalculatePercent(newNumberOfWordsExpired, numberOfWords);
-            Apply(new WordHasExpiredEvent(Id, newNumberOfWordsExpired, percentExpired));
+            var newWordCounts = WordCounts.IncreaseExpired();
+            var newPercentages = Percentages.Of(newWordCounts, numberOfWords);
+            Apply(new WordHasExpiredEvent(Id, newWordCounts, newPercentages));
         }
 
         public void WordIsUpToDate(int numberOfWords)
         {
-            var newNumberOfWordsExpired = NumberOfWordsExpired - 1;
-            var percentExpired = CalculatePercent(newNumberOfWordsExpired, numberOfWords);
-            Apply(new WordIsUpToDateEvent(Id, newNumberOfWordsExpired, percentExpired));
+            var newWordCounts = WordCounts.DecreaseExpired();
+            var newPercentages = Percentages.Of(newWordCounts, numberOfWords);
+            Apply(new WordIsUpToDateEvent(Id, newWordCounts, newPercentages));
         }
 
         public void NewWordHasBeenPracticed(int numberOfWords)
         {
-            var newNumberOfWordScores = NumberOfWordScores + 1;
-            var percentDone = CalculatePercent(newNumberOfWordScores, numberOfWords);
-            var newPercentEasyWords = CalculatePercent(NumberOfEasyWords, numberOfWords);
-            var newPercentDifficultWords = CalculatePercent(NumberOfDifficultWords, numberOfWords);
-            Apply(new WordHasBeenPracticedEvent(Id, newNumberOfWordScores, percentDone, newPercentEasyWords, newPercentDifficultWords));
+            var newWordCounts = WordCounts.IncreaseCount();
+            var newPercentages = Percentages.Of(newWordCounts, numberOfWords);
+            Apply(new WordHasBeenPracticedEvent(Id, newWordCounts, newPercentages));
         }
 
         public void UpdateDifficultyCounts(WordScoreDifficultyLifecycle lifecycle)
-        {   
-            var newNumberOfEasyWords = NumberOfEasyWords;
-            var newNumberOfDifficultWords = NumberOfDifficultWords;
+        {
+            ProgressWordCounts newWordCounts = null;
             switch (lifecycle)
             {
                 case WordScoreDifficultyLifecycle.FirstTimeDifficult:
                 {
-                    newNumberOfDifficultWords++;
+                    newWordCounts = WordCounts.IncreaseDifficult();
                     break;
                 }
 
                 case WordScoreDifficultyLifecycle.TurnedDifficult:
                 {
-                    newNumberOfDifficultWords++;
-                    newNumberOfEasyWords--;
+                    newWordCounts = WordCounts.TurnedDifficult();
                     break;
                 }
 
                 case WordScoreDifficultyLifecycle.FirstTimeEasy:
                 {
-                    newNumberOfEasyWords++;
+                    newWordCounts = WordCounts.IncreaseEasy();
                     break;
                 }
 
                 case WordScoreDifficultyLifecycle.TurnedEasy:
                 {
-                    newNumberOfEasyWords++;
-                    newNumberOfDifficultWords--;
+                    newWordCounts = WordCounts.TurnedEasy();
                     break;
                 }
             }
 
-            var newPercentEasyWords = CalculatePercent(newNumberOfEasyWords, NumberOfWordScores);
-            var newPercentDifficultWords = CalculatePercent(newNumberOfDifficultWords, NumberOfWordScores);
+            var newPercentages = Percentages.Difficulties(newWordCounts);
             var @event = new DifficultyCountsUpdatedEvent(
                 Id,
-                newNumberOfEasyWords,
-                newPercentEasyWords,
-                newNumberOfDifficultWords,
-                newPercentDifficultWords);
+                newWordCounts,
+                newPercentages);
             Apply(@event);
-        }
-
-        private static int CalculatePercent(int wordScores, int numberOfWords)
-        {
-            var percentDone = (int)Math.Floor(100.0 * wordScores / Math.Max(1, numberOfWords));
-            return percentDone;
         }
 
         private void ApplyEvent(CeatedEvent @event)
         {
             OwnerId = @event.OwnerId;
             WordListId = @event.WordListId;
+            WordCounts = @event.ProgressWordCounts;
+            Percentages = @event.ProgressPercentages;
         }
 
         private void ApplyEvent(WordHasExpiredEvent @event)
         {
-            NumberOfWordsExpired = @event.NewNumberOfWordsExpired;
-            PercentExpired = @event.CalculatedPercentExpired;
+            WordCounts = @event.ProgressWordCounts;
+            Percentages = @event.ProgressPercentages;
         }
 
         private void ApplyEvent(WordIsUpToDateEvent @event)
         {
-            NumberOfWordsExpired = @event.NewNumberOfWordsExpired;
-            PercentExpired = @event.PercentExpired;
+            WordCounts = @event.ProgressWordCounts;
+            Percentages = @event.ProgressPercentages;
         }
 
         private void ApplyEvent(WordHasBeenPracticedEvent @event)
         {
-            NumberOfWordScores = @event.NewNumberOfWordScores;
-            PercentDone = @event.PercentDone;
-            PercentEasyWords = @event.NewPercentEasyWords;
-            PercentDifficultWords = @event.NewPercentDifficultWords;
+            WordCounts = @event.ProgressWordCounts;
+            Percentages = @event.ProgressPercentages;
         }
 
         private void ApplyEvent(DifficultyCountsUpdatedEvent @event)
         {
-            NumberOfEasyWords = @event.NewNumberOfEasyWords;
-            PercentEasyWords = @event.NewPercentEasyWords;
-            NumberOfDifficultWords = @event.NewNumberOfDifficultWords;
-            PercentDifficultWords = @event.NewPercentDifficultWords;
+            WordCounts = @event.ProgressWordCounts;
+            Percentages = @event.ProgressPercentages;
         }
     }
 }

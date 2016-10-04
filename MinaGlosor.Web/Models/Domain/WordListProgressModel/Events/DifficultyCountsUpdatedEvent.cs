@@ -6,18 +6,11 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel.Events
 {
     public class DifficultyCountsUpdatedEvent : ModelEvent
     {
-        public DifficultyCountsUpdatedEvent(
-            string modelId,
-            int newNumberOfEasyWords,
-            int newPercentEasyWords,
-            int newNumberOfDifficultWords,
-            int newPercentDifficultWords)
+        public DifficultyCountsUpdatedEvent(string modelId, ProgressWordCounts progressWordCounts, ProgressPercentages progressPercentages)
             : base(modelId)
         {
-            NewNumberOfEasyWords = newNumberOfEasyWords;
-            NewPercentEasyWords = newPercentEasyWords;
-            NewNumberOfDifficultWords = newNumberOfDifficultWords;
-            NewPercentDifficultWords = newPercentDifficultWords;
+            ProgressWordCounts = progressWordCounts;
+            ProgressPercentages = progressPercentages;
         }
 
 #pragma warning disable 612, 618
@@ -27,12 +20,8 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel.Events
         {
         }
 
-        public int NewNumberOfEasyWords { get; private set; }
+        public ProgressWordCounts ProgressWordCounts { get; private set; }
 
-        public int NewPercentEasyWords { get; private set; }
-        
-        public int NewNumberOfDifficultWords { get; private set; }
-
-        public int NewPercentDifficultWords { get; private set; }
+        public ProgressPercentages ProgressPercentages { get; private set; }
     }
 }

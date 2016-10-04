@@ -49,13 +49,13 @@ namespace MinaGlosor.Web.Models.Queries
                 OwnerId = User.FromId(progress.OwnerId);
                 Name = wordList.Name;
                 NumberOfWords = wordList.NumberOfWords;
-                PercentDone = progress.PercentDone;
-                NumberOfWordsExpired = progress.NumberOfWordsExpired;
-                PercentExpired = progress.PercentExpired;
-                NumberOfEasyWords = progress.NumberOfEasyWords;
-                PercentEasyWords = progress.PercentEasyWords;
-                NumberOfDifficultWords = progress.NumberOfDifficultWords;
-                PercentDifficultWords = progress.PercentDifficultWords;
+                PercentDone = progress.Percentages.PercentDone;
+                NumberOfWordsExpired = progress.WordCounts.NumberOfWordsExpired;
+                PercentExpired = progress.Percentages.PercentExpired;
+                NumberOfEasyWords = progress.WordCounts.NumberOfEasyWords;
+                PercentEasyWords = progress.Percentages.PercentEasyWords;
+                NumberOfDifficultWords = progress.WordCounts.NumberOfDifficultWords;
+                PercentDifficultWords = progress.Percentages.PercentDifficultWords;
                 Published = wordList.PublishState == WordListPublishState.Published;
                 GravatarHash = user.GetGravatarHash();
             }

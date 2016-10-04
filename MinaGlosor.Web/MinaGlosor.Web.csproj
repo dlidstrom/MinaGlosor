@@ -493,6 +493,8 @@
     <Compile Include="Models\Domain\WordListProgressModel\Events\WordHasBeenPracticedEvent.cs" />
     <Compile Include="Models\Domain\WordListProgressModel\Events\WordHasExpiredEvent.cs" />
     <Compile Include="Models\Domain\WordListProgressModel\Events\WordIsUpToDateEvent.cs" />
+    <Compile Include="Models\Domain\WordListProgressModel\ProgressPercentages.cs" />
+    <Compile Include="Models\Domain\WordListProgressModel\ProgressWordCounts.cs" />
     <Compile Include="Models\Indexes\ChangeLogEntryIndex.cs" />
     <Compile Include="Models\Indexes\WordListProgressIndex.cs" />
     <Compile Include="Models\ModelContext.cs" />

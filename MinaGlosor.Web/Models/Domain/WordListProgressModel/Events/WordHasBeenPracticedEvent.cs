@@ -8,16 +8,12 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel.Events
     {
         public WordHasBeenPracticedEvent(
             string modelId,
-            int newNumberOfWordScores,
-            int percentDone,
-            int newPercentEasyWords,
-            int newPercentDifficultWords)
+            ProgressWordCounts progressWordCounts,
+            ProgressPercentages progressPercentages)
             : base(modelId)
         {
-            NewNumberOfWordScores = newNumberOfWordScores;
-            PercentDone = percentDone;
-            NewPercentEasyWords = newPercentEasyWords;
-            NewPercentDifficultWords = newPercentDifficultWords;
+            ProgressWordCounts = progressWordCounts;
+            ProgressPercentages = progressPercentages;
         }
 
 #pragma warning disable 612, 618
@@ -27,12 +23,8 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel.Events
         {
         }
 
-        public int NewNumberOfWordScores { get; private set; }
+        public ProgressWordCounts ProgressWordCounts { get; private set; }
 
-        public int PercentDone { get; private set; }
-
-        public int NewPercentEasyWords { get; private set; }
-
-        public int NewPercentDifficultWords { get; private set; }
+        public ProgressPercentages ProgressPercentages { get; private set; }
     }
 }

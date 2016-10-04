@@ -18,7 +18,7 @@ namespace MinaGlosor.Test.Api
         private WordListExtensions.PostWordListResponse postWordListResponse;
 
         [Test]
-        public async void OneEasyOneDifficult()
+        public async void OneEasyRestDifficult()
         {
             // Assert
             Assert.That(content, Is.Not.Null);
@@ -33,14 +33,14 @@ namespace MinaGlosor.Test.Api
                                     wordListId = "1",
                                     ownerId = "1",
                                     name = "list",
-                                    numberOfWords = 2,
+                                    numberOfWords = 3,
                                     percentDone = 100,
                                     numberOfWordsExpired = 0,
                                     percentExpired = 0,
-                                    numberOfEasyWords = 1,
-                                    percentEasyWords = 50,
+                                    numberOfEasyWords = 2,
+                                    percentEasyWords = 67,
                                     numberOfDifficultWords = 1,
-                                    percentDifficultWords = 50,
+                                    percentDifficultWords = 33,
                                     published = false,
                                     gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
                                 }
@@ -57,7 +57,7 @@ namespace MinaGlosor.Test.Api
         }
 
         [Test]
-        public async void BothHard()
+        public async void AllHard()
         {
             // Act
             SystemTime.UtcDateTime = () => new DateTime(2016, 1, 2, 0, 0, 1);
@@ -65,7 +65,7 @@ namespace MinaGlosor.Test.Api
 
             PracticeSessionExtensions.PracticeWordResponse practiceWordResponse;
             WordConfidenceExtensions.Response wordConfidenceResponse = null;
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
                 practiceWordResponse = await this.GetNextPracticeWord(practiceSessionResponse.PracticeSessionId);
                 await this.PostWordConfidence(
@@ -75,8 +75,7 @@ namespace MinaGlosor.Test.Api
             }
 
             // finish off
-            // get next practice word
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
                 practiceWordResponse = await this.GetNextPracticeWord(practiceSessionResponse.PracticeSessionId);
                 wordConfidenceResponse = await this.PostWordConfidence(
@@ -103,13 +102,13 @@ namespace MinaGlosor.Test.Api
                                     wordListId = "1",
                                     ownerId = "1",
                                     name = "list",
-                                    numberOfWords = 2,
+                                    numberOfWords = 3,
                                     percentDone = 100,
                                     numberOfWordsExpired = 0,
                                     percentExpired = 0,
                                     numberOfEasyWords = 0,
                                     percentEasyWords = 0,
-                                    numberOfDifficultWords = 2,
+                                    numberOfDifficultWords = 3,
                                     percentDifficultWords = 100,
                                     published = false,
                                     gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
@@ -127,14 +126,14 @@ namespace MinaGlosor.Test.Api
         }
 
         [Test]
-        public async void BothEasy()
+        public async void AllEasy()
         {
             // Act
             SystemTime.UtcDateTime = () => new DateTime(2016, 1, 2, 0, 0, 1);
             practiceSessionResponse = await this.StartPracticeSession(postWordListResponse.WordListId);
 
             WordConfidenceExtensions.Response wordConfidenceResponse = null;
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
                 var practiceWordResponse = await this.GetNextPracticeWord(practiceSessionResponse.PracticeSessionId);
                 wordConfidenceResponse = await this.PostWordConfidence(
@@ -161,11 +160,11 @@ namespace MinaGlosor.Test.Api
                                     wordListId = "1",
                                     ownerId = "1",
                                     name = "list",
-                                    numberOfWords = 2,
+                                    numberOfWords = 3,
                                     percentDone = 100,
                                     numberOfWordsExpired = 0,
                                     percentExpired = 0,
-                                    numberOfEasyWords = 2,
+                                    numberOfEasyWords = 3,
                                     percentEasyWords = 100,
                                     numberOfDifficultWords = 0,
                                     percentDifficultWords = 0,
@@ -206,7 +205,7 @@ namespace MinaGlosor.Test.Api
             postWordListResponse = await this.PostWordList("list");
 
             // add some words to the word list
-            for (var i = 0; i < 2; i++)
+            for (var i = 0; i < 3; i++)
             {
                 await this.PostWord(
                     i.ToString(CultureInfo.InvariantCulture),
@@ -217,10 +216,15 @@ namespace MinaGlosor.Test.Api
             // Act
             practiceSessionResponse = await this.StartPracticeSession(postWordListResponse.WordListId);
 
-            var responses = new[] { ConfidenceLevel.RecalledWithSeriousDifficulty, ConfidenceLevel.PerfectResponse };
+            var responses = new[]
+            {
+                ConfidenceLevel.RecalledWithSeriousDifficulty,
+                ConfidenceLevel.PerfectResponse,
+                ConfidenceLevel.PerfectResponse
+            };
             PracticeSessionExtensions.PracticeWordResponse practiceWordResponse;
             WordConfidenceExtensions.Response wordConfidenceResponse;
-            for (var i = 0; i < 2; i++)
+            for (var i = 0; i < responses.Length; i++)
             {
                 // get next practice word
                 practiceWordResponse = await this.GetNextPracticeWord(practiceSessionResponse.PracticeSessionId);
