@@ -14,11 +14,8 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
 
         public ProgressPercentages Of(ProgressWordCounts progressWordCounts, int numberOfWords)
         {
-            double easyWordsFraction;
-            var percentEasyWords = CalculatePercent(progressWordCounts.NumberOfEasyWords, numberOfWords, out easyWordsFraction);
-
-            double difficultWordsFraction;
-            var percentDifficultWords = CalculatePercent(progressWordCounts.NumberOfDifficultWords, numberOfWords, out difficultWordsFraction);
+            int percentDifficultWords;
+            var percentEasyWords = CalculateDifficultyPercents(progressWordCounts, out percentDifficultWords);
 
             var percentDone = CalculatePercent(progressWordCounts.NumberOfWordScores, numberOfWords);
             var percentExpired = CalculatePercent(progressWordCounts.NumberOfWordsExpired, numberOfWords);
@@ -31,26 +28,61 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
             };
         }
 
-        private int CalculatePercent(int numberOfWordScores, int numberOfWords)
+        public ProgressPercentages Difficulties(ProgressWordCounts progressWordCounts)
+        {
+            int percentDifficultWords;
+            var percentEasyWords = CalculateDifficultyPercents(progressWordCounts, out percentDifficultWords);
+
+            return new ProgressPercentages
+            {
+                PercentDone = PercentDone,
+                PercentExpired = PercentExpired,
+                PercentEasyWords = percentEasyWords,
+                PercentDifficultWords = percentDifficultWords
+            };
+        }
+
+        private static int CalculatePercent(int numberOfWordScores, int numberOfWords)
         {
             double temp;
             return CalculatePercent(numberOfWordScores, numberOfWords, out temp);
         }
 
-        public ProgressPercentages Difficulties(ProgressWordCounts progressWordCounts)
-        {
-            // fortsätt här
-            return new ProgressPercentages
-            {
-            };
-        }
-
         private static int CalculatePercent(int wordScores, int numberOfWords, out double fraction)
         {
-            var percentDone = Math.Floor(100.0 * wordScores / Math.Max(1, numberOfWords));
-            var result = (int)percentDone;
+            var percentDone = 100.0 * wordScores / Math.Max(1, numberOfWords);
+            var result = (int)Math.Floor(percentDone);
             fraction = percentDone - result;
             return result;
+        }
+
+        private int CalculateDifficultyPercents(ProgressWordCounts progressWordCounts, out int percentDifficultWords)
+        {
+            double easyWordsFraction;
+            var percentEasyWords = CalculatePercent(
+                progressWordCounts.NumberOfEasyWords,
+                progressWordCounts.NumberOfWordScores,
+                out easyWordsFraction);
+
+            double difficultWordsFraction;
+            percentDifficultWords = CalculatePercent(
+                progressWordCounts.NumberOfDifficultWords,
+                progressWordCounts.NumberOfWordScores,
+                out difficultWordsFraction);
+
+            if (PercentDone + PercentExpired == 100 && percentEasyWords + percentDifficultWords < 100)
+            {
+                if (easyWordsFraction >= difficultWordsFraction)
+                {
+                    percentEasyWords++;
+                }
+                else
+                {
+                    percentDifficultWords++;
+                }
+            }
+
+            return percentEasyWords;
         }
     }
 }
