@@ -13,19 +13,19 @@
     </div>
     <div class="panel-body">
         <div class="progress">
-            <div class="progress-bar progress-bar-success" style="width: 50%">
-                {{item.percentDone}}
-            </div>
-            <div class="progress-bar progress-bar-warning" style="width: 30%">
-                {{item.percentDifficultWords}}
-            </div>
-            <div class="progress-bar progress-bar-danger" style="width: 10%">
-                {{item.percentEasyWords}}
+            <div class="progress-bar progress-bar-success" ng-style="getDoneStyle(item)">
+                {{item.percentDone}}%
             </div>
         </div>
-        <span>
-            Du har gjort klart {{item.percentDone}}.
-        </span>
+        <div>
+            <span>
+                Du har gjort klart {{item.percentDone}}%.
+            </span>
+        </div>
+        <div>
+            <span class="label label-warning">{{item.percentDifficultWords}}% svåra</span>
+            <span class="label label-success">{{item.percentEasyWords}}% enkla</span>
+        </div>
     </div>
     <div class="panel-footer">
         <gravatar-image hash="item.gravatarHash" owner="item.owner" size="40"></gravatar-image>

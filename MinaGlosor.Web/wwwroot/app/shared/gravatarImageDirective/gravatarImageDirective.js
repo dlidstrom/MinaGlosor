@@ -12,11 +12,7 @@
                 size: '@'
             },
             replace: false,
-            template:
-                    '<img src="https://www.gravatar.com/avatar/{{hash}}?s={{size}}"'
-                    + ' alt="Skapad av {{owner}}'
-                    + ' width="{{size}}"'
-                    + ' height="{{size}}" />'
+            templateUrl: '/wwwroot/app/shared/gravatarImageDirective/gravatarImage.html'
         };
     }
 })();

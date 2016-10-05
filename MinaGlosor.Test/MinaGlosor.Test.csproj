@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Browse_Get.cs" />
+    <Compile Include="Api\Domain\ProgressPercentTest.cs" />
     <Compile Include="Api\Infrastructure\WaitForIndexingFilter.cs" />
     <Compile Include="Api\Infrastructure\WordConfidenceExtensions.cs" />
     <Compile Include="Api\Infrastructure\WordFavouriteExtensions.cs" />

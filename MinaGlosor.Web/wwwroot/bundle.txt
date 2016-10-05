@@ -2,4 +2,6 @@
 main.less
 spinner.less
 xeditable.css
+app\shared\gravatarImageDirective\gravatarImage.less
 app\shared\publishedStateDirective\publishedState.less
+app\shared\wordListProgressDirective\wordListProgress.less

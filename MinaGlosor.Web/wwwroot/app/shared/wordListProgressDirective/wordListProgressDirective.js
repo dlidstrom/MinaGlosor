@@ -1,7 +1,9 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('mgApp').directive('wordListProgress', WordListProgressDirective);
+    angular.module('mgApp')
+        .directive('wordListProgress', WordListProgressDirective)
+        .controller('WordListProgressDirectiveController', WordListProgressDirectiveController);
 
     function WordListProgressDirective() {
         return {
@@ -10,7 +12,19 @@
                 item: '='
             },
             replace: false,
-            templateUrl: '/wwwroot/app/shared/wordListProgressDirective/template.html'
+            templateUrl: '/wwwroot/app/shared/wordListProgressDirective/wordListProgress.html',
+            controller: 'WordListProgressDirectiveController'
         };
+    }
+
+    WordListProgressDirectiveController.$inject = ['$scope'];
+    function WordListProgressDirectiveController($scope) {
+        $scope.getDoneStyle = getDoneStyle;
+
+        function getDoneStyle(item) {
+            return {
+                width: item.percentDone + '%'
+            };
+        }
     }
 })();

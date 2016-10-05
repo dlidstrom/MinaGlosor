@@ -193,9 +193,10 @@
     <Content Include="wwwroot\app\shared\clickOnceDirective\clickOnceDirective.js" />
     <Content Include="wwwroot\app\shared\closeNavbarDirective\closeNavbarDirective.js" />
     <Content Include="wwwroot\app\shared\browseService.js" />
+    <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImage.html" />
     <Content Include="wwwroot\app\shared\pagingDirective\pagingDirective.js" />
     <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImageDirective.js" />
-    <Content Include="wwwroot\app\shared\wordListProgressDirective\template.html" />
+    <Content Include="wwwroot\app\shared\wordListProgressDirective\wordListProgress.html" />
     <Content Include="wwwroot\app\shared\wordListProgressDirective\wordListProgressDirective.js" />
     <Content Include="wwwroot\app\shared\publishedStateDirective\publishedStateDirective.js" />
     <Content Include="wwwroot\app\shared\searchService.js" />
@@ -325,6 +326,8 @@
     </Content>
     <Content Include="Views\Shared\_WebApp.cshtml" />
     <Content Include="wwwroot\app\shared\publishedStateDirective\publishedState.less" />
+    <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImage.less" />
+    <Content Include="wwwroot\app\shared\wordListProgressDirective\wordListProgress.less" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap.css" />
