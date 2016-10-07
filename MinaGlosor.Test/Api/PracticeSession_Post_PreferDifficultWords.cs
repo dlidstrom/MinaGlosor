@@ -44,7 +44,7 @@ namespace MinaGlosor.Test.Api
                 };
                 for (var i = 0; i < practiceSession.Words.Length; i++)
                 {
-                    Assert.That(Word.ToId(practiceSession.Words[i].WordId), Is.EqualTo(expectedWordIds[i]));
+                    Assert.That(Word.FromId(practiceSession.Words[i].WordId), Is.EqualTo(expectedWordIds[i]));
                 }
             });
         }
@@ -59,11 +59,9 @@ namespace MinaGlosor.Test.Api
             // Arrange
             Transact(session =>
             {
-                var firstUser = new User(KeyGeneratorBase.Generate<User>(session), "first@d.com", "pwd", "username");
+                var firstUser = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(firstUser);
             });
-
-            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("first@d.com"), new string[0]);
 
             var wordListResponse = await this.PostWordList();
 

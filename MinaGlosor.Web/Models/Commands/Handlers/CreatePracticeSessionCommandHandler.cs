@@ -16,17 +16,28 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
 
         public override CreatePracticeSessionCommand.Result Handle(CreatePracticeSessionCommand command)
         {
-            // select previously practiced words that are up for new practice
-            // if less than 10, fill up with new words that have never been practiced
             var utcNow = SystemTime.UtcNow;
-            var wordScoreIdsQuery = from wordScore in Session.Query<WordScore, WordScoreIndex>()
-                                    where wordScore.WordListId == command.WordListId
-                                          && wordScore.OwnerId == command.CurrentUserId
-                                          && wordScore.RepeatAfterDate < utcNow
-                                    orderby wordScore.WordDifficulty, wordScore.RepeatAfterDate
-                                    select wordScore.WordId;
 
-            var wordIdsForPractice = wordScoreIdsQuery.Take(WordsToTake).ToList();
+            // select difficult words that are up for new practice
+            var difficultWordScoreIdsQuery = from wordScore in Session.Query<WordScore, WordScoreIndex>()
+                                             where wordScore.WordListId == command.WordListId
+                                                   && wordScore.OwnerId == command.CurrentUserId
+                                                   && wordScore.RepeatAfterDate < utcNow
+                                                   && wordScore.WordDifficulty == WordDifficulty.Difficult
+                                             orderby wordScore.RepeatAfterDate
+                                             select wordScore.WordId;
+
+            var easyWordScoreIdsQuery = from wordScore in Session.Query<WordScore, WordScoreIndex>()
+                                        where wordScore.WordListId == command.WordListId
+                                              && wordScore.OwnerId == command.CurrentUserId
+                                              && wordScore.RepeatAfterDate < utcNow
+                                              && wordScore.WordDifficulty == WordDifficulty.Easy
+                                        orderby wordScore.RepeatAfterDate
+                                        select wordScore.WordId;
+
+            var difficultWordIdsForPractice = difficultWordScoreIdsQuery.Take(WordsToTake).ToArray();
+            var easyWordIdsForPractice = easyWordScoreIdsQuery.Take(WordsToTake - difficultWordIdsForPractice.Length).ToList();
+            var wordIdsForPractice = difficultWordIdsForPractice.Concat(easyWordIdsForPractice).ToList();
 
             // while less than 10, fill up with new words that have never been practiced
             if (wordIdsForPractice.Count < WordsToTake)
