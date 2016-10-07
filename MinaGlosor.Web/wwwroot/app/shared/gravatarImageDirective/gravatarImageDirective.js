@@ -8,7 +8,7 @@
             restrict: 'E',
             scope: {
                 hash: '=',
-                owner: '=',
+                owner: '@',
                 size: '@'
             },
             replace: false,

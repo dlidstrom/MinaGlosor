@@ -17,8 +17,6 @@ namespace MinaGlosor.Test.Api
         public async void GetsWithPercentComplete()
         {
             // Act
-            SystemTime.UtcDateTime = () => new DateTime(2012, 1, 3, 0, 0, 0);
-            WaitForIndexing();
             var response = await Client.GetAsync("http://temp.uri/api/progress");
             var content = response.Content;
 
@@ -35,10 +33,10 @@ namespace MinaGlosor.Test.Api
                                     wordListId = "1",
                                     ownerId = "1",
                                     name = "list",
-                                    numberOfWords = 10,
-                                    percentDone = 30,
+                                    numberOfWords = 11,
+                                    percentDone = 27,
                                     numberOfWordsExpired = 3,
-                                    percentExpired = 30,
+                                    percentExpired = 27,
                                     numberOfEasyWords = 2,
                                     percentEasyWords = 66,
                                     numberOfDifficultWords = 1,
@@ -92,9 +90,9 @@ namespace MinaGlosor.Test.Api
                 var second = secondsToAdd[i];
                 var answer = answers[i];
                 SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1, 0, 0, second);
-                var getWordResponse1 = await Client.GetAsync("http://temp.uri/api/practiceword?practiceSessionId=" + createSessionContent.PracticeSessionId);
-                Assert.That(getWordResponse1.Content, Is.Not.Null);
-                var getWordContent = await getWordResponse1.Content.ReadAsAsync<GetWordContent>();
+                var practiceWordResponse = await Client.GetAsync("http://temp.uri/api/practiceword?practiceSessionId=" + createSessionContent.PracticeSessionId);
+                Assert.That(practiceWordResponse.Content, Is.Not.Null);
+                var getWordContent = await practiceWordResponse.Content.ReadAsAsync<GetWordContent>();
 
                 var postWordConfidenceRequest = new WordConfidenceController.WordConfidenceRequest(
                     createSessionContent.PracticeSessionId,
@@ -106,6 +104,12 @@ namespace MinaGlosor.Test.Api
                 var wordConfidenceContent = await wordConfidenceResponse.Content.ReadAsAsync<WordConfidenceContent>();
                 Assert.That(wordConfidenceContent.IsFinished, Is.False);
             }
+
+            SystemTime.UtcDateTime = () => new DateTime(2012, 1, 3, 0, 0, 0);
+            WaitForIndexing();
+
+            // add another word
+            await this.PostWord("11t", "11d", wordListResponse.WordListId);
         }
 
         public class CreateSessionContent

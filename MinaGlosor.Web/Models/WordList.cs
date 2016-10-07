@@ -1,6 +1,5 @@
 ﻿using System;
 using JetBrains.Annotations;
-using MinaGlosor.Web.Models.Domain.WordListProgressModel;
 using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Imports.Newtonsoft.Json;
 

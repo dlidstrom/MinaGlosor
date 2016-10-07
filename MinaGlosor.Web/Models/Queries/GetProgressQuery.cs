@@ -1,6 +1,6 @@
 using System;
 using MinaGlosor.Web.Infrastructure;
-using MinaGlosor.Web.Models.Domain.WordListProgressModel;
+using MinaGlosor.Web.Models.Domain.ProgressModel;
 
 namespace MinaGlosor.Web.Models.Queries
 {

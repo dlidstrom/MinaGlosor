@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MinaGlosor.Web.Infrastructure;
-using MinaGlosor.Web.Models.Domain.WordListProgressModel;
+using MinaGlosor.Web.Models.Domain.ProgressModel;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -18,7 +18,7 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
         public override GetProgressListQuery.Result Handle(GetProgressListQuery query)
         {
             RavenQueryStatistics stats;
-            var progresses = Session.Query<Progress, WordListProgressIndex>()
+            var progresses = Session.Query<Progress, ProgressIndex>()
                                     .Statistics(out stats)
                                     .Where(x => x.OwnerId == query.UserId)
                                     .Skip((query.Page - 1) * query.ItemsPerPage)

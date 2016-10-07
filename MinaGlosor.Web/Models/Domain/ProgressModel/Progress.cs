@@ -1,9 +1,9 @@
 using System;
 using JetBrains.Annotations;
-using MinaGlosor.Web.Models.Domain.WordListProgressModel.Events;
+using MinaGlosor.Web.Models.Domain.ProgressModel.Events;
 using Raven.Imports.Newtonsoft.Json;
 
-namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
+namespace MinaGlosor.Web.Models.Domain.ProgressModel
 {
     public class Progress : DomainModel
     {
@@ -57,6 +57,11 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
             var newWordCounts = WordCounts.IncreaseCount();
             var newPercentages = Percentages.Of(newWordCounts, numberOfWords);
             Apply(new WordHasBeenPracticedEvent(Id, newWordCounts, newPercentages));
+        }
+
+        public void WordAdded(int numberOfWords)
+        {
+            Apply(new UpdatePercentagesAfterWordAddedEvent(Id, Percentages.Of(WordCounts, numberOfWords)));
         }
 
         public void UpdateDifficultyCounts(WordScoreDifficultyLifecycle lifecycle)
@@ -126,6 +131,11 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
         private void ApplyEvent(DifficultyCountsUpdatedEvent @event)
         {
             WordCounts = @event.ProgressWordCounts;
+            Percentages = @event.ProgressPercentages;
+        }
+
+        private void ApplyEvent(UpdatePercentagesAfterWordAddedEvent @event)
+        {
             Percentages = @event.ProgressPercentages;
         }
     }

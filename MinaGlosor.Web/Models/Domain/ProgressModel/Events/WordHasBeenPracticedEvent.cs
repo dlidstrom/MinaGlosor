@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Imports.Newtonsoft.Json;
 
-namespace MinaGlosor.Web.Models.Domain.WordListProgressModel.Events
+namespace MinaGlosor.Web.Models.Domain.ProgressModel.Events
 {
     public class WordHasBeenPracticedEvent : ModelEvent
     {

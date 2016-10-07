@@ -1,4 +1,4 @@
-namespace MinaGlosor.Web.Models.Domain.WordListProgressModel
+namespace MinaGlosor.Web.Models.Domain.ProgressModel
 {
     public class ProgressWordCounts
     {

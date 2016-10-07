@@ -1,4 +1,4 @@
-using MinaGlosor.Web.Models.Domain.WordListProgressModel;
+using MinaGlosor.Web.Models.Domain.ProgressModel;
 using NUnit.Framework;
 
 namespace MinaGlosor.Test.Api.Domain

@@ -2,11 +2,11 @@ using JetBrains.Annotations;
 using MinaGlosor.Web.Models.DomainEvents;
 using Raven.Imports.Newtonsoft.Json;
 
-namespace MinaGlosor.Web.Models.Domain.WordListProgressModel.Events
+namespace MinaGlosor.Web.Models.Domain.ProgressModel.Events
 {
-    public class WordIsUpToDateEvent : ModelEvent
+    public class WordHasExpiredEvent : ModelEvent
     {
-        public WordIsUpToDateEvent(string modelId, ProgressWordCounts progressWordCounts, ProgressPercentages progressPercentages)
+        public WordHasExpiredEvent(string modelId, ProgressWordCounts progressWordCounts, ProgressPercentages progressPercentages)
             : base(modelId)
         {
             ProgressWordCounts = progressWordCounts;
@@ -15,7 +15,7 @@ namespace MinaGlosor.Web.Models.Domain.WordListProgressModel.Events
 
 #pragma warning disable 612, 618
         [JsonConstructor, UsedImplicitly]
-        private WordIsUpToDateEvent()
+        private WordHasExpiredEvent()
 #pragma warning restore 612, 618
         {
         }
