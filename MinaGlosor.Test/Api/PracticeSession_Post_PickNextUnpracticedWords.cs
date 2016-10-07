@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
-using System.Net;
-using System.Net.Http;
+using System.Linq;
 using System.Security.Principal;
 using System.Threading;
 using MinaGlosor.Test.Api.Infrastructure;
@@ -18,42 +16,26 @@ namespace MinaGlosor.Test.Api
     [TestFixture]
     public class PracticeSession_Post_PickNextUnpracticedWords : WebApiIntegrationTest
     {
+        private readonly List<string> wordIds = new List<string>();
+
         [Test]
         public async void NextPracticeSessionUsesUnpracticedWords()
         {
             // Act
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("first@d.com"), new string[0]);
-            var request = new
-            {
-                wordListId = "1"
-            };
-            var createSessionResponse = await Client.PostAsJsonAsync("http://temp.uri/api/practicesession", request);
-            Assert.That(createSessionResponse.Content, Is.Not.Null);
-            var createSessionContent = await createSessionResponse.Content.ReadAsAsync<CreateSessionContent>();
+            var createSessionResponse = await this.StartPracticeSession("1");
 
             // should be the next 10 words
             TracingLogger.Information("Verifying expected words");
             Transact(session =>
                 {
-                    var practiceSession = session.Load<PracticeSession>(PracticeSession.ToId(createSessionContent.PracticeSessionId));
+                    var practiceSession = session.Load<PracticeSession>(PracticeSession.ToId(createSessionResponse.PracticeSessionId));
                     Assert.That(practiceSession.Words, Has.Length.EqualTo(10));
 
-                    var expectedWordIds = new HashSet<string>
-                        {
-                            "words/11",
-                            "words/12",
-                            "words/13",
-                            "words/14",
-                            "words/15",
-                            "words/16",
-                            "words/17",
-                            "words/18",
-                            "words/19",
-                            "words/20"
-                        };
+                    var expectedWordIds = new HashSet<string>(wordIds.Skip(10).Take(10));
                     foreach (var practiceWord in practiceSession.Words)
                     {
-                        if (expectedWordIds.Contains(practiceWord.WordId) == false)
+                        if (expectedWordIds.Contains(Word.FromId(practiceWord.WordId)) == false)
                             Assert.Fail("{0} was not expected", practiceWord.WordId);
                     }
                 });
@@ -68,102 +50,58 @@ namespace MinaGlosor.Test.Api
         {
             // Arrange
             Transact(session =>
-                {
-                    var firstUser = new User(KeyGeneratorBase.Generate<User>(session), "first@d.com", "pwd", "username");
-                    session.Store(firstUser);
-
-                    var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", firstUser.Id);
-                    session.Store(wordList);
-
-                    // add some words to the word list
-                    var currentDate = new DateTime(2012, 1, 1);
-                    var generator = new KeyGenerator<Word>(session);
-                    for (var i = 0; i < 25; i++)
-                    {
-                        var newCurrentDate = currentDate.AddSeconds(i);
-                        SystemTime.UtcDateTime = () => newCurrentDate;
-                        var word = Word.Create(
-                            generator.Generate(),
-                            1 + i + "t",
-                            1 + i + "d",
-                            wordList);
-                        session.Store(word);
-                    }
-                });
+            {
+                var firstUser = new User(KeyGeneratorBase.Generate<User>(session), "first@d.com", "pwd", "username");
+                session.Store(firstUser);
+            });
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("first@d.com"), new string[0]);
 
+            var wordListResponse = await this.PostWordList();
+
+            // add some words to the word list
+            var currentDate = new DateTime(2012, 1, 1);
+            for (var i = 0; i < 25; i++)
+            {
+                var newCurrentDate = currentDate.AddSeconds(i);
+                SystemTime.UtcDateTime = () => newCurrentDate;
+                var wordResponse = await this.PostWord(
+                    1 + i + "t",
+                    1 + i + "d",
+                    wordListResponse.WordListId);
+                wordIds.Add(wordResponse.WordId);
+            }
+
             // mark first word as favourite
-            var wordFavouriteResponse = await Client.PostAsJsonAsync(
-                "http://temp.uri/api/wordfavourite",
-                new
-                {
-                    wordId = 1,
-                    isFavourite = true
-                });
-            Assert.That(wordFavouriteResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            await this.MarkWordAsFavourite("1", true);
 
             // practice the first 10
-            var request = new
-            {
-                wordListId = "1"
-            };
-            var createSessionResponse = await Client.PostAsJsonAsync("http://temp.uri/api/practicesession", request);
-            Assert.That(createSessionResponse.Content, Is.Not.Null);
-            var createSessionContent = await createSessionResponse.Content.ReadAsAsync<CreateSessionContent>();
+            var createSessionResponse = await this.StartPracticeSession(wordListResponse.WordListId);
 
-            WordConfidenceContent wordConfidenceContent = null;
+            WordConfidenceExtensions.Response wordConfidenceResponse = null;
             for (var i = 0; i < 10; i++)
             {
-                var getWordResponse = await Client.GetAsync("http://temp.uri/api/practiceword?practiceSessionId=1");
-                Assert.That(getWordResponse.Content, Is.Not.Null);
-                var getWordContent = await getWordResponse.Content.ReadAsAsync<GetWordContent>();
-                Assert.That(getWordContent.WordId, Is.EqualTo((i + 1).ToString(CultureInfo.InvariantCulture)));
+                var getWordResponse = await this.GetNextPracticeWord(createSessionResponse.PracticeSessionId);
                 if (i == 0)
                 {
-                    Assert.That(getWordContent.IsFavourite, Is.True);
+                    Assert.That(getWordResponse.IsFavourite, Is.True);
                 }
                 else
                 {
-                    Assert.That(getWordContent.IsFavourite, Is.False);
+                    Assert.That(getWordResponse.IsFavourite, Is.False);
                 }
 
-                var postWordConfidenceRequest = new
-                {
-                    createSessionContent.PracticeSessionId,
-                    getWordContent.PracticeWordId,
-                    ConfidenceLevel = "PerfectResponse"
-                };
-                var wordConfidenceResponse = await Client.PostAsJsonAsync(
-                    "http://temp.uri/api/wordconfidence", postWordConfidenceRequest);
-                Assert.That(wordConfidenceResponse.Content, Is.Not.Null);
-                wordConfidenceContent = await wordConfidenceResponse.Content.ReadAsAsync<WordConfidenceContent>();
+                wordConfidenceResponse = await this.PostWordConfidence(
+                    createSessionResponse.PracticeSessionId,
+                    getWordResponse.PracticeWordId,
+                    ConfidenceLevel.PerfectResponse);
 
-                if (wordConfidenceContent.IsFinished) break;
+                if (wordConfidenceResponse.IsFinished) break;
             }
 
-            Assert.That(wordConfidenceContent, Is.Not.Null);
-            Debug.Assert(wordConfidenceContent != null, "wordConfidenceContent != null");
-            Assert.That(wordConfidenceContent.IsFinished, Is.True, "Expected practice session to finish after 10 steps");
-        }
-
-        public class CreateSessionContent
-        {
-            public string PracticeSessionId { get; set; }
-        }
-
-        public class GetWordContent
-        {
-            public string PracticeWordId { get; set; }
-
-            public string WordId { get; set; }
-
-            public bool IsFavourite { get; set; }
-        }
-
-        public class WordConfidenceContent
-        {
-            public bool IsFinished { get; set; }
+            Assert.That(wordConfidenceResponse, Is.Not.Null);
+            Debug.Assert(wordConfidenceResponse != null, "wordConfidenceResponse != null");
+            Assert.That(wordConfidenceResponse.IsFinished, Is.True, "Expected practice session to finish after 10 steps");
         }
     }
 }

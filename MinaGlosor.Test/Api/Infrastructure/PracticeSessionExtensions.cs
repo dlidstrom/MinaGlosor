@@ -32,7 +32,11 @@ namespace MinaGlosor.Test.Api.Infrastructure
 
         public class PracticeWordResponse
         {
+            public string WordId { get; set; }
+
             public string PracticeWordId { get; set; }
+
+            public bool IsFavourite { get; set; }
         }
     }
 }
