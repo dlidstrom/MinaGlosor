@@ -96,6 +96,7 @@
     <Compile Include="Api\Infrastructure\WordListExtensions.cs" />
     <Compile Include="Api\PracticeSession_Finished.cs" />
     <Compile Include="Api\PracticeSession_Post_OtherUsers.cs" />
+    <Compile Include="Api\PracticeSession_Post_PreferDifficultWords.cs" />
     <Compile Include="Api\PublishWordList_Post.cs" />
     <Compile Include="Api\UpdateWordListName_Post.cs" />
     <Compile Include="Api\WordList_Get.cs" />

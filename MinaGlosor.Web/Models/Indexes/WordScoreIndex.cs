@@ -13,7 +13,8 @@ namespace MinaGlosor.Web.Models.Indexes
                                         wordScore.OwnerId,
                                         wordScore.WordId,
                                         wordScore.WordListId,
-                                        wordScore.RepeatAfterDate
+                                        wordScore.RepeatAfterDate,
+                                        wordScore.WordDifficulty
                                     };
         }
     }

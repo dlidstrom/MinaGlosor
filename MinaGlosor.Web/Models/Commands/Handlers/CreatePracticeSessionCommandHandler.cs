@@ -23,10 +23,10 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
                                     where wordScore.WordListId == command.WordListId
                                           && wordScore.OwnerId == command.CurrentUserId
                                           && wordScore.RepeatAfterDate < utcNow
-                                    orderby wordScore.RepeatAfterDate
+                                    orderby wordScore.WordDifficulty, wordScore.RepeatAfterDate
                                     select wordScore.WordId;
 
-            var wordIdsForPractice = new HashSet<string>(wordScoreIdsQuery.Take(WordsToTake).ToArray());
+            var wordIdsForPractice = wordScoreIdsQuery.Take(WordsToTake).ToList();
 
             // while less than 10, fill up with new words that have never been practiced
             if (wordIdsForPractice.Count < WordsToTake)
@@ -68,7 +68,7 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
             //return canExecute;
         }
 
-        private void FillWithNewWords(IDocumentSession session, ISet<string> wordIdsForPractice, string wordListId, string currentUserId)
+        private void FillWithNewWords(IDocumentSession session, List<string> wordIdsForPractice, string wordListId, string currentUserId)
         {
             var alreadyPracticedWordIds = GetAlreadyPracticedWordIds(session, wordListId, currentUserId);
             var current = 0;
