@@ -5,18 +5,21 @@ namespace MinaGlosor.Web.Models.Commands
 {
     public class CreatePracticeSessionCommand : ICommand<CreatePracticeSessionCommand.Result>
     {
-        public CreatePracticeSessionCommand(string wordListId, User currentUser)
+        public CreatePracticeSessionCommand(string wordListId, User currentUser, PracticeMode practiceMode)
         {
             if (wordListId == null) throw new ArgumentNullException("wordListId");
             if (currentUser == null) throw new ArgumentNullException("currentUser");
 
             WordListId = WordList.ToId(wordListId);
             CurrentUserId = currentUser.Id;
+            PracticeMode = practiceMode;
         }
 
         public string WordListId { get; private set; }
 
         public string CurrentUserId { get; private set; }
+
+        public PracticeMode PracticeMode { get; private set; }
 
         public class Result
         {

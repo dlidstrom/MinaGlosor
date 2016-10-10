@@ -541,6 +541,7 @@
     <Compile Include="Models\Indexes\WordIndex.cs" />
     <Compile Include="Models\Indexes\WordListIndex.cs" />
     <Compile Include="Models\Indexes\WordScoreIndex.cs" />
+    <Compile Include="Models\PracticeMode.cs" />
     <Compile Include="Models\PracticeSession.cs" />
     <Compile Include="Models\PracticeSessionStatistics.cs" />
     <Compile Include="Models\PracticeWord.cs" />

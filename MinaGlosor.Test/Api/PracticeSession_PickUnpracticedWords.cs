@@ -10,17 +10,16 @@ using Raven.Abstractions;
 namespace MinaGlosor.Test.Api
 {
     [TestFixture]
-    public class PracticeSession_Post_PreferDifficultWords : WebApiIntegrationTest
+    public class PracticeSession_PickUnpracticedWords : WebApiIntegrationTest
     {
         [Test]
-        public async void NextPracticeSessionUsesUnpracticedWords()
+        public async void PicksUnpracticedWords()
         {
             // Act
             SystemTime.UtcDateTime = () => new DateTime(2012, 1, 3);
             WaitForIndexing();
-            var createSessionResponse = await this.StartPracticeSession("1");
+            var createSessionResponse = await this.StartPracticeSession("1", PracticeMode.UnpracticedPreferred);
 
-            // should be the next 10 words
             Transact(session =>
             {
                 var practiceSession = session.Load<PracticeSession>(PracticeSession.ToId(createSessionResponse.PracticeSessionId));
@@ -31,20 +30,10 @@ namespace MinaGlosor.Test.Api
                     "25",
                     "29",
                     "33",
-                    "37",
-                    "1",
-                    "5",
-                    "9",
-                    "13",
-                    "17"
+                    "37"
                 };
                 Assert.That(practiceSession.Words.Select(x => Word.FromId(x.WordId)), Is.EqualTo(expectedWordIds));
             });
-        }
-
-        protected override void OnTearDown()
-        {
-            SystemTime.UtcDateTime = null;
         }
 
         protected override async void Arrange()
@@ -59,59 +48,23 @@ namespace MinaGlosor.Test.Api
             var wordListResponse = await this.PostWordList();
 
             // add some words to the word list
-            var currentDate = new DateTime(2012, 1, 1);
-            for (var i = 0; i < 10; i++)
+            SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1);
+            for (var i = 0; i < 5; i++)
             {
-                var newCurrentDate = currentDate.AddSeconds(i);
-                SystemTime.UtcDateTime = () => newCurrentDate;
                 await this.PostWord(
                     1 + i + "t",
                     1 + i + "d",
                     wordListResponse.WordListId);
             }
 
-            // mark first word as favourite
-            await this.MarkWordAsFavourite("1", true);
-
-            // practice the first 10
+            // practice 5
             var createSessionResponse = await this.StartPracticeSession(wordListResponse.WordListId);
 
-            var responses = new[]
-            {
-                ConfidenceLevel.PerfectResponse,
-                ConfidenceLevel.PerfectResponse,
-                ConfidenceLevel.PerfectResponse,
-                ConfidenceLevel.PerfectResponse,
-                ConfidenceLevel.PerfectResponse,
-                ConfidenceLevel.RecalledWithSeriousDifficulty,
-                ConfidenceLevel.RecalledWithSeriousDifficulty,
-                ConfidenceLevel.RecalledWithSeriousDifficulty,
-                ConfidenceLevel.RecalledWithSeriousDifficulty,
-                ConfidenceLevel.RecalledWithSeriousDifficulty
-            };
             WordConfidenceExtensions.Response wordConfidenceResponse = null;
-            for (var i = 0; i < 10; i++)
-            {
-                var getWordResponse = await this.GetNextPracticeWord(createSessionResponse.PracticeSessionId);
-                if (i == 0)
-                {
-                    Assert.That(getWordResponse.IsFavourite, Is.True);
-                }
-                else
-                {
-                    Assert.That(getWordResponse.IsFavourite, Is.False);
-                }
-
-                wordConfidenceResponse = await this.PostWordConfidence(
-                    createSessionResponse.PracticeSessionId,
-                    getWordResponse.PracticeWordId,
-                    responses[i]);
-            }
-
-            // finish off
             for (var i = 0; i < 5; i++)
             {
                 var getWordResponse = await this.GetNextPracticeWord(createSessionResponse.PracticeSessionId);
+
                 wordConfidenceResponse = await this.PostWordConfidence(
                     createSessionResponse.PracticeSessionId,
                     getWordResponse.PracticeWordId,
@@ -121,6 +74,15 @@ namespace MinaGlosor.Test.Api
             Assert.That(wordConfidenceResponse, Is.Not.Null);
             Debug.Assert(wordConfidenceResponse != null, "wordConfidenceResponse != null");
             Assert.That(wordConfidenceResponse.IsFinished, Is.True, "Expected practice session to finish after 10 steps");
+
+            // add 5 more
+            for (var i = 5; i < 10; i++)
+            {
+                await this.PostWord(
+                    1 + i + "t",
+                    1 + i + "d",
+                    wordListResponse.WordListId);
+            }
         }
     }
 }

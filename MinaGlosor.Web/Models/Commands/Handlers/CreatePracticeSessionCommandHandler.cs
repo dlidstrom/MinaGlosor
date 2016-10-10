@@ -17,32 +17,44 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
         public override CreatePracticeSessionCommand.Result Handle(CreatePracticeSessionCommand command)
         {
             var utcNow = SystemTime.UtcNow;
+            
+            var wordIdsForPractice = new List<string>();
+            if (command.PracticeMode == PracticeMode.Default)
+            {
+                // select difficult words that are up for new practice
+                var difficultWordScoreIdsQuery = from wordScore in Session.Query<WordScore, WordScoreIndex>()
+                                                 where wordScore.WordListId == command.WordListId
+                                                       && wordScore.OwnerId == command.CurrentUserId
+                                                       && wordScore.RepeatAfterDate < utcNow
+                                                       && wordScore.WordDifficulty == WordDifficulty.Difficult
+                                                 orderby wordScore.RepeatAfterDate
+                                                 select wordScore.WordId;
 
-            // select difficult words that are up for new practice
-            var difficultWordScoreIdsQuery = from wordScore in Session.Query<WordScore, WordScoreIndex>()
-                                             where wordScore.WordListId == command.WordListId
-                                                   && wordScore.OwnerId == command.CurrentUserId
-                                                   && wordScore.RepeatAfterDate < utcNow
-                                                   && wordScore.WordDifficulty == WordDifficulty.Difficult
-                                             orderby wordScore.RepeatAfterDate
-                                             select wordScore.WordId;
+                var easyWordScoreIdsQuery = from wordScore in Session.Query<WordScore, WordScoreIndex>()
+                                            where wordScore.WordListId == command.WordListId
+                                                  && wordScore.OwnerId == command.CurrentUserId
+                                                  && wordScore.RepeatAfterDate < utcNow
+                                                  && wordScore.WordDifficulty == WordDifficulty.Easy
+                                            orderby wordScore.RepeatAfterDate
+                                            select wordScore.WordId;
 
-            var easyWordScoreIdsQuery = from wordScore in Session.Query<WordScore, WordScoreIndex>()
-                                        where wordScore.WordListId == command.WordListId
-                                              && wordScore.OwnerId == command.CurrentUserId
-                                              && wordScore.RepeatAfterDate < utcNow
-                                              && wordScore.WordDifficulty == WordDifficulty.Easy
-                                        orderby wordScore.RepeatAfterDate
-                                        select wordScore.WordId;
+                var difficultWordIdsForPractice = difficultWordScoreIdsQuery.Take(WordsToTake).ToArray();
+                var easyWordIdsForPractice = easyWordScoreIdsQuery.Take(WordsToTake - difficultWordIdsForPractice.Length).ToList();
+                wordIdsForPractice = difficultWordIdsForPractice.Concat(easyWordIdsForPractice).ToList();
 
-            var difficultWordIdsForPractice = difficultWordScoreIdsQuery.Take(WordsToTake).ToArray();
-            var easyWordIdsForPractice = easyWordScoreIdsQuery.Take(WordsToTake - difficultWordIdsForPractice.Length).ToList();
-            var wordIdsForPractice = difficultWordIdsForPractice.Concat(easyWordIdsForPractice).ToList();
-
-            // while less than 10, fill up with new words that have never been practiced
-            if (wordIdsForPractice.Count < WordsToTake)
+                // while less than 10, fill up with new words that have never been practiced
+                if (wordIdsForPractice.Count < WordsToTake)
+                {
+                    FillWithNewWords(Session, wordIdsForPractice, command.WordListId, command.CurrentUserId);
+                }
+            }
+            else if (command.PracticeMode == PracticeMode.UnpracticedPreferred)
             {
                 FillWithNewWords(Session, wordIdsForPractice, command.WordListId, command.CurrentUserId);
+            }
+            else
+            {
+                throw new ApplicationException("Unexpected practice mode: " + command.PracticeMode);
             }
 
             var words = Session.Load<Word>(wordIdsForPractice).ToDictionary(x => x.Id);

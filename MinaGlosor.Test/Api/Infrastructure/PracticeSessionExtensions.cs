@@ -1,15 +1,20 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
+using MinaGlosor.Web.Models;
 
 namespace MinaGlosor.Test.Api.Infrastructure
 {
     public static class PracticeSessionExtensions
     {
-        public static async Task<PracticeSessionResponse> StartPracticeSession(this WebApiIntegrationTest test, string wordListId)
+        public static async Task<PracticeSessionResponse> StartPracticeSession(
+            this WebApiIntegrationTest test,
+            string wordListId,
+            PracticeMode practiceMode = PracticeMode.Default)
         {
             var request = new
             {
-                wordListId
+                wordListId,
+                practiceMode
             };
             var response = await test.Client.PostAsJsonAsync("http://temp.uri/api/practicesession", request);
             response.EnsureSuccessStatusCode();

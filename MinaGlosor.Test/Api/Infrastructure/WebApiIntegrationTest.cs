@@ -28,6 +28,7 @@ namespace MinaGlosor.Test.Api.Infrastructure
         public override void Log(ExceptionLoggerContext context)
         {
             TracingLogger.Information(context.Exception.ToString());
+            Assert.Fail(context.Exception.ToString());
         }
 
         [SetUp]
