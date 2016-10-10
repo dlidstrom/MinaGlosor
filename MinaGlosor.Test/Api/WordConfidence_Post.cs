@@ -38,11 +38,7 @@ namespace MinaGlosor.Test.Api
                     }
                 });
 
-            var createPracticeSessionRequest = new
-                {
-                    wordListId = "1"
-                };
-            await Client.PostAsJsonAsync("http://temp.uri/api/practicesession", createPracticeSessionRequest);
+            await this.StartPracticeSession("1");
 
             string practiceWordId = null;
             Transact(session =>

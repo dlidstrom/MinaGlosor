@@ -73,7 +73,7 @@ namespace MinaGlosor.Test.Api
             Assert.That(content.Yellow, Is.EqualTo(0));
         }
 
-        protected override void Arrange()
+        protected override async void Arrange()
         {
             // Arrange
             Transact(session =>
@@ -100,12 +100,7 @@ namespace MinaGlosor.Test.Api
                 }
             });
 
-            var request = new
-            {
-                wordListId = "1"
-            };
-            var result = Client.PostAsJsonAsync("http://temp.uri/api/practicesession", request).Result;
-            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+            await this.StartPracticeSession("1");
         }
 
         public class ExpectedContent

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web.Models;
 using MinaGlosor.Web.Models.Commands.Handlers;
@@ -13,8 +12,7 @@ namespace MinaGlosor.Test.Api
     [TestFixture]
     public class PracticeSession_Post_WhenExisting : WebApiIntegrationTest
     {
-        private HttpResponseMessage response;
-        private ExpectedContent content;
+        private PracticeSessionExtensions.PracticeSessionResponse content;
 
         [Test]
         public void AddPracticedWordsToPracticeSessionFollowedByNewWords()
@@ -104,18 +102,7 @@ namespace MinaGlosor.Test.Api
             SystemTime.UtcDateTime = () => new DateTime(2012, 1, 3);
 
             // Act
-            var request = new
-                {
-                    wordListId = "1"
-                };
-            response = await Client.PostAsJsonAsync("http://temp.uri/api/practicesession", request);
-            Assert.That(response.Content, Is.Not.Null);
-            content = await response.Content.ReadAsAsync<ExpectedContent>();
-        }
-
-        public class ExpectedContent
-        {
-            public string PracticeSessionId { get; set; }
+            content = await this.StartPracticeSession("1");
         }
     }
 }

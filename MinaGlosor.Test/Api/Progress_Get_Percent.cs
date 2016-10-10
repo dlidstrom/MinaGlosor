@@ -75,13 +75,7 @@ namespace MinaGlosor.Test.Api
             }
 
             // practice the first word
-            var request = new
-            {
-                wordListId = "1"
-            };
-            var createSessionResponse = await Client.PostAsJsonAsync("http://temp.uri/api/practicesession", request);
-            Assert.That(createSessionResponse.Content, Is.Not.Null);
-            var createSessionContent = await createSessionResponse.Content.ReadAsAsync<CreateSessionContent>();
+            var createSessionContent = await this.StartPracticeSession("1");
 
             var secondsToAdd = new [] { 0, 10, 20 };
             var answers = new[] { "PerfectResponse", "PerfectResponse", "IncorrectWithEasyRecall" };
@@ -110,11 +104,6 @@ namespace MinaGlosor.Test.Api
 
             // add another word
             await this.PostWord("11t", "11d", wordListResponse.WordListId);
-        }
-
-        public class CreateSessionContent
-        {
-            public string PracticeSessionId { get; set; }
         }
 
         public class WordConfidenceContent
