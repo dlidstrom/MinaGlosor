@@ -43,10 +43,13 @@ namespace MinaGlosor.Web.Models.Queries
 
         public class ProgressResult
         {
-            public ProgressResult(Progress progress, WordList wordList, User user)
+            public ProgressResult(Progress progress, WordList wordList, User progressOwner, User wordListOwner)
             {
                 WordListId = WordList.FromId(progress.WordListId);
-                OwnerId = User.FromId(progress.OwnerId);
+                ProgressOwnerId = User.FromId(progress.OwnerId);
+                WordListOwnerId = User.FromId(wordListOwner.Id);
+                WordListOwnerUsername = wordListOwner.Username;
+                IsBorrowedWordList = progressOwner.Id != wordListOwner.Id;
                 Name = wordList.Name;
                 NumberOfWords = wordList.NumberOfWords;
                 PercentDone = progress.Percentages.PercentDone;
@@ -57,12 +60,18 @@ namespace MinaGlosor.Web.Models.Queries
                 NumberOfDifficultWords = progress.WordCounts.NumberOfDifficultWords;
                 PercentDifficultWords = progress.Percentages.PercentDifficultWords;
                 Published = wordList.PublishState == WordListPublishState.Published;
-                GravatarHash = user.GetGravatarHash();
+                GravatarHash = progressOwner.GetGravatarHash();
             }
 
             public string WordListId { get; private set; }
 
-            public string OwnerId { get; private set; }
+            public string ProgressOwnerId { get; private set; }
+
+            public string WordListOwnerId { get; private set; }
+
+            public string WordListOwnerUsername { get; private set; }
+
+            public bool IsBorrowedWordList { get; private set; }
 
             public string Name { get; private set; }
 

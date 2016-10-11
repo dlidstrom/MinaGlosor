@@ -11,7 +11,8 @@
                 $http.post(
                     '/api/practicesession',
                     {
-                        wordListId: wordListId
+                        wordListId: wordListId,
+                        practiceMode: 'Default'
                     })
                     .success(function (result) {
                         deferred.resolve(result.practiceSessionId);

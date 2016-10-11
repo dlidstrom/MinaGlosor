@@ -12,7 +12,7 @@
                 item: '='
             },
             replace: false,
-            templateUrl: '/wwwroot/app/shared/wordListProgressDirective/wordListProgress.html',
+            templateUrl: '/wwwroot/app/shared/wordListProgressDirective/wordListProgress.html?v=2',
             controller: 'WordListProgressDirectiveController'
         };
     }

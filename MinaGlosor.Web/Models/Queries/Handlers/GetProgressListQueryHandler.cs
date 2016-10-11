@@ -26,15 +26,24 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
                                     .ToArray();
             var wordLists = Session.Load<WordList>(progresses.Select(x => x.WordListId))
                                    .ToDictionary(x => x.Id);
-            var users = Session.Load<User>(new HashSet<string>(progresses.Select(x => x.OwnerId)))
+            var userIds = new HashSet<string>(progresses.Select(x => x.OwnerId).Concat(wordLists.Values.Select(x => x.OwnerId)));
+            var users = Session.Load<User>(userIds)
                                .ToDictionary(x => x.Id);
-            var progressResults = progresses.Select(x => new GetProgressListQuery.ProgressResult(x, wordLists[x.WordListId], users[x.OwnerId]))
-                                            .ToArray();
+            var progressResults = new List<GetProgressListQuery.ProgressResult>();
+            foreach (var progress in progresses)
+            {
+                var wordList = wordLists[progress.WordListId];
+                var progressOwner = users[progress.OwnerId];
+                var wordListOwner = users[wordList.OwnerId];
+                var progressResult = new GetProgressListQuery.ProgressResult(progress, wordList, progressOwner, wordListOwner);
+                progressResults.Add(progressResult);
+            }
+
             var numberOfFavourites = Session.Query<WordFavourite, WordFavouriteIndex>()
                                             .Where(x => x.UserId == query.UserId)
                                             .Count(x => x.IsFavourite);
             var result = new GetProgressListQuery.Result(
-                progressResults,
+                progressResults.ToArray(),
                 numberOfFavourites,
                 stats.TotalResults,
                 query.Page,

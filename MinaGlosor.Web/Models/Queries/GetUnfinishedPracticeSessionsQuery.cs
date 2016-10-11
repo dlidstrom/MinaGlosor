@@ -3,8 +3,7 @@ using MinaGlosor.Web.Infrastructure;
 
 namespace MinaGlosor.Web.Models.Queries
 {
-    // TODO Change return value to class with nested array.
-    public class GetUnfinishedPracticeSessionsQuery : IQuery<GetUnfinishedPracticeSessionsQuery.Result[]>
+    public class GetUnfinishedPracticeSessionsQuery : IQuery<GetUnfinishedPracticeSessionsQuery.Result>
     {
         public GetUnfinishedPracticeSessionsQuery(string wordListId, string currentUserId)
         {
@@ -21,7 +20,22 @@ namespace MinaGlosor.Web.Models.Queries
 
         public class Result
         {
-            public Result(PracticeSession practiceSession)
+            public Result(string wordListName, UnfinishedPracticeSessionResult[] unfinishedPracticeSessionResults)
+            {
+                if (wordListName == null) throw new ArgumentNullException("wordListName");
+                if (unfinishedPracticeSessionResults == null) throw new ArgumentNullException("unfinishedPracticeSessionResults");
+                WordListName = wordListName;
+                UnfinishedPracticeSessionResults = unfinishedPracticeSessionResults;
+            }
+
+            public string WordListName { get; private set; }
+
+            public UnfinishedPracticeSessionResult[] UnfinishedPracticeSessionResults { get; private set; }
+        }
+
+        public class UnfinishedPracticeSessionResult
+        {
+            public UnfinishedPracticeSessionResult(PracticeSession practiceSession)
             {
                 if (practiceSession == null) throw new ArgumentNullException("practiceSession");
 

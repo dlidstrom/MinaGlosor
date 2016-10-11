@@ -3,17 +3,16 @@
 
     angular.module('mgApp').controller('PracticeIndexController', PracticeIndexController);
 
-    PracticeIndexController.$inject = ['$location', 'WordList', 'PracticeService', 'UnfinishedPracticeSessions'];
-    function PracticeIndexController($location, wordList, practiceService, unfinishedPracticeSessions) {
+    PracticeIndexController.$inject = ['$location', 'WordListId', 'PracticeService', 'Result'];
+    function PracticeIndexController($location, wordListId, practiceService, result) {
         var practiceIndex = this;
 
-        practiceIndex.wordList = wordList;
-        practiceIndex.unfinishedPracticeSessions = unfinishedPracticeSessions;
+        practiceIndex.wordListName = result.wordListName;
+        practiceIndex.unfinishedPracticeSessions = result.unfinishedPracticeSessions;
         practiceIndex.startNew = startNew;
         practiceIndex.formatDate = formatDate;
 
         function startNew() {
-            var wordListId = practiceIndex.wordList.wordListId;
             practiceService.create(wordListId).then(function (practiceId) {
                 $location.path('/wordlist/' + wordListId + '/practice/' + practiceId);
             });

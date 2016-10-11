@@ -9,7 +9,8 @@
            class="btn btn-primary btn-xs pull-right">
             öva
         </a>
-        <published-state published="item.published"></published-state>
+        <published-state if="item.isBorrowedWordList" published="item.published"></published-state>
+        <span if="item.isBorrowedWordList == false">Skapad av {{item.wordListOwnerUsername}}</span>
     </div>
     <div class="panel-body">
         <div class="progress">
@@ -19,15 +20,12 @@
         </div>
         <div>
             <span>
-                Du har gjort klart {{item.percentDone}}%.
+                Du har gjort klart {{item.percentDone}}%. Fortsätt med nya tills du har nått 100%.
             </span>
         </div>
         <div>
             <span class="label label-warning">{{item.percentDifficultWords}}% svåra</span>
             <span class="label label-success">{{item.percentEasyWords}}% enkla</span>
         </div>
-    </div>
-    <div class="panel-footer">
-        <gravatar-image hash="item.gravatarHash" owner="{{item.owner}}" size="40"></gravatar-image>
     </div>
 </div>

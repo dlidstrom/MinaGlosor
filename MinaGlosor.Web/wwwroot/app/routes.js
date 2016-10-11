@@ -116,22 +116,21 @@
                     controller: 'PracticeIndexController',
                     controllerAs: 'practiceIndex',
                     resolve: {
-                        UnfinishedPracticeSessions:
-                            [
-                                '$route',
-                                'PracticeService',
-                                function ($route, practiceService) {
-                                    return practiceService.getUnfinished($route.current.params.wordListId);
-                                }
-                            ],
-                        WordList:
-                            [
-                                '$route',
-                                'WordListService',
-                                function ($route, wordListService) {
-                                    return wordListService.getById($route.current.params.wordListId);
-                                }
-                            ]
+                        Result:
+                        [
+                            '$route',
+                            'PracticeService',
+                            function ($route, practiceService) {
+                                return practiceService.getUnfinished($route.current.params.wordListId);
+                            }
+                        ],
+                        WordListId:
+                        [
+                            '$route',
+                            function ($route) {
+                                return $route.current.params.wordListId;
+                            }
+                        ]
                     }
                 })
             .when(
