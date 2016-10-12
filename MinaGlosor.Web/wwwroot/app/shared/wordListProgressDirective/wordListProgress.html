@@ -9,13 +9,15 @@
            class="btn btn-primary btn-xs pull-right">
             öva
         </a>
-        <published-state if="item.isBorrowedWordList" published="item.published"></published-state>
-        <span if="item.isBorrowedWordList == false">Skapad av {{item.wordListOwnerUsername}}</span>
+        <published-state ng-if="item.isBorrowedWordList == false" published="item.published"></published-state>
+        <div>
+            <span ng-if="item.isBorrowedWordList">Skapad av {{item.wordListOwnerUsername}}</span>
+        </div>
     </div>
     <div class="panel-body">
-        <div class="progress">
+        <div class="progress progress-flat">
             <div class="progress-bar progress-bar-success" ng-style="getDoneStyle(item)">
-                {{item.percentDone}}%
+                <span class="progress-bar-label">{{item.percentDone}}</span>
             </div>
         </div>
         <div>

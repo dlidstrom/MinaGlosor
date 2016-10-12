@@ -12,7 +12,7 @@
                 item: '='
             },
             replace: false,
-            templateUrl: '/wwwroot/app/shared/wordListProgressDirective/wordListProgress.html?v=2',
+            templateUrl: '/wwwroot/app/shared/wordListProgressDirective/wordListProgress.html?v=3',
             controller: 'WordListProgressDirectiveController'
         };
     }
@@ -23,7 +23,8 @@
 
         function getDoneStyle(item) {
             return {
-                width: item.percentDone + '%'
+                width: item.percentDone + '%',
+                'min-width': '3rem'
             };
         }
     }
