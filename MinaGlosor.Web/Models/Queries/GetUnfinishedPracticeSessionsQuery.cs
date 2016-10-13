@@ -20,17 +20,17 @@ namespace MinaGlosor.Web.Models.Queries
 
         public class Result
         {
-            public Result(string wordListName, UnfinishedPracticeSessionResult[] unfinishedPracticeSessionResults)
+            public Result(string wordListName, UnfinishedPracticeSessionResult[] unfinishedPracticeSessions)
             {
                 if (wordListName == null) throw new ArgumentNullException("wordListName");
-                if (unfinishedPracticeSessionResults == null) throw new ArgumentNullException("unfinishedPracticeSessionResults");
+                if (unfinishedPracticeSessions == null) throw new ArgumentNullException("unfinishedPracticeSessions");
                 WordListName = wordListName;
-                UnfinishedPracticeSessionResults = unfinishedPracticeSessionResults;
+                UnfinishedPracticeSessions = unfinishedPracticeSessions;
             }
 
             public string WordListName { get; private set; }
 
-            public UnfinishedPracticeSessionResult[] UnfinishedPracticeSessionResults { get; private set; }
+            public UnfinishedPracticeSessionResult[] UnfinishedPracticeSessions { get; private set; }
         }
 
         public class UnfinishedPracticeSessionResult

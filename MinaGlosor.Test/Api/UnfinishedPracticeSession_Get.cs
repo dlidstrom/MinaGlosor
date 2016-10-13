@@ -44,14 +44,17 @@ namespace MinaGlosor.Test.Api
             var content = await response.Content.ReadAsStringAsync();
 
             // Assert
-            var expected = new[]
+            var expected = new
+            {
+                unfinishedPracticeSessions = new[]
                 {
                     new
-                        {
-                            practiceSessionId = "1",
-                            createdDate = "2012-01-01T00:00:00"
-                        }
-                };
+                    {
+                        practiceSessionId = "1",
+                        createdDate = "2012-01-01T00:00:00"
+                    }
+                }
+            };
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(content, Is.EqualTo(JsonConvert.SerializeObject(expected)));
         }

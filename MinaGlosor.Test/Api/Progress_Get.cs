@@ -32,7 +32,10 @@ namespace MinaGlosor.Test.Api
                             new
                                 {
                                     wordListId = "1",
-                                    ownerId = User.FromId(owner.Id),
+                                    progressOwnerId = User.FromId(owner.Id),
+                                    wordListOwnerId = User.FromId(owner.Id),
+                                    wordListOwnerUsername = "username",
+                                    isBorrowedWordList = false,
                                     name = "list",
                                     numberOfWords = 0,
                                     percentDone = 0,
@@ -78,7 +81,10 @@ namespace MinaGlosor.Test.Api
                             new
                                 {
                                     wordListId = "1",
-                                    ownerId = "1",
+                                    progressOwnerId = "1",
+                                    wordListOwnerId = "1",
+                                    wordListOwnerUsername = "username",
+                                    isBorrowedWordList = false,
                                     name = "Some name",
                                     numberOfWords = 2,
                                     percentDone = 0,
@@ -94,7 +100,10 @@ namespace MinaGlosor.Test.Api
                             new
                                 {
                                     wordListId = "5",
-                                    ownerId = "1",
+                                    progressOwnerId = "1",
+                                    wordListOwnerId = "1",
+                                    wordListOwnerUsername = "username",
+                                    isBorrowedWordList = false,
                                     name = "Then one more",
                                     numberOfWords = 3,
                                     percentDone = 0,
