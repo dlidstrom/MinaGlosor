@@ -18,34 +18,25 @@ namespace MinaGlosor.Test.Api
         {
             // Arrange
             SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1);
+            User owner;
             Transact(session =>
-                {
-                    var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
-                    session.Store(owner);
-                    var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "wl1", owner.Id);
-                    session.Store(wordList);
-                    var generator = new KeyGenerator<Word>(session);
-                    var practiceWords = Enumerable.Range(1, 10).Select(i =>
-                        {
-                            var word = Word.Create(
-                                generator.Generate(),
-                                "t" + i,
-                                "d" + i,
-                                wordList);
-                            session.Store(word);
-                            var practiceWord = new PracticeWord(word, wordList.Id, owner.Id);
-                            return practiceWord;
-                        }).ToArray();
-                    session.Store(new PracticeSession(KeyGeneratorBase.Generate<PracticeSession>(session), wordList.Id, practiceWords, owner.Id));
-                });
+            {
+                owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
+                session.Store(owner);
+            });
+
+            var wordListResponse = await this.PostWordList("wl1");
+            await this.PostWord("t", "d", wordListResponse.WordListId);
+            await this.StartPracticeSession(wordListResponse.WordListId);
 
             // Act
-            var response = await Client.GetAsync("http://temp.uri/api/unfinishedpracticesession?wordListId=1");
+            var response = await Client.GetAsync("http://temp.uri/api/unfinishedpracticesession?wordListId=" + wordListResponse.WordListId);
             var content = await response.Content.ReadAsStringAsync();
 
             // Assert
             var expected = new
             {
+                wordListName = "wl1",
                 unfinishedPracticeSessions = new[]
                 {
                     new

@@ -45,10 +45,10 @@ namespace MinaGlosor.Test.Api
                     new
                     {
                         wordListId = "1",
-                        progressOwnerId = "1",
+                        progressOwnerId = "5",
                         wordListOwnerId = "1",
-                        wordListOwnerUsername = "username",
-                        isBorrowedWordList = false,
+                        wordListOwnerUsername = "username1",
+                        isBorrowedWordList = true,
                         name = "list",
                         numberOfWords = 1,
                         percentDone = 0,
