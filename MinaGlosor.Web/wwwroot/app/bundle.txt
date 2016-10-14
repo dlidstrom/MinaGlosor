@@ -22,7 +22,8 @@ shared\progressService.js
 shared\publishedStateDirective\publishedStateDirective.js
 shared\searchService.js
 shared\spinnerDirective\spinnerDirective.js
-shared\wordFavouriteDirective\wordFavouriteDirective.js
+shared\wordFavouriteToggleDirective\wordFavouriteToggleDirective.js
+shared\wordListFavouritesDirective\wordListFavouritesDirective.js
 shared\wordFavouriteService.js
 shared\wordListService.js
 shared\wordService.js

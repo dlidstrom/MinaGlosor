@@ -39,10 +39,10 @@
                 <td ng-bind-html="word.text"></td>
                 <td ng-bind-html="word.definition"></td>
                 <td>
-                    <word-favourite word-id="word.wordId" is-favourite="item.isFavourite"></word-favourite>
                     <a href="{{'./word/' + word.wordId + '/edit?returnUrl=' + searchIndex.returnUrl}}" class="btn btn-xs btn-default pull-right">
                         <i class="glyphicon glyphicon-pencil"></i>
                     </a>
+                    <word-favourite-toggle class="pull-right" word-id="word.wordId" is-favourite="item.isFavourite"></word-favourite-toggle>
                 </td>
             </tr>
         </table>

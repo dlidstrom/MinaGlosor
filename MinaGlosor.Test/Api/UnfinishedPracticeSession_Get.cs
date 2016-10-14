@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using MinaGlosor.Test.Api.Infrastructure;
 using MinaGlosor.Web.Models;

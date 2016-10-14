@@ -1,0 +1,9 @@
+﻿<h1>
+    <i class="glyphicon glyphicon-star yes"></i>
+    Favoriter
+</h1>
+<a href="./wordlist/favourites">
+    <ng-pluralize count="progress.numberOfFavourites"
+                  when="{'0': 'Inga favoritord', '1': '{} favoritord', 'other': '{} favoritord'}">
+    </ng-pluralize>
+</a>

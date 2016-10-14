@@ -196,6 +196,9 @@
     <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImage.html" />
     <Content Include="wwwroot\app\shared\pagingDirective\pagingDirective.js" />
     <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImageDirective.js" />
+    <Content Include="wwwroot\app\shared\wordListFavouritesDirective\wordListFavourites.html" />
+    <Content Include="wwwroot\app\shared\wordListFavouritesDirective\wordListFavouritesDirective.js" />
+    <Content Include="wwwroot\app\shared\wordFavouriteToggleDirective\wordFavouriteToggle.html" />
     <Content Include="wwwroot\app\shared\wordListProgressDirective\wordListProgress.html" />
     <Content Include="wwwroot\app\shared\wordListProgressDirective\wordListProgressDirective.js" />
     <Content Include="wwwroot\app\shared\publishedStateDirective\publishedStateDirective.js" />
@@ -226,7 +229,7 @@
     <Content Include="wwwroot\app\help\index.html" />
     <Content Include="wwwroot\app\httpInterceptor.js" />
     <Content Include="wwwroot\app\shared\wordFavouriteService.js" />
-    <Content Include="wwwroot\app\shared\wordFavouriteDirective\wordFavouriteDirective.js" />
+    <Content Include="wwwroot\app\shared\wordFavouriteToggleDirective\wordFavouriteToggleDirective.js" />
     <Content Include="wwwroot\app\practice\practiceSessionMeaningController.js" />
     <Content Include="wwwroot\app\practice\practiceSessionMeaning.html" />
     <Content Include="wwwroot\app\practice\practiceSessionSummaryController.js" />
@@ -329,6 +332,8 @@
     <Content Include="wwwroot\app\shared\publishedStateDirective\publishedState.less" />
     <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImage.less" />
     <Content Include="wwwroot\app\shared\wordListProgressDirective\wordListProgress.less" />
+    <Content Include="wwwroot\app\shared\wordFavouriteToggleDirective\wordFavouriteToggle.less" />
+    <Content Include="wwwroot\app\shared\wordListFavouritesDirective\wordListFavourites.less" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap.css" />

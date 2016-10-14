@@ -1,45 +1,17 @@
 ﻿<div class="row">
     <div class="col-xs-12">
-        <h4>Mina ordlistor</h4>
-        <small>
-            Staplarna visar <span class="label label-success">&nbsp;</span>
-            när du för tillfället inte behöver öva mer.
-            När staplarna visar <span class="label label-warning">&nbsp;</span>
-            betyder det att vissa ord behöver övas på igen.
-            <a href="./help">Läs mer</a>
-        </small>
+        <a href="./wordlist/new" class="btn btn-xs btn-primary">
+            skapa ny ordlista
+        </a>
+                    - eller -
+        <a href="./browse" class="btn btn-xs btn-primary">
+            utforska andras
+        </a>
     </div>
 </div>
 <div class="row">
     <div class="col-xs-12">
-        <table class="table table-striped table-fixed">
-            <thead>
-            <tr>
-                <th>
-                    Ordlista
-                </th>
-                <th>
-                    <a href="./wordlist/new" class="btn btn-xs btn-primary">
-                        skapa ny ordlista
-                    </a>
-                    - eller -
-                    <a href="./browse" class="btn btn-xs btn-primary">
-                        utforska andras
-                    </a>
-                </th>
-            </tr>
-            </thead>
-            <tr>
-                <td colspan="2">
-                    <a href="./wordlist/favourites" class="favourite">
-                        <i class="glyphicon glyphicon-star yes"></i>
-                        <ng-pluralize count="progress.numberOfFavourites"
-                                      when="{'0': 'Inga favoriter', '1': 'En favorit', 'other': '{} favoriter'}">
-                        </ng-pluralize>
-                    </a>
-                </td>
-            </tr>
-        </table>
+        <word-list-favourites numberOfFavourites="item.numberOfFavourites"></word-list-favourites>
     </div>
 </div>
 <div class="row" ng-repeat="item in progress.progresses">
