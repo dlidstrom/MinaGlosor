@@ -185,7 +185,7 @@
     <Content Include="wwwroot\app\app.js" />
     <Content Include="wwwroot\app\browse\index.html" />
     <Content Include="wwwroot\app\browse\browseController.js" />
-    <Content Include="wwwroot\app\bundle.txt" />
+    <None Include="wwwroot\app\bundle.txt.delete" />
     <Content Include="wwwroot\app\exceptionHandler.js" />
     <Content Include="wwwroot\app\search\searchIndexController.js" />
     <Content Include="wwwroot\app\search\index.html" />
@@ -196,11 +196,12 @@
     <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImage.html" />
     <Content Include="wwwroot\app\shared\pagingDirective\pagingDirective.js" />
     <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImageDirective.js" />
-    <Content Include="wwwroot\app\shared\wordListFavouritesDirective\wordListFavourites.html" />
-    <Content Include="wwwroot\app\shared\wordListFavouritesDirective\wordListFavouritesDirective.js" />
+    <Content Include="wwwroot\app\shared\practiceProgress\practiceProgress.html" />
+    <Content Include="wwwroot\app\shared\progressListFavouritesDirective\progressListFavourites.html" />
+    <Content Include="wwwroot\app\shared\progressListFavouritesDirective\progressListFavouritesDirective.js" />
     <Content Include="wwwroot\app\shared\wordFavouriteToggleDirective\wordFavouriteToggle.html" />
-    <Content Include="wwwroot\app\shared\wordListProgressDirective\wordListProgress.html" />
-    <Content Include="wwwroot\app\shared\wordListProgressDirective\wordListProgressDirective.js" />
+    <Content Include="wwwroot\app\shared\progressListItem\progressListItem.html" />
+    <Content Include="wwwroot\app\shared\progressListItem\progressListItem.js" />
     <Content Include="wwwroot\app\shared\publishedStateDirective\publishedStateDirective.js" />
     <Content Include="wwwroot\app\shared\searchService.js" />
     <Content Include="wwwroot\app\shared\spinnerDirective\spinnerDirective.js" />
@@ -239,7 +240,7 @@
     <Content Include="wwwroot\app\practice\practiceSession.html" />
     <Content Include="wwwroot\app\practice\practiceIndexController.js" />
     <Content Include="wwwroot\app\routes.js" />
-    <Content Include="wwwroot\app\shared\practiceProgressDirective\practiceProgressDirective.js" />
+    <Content Include="wwwroot\app\shared\practiceProgress\practiceProgress.js" />
     <Content Include="wwwroot\app\shared\practiceWordService.js" />
     <Content Include="wwwroot\app\shared\practiceService.js" />
     <Content Include="wwwroot\app\shared\wordService.js" />
@@ -331,9 +332,10 @@
     <Content Include="Views\Shared\_WebApp.cshtml" />
     <Content Include="wwwroot\app\shared\publishedStateDirective\publishedState.less" />
     <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImage.less" />
-    <Content Include="wwwroot\app\shared\wordListProgressDirective\wordListProgress.less" />
+    <Content Include="wwwroot\app\shared\progressListItem\progressListItem.less" />
     <Content Include="wwwroot\app\shared\wordFavouriteToggleDirective\wordFavouriteToggle.less" />
-    <Content Include="wwwroot\app\shared\wordListFavouritesDirective\wordListFavourites.less" />
+    <Content Include="wwwroot\app\shared\progressListFavouritesDirective\progressListFavourites.less" />
+    <Content Include="wwwroot\app\shared\practiceProgress\practiceProgress.less" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap.css" />
@@ -636,6 +638,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="wwwroot\app\shared\progressListHeaderDirective\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

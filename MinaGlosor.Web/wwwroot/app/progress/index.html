@@ -11,11 +11,11 @@
 </div>
 <div class="row">
     <div class="col-xs-12">
-        <word-list-favourites numberOfFavourites="item.numberOfFavourites"></word-list-favourites>
+        <word-list-favourites number-of-favourites="progress.numberOfFavourites"></word-list-favourites>
     </div>
 </div>
 <div class="row" ng-repeat="item in progress.progresses">
-    <word-list-progress class="col-xs-12" item="item"></word-list-progress>
+    <progress-list-item class="col-xs-12" item="item"></progress-list-item>
 </div>
 <div class="row" ng-show="progress.paging.hasPages">
     <div class="col-xs-12">

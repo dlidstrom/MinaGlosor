@@ -1,0 +1,13 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="glyphicon glyphicon-star yes"></i>
+        Favoriter
+    </div>
+    <div class="panel-body">
+        <a href="./wordlist/favourites">
+            <ng-pluralize count="numberOfFavourites"
+                          when="{'0': 'Inga favoritord', '1': '{} favoritord', 'other': '{} favoritord'}">
+            </ng-pluralize>
+        </a>
+    </div>
+</div>
