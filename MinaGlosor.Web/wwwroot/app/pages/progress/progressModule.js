@@ -10,7 +10,7 @@
             {
                 name: 'progress',
                 url: '/progress?page',
-                component: 'progressListComponent',
+                component: 'progressList',
                 resolve: {
                     progressResult: [
                         '$stateParams',

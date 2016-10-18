@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('pages.progress')
-        .component('progressListComponent', {
+        .component('progressList', {
             bindings: {
                 progressResult: '<'
             },
