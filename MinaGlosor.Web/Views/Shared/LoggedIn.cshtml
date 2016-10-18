@@ -2,8 +2,7 @@
 @{
     Layout = null;
     Bundles.Reference("wwwroot/app", "app");
-    Bundles.Reference("wwwroot/main.less");
-    Bundles.Reference("wwwroot/spinner.less");
+    Bundles.Reference("wwwroot/", "root");
     Bundles.Reference("wwwroot/external/head_js", "head");
     Bundles.Reference("wwwroot/external/footer_js", "footer");
 }<!DOCTYPE html>
@@ -15,6 +14,8 @@
     @Html.Partial("_WebApp")
     <title>Mina Glosor</title>
     <base href="@string.Format("{0}://{1}:{2}/{3}/", Request.Url.Scheme, Request.Url.Host, Request.Url.Port, Model.Username)" />
+    @Bundles.RenderStylesheets("root")
+    @Bundles.RenderStylesheets("app")
     @Bundles.RenderScripts("head")
     <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/readable/bootstrap.min.css" rel="stylesheet">
     @Bundles.RenderStylesheets()
@@ -45,7 +46,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="./">
+                <a class="navbar-brand" ui-sref="profile">
                     <div class="logo">
                         <span class="label label-success">&nbsp;</span>
                         <span class="label label-info">&nbsp;</span>
@@ -95,7 +96,9 @@
                 <span class="label label-danger">Uppgradering krävs. Vänligen ladda om sidan.</span>
             </div>
         </div>
-        <div ng-view autoscroll></div>
+        <a ui-sref="profile">Profile</a>
+        <a ui-sref="test">Test</a>
+        <ui-view></ui-view>
     </div>
     <footer>
         <div class="container">

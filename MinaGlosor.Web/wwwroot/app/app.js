@@ -8,7 +8,10 @@
         'ngSanitize',
         'toaster',
         'ui.bootstrap',
-        'xeditable'];
+        'xeditable',
+        'ui.router',
+        'pages.profile',
+        'pages.test'];
     angular.module('mgApp', deps)
         .value('AppVersion', appVersion)
         .config(Config)
@@ -21,8 +24,19 @@
         $compileProvider.debugInfoEnabled(isDebuggingEnabled);
     }
 
-    Run.$inject = ['editableOptions'];
-    function Run(editableOptions) {
+    Run.$inject = ['$rootScope', '$state', 'editableOptions'];
+    function Run($rootScope, $state, editableOptions) {
         editableOptions.theme = 'bs3';
+        $rootScope.$on('$stateChangeError', console.log.bind(console));
+        //$trace.enable('TRANSITION');
+        $rootScope.$on('$stateChangeStart', function () {
+            console.log('$stateChangeStart');
+        });
+        $rootScope.$on('$stateChangeSuccess', function () {
+            console.log('$stateChangeSuccess');
+        });
+        $rootScope.$on('$stateChangeError', function () {
+            console.log('$stateChangeError');
+        });
     }
 })();

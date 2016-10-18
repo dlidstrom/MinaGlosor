@@ -185,8 +185,9 @@
     <Content Include="wwwroot\app\app.js" />
     <Content Include="wwwroot\app\browse\index.html" />
     <Content Include="wwwroot\app\browse\browseController.js" />
-    <None Include="wwwroot\app\bundle.txt.delete" />
     <Content Include="wwwroot\app\exceptionHandler.js" />
+    <Content Include="wwwroot\app\pages\profile\profile.js" />
+    <Content Include="wwwroot\app\pages\test\test.js" />
     <Content Include="wwwroot\app\search\searchIndexController.js" />
     <Content Include="wwwroot\app\search\index.html" />
     <Content Include="wwwroot\app\search\searchRedirectController.js" />
@@ -223,6 +224,8 @@
     <Content Include="wwwroot\external\head_js\angular-route.min.js" />
     <Content Include="wwwroot\external\head_js\angular-sanitize.js" />
     <Content Include="wwwroot\external\head_js\angular-sanitize.min.js" />
+    <Content Include="wwwroot\external\head_js\angular-ui-router.js" />
+    <Content Include="wwwroot\external\head_js\angular-ui-router.min.js" />
     <Content Include="wwwroot\external\head_js\angular.js" />
     <Content Include="wwwroot\external\head_js\angular.min.js" />
     <Content Include="wwwroot\external\head_js\bundle.txt" />

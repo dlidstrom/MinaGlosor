@@ -6,3 +6,4 @@ angular-messages.js
 angular-sanitize.js
 ui-bootstrap-tpls-2.1.1.min.js
 xeditable.js
+angular-ui-router.js

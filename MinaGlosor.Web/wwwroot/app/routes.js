@@ -3,9 +3,17 @@
 
     angular.module('mgApp').config(Config);
 
-    Config.$inject = ['$routeProvider', '$locationProvider'];
-    function Config($routeProvider, $locationProvider) {
+    Config.$inject = ['$routeProvider', '$locationProvider', '$stateProvider', '$urlRouterProvider'];
+    function Config($routeProvider, $locationProvider, $stateProvider, $urlRouterProvider) {
         $locationProvider.html5Mode(true);
+        $urlRouterProvider.otherwise('/');
+        //$stateProvider.state(
+        //    'profile',
+        //    {
+        //        url: '/',
+        //        redirectTo: 'test'
+        //    });
+        return;
         $routeProvider
             .when(
                 '/progress',
