@@ -1,33 +1,33 @@
 ﻿<div class="panel panel-default">
     <div class="panel-heading">
-        <a href="{{'./wordlist/' + item.wordListId}}">
+        <a href="{{'./wordlist/' + $ctrl.item.wordListId}}">
             <i class="glyphicon glyphicon-arrow-right"></i>
-            Visa {{item.name + ' (' + item.numberOfWords + ' ord)'}}
+            Visa {{$ctrl.item.name + ' (' + $ctrl.item.numberOfWords + ' ord)'}}
         </a>
-        <a ng-if="item.numberOfWords"
-           href="{{'./wordlist/' + item.wordListId + '/practice/'}}"
+        <a ng-if="$ctrl.item.numberOfWords"
+           href="{{'./wordlist/' + $ctrl.item.wordListId + '/practice/'}}"
            class="btn btn-primary btn-xs pull-right">
             öva
         </a>
-        <published-state ng-if="item.isBorrowedWordList == false" published="item.published"></published-state>
+        <published-state ng-if="$ctrl.item.isBorrowedWordList == false" published="$ctrl.item.published"></published-state>
         <div>
-            <span ng-if="item.isBorrowedWordList">Skapad av {{item.wordListOwnerUsername}}</span>
+            <span ng-if="$ctrl.item.isBorrowedWordList">Skapad av {{$ctrl.item.wordListOwnerUsername}}</span>
         </div>
     </div>
     <div class="panel-body">
         <div class="progress progress-flat">
-            <div class="progress-bar progress-bar-success" ng-style="getDoneStyle(item)">
-                <span class="progress-bar-label">{{item.percentDone}}</span>
+            <div class="progress-bar progress-bar-success" ng-style="$ctrl.getDoneStyle(item)">
+                <span class="progress-bar-label">{{$ctrl.item.percentDone}}</span>
             </div>
         </div>
         <div>
             <span>
-                Du har gjort klart {{item.percentDone}}%. Fortsätt med nya tills du har nått 100%.
+                Du har gjort klart {{$ctrl.item.percentDone}}%. Fortsätt med nya tills du har nått 100%.
             </span>
         </div>
         <div>
-            <span class="label label-warning">{{item.percentDifficultWords}}% svåra</span>
-            <span class="label label-success">{{item.percentEasyWords}}% enkla</span>
+            <span class="label label-warning">{{$ctrl.item.percentDifficultWords}}% svåra</span>
+            <span class="label label-success">{{$ctrl.item.percentEasyWords}}% enkla</span>
         </div>
     </div>
 </div>

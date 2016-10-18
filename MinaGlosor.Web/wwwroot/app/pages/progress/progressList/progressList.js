@@ -2,12 +2,14 @@
     'use strict';
 
     angular.module('pages.progress')
-        .component('progressList', {
-            bindings: {
-                progressResult: '<'
-            },
-            templateUrl: '/wwwroot/app/pages/progress/progressList/progressList.html'
-        })
+        .component(
+            'progressList',
+            {
+                bindings: {
+                    progressResult: '<'
+                },
+                templateUrl: '/wwwroot/app/pages/progress/progressList/progressList.html'
+            })
         .controller('ProgressListController', ProgressListController);
 
     ProgressListController.$inject = ['$state'];

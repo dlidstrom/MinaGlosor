@@ -1,25 +1,22 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('mgApp')
-        .directive('progressItem', ProgressListItem)
+    angular.module('pages.progress')
+        .component(
+            'progressItem',
+            {
+                bindings: {
+                    item: '<'
+                },
+                controller: 'ProgressItemController',
+                templateUrl: '/wwwroot/app/pages/progress/progressItem/progressItem.html'
+            })
         .controller('ProgressItemController', ProgressItemController);
 
-    function ProgressListItem() {
-        return {
-            restrict: 'E',
-            scope: {
-                item: '='
-            },
-            replace: false,
-            templateUrl: '/wwwroot/app/pages/progress/progressItem/progressItem.html',
-            controller: 'ProgressItemController'
-        };
-    }
+    function ProgressItemController() {
+        var $ctrl = this;
 
-    ProgressItemController.$inject = ['$scope'];
-    function ProgressItemController($scope) {
-        $scope.getDoneStyle = getDoneStyle;
+        $ctrl.getDoneStyle = getDoneStyle;
 
         function getDoneStyle(item) {
             return {
