@@ -2,13 +2,13 @@
     'use strict';
 
     angular.module('mgApp')
-        .directive('wordListFavourites', WordListFavourites);
+        .directive('progressFavourites', ProgressFavourites);
 
-    function WordListFavourites() {
+    function ProgressFavourites() {
         return {
             restrict: 'E',
             replace: false,
-            templateUrl: '/wwwroot/app/shared/progressListFavouritesDirective/progressListFavourites.html',
+            templateUrl: '/wwwroot/app/pages/progress/progressFavourites/progressFavourites.html',
             scope: {
                 numberOfFavourites: '='
             }

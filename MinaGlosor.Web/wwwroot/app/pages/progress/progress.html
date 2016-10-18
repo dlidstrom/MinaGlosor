@@ -1,0 +1,20 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <a href="./wordlist/new" class="btn btn-xs btn-primary">
+            skapa ny ordlista
+        </a>
+                    - eller -
+        <a href="./browse" class="btn btn-xs btn-primary">
+            utforska andras
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <progress-favourites number-of-favourites="controller.numberOfFavourites"></progress-favourites>
+    </div>
+</div>
+<div class="row" ng-repeat="item in controller.progresses">
+    <progress-item class="col-xs-12" item="item"></progress-item>
+</div>
+<paging paging="controller.paging"></paging>

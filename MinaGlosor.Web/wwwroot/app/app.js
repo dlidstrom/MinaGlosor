@@ -10,8 +10,7 @@
         'ui.bootstrap',
         'xeditable',
         'ui.router',
-        'pages.profile',
-        'pages.test'];
+        'pages.progress'];
     angular.module('mgApp', deps)
         .value('AppVersion', appVersion)
         .config(Config)

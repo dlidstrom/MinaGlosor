@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module('mgApp')
-        .directive('progressListItem', ProgressListItem)
-        .controller('ProgressListItemController', ProgressListItemController);
+        .directive('progressItem', ProgressListItem)
+        .controller('ProgressItemController', ProgressItemController);
 
     function ProgressListItem() {
         return {
@@ -12,13 +12,13 @@
                 item: '='
             },
             replace: false,
-            templateUrl: '/wwwroot/app/shared/progressListItem/progressListItem.html?v=4',
-            controller: 'ProgressListItemController'
+            templateUrl: '/wwwroot/app/pages/progress/progressItem/progressItem.html',
+            controller: 'ProgressItemController'
         };
     }
 
-    ProgressListItemController.$inject = ['$scope'];
-    function ProgressListItemController($scope) {
+    ProgressItemController.$inject = ['$scope'];
+    function ProgressItemController($scope) {
         $scope.getDoneStyle = getDoneStyle;
 
         function getDoneStyle(item) {
