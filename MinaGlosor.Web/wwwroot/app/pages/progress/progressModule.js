@@ -10,11 +10,9 @@
             {
                 name: 'progress',
                 url: '/progress?page',
-                controller: 'ProgressController',
-                controllerAs: 'controller',
-                templateUrl: '/wwwroot/app/pages/progress/progress.html?v=2',
+                component: 'progressListComponent',
                 resolve: {
-                    Result: [
+                    progressResult: [
                         '$stateParams',
                         'ProgressService',
                         function ($stateParams, progressService) {

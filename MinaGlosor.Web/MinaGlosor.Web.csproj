@@ -255,8 +255,8 @@
     <Content Include="wwwroot\app\wordlist\view.html" />
     <Content Include="wwwroot\app\wordlist\new.html" />
     <Content Include="wwwroot\app\wordlist\newWordListController.js" />
-    <Content Include="wwwroot\app\pages\progress\progressController.js" />
-    <Content Include="wwwroot\app\pages\progress\progress.html" />
+    <Content Include="wwwroot\app\pages\progress\progressList\progressListController.js" />
+    <Content Include="wwwroot\app\pages\progress\progressList\progressList.html" />
     <Compile Include="Controllers\AccountLogoffController.cs" />
     <Compile Include="Controllers\AccountPasswordController.cs" />
     <Compile Include="Controllers\Api\BrowseController.cs" />

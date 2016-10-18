@@ -11,10 +11,10 @@
 </div>
 <div class="row">
     <div class="col-xs-12">
-        <progress-favourites number-of-favourites="controller.numberOfFavourites"></progress-favourites>
+        <progress-favourites number-of-favourites="$ctrl.progressResult.numberOfFavourites"></progress-favourites>
     </div>
 </div>
-<div class="row" ng-repeat="item in controller.progresses">
+<div class="row" ng-repeat="item in $ctrl.progressResult.progresses">
     <progress-item class="col-xs-12" item="item"></progress-item>
 </div>
-<paging paging="controller.paging"></paging>
+<paging paging="$ctrl.progressResult.paging"></paging>
