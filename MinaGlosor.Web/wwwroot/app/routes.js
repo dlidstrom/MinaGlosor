@@ -3,16 +3,10 @@
 
     angular.module('mgApp').config(Config);
 
-    Config.$inject = ['$routeProvider', '$locationProvider', '$stateProvider', '$urlRouterProvider'];
-    function Config($routeProvider, $locationProvider, $stateProvider, $urlRouterProvider) {
-        $locationProvider.html5Mode(true);
+    Config.$inject = ['$locationProvider', '$urlRouterProvider'];
+    function Config($locationProvider, $urlRouterProvider) {
+        $locationProvider.html5Mode(true); // TODO How to do with ui-router?
         $urlRouterProvider.otherwise('/progress');
-        //$stateProvider.state(
-        //    'profile',
-        //    {
-        //        url: '/',
-        //        redirectTo: 'test'
-        //    });
         return;
         $routeProvider
             .when(

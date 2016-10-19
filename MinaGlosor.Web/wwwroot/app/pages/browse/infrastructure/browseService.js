@@ -1,14 +1,14 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('mgApp').factory('BrowseService', BrowseService);
+    angular.module('pages.browse').factory('BrowseService', BrowseService);
 
     BrowseService.$inject = ['$http', '$q'];
     function BrowseService($http, $q) {
         var url = '/api/browse';
         return {
             search: function (page) {
-                var deferred = $q.defer();
+                var deferred = $q.defer(); // TODO Still necessary?
                 $http.get(
                     url,
                     {

@@ -1,22 +1,22 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('pages.progress', ['ui.router'])
+    angular.module('pages.browse', ['ui.router'])
         .config(Config);
 
     Config.$inject = ['$stateProvider'];
     function Config($stateProvider) {
         $stateProvider.state(
             {
-                name: 'progress',
-                url: '/progress?page',
-                component: 'progressList',
+                name: 'browse',
+                url: '/browse?page',
+                component: 'browseList',
                 resolve: {
                     model: [
                         '$stateParams',
-                        'ProgressService',
-                        function ($stateParams, progressService) {
-                            return progressService.getAll($stateParams.page);
+                        'BrowseService',
+                        function ($stateParams, browseService) {
+                            return browseService.search($stateParams.page);
                         }
                     ]
                 }

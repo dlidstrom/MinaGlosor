@@ -6,7 +6,7 @@
             'progressList',
             {
                 bindings: {
-                    progressResult: '<'
+                    model: '<'
                 },
                 templateUrl: '/wwwroot/app/pages/progress/progressList/progressList.html'
             })
@@ -19,7 +19,7 @@
         $ctrl.pageChanged = pageChanged;
 
         function pageChanged() {
-            $state.go('progress', { page: $ctrl.progressResult.paging.currentPage });
+            $state.go('progress', { page: $ctrl.model.paging.currentPage });
         }
     };
 })();

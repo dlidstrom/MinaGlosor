@@ -10,7 +10,8 @@
         'ui.bootstrap',
         'xeditable',
         'ui.router',
-        'pages.progress'];
+        'pages.progress',
+        'pages.browse'];
     angular.module('mgApp', deps)
         .value('AppVersion', appVersion)
         .config(Config)
@@ -27,7 +28,6 @@
     function Run($rootScope, $state, editableOptions) {
         editableOptions.theme = 'bs3';
         $rootScope.$on('$stateChangeError', console.log.bind(console));
-        //$trace.enable('TRANSITION');
         $rootScope.$on('$stateChangeStart', function () {
             console.log('$stateChangeStart');
         });
