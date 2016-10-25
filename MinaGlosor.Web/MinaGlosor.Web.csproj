@@ -187,11 +187,13 @@
     <Content Include="wwwroot\app\pages\practice\practiceStart\unfinishedPracticeSessions\unfinishedPracticeSessions.html" />
     <Content Include="wwwroot\app\pages\practice\practiceStart\unfinishedPracticeSessions\unfinishedPracticeSessions.js" />
     <Content Include="wwwroot\app\pages\progress\progressModule.js" />
-    <Content Include="wwwroot\app\search\searchIndexController.js" />
-    <Content Include="wwwroot\app\search\index.html" />
-    <Content Include="wwwroot\app\search\searchRedirectController.js" />
+    <Content Include="wwwroot\app\pages\search\navbarSearch\navbarSearch.html" />
+    <Content Include="wwwroot\app\pages\search\searchModule.js" />
+    <Content Include="wwwroot\app\pages\search\searchList\searchList.js" />
+    <Content Include="wwwroot\app\pages\search\searchList\searchList.html" />
+    <Content Include="wwwroot\app\pages\search\navbarSearch\navbarSearch.js" />
     <Content Include="wwwroot\app\shared\clickOnceDirective\clickOnceDirective.js" />
-    <Content Include="wwwroot\app\shared\closeNavbarDirective\closeNavbarDirective.js" />
+    <Content Include="wwwroot\app\pages\search\infrastructure\closeNavbarDirective\closeNavbarDirective.js" />
     <Content Include="wwwroot\app\pages\browse\infrastructure\browseService.js" />
     <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImage.html" />
     <Content Include="wwwroot\app\shared\pagingDirective\pagingDirective.js" />
@@ -203,7 +205,7 @@
     <Content Include="wwwroot\app\pages\progress\progressItem\progressItem.html" />
     <Content Include="wwwroot\app\pages\progress\progressItem\progressItem.js" />
     <Content Include="wwwroot\app\shared\publishedStateDirective\publishedStateDirective.js" />
-    <Content Include="wwwroot\app\shared\searchService.js" />
+    <Content Include="wwwroot\app\pages\search\infrastructure\searchService.js" />
     <Content Include="wwwroot\app\shared\spinnerDirective\spinnerDirective.js" />
     <Content Include="wwwroot\app\pages\progress\infrastructure\progressService.js" />
     <Content Include="wwwroot\external\footer_js\angular-spinner.min.js" />
@@ -238,9 +240,7 @@
     <Content Include="wwwroot\app\pages\practice\practiceSession\practiceSummary\practiceSummary.js" />
     <Content Include="wwwroot\app\pages\practice\practiceSession\practiceSummary\practiceSummary.html" />
     <Content Include="wwwroot\app\pages\practice\practiceSession\practiceWordText\practiceWordText.js" />
-    <Content Include="wwwroot\app\pages\practice\practiceList\index.html" />
     <Content Include="wwwroot\app\pages\practice\practiceSession\practiceWordText\practiceWordText.html" />
-    <Content Include="wwwroot\app\pages\practice\practiceList\practiceIndexController.js" />
     <Content Include="wwwroot\app\routes.js" />
     <Content Include="wwwroot\app\pages\practice\practiceSession\shared\practiceProgress\practiceProgress.js" />
     <Content Include="wwwroot\app\pages\practice\infrastructure\practiceWordService.js" />

@@ -10,9 +10,11 @@
         'ui.bootstrap',
         'xeditable',
         'ui.router',
-        'pages.progress',
+        'pages.browse',
         'pages.practice',
-        'pages.browse'];
+        'pages.progress',
+        'pages.search'
+    ];
     angular.module('mgApp', deps)
         .value('AppVersion', appVersion)
         .config(Config)
@@ -25,18 +27,20 @@
         $compileProvider.debugInfoEnabled(isDebuggingEnabled);
     }
 
-    Run.$inject = ['$rootScope', '$state', 'editableOptions'];
-    function Run($rootScope, $state, editableOptions) {
+    Run.$inject = ['$rootScope', '$state', '$log', 'editableOptions'];
+    function Run($rootScope, $state, $log, editableOptions) {
         editableOptions.theme = 'bs3';
-        $rootScope.$on('$stateChangeError', console.log.bind(console));
+        $rootScope.$on('$stateChangeError', function (err) {
+            $log.error(err);
+        });
         $rootScope.$on('$stateChangeStart', function () {
-            console.log('$stateChangeStart');
+            $log.info('$stateChangeStart');
         });
         $rootScope.$on('$stateChangeSuccess', function () {
-            console.log('$stateChangeSuccess');
+            $log.info('$stateChangeSuccess');
         });
         $rootScope.$on('$stateChangeError', function () {
-            console.log('$stateChangeError');
+            $log.info('$stateChangeError');
         });
     }
 })();

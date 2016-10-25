@@ -11,6 +11,12 @@
                 name: 'progress',
                 url: '/progress?page',
                 component: 'progressList',
+                params: {
+                    page: {
+                        value: '1',
+                        squash: true
+                    }
+                },
                 resolve: {
                     model: [
                         '$stateParams',
