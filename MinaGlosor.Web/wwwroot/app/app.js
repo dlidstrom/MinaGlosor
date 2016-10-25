@@ -11,6 +11,7 @@
         'xeditable',
         'ui.router',
         'pages.progress',
+        'pages.practice',
         'pages.browse'];
     angular.module('mgApp', deps)
         .value('AppVersion', appVersion)

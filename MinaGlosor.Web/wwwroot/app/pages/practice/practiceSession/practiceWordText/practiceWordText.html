@@ -1,0 +1,15 @@
+﻿<h4>Övning: {{$ctrl.model.wordListName}}</h4>
+<practice-progress green="{{$ctrl.model.green}}" blue="{{$ctrl.model.blue}}" yellow="{{$ctrl.model.yellow}}"></practice-progress>
+<form ng-submit="$ctrl.showMeaning()">
+    <fieldset>
+        <legend>
+            {{$ctrl.model.text}}
+        </legend>
+        <div class="row">
+            <div class="col-xs-12">
+                <input class="btn btn-primary btn-sm" type="submit" value="visa betydelse" />
+                <a class="btn btn-default btn-sm" ui-sref="progress">avbryt</a>
+            </div>
+        </div>
+    </fieldset>
+</form>

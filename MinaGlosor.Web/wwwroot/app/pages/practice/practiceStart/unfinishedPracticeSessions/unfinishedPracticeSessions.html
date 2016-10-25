@@ -1,0 +1,24 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <h5>Övningar som inte avslutats</h5>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <th>Datum</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="item in $ctrl.sessions">
+                <td>{{$ctrl.formatDate(item.createdDate)}}</td>
+                <td>
+                    <a ui-sref="practice-word-text({wordListId: $ctrl.wordListId, practiceSessionId: item.practiceSessionId})"
+                       class="btn btn-primary btn-xs">
+                        fortsätt
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

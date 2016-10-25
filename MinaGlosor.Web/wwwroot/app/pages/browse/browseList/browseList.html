@@ -21,7 +21,7 @@
                 </dl>
             </div>
             <div class="panel-footer">
-                <a ng-if="item.numberOfWords" href="{{'./wordlist/' + item.wordListId + '/practice/'}}" class="btn btn-primary btn-xs">
+                <a ng-if="item.numberOfWords" ui-sref="practice({wordListId: item.wordListId})" class="btn btn-primary btn-xs">
                     öva
                 </a>
             </div>

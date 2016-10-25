@@ -11,7 +11,7 @@
                 $rootScope.$emit('events:beginRequest');
                 config.headers['Application-Version-Key'] = appVersion;
                 if (config.url.indexOf('/wwwroot/app') >= 0) {
-                    config.url += '?' + appVersion;
+                    config.url += '?_=' + appVersion;
                 }
 
                 return config;

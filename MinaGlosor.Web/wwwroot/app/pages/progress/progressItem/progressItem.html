@@ -5,7 +5,7 @@
             Visa {{$ctrl.item.name + ' (' + $ctrl.item.numberOfWords + ' ord)'}}
         </a>
         <a ng-if="$ctrl.item.numberOfWords"
-           href="{{'./wordlist/' + $ctrl.item.wordListId + '/practice/'}}"
+           ui-sref="practice({wordListId: $ctrl.item.wordListId})"
            class="btn btn-primary btn-xs pull-right">
             öva
         </a>

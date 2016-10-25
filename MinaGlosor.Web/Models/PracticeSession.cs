@@ -38,6 +38,8 @@ namespace MinaGlosor.Web.Models
 
         public bool IsFinished { get; private set; }
 
+        public string CurrentPracticeWordId { get; private set; }
+
         public static string ToId(string practiceSessionId)
         {
             if (practiceSessionId == null) throw new ArgumentNullException("practiceSessionId");
@@ -94,7 +96,10 @@ namespace MinaGlosor.Web.Models
         public void UpdateLastPickedDate(string practiceWordId)
         {
             if (practiceWordId == null) throw new ArgumentNullException("practiceWordId");
-            Apply(new UpdateLastPickedDateEvent(Id, practiceWordId, SystemTime.UtcNow));
+            if (CurrentPracticeWordId != practiceWordId)
+            {
+                Apply(new UpdateLastPickedDateEvent(Id, practiceWordId, SystemTime.UtcNow));
+            }
         }
 
         public void UpdateConfidence(string practiceWordId, ConfidenceLevel confidenceLevel)
@@ -141,6 +146,7 @@ namespace MinaGlosor.Web.Models
         {
             var nextWord = Words.Single(x => x.PracticeWordId == @event.PracticeWordId);
             nextWord.UpdateLastPickedDate(@event.Date);
+            CurrentPracticeWordId = nextWord.PracticeWordId;
         }
 
         private void ApplyEvent(PracticeSessionCreatedEvent @event)

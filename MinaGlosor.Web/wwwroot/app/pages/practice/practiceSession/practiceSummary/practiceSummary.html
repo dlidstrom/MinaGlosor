@@ -1,0 +1,19 @@
+﻿<h4>Övning klar!</h4>
+<practice-progress green="100" blue="0" yellow="0"></practice-progress>
+<div class="row">
+    <div class="col-xs-12">
+        <p>
+            Du har övat klart för dagen. Om du vill kan du starta en ny övning.
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <a ui-sref="progress" class="btn btn-xs btn-primary">
+            mina ordlistor
+        </a>
+        <a ui-sref="practice({wordListId: $ctrl.model.wordListId})" class="btn btn-xs btn-default">
+            fortsätt öva
+        </a>
+    </div>
+</div>

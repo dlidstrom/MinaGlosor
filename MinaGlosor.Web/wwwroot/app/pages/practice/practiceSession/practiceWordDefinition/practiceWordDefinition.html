@@ -1,0 +1,52 @@
+﻿<h4>Övning: {{$ctrl.model.wordListName}}</h4>
+<practice-progress green="{{$ctrl.model.green}}" blue="{{$ctrl.model.blue}}" yellow="{{$ctrl.model.yellow}}"></practice-progress>
+<form ng-submit="angular.noop()">
+    <div class="row">
+        <div class="col-xs-6">
+            {{$ctrl.model.text}}
+        </div>
+        <div class="col-xs-5">
+            {{$ctrl.model.definition}}
+        </div>
+    </div>
+    <hr class="spacer1" />
+    <fieldset ng-disabled="$ctrl.model.saving">
+        <legend>
+            Hur väl kunde du?
+            <word-favourite-toggle word-id="$ctrl.model.wordId" is-favourite="$ctrl.model.isFavourite"></word-favourite-toggle>
+        </legend>
+        <div class="row">
+            <div class="col-xs-12">
+                <button type="button" class="btn btn-success btn-xs btn-block" ng-click="$ctrl.submit('PerfectResponse')" click-once>
+                    Rätt svar
+                </button>
+                <button type="button" class="btn btn-success btn-xs btn-block" ng-click="$ctrl.submit('CorrectAfterHesitation')" click-once>
+                    Rätt svar efter viss tvekan
+                </button>
+                <button type="button" class="btn btn-info btn-xs btn-block" ng-click="$ctrl.submit('RecalledWithSeriousDifficulty')" click-once>
+                    Rätt svar men svårt
+                </button>
+                <button type="button" class="btn btn-warning btn-xs btn-block" ng-click="$ctrl.submit('IncorrectWithEasyRecall')" click-once>
+                    Fel svar, lätt när svaret visades
+                </button>
+                <button type="button" class="btn btn-warning btn-xs btn-block" ng-click="$ctrl.submit('IncorrectButRemembered')" click-once>
+                    Fel svar, påmindes om rätt svar
+                </button>
+                <button type="button" class="btn btn-danger btn-xs btn-block" ng-click="$ctrl.submit('CompleteBlackout')" click-once>
+                    Total blackout!
+                </button>
+            </div>
+        </div>
+        <hr class="spacer5" />
+        <div class="row">
+            <div class="col-xs-12">
+                <small>
+                    Svara <span class="label label-success">&nbsp;</span>
+                    på ord du verkligen kan. Då återkommer det inte inom övningen. Svarar du
+                    <span class="label label-info">&nbsp;</span>, <span class="label label-warning">&nbsp;</span>
+                    eller <span class="label label-danger">&nbsp;</span> så repeteras ordet tills du kan det.
+                </small>
+            </div>
+        </div>
+    </fieldset>
+</form>

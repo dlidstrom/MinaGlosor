@@ -1,0 +1,39 @@
+﻿<h4>Öva på {{practiceIndex.wordListName}}</h4>
+<p>
+    Öva på ett urval av dina ord. Övningen fortsätter tills du har lärt dig orden. Du kan alltid avbryta en övning och fortsätta senare.
+</p>
+<form ng-submit="practiceIndex.startNew()">
+    <div class="row">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary btn-sm">
+                starta
+            </button>
+            <a href="./progress" class="btn btn-default btn-sm">avbryt</a>
+        </div>
+    </div>
+</form>
+<hr />
+<div class="row" ng-show="practiceIndex.unfinishedPracticeSessions.length">
+    <div class="col-xs-12">
+        <h5>Övningar som inte avslutats</h5>
+    </div>
+</div>
+<div class="row" ng-show="practiceIndex.unfinishedPracticeSessions.length">
+    <div class="col-xs-12">
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <th>Datum</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="item in practiceIndex.unfinishedPracticeSessions">
+                <td>{{practiceIndex.formatDate(item.createdDate)}}</td>
+                <td>
+                    <a href="{{'./wordlist/' + practiceIndex.wordList.wordListId + '/practice/' + item.practiceSessionId}}"
+                       class="btn btn-primary btn-xs">
+                        fortsätt
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

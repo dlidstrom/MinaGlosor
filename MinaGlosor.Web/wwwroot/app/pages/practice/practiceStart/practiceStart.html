@@ -1,0 +1,19 @@
+﻿<h4>Öva på {{$ctrl.model.wordListName}}</h4>
+<p>
+    Öva på ett urval av dina ord. Övningen fortsätter tills du har lärt dig orden. Du kan alltid avbryta en övning och fortsätta senare.
+</p>
+<form ng-submit="$ctrl.newSession()">
+    <div class="row">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary btn-sm">
+                starta
+            </button>
+            <a ui-sref="progress" class="btn btn-default btn-sm">avbryt</a>
+        </div>
+    </div>
+</form>
+<hr/>
+<unfinished-practice-sessions ng-show="$ctrl.model.unfinishedPracticeSessions.length"
+                              sessions="$ctrl.model.unfinishedPracticeSessions"
+                              word-list-id="$ctrl.wordListId">
+</unfinished-practice-sessions>
