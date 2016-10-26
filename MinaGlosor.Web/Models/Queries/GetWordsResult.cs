@@ -8,6 +8,7 @@ namespace MinaGlosor.Web.Models.Queries
     public class GetWordsResult
     {
         private GetWordsResult(
+            string wordListId,
             string wordListName,
             WordListPublishState? publishState,
             bool canEdit,
@@ -17,8 +18,10 @@ namespace MinaGlosor.Web.Models.Queries
             int currentPage,
             int itemsPerPage)
         {
+            if (wordListId == null) throw new ArgumentNullException("wordListId");
             if (wordListName == null) throw new ArgumentNullException("wordListName");
             if (words == null) throw new ArgumentNullException("words");
+            WordListId = wordListId;
             WordListName = wordListName;
             PublishState = publishState;
             CanEdit = canEdit;
@@ -37,6 +40,7 @@ namespace MinaGlosor.Web.Models.Queries
             int itemsPerPage)
         {
             return new GetWordsResult(
+                WordList.FromId(wordList.Id),
                 wordList.Name,
                 wordList.PublishState,
                 canEdit,
@@ -57,6 +61,7 @@ namespace MinaGlosor.Web.Models.Queries
         {
             return new GetWordsResult(
                 string.Empty,
+                string.Empty,
                 null,
                 canEdit,
                 canAdd,
@@ -65,6 +70,8 @@ namespace MinaGlosor.Web.Models.Queries
                 currentPage,
                 itemsPerPage);
         }
+
+        public string WordListId { get; private set; }
 
         public string WordListName { get; private set; }
 
