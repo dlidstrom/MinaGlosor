@@ -6,7 +6,7 @@
             'navbarSearch',
             {
                 bindings: {
-                    dataNavbarTarget: '@'
+                    navbarTarget: '@'
                 },
                 controller: 'NavbarSearchController',
                 templateUrl: '/wwwroot/app/pages/search/navbarSearch/navbarSearch.html'
