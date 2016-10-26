@@ -680,6 +680,6 @@
   </Target>
   -->
   <Target Name="BeforeBuild">
-    <Exec Command="del /F /S /Q bin\MinaGlosor.Web.dll obj\MinaGlosor.Web.dll" />
+    <Exec Command="clean.cmd" />
   </Target>
 </Project>
