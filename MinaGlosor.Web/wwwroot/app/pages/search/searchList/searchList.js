@@ -14,22 +14,26 @@
             })
         .controller('SearchListController', SearchListController);
 
-    SearchListController.$inject = ['$scope', '$state', '$sce', '$location'];
-    function SearchListController($scope, $state, $sce, $location) {
+    SearchListController.$inject = ['$scope', '$state', '$sce', '$location', 'SearchService'];
+    function SearchListController($scope, $state, $sce, $location, searchService) {
         var $ctrl = this;
 
-        $ctrl.q = q;
+        $ctrl.q = $state.params.q;
         $ctrl.submit = submit;
         $ctrl.words = trustHtml($ctrl.model.words);
         $ctrl.returnUrl = encodeURIComponent($location.url());
 
         $scope.$on('$locationChangeSuccess', function () {
-            $ctrl.q = $state.params.search;
+            $ctrl.q = $state.params.q;
         });
 
         function submit(newQ) {
+            searchService.search(newQ)
+                .then(function (result) {
+                    $ctrl.words = trustHtml(result.words);
+                });
             $state.go('.', { q: newQ }, { notify: false });
-        };
+        }
 
         function trustHtml(words) {
             var trusted = words.map(function (w) {
