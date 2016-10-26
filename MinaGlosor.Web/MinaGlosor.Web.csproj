@@ -192,8 +192,12 @@
     <Content Include="wwwroot\app\pages\search\searchList\searchList.js" />
     <Content Include="wwwroot\app\pages\search\searchList\searchList.html" />
     <Content Include="wwwroot\app\pages\search\navbarSearch\navbarSearch.js" />
+    <Content Include="wwwroot\app\pages\wordList\viewWordList\publishModal\publishModal.html" />
+    <Content Include="wwwroot\app\pages\wordList\viewWordList\publishModal\publishModal.js" />
+    <Content Include="wwwroot\app\pages\wordList\viewWordList\viewWordList.html" />
+    <Content Include="wwwroot\app\pages\wordList\wordListModule.js" />
     <Content Include="wwwroot\app\shared\clickOnceDirective\clickOnceDirective.js" />
-    <Content Include="wwwroot\app\pages\search\infrastructure\closeNavbarDirective\closeNavbarDirective.js" />
+    <Content Include="wwwroot\app\shared\closeNavbarDirective\closeNavbarDirective.js" />
     <Content Include="wwwroot\app\pages\browse\infrastructure\browseService.js" />
     <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImage.html" />
     <Content Include="wwwroot\app\shared\pagingDirective\pagingDirective.js" />
@@ -201,7 +205,7 @@
     <Content Include="wwwroot\app\pages\practice\practiceSession\shared\practiceProgress\practiceProgress.html" />
     <Content Include="wwwroot\app\pages\progress\progressFavourites\progressFavourites.html" />
     <Content Include="wwwroot\app\pages\progress\progressFavourites\progressFavourites.js" />
-    <Content Include="wwwroot\app\shared\wordFavouriteToggleDirective\wordFavouriteToggle.html" />
+    <Content Include="wwwroot\app\pages\wordList\shared\wordFavouriteToggle\wordFavouriteToggle.html" />
     <Content Include="wwwroot\app\pages\progress\progressItem\progressItem.html" />
     <Content Include="wwwroot\app\pages\progress\progressItem\progressItem.js" />
     <Content Include="wwwroot\app\shared\publishedStateDirective\publishedStateDirective.js" />
@@ -233,8 +237,8 @@
     <Content Include="wwwroot\external\head_js\jquery-2.1.3.min.js" />
     <Content Include="wwwroot\app\help\index.html" />
     <Content Include="wwwroot\app\httpInterceptor.js" />
-    <Content Include="wwwroot\app\shared\wordFavouriteService.js" />
-    <Content Include="wwwroot\app\shared\wordFavouriteToggleDirective\wordFavouriteToggleDirective.js" />
+    <Content Include="wwwroot\app\pages\wordList\infrastructure\wordFavouriteService.js" />
+    <Content Include="wwwroot\app\pages\wordList\shared\wordFavouriteToggle\wordFavouriteToggle.js" />
     <Content Include="wwwroot\app\pages\practice\practiceSession\practiceWordDefinition\practiceWordDefinition.js" />
     <Content Include="wwwroot\app\pages\practice\practiceSession\practiceWordDefinition\practiceWordDefinition.html" />
     <Content Include="wwwroot\app\pages\practice\practiceSession\practiceSummary\practiceSummary.js" />
@@ -245,16 +249,16 @@
     <Content Include="wwwroot\app\pages\practice\practiceSession\shared\practiceProgress\practiceProgress.js" />
     <Content Include="wwwroot\app\pages\practice\infrastructure\practiceWordService.js" />
     <Content Include="wwwroot\app\pages\practice\infrastructure\practiceService.js" />
-    <Content Include="wwwroot\app\shared\wordService.js" />
-    <Content Include="wwwroot\app\shared\wordListService.js" />
-    <Content Include="wwwroot\app\wordlist\addWordEditor.html" />
-    <Content Include="wwwroot\app\wordlist\addWordController.js" />
-    <Content Include="wwwroot\app\wordlist\viewFavouritesController.js" />
+    <Content Include="wwwroot\app\pages\wordList\infrastructure\wordService.js" />
+    <Content Include="wwwroot\app\pages\wordList\infrastructure\wordListService.js" />
+    <Content Include="wwwroot\app\pages\wordList\addWord\addWordEditor.html" />
+    <Content Include="wwwroot\app\pages\wordList\addWord\addWordController.js" />
+    <Content Include="wwwroot\app\pages\wordList\favourites\viewFavouritesController.js" />
     <Content Include="wwwroot\app\word\editWordController.js" />
-    <Content Include="wwwroot\app\wordlist\viewWordListController.js" />
-    <Content Include="wwwroot\app\wordlist\view.html" />
-    <Content Include="wwwroot\app\wordlist\new.html" />
-    <Content Include="wwwroot\app\wordlist\newWordListController.js" />
+    <Content Include="wwwroot\app\pages\wordList\viewWordList\viewWordList.js" />
+    <Content Include="wwwroot\app\pages\wordList\shared\view.html" />
+    <Content Include="wwwroot\app\pages\wordList\create\createWordList.html" />
+    <Content Include="wwwroot\app\pages\wordList\create\createWordList.js" />
     <Content Include="wwwroot\app\pages\progress\progressList\progressList.js" />
     <Content Include="wwwroot\app\pages\progress\progressList\progressList.html" />
     <Compile Include="Controllers\AccountLogoffController.cs" />
@@ -294,7 +298,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\bundle.txt" />
-    <Content Include="wwwroot\external\head_js\ui-bootstrap-tpls-2.1.1.min.js" />
+    <Content Include="wwwroot\external\head_js\ui-bootstrap-tpls-2.2.0.js" />
+    <Content Include="wwwroot\external\head_js\ui-bootstrap-tpls-2.2.0.min.js" />
     <Content Include="wwwroot\external\head_js\xeditable.js" />
     <Content Include="wwwroot\external\head_js\xeditable.min.js" />
     <Content Include="wwwroot\images\apple-touch-icon-114x114.png" />
@@ -335,7 +340,7 @@
     <Content Include="wwwroot\app\shared\publishedStateDirective\publishedState.less" />
     <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImage.less" />
     <Content Include="wwwroot\app\pages\progress\progressItem\progressItem.less" />
-    <Content Include="wwwroot\app\shared\wordFavouriteToggleDirective\wordFavouriteToggle.less" />
+    <Content Include="wwwroot\app\pages\wordList\shared\wordFavouriteToggle\wordFavouriteToggle.less" />
     <Content Include="wwwroot\app\pages\progress\progressFavourites\progressFavourites.less" />
     <Content Include="wwwroot\app\pages\practice\practiceSession\shared\practiceProgress\practiceProgress.less" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />

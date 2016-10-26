@@ -1,0 +1,42 @@
+﻿<p class="lead">
+    Skapa en ny ordlista
+</p>
+
+<form name="form" ng-submit="controller.create(wordListName)" ng-controller="NewWordListController as controller">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group" ng-class="{'has-error': form.wordListName.$dirty && form.wordListName.$invalid}">
+                <label class="control-label">
+                    Ange namn
+                </label>
+                <input type="text"
+                       class="form-control"
+                       name="wordListName"
+                       ng-model="wordListName"
+                       placeholder="Skriv ett namn"
+                       autofocus="autofocus"
+                       maxlength="1024"
+                       ng-focus="showPrompt = true"
+                       ng-blur="showPrompt = false"
+                       ng-model-options="{ updateOn: 'default blur' }"
+                       required />
+                <div class="messages">
+                    <div class="message-animation" ng-if="showPrompt">
+                        Skriv ett namn på ordlistan
+                    </div>
+                </div>
+                <div class="messages" ng-show="form.wordListName.$dirty && form.wordListName.$invalid" ng-messages="form.wordListName.$error">
+                    <div class="message-animation" ng-message="required">
+                        <strong>Du måste ange ett namn på ordlistan</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <input class="btn btn-primary" type="submit" value="Spara" ng-disabled="form.$invalid" click-once />
+            <a class="btn btn-default" href="./wordlist">Avbryt</a>
+        </div>
+    </div>
+</form>

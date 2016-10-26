@@ -8,7 +8,7 @@
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
-                angular.element(elem).on('submit', function () {
+                angular.element(elem).on('click submit', function () {
                     var selector = scope.$eval(attrs.closeNavbar);
                     var target = angular.element(selector);
                     if (!target) {

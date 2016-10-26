@@ -4,6 +4,6 @@ angular-animate.js
 angular-route.js
 angular-messages.js
 angular-sanitize.js
-ui-bootstrap-tpls-2.1.1.min.js
+ui-bootstrap-tpls-2.2.0.js
 xeditable.js
 angular-ui-router.js

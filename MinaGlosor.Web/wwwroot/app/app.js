@@ -13,7 +13,8 @@
         'pages.browse',
         'pages.practice',
         'pages.progress',
-        'pages.search'
+        'pages.search',
+        'pages.wordlist'
     ];
     angular.module('mgApp', deps)
         .value('AppVersion', appVersion)
