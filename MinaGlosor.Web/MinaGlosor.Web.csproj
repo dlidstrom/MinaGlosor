@@ -177,6 +177,7 @@
     <Content Include="LICENSE.txt" />
     <Content Include="Web.config" />
     <Content Include="wwwroot\app\app.js" />
+    <Content Include="wwwroot\app\shared\navbar\navbarController.js" />
     <Content Include="wwwroot\app\pages\browse\browseList\browseList.html" />
     <Content Include="wwwroot\app\pages\browse\browseList\browseList.js" />
     <Content Include="wwwroot\app\exceptionHandler.js" />
@@ -196,21 +197,20 @@
     <Content Include="wwwroot\app\pages\wordList\viewWordList\publishModal\publishModal.js" />
     <Content Include="wwwroot\app\pages\wordList\viewWordList\viewWordList.html" />
     <Content Include="wwwroot\app\pages\wordList\wordListModule.js" />
-    <Content Include="wwwroot\app\shared\clickOnceDirective\clickOnceDirective.js" />
-    <Content Include="wwwroot\app\shared\closeNavbarDirective\closeNavbarDirective.js" />
+    <Content Include="wwwroot\app\shared\clickOnce\clickOnceDirective.js" />
     <Content Include="wwwroot\app\pages\browse\infrastructure\browseService.js" />
-    <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImage.html" />
-    <Content Include="wwwroot\app\shared\pagingDirective\pagingDirective.js" />
-    <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImageDirective.js" />
+    <Content Include="wwwroot\app\shared\gravatarImage\gravatarImage.html" />
+    <Content Include="wwwroot\app\shared\paging\pagingDirective.js" />
+    <Content Include="wwwroot\app\shared\gravatarImage\gravatarImageDirective.js" />
     <Content Include="wwwroot\app\pages\practice\practiceSession\shared\practiceProgress\practiceProgress.html" />
     <Content Include="wwwroot\app\pages\progress\progressFavourites\progressFavourites.html" />
     <Content Include="wwwroot\app\pages\progress\progressFavourites\progressFavourites.js" />
     <Content Include="wwwroot\app\pages\wordList\shared\wordFavouriteToggle\wordFavouriteToggle.html" />
     <Content Include="wwwroot\app\pages\progress\progressItem\progressItem.html" />
     <Content Include="wwwroot\app\pages\progress\progressItem\progressItem.js" />
-    <Content Include="wwwroot\app\shared\publishedStateDirective\publishedStateDirective.js" />
+    <Content Include="wwwroot\app\shared\publishedState\publishedStateDirective.js" />
     <Content Include="wwwroot\app\pages\search\infrastructure\searchService.js" />
-    <Content Include="wwwroot\app\shared\spinnerDirective\spinnerDirective.js" />
+    <Content Include="wwwroot\app\shared\spinner\spinnerDirective.js" />
     <Content Include="wwwroot\app\pages\progress\infrastructure\progressService.js" />
     <Content Include="wwwroot\external\footer_js\angular-spinner.min.js" />
     <Content Include="wwwroot\external\footer_js\bootstrap.min.js" />
@@ -337,8 +337,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Shared\_WebApp.cshtml" />
-    <Content Include="wwwroot\app\shared\publishedStateDirective\publishedState.less" />
-    <Content Include="wwwroot\app\shared\gravatarImageDirective\gravatarImage.less" />
+    <Content Include="wwwroot\app\shared\publishedState\publishedState.less" />
+    <Content Include="wwwroot\app\shared\gravatarImage\gravatarImage.less" />
     <Content Include="wwwroot\app\pages\progress\progressItem\progressItem.less" />
     <Content Include="wwwroot\app\pages\wordList\shared\wordFavouriteToggle\wordFavouriteToggle.less" />
     <Content Include="wwwroot\app\pages\progress\progressFavourites\progressFavourites.less" />

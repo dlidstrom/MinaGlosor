@@ -12,7 +12,7 @@
                 size: '@'
             },
             replace: false,
-            templateUrl: '/wwwroot/app/shared/gravatarImageDirective/gravatarImage.html'
+            templateUrl: '/wwwroot/app/shared/gravatarImage/gravatarImage.html'
         };
     }
 })();
