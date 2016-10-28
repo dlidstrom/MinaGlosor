@@ -27,5 +27,21 @@
                     ]
                 }
             });
+
+        $stateProvider.state(
+            {
+                name: 'wordlist-addword',
+                url: '/wordlist/:wordListId/word/new',
+                component: 'addWord',
+                resolve: {
+                    model: [
+                        '$stateParams',
+                        'WordListService',
+                        function ($stateParams, wordListService) {
+                            return wordListService.getById($stateParams.wordListId);
+                        }
+                    ]
+                }
+            });
     }
 })();

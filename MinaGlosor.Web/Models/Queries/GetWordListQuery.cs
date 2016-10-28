@@ -36,6 +36,11 @@ namespace MinaGlosor.Web.Models.Queries
 
             public int NumberOfWords { get; private set; }
 
+            public bool CanPractice
+            {
+                get { return NumberOfWords > 0; }
+            }
+
             [JsonConverter(typeof(StringEnumConverter))]
             public WordListPublishState PublishState { get; private set; }
         }
