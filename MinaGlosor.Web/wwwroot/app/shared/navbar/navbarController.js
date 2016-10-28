@@ -3,10 +3,11 @@
 
     angular.module('mgApp').controller('NavbarController', NavbarController);
 
-    NavbarController.$inject = ['$scope'];
-    function NavbarController($scope) {
+    NavbarController.$inject = ['$rootScope'];
+    function NavbarController($rootScope) {
         var $ctrl = this;
-        $scope.$on('$locationChangeSuccess', function () {
+        $ctrl.isCollapsed = true;
+        $rootScope.$on('$locationChangeSuccess', function () {
             $ctrl.isCollapsed = true;
         });
     }
