@@ -32,6 +32,7 @@ namespace MinaGlosor.Test.Api
                 ownerId = "1",
                 name = "some name",
                 numberOfWords = 0,
+                canPractice = false,
                 publishState = "Private"
             };
             Assert.That(result, Is.EqualTo(JsonConvert.SerializeObject(expected)));
