@@ -1,5 +1,5 @@
-﻿<form name="form" ng-submit="editor.update(editor.entry)">
-    <fieldset ng-disabled="editor.saving">
+﻿<form name="form" ng-submit="$ctrl.update()">
+    <fieldset ng-disabled="saving">
         <legend>
             Redigera
         </legend>
@@ -12,7 +12,7 @@
                     <textarea type="text"
                               class="form-control vertical"
                               name="word"
-                              ng-model="editor.entry.text"
+                              ng-model="$ctrl.model.text"
                               placeholder="Skriv ett ord eller fras"
                               maxlength="1024"
                               ng-disabled="saving"
@@ -46,7 +46,7 @@
                     <textarea type="text"
                               class="form-control vertical"
                               name="definition"
-                              ng-model="editor.entry.definition"
+                              ng-model="$ctrl.model.definition"
                               placeholder="Skriv betydelsen"
                               maxlength="1024"
                               autocapitalize="off"
@@ -75,7 +75,7 @@
                 <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid" click-once>
                     Spara
                 </button>
-                <a ng-href=".{{editor.returnUrl}}" class="btn btn-default">
+                <a ng-href="{{$ctrl.returnUrl}}" class="btn btn-default">
                     Avbryt
                 </a>
             </div>

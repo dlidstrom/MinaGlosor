@@ -43,5 +43,30 @@
                     ]
                 }
             });
+
+        $stateProvider.state(
+            {
+                name: 'wordlist-editword',
+                url: '/wordlist/:wordListId/word/:wordId?returnUrl',
+                component: 'editWord',
+                resolve: {
+                    model: [
+                        '$stateParams',
+                        'WordService',
+                        function ($stateParams, wordService) {
+                            return wordService.get($stateParams.wordId);
+                        }
+                    ],
+                    returnState: [
+                        '$state',
+                        function ($state) {
+                            return {
+                                name: $state.current.name,
+                                params: $state.params
+                            };
+                        }
+                    ]
+                }
+            });
     }
 })();

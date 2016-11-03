@@ -254,7 +254,7 @@
     <Content Include="wwwroot\app\pages\wordList\addWord\addWord.html" />
     <Content Include="wwwroot\app\pages\wordList\addWord\addWord.js" />
     <Content Include="wwwroot\app\pages\wordList\favourites\viewFavouritesController.js" />
-    <Content Include="wwwroot\app\pages\wordList\editWord\editWordController.js" />
+    <Content Include="wwwroot\app\pages\wordList\editWord\editWord.js" />
     <Content Include="wwwroot\app\pages\wordList\viewWordList\viewWordList.js" />
     <Content Include="wwwroot\app\pages\wordList\shared\view.html" />
     <Content Include="wwwroot\app\pages\wordList\create\createWordList.html" />
@@ -347,7 +347,7 @@
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap.min.css" />
-    <Content Include="wwwroot\app\pages\wordList\editWord\edit.html" />
+    <Content Include="wwwroot\app\pages\wordList\editWord\editWord.html" />
     <Content Include="wwwroot\main.less" />
   </ItemGroup>
   <ItemGroup>
