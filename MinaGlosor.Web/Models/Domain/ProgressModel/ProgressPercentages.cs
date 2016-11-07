@@ -70,7 +70,7 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel
                 progressWordCounts.NumberOfWordScores,
                 out difficultWordsFraction);
 
-            if (PercentDone + PercentExpired == 100 && percentEasyWords + percentDifficultWords < 100)
+            if (PercentDone == 100 && percentEasyWords + percentDifficultWords < 100)
             {
                 if (easyWordsFraction >= difficultWordsFraction)
                 {
