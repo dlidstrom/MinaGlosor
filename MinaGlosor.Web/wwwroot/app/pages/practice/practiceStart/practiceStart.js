@@ -9,6 +9,7 @@
                     model: '<',
                     wordListId: '<'
                 },
+                controller: 'PracticeStartController',
                 templateUrl: '/wwwroot/app/pages/practice/practiceStart/practiceStart.html'
             })
         .controller('PracticeStartController', PracticeStartController);
@@ -20,8 +21,8 @@
         $ctrl.newSession = newSession;
 
         function newSession() {
-            practiceService.create(wordListId).then(function (practiceId) {
-                $state.go('practice-word-text', { wordListId: wordListId, practiceId: practiceId });
+            practiceService.create($ctrl.wordListId).then(function (practiceSessionId) {
+                $state.go('practice-word-text', { wordListId: $ctrl.wordListId, practiceSessionId: practiceSessionId });
             });
         }
     }
