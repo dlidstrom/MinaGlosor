@@ -21,16 +21,12 @@ namespace MinaGlosor.Test.Api
             var result = await content.ReadAsStringAsync();
             var expected = new
                 {
-                    wordListId = "",
-                    wordListName = "",
-                    publishState = (string)null,
-                    canEdit = true,
-                    canAdd = false,
                     words = new[]
                         {
                             new
                                 {
                                     id = "1",
+                                    wordListId = "1",
                                     text = "w2",
                                     definition = "d2"
                                 }
