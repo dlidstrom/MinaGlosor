@@ -6,14 +6,14 @@ using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Models.Queries.Handlers
 {
-    public class GetWordFavouritesQueryHandler : QueryHandlerBase<GetWordFavouritesQuery, GetWordsResult>
+    public class GetWordFavouritesQueryHandler : QueryHandlerBase<GetWordFavouritesQuery, GetWordFavouritesResult>
     {
         public override bool CanExecute(GetWordFavouritesQuery query, User currentUser)
         {
             return true;
         }
 
-        public override GetWordsResult Handle(GetWordFavouritesQuery query)
+        public override GetWordFavouritesResult Handle(GetWordFavouritesQuery query)
         {
             RavenQueryStatistics stats;
             var linq = Session.Query<WordFavourite, WordFavouriteIndex>()
@@ -23,11 +23,7 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
                               .Where(x => x.IsFavourite && x.UserId == query.UserId);
             var favourites = linq.ToArray();
             var words = Session.Load<Word>(favourites.Select(x => x.WordId));
-            var canEdit = query.UserId == query.CurrentUserId;
-            const bool CanAdd = false;
-            var result = GetWordsResult.CreateFromFavourites(
-                canEdit,
-                CanAdd,
+            var result = new GetWordFavouritesResult(
                 words,
                 stats.TotalResults,
                 query.Page,

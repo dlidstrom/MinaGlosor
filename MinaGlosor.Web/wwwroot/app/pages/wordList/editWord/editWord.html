@@ -75,7 +75,7 @@
                 <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid" click-once>
                     Spara
                 </button>
-                <a ng-href="{{$ctrl.returnUrl}}" class="btn btn-default">
+                <a ng-click="$ctrl.cancel()" class="btn btn-default">
                     Avbryt
                 </a>
             </div>

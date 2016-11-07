@@ -26,7 +26,7 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
             var words = linq.ToArray();
 
             var isOwner = query.UserId == wordList.OwnerId;
-            var result = GetWordsResult.CreateFromWordList(
+            var result = new GetWordsResult(
                 wordList,
                 isOwner,
                 isOwner,

@@ -3,7 +3,7 @@ using MinaGlosor.Web.Infrastructure;
 
 namespace MinaGlosor.Web.Models.Queries
 {
-    public class GetWordFavouritesQuery : IQuery<GetWordsResult>
+    public class GetWordFavouritesQuery : IQuery<GetWordFavouritesResult>
     {
         public GetWordFavouritesQuery(string currentUserId, string userId, int page, int itemsPerPage)
         {

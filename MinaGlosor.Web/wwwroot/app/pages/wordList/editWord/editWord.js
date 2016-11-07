@@ -19,12 +19,17 @@
         var $ctrl = this;
 
         $ctrl.update = update;
+        $ctrl.cancel = cancel;
 
         function update() {
             wordService.update($ctrl.model.wordId, $ctrl.model.text, $ctrl.model.definition)
                 .then(function () {
                     $state.go($ctrl.returnState.name, $ctrl.returnState.params);
                 });
+        }
+
+        function cancel() {
+            $state.go($ctrl.returnState.name, $ctrl.returnState.params);
         }
     }
 })();

@@ -7,30 +7,7 @@ namespace MinaGlosor.Web.Models.Queries
 {
     public class GetWordsResult
     {
-        private GetWordsResult(
-            string wordListId,
-            string wordListName,
-            WordListPublishState? publishState,
-            bool canEdit,
-            bool canAdd,
-            Word[] words,
-            int totalItems,
-            int currentPage,
-            int itemsPerPage)
-        {
-            if (wordListId == null) throw new ArgumentNullException("wordListId");
-            if (wordListName == null) throw new ArgumentNullException("wordListName");
-            if (words == null) throw new ArgumentNullException("words");
-            WordListId = wordListId;
-            WordListName = wordListName;
-            PublishState = publishState;
-            CanEdit = canEdit;
-            CanAdd = canAdd;
-            Words = words.Select(x => new WordResult(x)).ToArray();
-            Paging = new Paging(totalItems, currentPage, itemsPerPage);
-        }
-
-        public static GetWordsResult CreateFromWordList(
+        public GetWordsResult(
             WordList wordList,
             bool canEdit,
             bool canAdd,
@@ -39,36 +16,15 @@ namespace MinaGlosor.Web.Models.Queries
             int currentPage,
             int itemsPerPage)
         {
-            return new GetWordsResult(
-                WordList.FromId(wordList.Id),
-                wordList.Name,
-                wordList.PublishState,
-                canEdit,
-                canAdd,
-                words,
-                totalItems,
-                currentPage,
-                itemsPerPage);
-        }
-
-        public static GetWordsResult CreateFromFavourites(
-            bool canEdit,
-            bool canAdd,
-            Word[] words,
-            int totalResults,
-            int currentPage,
-            int itemsPerPage)
-        {
-            return new GetWordsResult(
-                string.Empty,
-                string.Empty,
-                null,
-                canEdit,
-                canAdd,
-                words,
-                totalResults,
-                currentPage,
-                itemsPerPage);
+            if (wordList == null) throw new ArgumentNullException("wordList");
+            if (words == null) throw new ArgumentNullException("words");
+            WordListId = WordList.FromId(wordList.Id);
+            WordListName = wordList.Name;
+            PublishState = wordList.PublishState;
+            CanEdit = canEdit;
+            CanAdd = canAdd;
+            Words = words.Select(x => new WordResult(x)).ToArray();
+            Paging = new Paging(totalItems, currentPage, itemsPerPage);
         }
 
         public string WordListId { get; private set; }
@@ -76,7 +32,7 @@ namespace MinaGlosor.Web.Models.Queries
         public string WordListName { get; private set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public WordListPublishState? PublishState { get; private set; }
+        public WordListPublishState PublishState { get; private set; }
 
         public bool CanEdit { get; private set; }
 

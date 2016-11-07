@@ -4,7 +4,7 @@
         Favoriter
     </div>
     <div class="panel-body">
-        <a href="./wordlist/favourites">
+        <a ui-sref="wordlist-favourites">
             <ng-pluralize count="$ctrl.numberOfFavourites"
                           when="{'0': 'Inga favoritord', '1': '{} favoritord', 'other': '{} favoritord'}">
             </ng-pluralize>

@@ -21,7 +21,7 @@
                     url,
                     {
                         params: {
-                            page: page || 1
+                            page: page
                         }
                     })
                     .success(function (data) {
