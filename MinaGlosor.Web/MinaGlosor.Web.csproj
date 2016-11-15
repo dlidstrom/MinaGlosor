@@ -345,6 +345,7 @@
     <Content Include="wwwroot\app\pages\wordList\shared\wordFavouriteToggle\wordFavouriteToggle.less" />
     <Content Include="wwwroot\app\pages\progress\progressFavourites\progressFavourites.less" />
     <Content Include="wwwroot\app\pages\practice\practiceSession\shared\practiceProgress\practiceProgress.less" />
+    <Content Include="wwwroot\app\pages\progress\progressList\progressList.less" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap.css" />
