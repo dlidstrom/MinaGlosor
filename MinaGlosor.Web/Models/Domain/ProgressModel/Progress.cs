@@ -92,6 +92,11 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel
                     newWordCounts = WordCounts.TurnedEasy();
                     break;
                 }
+
+                case WordScoreDifficultyLifecycle.NoChange:
+                {
+                    return;
+                }
             }
 
             var newPercentages = Percentages.Difficulties(newWordCounts);
