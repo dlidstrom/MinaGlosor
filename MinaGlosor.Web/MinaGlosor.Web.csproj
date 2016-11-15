@@ -259,8 +259,8 @@
     <Content Include="wwwroot\app\pages\wordList\editWord\editWord.js" />
     <Content Include="wwwroot\app\pages\wordList\viewWordList\viewWordList.js" />
     <Content Include="wwwroot\app\pages\wordList\shared\view.html" />
-    <Content Include="wwwroot\app\pages\wordList\create\createWordList.html" />
-    <Content Include="wwwroot\app\pages\wordList\create\createWordList.js" />
+    <Content Include="wwwroot\app\pages\wordList\createWordList\createWordList.html" />
+    <Content Include="wwwroot\app\pages\wordList\createWordList\createWordList.js" />
     <Content Include="wwwroot\app\pages\progress\progressList\progressList.js" />
     <Content Include="wwwroot\app\pages\progress\progressList\progressList.html" />
     <Compile Include="Controllers\AccountLogoffController.cs" />

@@ -2,7 +2,7 @@
     Skapa en ny ordlista
 </p>
 
-<form name="form" ng-submit="controller.create(wordListName)" ng-controller="NewWordListController as controller">
+<form name="form" ng-submit="$ctrl.create(wordListName)">
     <div class="row">
         <div class="col-xs-12">
             <div class="form-group" ng-class="{'has-error': form.wordListName.$dirty && form.wordListName.$invalid}">
@@ -36,7 +36,7 @@
     <div class="row">
         <div class="col-xs-12">
             <input class="btn btn-primary" type="submit" value="Spara" ng-disabled="form.$invalid" click-once />
-            <a class="btn btn-default" href="./wordlist">Avbryt</a>
+            <a class="btn btn-default" ui-sref="progress">Avbryt</a>
         </div>
     </div>
 </form>

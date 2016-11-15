@@ -30,6 +30,13 @@
 
         $stateProvider.state(
             {
+                name: 'wordlist-create',
+                url: '/wordlist/new',
+                component: 'createWordList'
+            });
+
+        $stateProvider.state(
+            {
                 name: 'wordlist-addword',
                 url: '/wordlist/{wordListId:[0-9]+}/word/new',
                 component: 'addWord',
