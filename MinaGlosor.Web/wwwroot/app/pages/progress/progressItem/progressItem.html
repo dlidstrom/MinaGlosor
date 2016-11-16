@@ -1,8 +1,7 @@
 ﻿<div class="panel panel-default">
     <div class="panel-heading">
         <a href="{{'./wordlist/' + $ctrl.item.wordListId}}">
-            <i class="glyphicon glyphicon-arrow-right"></i>
-            Visa {{$ctrl.item.name + ' (' + $ctrl.item.numberOfWords + ' ord)'}}
+            {{$ctrl.item.name + ' (' + $ctrl.item.numberOfWords + ' ord)'}}
         </a>
         <a ng-if="$ctrl.item.numberOfWords"
            ui-sref="practice({wordListId: $ctrl.item.wordListId})"
@@ -26,8 +25,12 @@
             </span>
         </div>
         <div>
-            <span class="label label-warning">{{$ctrl.item.percentDifficultWords}}% svåra</span>
-            <span class="label label-success">{{$ctrl.item.percentEasyWords}}% enkla</span>
+            <span class="label label-warning" ng-if="$ctrl.item.percentDifficultWords">
+                {{$ctrl.item.percentDifficultWords}}% svåra
+            </span>
+            <span class="label label-success" ng-if="$ctrl.item.percentEasyWords">
+                {{$ctrl.item.percentEasyWords}}% enkla
+            </span>
         </div>
     </div>
 </div>

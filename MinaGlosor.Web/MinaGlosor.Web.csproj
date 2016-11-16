@@ -178,6 +178,12 @@
     <Content Include="LICENSE.txt" />
     <Content Include="Web.config" />
     <Content Include="wwwroot\app\app.js" />
+    <Content Include="wwwroot\app\pages\browse\browseList\browseListItem\browseListItem.html" />
+    <Content Include="wwwroot\app\pages\browse\browseList\browseListItem\browseListItem.js" />
+    <Content Include="wwwroot\app\pages\progress\progressItem\publishedState\publishedState.html" />
+    <Content Include="wwwroot\app\pages\progress\progressItem\publishedState\publishedState.js" />
+    <Content Include="wwwroot\app\pages\progress\progressList\progressListHeader\progressListHeader.html" />
+    <Content Include="wwwroot\app\pages\progress\progressList\progressListHeader\progressListHeader.js" />
     <Content Include="wwwroot\app\pages\wordList\viewFavourites\viewFavourites.html" />
     <Content Include="wwwroot\app\shared\navbar\navbarController.js" />
     <Content Include="wwwroot\app\pages\browse\browseList\browseList.html" />
@@ -346,6 +352,10 @@
     <Content Include="wwwroot\app\pages\progress\progressFavourites\progressFavourites.less" />
     <Content Include="wwwroot\app\pages\practice\practiceSession\shared\practiceProgress\practiceProgress.less" />
     <Content Include="wwwroot\app\pages\progress\progressList\progressList.less" />
+    <Content Include="wwwroot\app\pages\progress\progressList\progressListHeader\progressListHeader.less" />
+    <Content Include="wwwroot\app\pages\browse\browseList\browseListItem\browseListItem.less" />
+    <Content Include="wwwroot\app\pages\browse\browseList\browseList.less" />
+    <Content Include="wwwroot\app\pages\progress\progressItem\publishedState\publishedState.less" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap.css" />

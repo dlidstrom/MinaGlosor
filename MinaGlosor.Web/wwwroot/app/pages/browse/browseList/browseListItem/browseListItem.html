@@ -1,0 +1,20 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        <gravatar-image hash="$ctrl.item.gravatarHash" owner="{{$ctrl.item.username}}" size="40"></gravatar-image>
+    </div>
+    <div class="panel-body">
+        <dl>
+            <dt>Namn</dt>
+            <dd>{{$ctrl.item.name}}</dd>
+            <dt>Antal ord</dt>
+            <dd>{{$ctrl.item.numberOfWords}}</dd>
+        </dl>
+    </div>
+    <div class="panel-footer">
+        <a ng-if="$ctrl.item.numberOfWords"
+           ui-sref="practice({wordListId: $ctrl.item.wordListId})"
+           class="btn btn-primary btn-xs">
+            öva
+        </a>
+    </div>
+</div>

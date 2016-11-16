@@ -8,24 +8,7 @@
 </div>
 <div class="row" ng-repeat="item in $ctrl.model.wordLists">
     <div class="col-xs-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <gravatar-image hash="item.gravatarHash" owner="{{item.username}}" size="40"></gravatar-image>
-            </div>
-            <div class="panel-body">
-                <dl>
-                    <dt>Namn</dt>
-                    <dd>{{item.name}}</dd>
-                    <dt>Antal ord</dt>
-                    <dd>{{item.numberOfWords}}</dd>
-                </dl>
-            </div>
-            <div class="panel-footer">
-                <a ng-if="item.numberOfWords" ui-sref="practice({wordListId: item.wordListId})" class="btn btn-primary btn-xs">
-                    öva
-                </a>
-            </div>
-        </div>
+        <browse-list-item item="item"></browse-list-item>
     </div>
 </div>
 <div class="lead" ng-hide="$ctrl.model.wordLists.length">
