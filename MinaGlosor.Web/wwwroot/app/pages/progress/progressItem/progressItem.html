@@ -14,11 +14,7 @@
         </div>
     </div>
     <div class="panel-body">
-        <div class="progress progress-flat">
-            <div class="progress-bar progress-bar-success" ng-style="$ctrl.getDoneStyle($ctrl.item)">
-                <span class="progress-bar-label">{{$ctrl.item.percentDone}}</span>
-            </div>
-        </div>
+        <progress-item-progress item="$ctrl.item"></progress-item-progress>
         <div>
             <span>
                 Du har gjort klart {{$ctrl.item.percentDone}}%. Fortsätt med nya tills du har nått 100%.

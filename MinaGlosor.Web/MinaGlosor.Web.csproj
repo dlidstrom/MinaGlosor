@@ -180,6 +180,8 @@
     <Content Include="wwwroot\app\app.js" />
     <Content Include="wwwroot\app\pages\browse\browseList\browseListItem\browseListItem.html" />
     <Content Include="wwwroot\app\pages\browse\browseList\browseListItem\browseListItem.js" />
+    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemProgress\progressItemProgress.html" />
+    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemProgress\progressItemProgress.js" />
     <Content Include="wwwroot\app\pages\progress\progressItem\publishedState\publishedState.html" />
     <Content Include="wwwroot\app\pages\progress\progressItem\publishedState\publishedState.js" />
     <Content Include="wwwroot\app\pages\progress\progressList\progressListHeader\progressListHeader.html" />
@@ -356,6 +358,7 @@
     <Content Include="wwwroot\app\pages\browse\browseList\browseListItem\browseListItem.less" />
     <Content Include="wwwroot\app\pages\browse\browseList\browseList.less" />
     <Content Include="wwwroot\app\pages\progress\progressItem\publishedState\publishedState.less" />
+    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemProgress\progressItemProgress.less" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap.css" />
