@@ -15,18 +15,7 @@
     </div>
     <div class="panel-body">
         <progress-item-progress item="$ctrl.item"></progress-item-progress>
-        <div>
-            <span>
-                Du har gjort klart {{$ctrl.item.percentDone}}%. Fortsätt med nya tills du har nått 100%.
-            </span>
-        </div>
-        <div>
-            <span class="label label-warning" ng-if="$ctrl.item.percentDifficultWords">
-                {{$ctrl.item.percentDifficultWords}}% svåra
-            </span>
-            <span class="label label-success" ng-if="$ctrl.item.percentEasyWords">
-                {{$ctrl.item.percentEasyWords}}% enkla
-            </span>
-        </div>
+        <progress-item-description item="$ctrl.item"></progress-item-description>
+        <progress-item-percentages item="$ctrl.item"></progress-item-percentages>
     </div>
 </div>

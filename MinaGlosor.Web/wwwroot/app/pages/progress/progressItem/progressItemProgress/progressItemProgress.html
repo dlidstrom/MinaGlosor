@@ -2,4 +2,7 @@
     <div class="progress-bar progress-bar-success" ng-style="$ctrl.getDoneStyle($ctrl.item)">
         <span class="progress-bar-label">{{$ctrl.item.percentDone}}</span>
     </div>
+    <div class="progress-bar progress-bar-warning" ng-style="$ctrl.getExpiredStyle($ctrl.item)">
+        <span class="progress-bar-label">{{$ctrl.item.percentExpired}}</span>
+    </div>
 </div>

@@ -17,10 +17,18 @@
         var $ctrl = this;
 
         $ctrl.getDoneStyle = getDoneStyle;
+        $ctrl.getExpiredStyle = getExpiredStyle;
 
         function getDoneStyle(item) {
             return {
-                width: item.percentDone + '%',
+                width: (item.percentDone - item.percentExpired) + '%',
+                'min-width': '3rem'
+            };
+        }
+
+        function getExpiredStyle(item) {
+            return {
+                width: item.percentExpired + '%',
                 'min-width': '3rem'
             };
         }

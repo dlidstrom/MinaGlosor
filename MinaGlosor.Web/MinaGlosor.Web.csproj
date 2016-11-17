@@ -180,6 +180,11 @@
     <Content Include="wwwroot\app\app.js" />
     <Content Include="wwwroot\app\pages\browse\browseList\browseListItem\browseListItem.html" />
     <Content Include="wwwroot\app\pages\browse\browseList\browseListItem\browseListItem.js" />
+    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemDescription\progressItemDescription.less" />
+    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemDescription\progressItemDescription.html" />
+    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemDescription\progressItemDescription.js" />
+    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemPercentages\progressItemPercentages.html" />
+    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemPercentages\progressItemPercentages.js" />
     <Content Include="wwwroot\app\pages\progress\progressItem\progressItemProgress\progressItemProgress.html" />
     <Content Include="wwwroot\app\pages\progress\progressItem\progressItemProgress\progressItemProgress.js" />
     <Content Include="wwwroot\app\pages\progress\progressItem\publishedState\publishedState.html" />
@@ -359,6 +364,7 @@
     <Content Include="wwwroot\app\pages\browse\browseList\browseList.less" />
     <Content Include="wwwroot\app\pages\progress\progressItem\publishedState\publishedState.less" />
     <Content Include="wwwroot\app\pages\progress\progressItem\progressItemProgress\progressItemProgress.less" />
+    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemPercentages\progressItemPercentages.less" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
     <None Include="wwwroot\bootstrap\css\bootstrap.css" />
