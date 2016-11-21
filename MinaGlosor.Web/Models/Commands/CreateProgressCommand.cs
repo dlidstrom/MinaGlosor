@@ -3,9 +3,9 @@ using MinaGlosor.Web.Models.Domain.ProgressModel;
 
 namespace MinaGlosor.Web.Models.Commands
 {
-    public class CreateWordListProgressCommand : ICommand<CreateWordListProgressCommand.Result>
+    public class CreateProgressCommand : ICommand<CreateProgressCommand.Result>
     {
-        public CreateWordListProgressCommand(string wordListId, string ownerId)
+        public CreateProgressCommand(string wordListId, string ownerId)
         {
             WordListId = wordListId;
             OwnerId = ownerId;

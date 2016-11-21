@@ -12,7 +12,7 @@ namespace MinaGlosor.Test.Api
     public class PracticeSession_Post_OtherUsers : WebApiIntegrationTest
     {
         [Test]
-        public async void CreatesTheWordListProgress()
+        public async void CreatesTheProgress()
         {
             // Arrange
             Transact(session =>

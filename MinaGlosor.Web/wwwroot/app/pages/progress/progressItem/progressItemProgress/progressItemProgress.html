@@ -1,8 +1,12 @@
 ﻿<div class="progress progress-flat">
-    <div class="progress-bar progress-bar-success" ng-style="$ctrl.getDoneStyle($ctrl.item)">
+    <div class="progress-bar progress-bar-success"
+         ng-style="$ctrl.getDoneStyle($ctrl.item)"
+         ng-if="$ctrl.shouldShowDone($ctrl.item)">
         <span class="progress-bar-label">{{$ctrl.item.percentDone}}</span>
     </div>
-    <div class="progress-bar progress-bar-warning" ng-style="$ctrl.getExpiredStyle($ctrl.item)">
+    <div class="progress-bar progress-bar-warning"
+         ng-style="$ctrl.getExpiredStyle($ctrl.item)"
+         ng-if="$ctrl.item.percentExpired">
         <span class="progress-bar-label">{{$ctrl.item.percentExpired}}</span>
     </div>
 </div>

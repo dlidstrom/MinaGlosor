@@ -2,7 +2,7 @@ using MinaGlosor.Web.Models.Commands;
 
 namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
 {
-    public class WordListProgressTaskHandler : BackgroundTaskHandler<WordExpiredTask>
+    public class ProgressTaskHandler : BackgroundTaskHandler<WordExpiredTask>
     {
         public override void Handle(WordExpiredTask task)
         {

@@ -12,7 +12,7 @@ namespace MinaGlosor.Web.Models.DomainEvents.Handlers
             var progress = ExecuteQuery(new GetProgressQuery(progressId));
             if (progress == null)
             {
-                SendTask(new CreateWordListProgressTask(ev.WordListId, ev.OwnerId), ev);
+                SendTask(new CreateProgressTask(ev.WordListId, ev.OwnerId), ev);
             }
         }
     }

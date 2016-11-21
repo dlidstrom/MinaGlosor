@@ -16,8 +16,14 @@
     function ProgressItemProgressController() {
         var $ctrl = this;
 
+        $ctrl.shouldShowDone = shouldShowDone;
         $ctrl.getDoneStyle = getDoneStyle;
         $ctrl.getExpiredStyle = getExpiredStyle;
+
+        function shouldShowDone(item) {
+            var result = item.percentDone - item.percentExpired > 0;
+            return result;
+        }
 
         function getDoneStyle(item) {
             return {

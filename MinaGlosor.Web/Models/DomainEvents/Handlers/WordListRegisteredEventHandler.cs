@@ -6,7 +6,7 @@ namespace MinaGlosor.Web.Models.DomainEvents.Handlers
     {
         public override void Handle(WordListRegisteredEvent ev)
         {
-            SendTask(new CreateWordListProgressTask(ev.ModelId, ev.OwnerId), ev);
+            SendTask(new CreateProgressTask(ev.ModelId, ev.OwnerId), ev);
         }
     }
 }

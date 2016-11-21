@@ -34,8 +34,14 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel
 
         public static string GetIdFromWordListForUser(string wordListId, string ownerId)
         {
-            var id = string.Format("WordListProgress-{0}-{1}", User.FromId(ownerId), WordList.FromId(wordListId));
+            var id = string.Format("Progress-{0}-{1}", User.FromId(ownerId), WordList.FromId(wordListId));
             return id;
+        }
+
+        public static string FromId(string progressId)
+        {
+            if (progressId == null) throw new ArgumentNullException("progressId");
+            return progressId.Substring(10);
         }
 
         public void WordHasExpired(int numberOfWords)

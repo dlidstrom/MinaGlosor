@@ -1,8 +1,8 @@
 namespace MinaGlosor.Web.Models.BackgroundTasks
 {
-    public class CreateWordListProgressTask
+    public class CreateProgressTask
     {
-        public CreateWordListProgressTask(string wordListId, string ownerId)
+        public CreateProgressTask(string wordListId, string ownerId)
         {
             WordListId = wordListId;
             OwnerId = ownerId;

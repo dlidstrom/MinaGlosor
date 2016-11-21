@@ -45,6 +45,7 @@ namespace MinaGlosor.Web.Models.Queries
         {
             public ProgressResult(Progress progress, WordList wordList, User progressOwner, User wordListOwner)
             {
+                ProgressId = Progress.FromId(progress.Id);
                 WordListId = WordList.FromId(progress.WordListId);
                 ProgressOwnerId = User.FromId(progress.OwnerId);
                 WordListOwnerId = User.FromId(wordListOwner.Id);
@@ -63,6 +64,8 @@ namespace MinaGlosor.Web.Models.Queries
                 GravatarHash = progressOwner.GetGravatarHash();
             }
 
+            public string ProgressId { get; private set; }
+            
             public string WordListId { get; private set; }
 
             public string ProgressOwnerId { get; private set; }
