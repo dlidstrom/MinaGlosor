@@ -1,7 +1,7 @@
-﻿bootstrap.min.js
-fastclick.min.js
-json3.min.js
-toaster.min.js
-spin.min.js
-angular-spinner.min.js
+﻿bootstrap.js
+fastclick.js
+json3.js
+toaster.js
+spin.js
+angular-spinner.js
 waypoints-0.0.1.js
