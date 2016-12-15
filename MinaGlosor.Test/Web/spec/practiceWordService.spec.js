@@ -7,6 +7,10 @@ describe('PracticeWordService', function () {
 
     beforeEach(module('mgApp'));
 
+    beforeEach(module(function ($urlRouterProvider) {
+        $urlRouterProvider.deferIntercept();
+    }));
+
     beforeEach(inject(function ($httpBackend, $rootScope) {
         httpMock = $httpBackend;
         rootScope = $rootScope;
@@ -74,11 +78,7 @@ describe('PracticeWordService', function () {
                         practiceWordId: 'abc123',
                         confidenceLevel: 'PerfectResponse'
                     }).respond(201, { isFinished: true });
-                var practiceWord = {
-                    practiceSessionId: '1',
-                    practiceWordId: 'abc123'
-                };
-                practiceWordService.submit(practiceWord, 'PerfectResponse')
+                practiceWordService.submit('1', 'abc123', 'PerfectResponse')
                     .then(function (data) {
                         expect(data.isFinished).toBe(true);
                     });

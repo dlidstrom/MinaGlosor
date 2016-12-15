@@ -10,27 +10,34 @@
           href="lib/jasmine-1.3.1/jasmine.css">
     <script src="lib/jasmine-1.3.1/jasmine.js"></script>
     <script src="lib/jasmine-1.3.1/jasmine-html.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/jquery-2.1.3.min.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/angular.min.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/angular-route.min.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/angular-animate.min.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/angular-messages.min.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/angular-sanitize.min.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/ui-bootstrap-tpls-2.1.1.min.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/xeditable.min.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/external/footer_js/toaster.min.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/jquery-2.1.3.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/angular.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/angular-route.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/angular-animate.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/angular-messages.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/angular-sanitize.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/angular-ui-router.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/ui-bootstrap-tpls-2.2.0.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/external/head_js/xeditable.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/external/footer_js/toaster.js"></script>
     <script src="angular-mocks.js"></script>
 
     <!-- include source files here... -->
     <script src="../../MinaGlosor.Web/wwwroot/app/app.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/app/wordlist/addWordController.js"></script>
     <script src="../../MinaGlosor.Web/wwwroot/app/routes.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/app/shared/practiceService.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/app/shared/practiceWordService.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/app/shared/progressService.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/app/shared/wordListService.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/app/shared/wordService.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/app/shared/wordFavouriteService.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/browse/browseModule.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/practice/practiceModule.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/practice/infrastructure/practiceService.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/practice/infrastructure/practiceWordService.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/progress/progressModule.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/progress/progressList/progressList.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/progress/infrastructure/progressService.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/search/searchModule.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/wordlist/wordListModule.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/wordList/addWord/addWord.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/wordlist/infrastructure/wordListService.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/wordlist/infrastructure/wordService.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/wordlist/infrastructure/wordFavouriteService.js"></script>
 
     <!-- global mocks -->
     <script src="httpInterceptor.js"></script>
@@ -43,7 +50,6 @@
     <script src="spec/wordService.spec.js"></script>
     <script src="spec/wordFavouriteService.spec.js"></script>
     <script src="spec/addWordController.spec.js"></script>
-    <script src="spec/routes.spec.js"></script>
 
     <script type="text/javascript">
         (function () {
@@ -66,11 +72,11 @@
                 }
                 execJasmine();
 
-                setTimeout(
-                    function () {
-                        location.reload();
-                    },
-                    3000);
+                //setTimeout(
+                //    function () {
+                //        location.reload();
+                //    },
+                //    30000);
             };
 
             function execJasmine() {

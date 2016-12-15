@@ -6,6 +6,10 @@ describe('WordFavouriteService', function () {
 
     beforeEach(module('mgApp'));
 
+    beforeEach(module(function ($urlRouterProvider) {
+        $urlRouterProvider.deferIntercept();
+    }));
+
     beforeEach(inject(function ($httpBackend) {
         httpMock = $httpBackend;
     }));
@@ -27,7 +31,7 @@ describe('WordFavouriteService', function () {
 
         it('should get all words', function () {
             httpMock.expectGET('/api/wordfavourite?page=1').respond(200);
-            wordFavouriteService.getAll();
+            wordFavouriteService.getAll(1);
         });
     });
 });

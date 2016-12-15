@@ -6,6 +6,10 @@ describe('WordService', function () {
 
     beforeEach(module('mgApp'));
 
+    beforeEach(module(function ($urlRouterProvider) {
+        $urlRouterProvider.deferIntercept();
+    }));
+
     beforeEach(inject(function ($httpBackend) {
         httpMock = $httpBackend;
     }));
@@ -37,7 +41,7 @@ describe('WordService', function () {
 
         it('should get all words', function () {
             httpMock.expectGET('/api/word?page=1&wordListId=1').respond(200);
-            wordService.getAll(1);
+            wordService.getAll(1, 1);
         });
 
         it('should get word', function () {

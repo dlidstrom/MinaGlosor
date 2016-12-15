@@ -9,6 +9,10 @@
 
     beforeEach(module('mgApp'));
 
+    beforeEach(module(function ($urlRouterProvider) {
+        $urlRouterProvider.deferIntercept();
+    }));
+
     beforeEach(inject(function ($controller, $q, $rootScope) {
         rootScope = $rootScope;
 
@@ -25,8 +29,6 @@
         wordService = {
             create: returnResolvedDeferred
         };
-        //var errorHandler = function () {
-        //};
         var wordList = {
             wordListId: 2,
             name: 'word list name'
@@ -34,7 +36,6 @@
         ctrl = $controller(
             'AddWordController',
             {
-                //ErrorHandler: errorHandler,
                 WordList: wordList,
                 WordService: wordService
             });
@@ -42,20 +43,6 @@
 
     it('should inject controller', function () {
         expect(ctrl).toBeDefined();
-    });
-
-    describe('initialize', function () {
-        it('should set wordList', function () {
-            expect(ctrl.wordList.name).toEqual('word list name');
-        });
-
-        it('should set wordList.wordListId', function () {
-            expect(ctrl.wordList.wordListId).toBe(2);
-        });
-
-        it('should set wordList.name', function () {
-            expect(ctrl.wordList.name).toEqual('word list name');
-        });
     });
 
     describe('add', function () {
@@ -73,6 +60,7 @@
             var entry;
             beforeEach(function () {
                 entry = { text: 'Some word', definition: 'Some def' };
+                ctrl.model = {};
                 ctrl.add(form, entry);
 
                 // resolve all deferreds
@@ -96,6 +84,7 @@
             beforeEach(function () {
                 wordService.create = returnRejectedDeferred;
                 var entry = { word: 'Some word', definition: 'Some def' };
+                ctrl.model = {};
                 ctrl.add(form, entry);
 
                 // resolve all deferreds

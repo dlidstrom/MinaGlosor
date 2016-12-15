@@ -7,6 +7,10 @@ describe('PracticeService', function () {
 
     beforeEach(module('mgApp'));
 
+    beforeEach(module(function ($urlRouterProvider) {
+        $urlRouterProvider.deferIntercept();
+    }));
+
     beforeEach(inject(function ($httpBackend, $rootScope) {
         httpMock = $httpBackend;
         rootScope = $rootScope;
@@ -26,7 +30,7 @@ describe('PracticeService', function () {
             beforeEach(function () {
                 httpMock.expectPOST(
                     '/api/practicesession',
-                    { wordListId: '1' })
+                    { wordListId: '1', practiceMode: 'Default' })
                     .respond(201, { practiceSessionId: '1', wordText: 'ari', wordDefinition: 'ja' });
                 practiceService.create('1').then(function (data) {
                     practiceSessionId = data;

@@ -6,6 +6,10 @@ describe('ProgressService', function () {
 
     beforeEach(module('mgApp'));
 
+    beforeEach(module(function ($urlRouterProvider) {
+        $urlRouterProvider.deferIntercept();
+    }));
+
     beforeEach(inject(function ($httpBackend) {
         httpMock = $httpBackend;
     }));
