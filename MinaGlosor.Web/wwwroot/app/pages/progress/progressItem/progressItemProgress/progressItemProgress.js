@@ -19,6 +19,7 @@
         $ctrl.shouldShowDone = shouldShowDone;
         $ctrl.getDoneStyle = getDoneStyle;
         $ctrl.getExpiredStyle = getExpiredStyle;
+        $ctrl.getPercentDoneForDisplay = getPercentDoneForDisplay;
 
         function shouldShowDone(item) {
             var result = item.percentDone - item.percentExpired > 0;
@@ -37,6 +38,10 @@
                 width: item.percentExpired + '%',
                 'min-width': '3rem'
             };
+        }
+
+        function getPercentDoneForDisplay(item) {
+            return item.percentDone - item.percentExpired;
         }
     }
 })();
