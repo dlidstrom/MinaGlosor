@@ -21,16 +21,26 @@
         $ctrl.getDescription = getDescription;
 
         function getDescription(item) {
-            var description;
-            if (item.percentExpired > 0) {
-                description = item.percentExpired + '% av dina ord behöver repeteras.';
-            } else if (item.percentDone === 100) {
-                description = 'Du har gjort klart ' + item.percentDone + '%. För tillfället har du inget att öva på.';
+            var result = null;
+            if (item.percentDone < 100) {
+                if (item.percentExpired > 0) {
+                    //description = 'Du har fler nya ord att öva på innan du repeterar tidigare ord.';
+                    result = 'LearnNewBeforeRepeat';
+                } else {
+                    //description = 'Du har fler nya ord att öva på.';
+                    result = 'LearnNew';
+                }
             } else {
-                description = 'Du har gjort klart ' + item.percentDone + '%. Fortsätt öva tills du har når 100%.';
+                if (item.percentExpired > 0) {
+                    result = 'Repeat';
+                    //description = item.percentExpired + '% av dina ord behöver repeteras.';
+                } else if (item.percentDone === 100) {
+                    result = 'Done';
+                    //description = 'Du har gjort klart ' + item.percentDone + '%. För tillfället har du inget att öva på.';
+                }
             }
 
-            return description;
+            return result;
         }
     }
 })();

@@ -24,16 +24,18 @@
 
     <!-- include source files here... -->
     <script src="../../MinaGlosor.Web/wwwroot/app/app.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/app/routes.js"></script>
     <script src="../../MinaGlosor.Web/wwwroot/app/pages/browse/browseModule.js"></script>
     <script src="../../MinaGlosor.Web/wwwroot/app/pages/practice/practiceModule.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/app/pages/practice/infrastructure/practiceService.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/app/pages/practice/infrastructure/practiceWordService.js"></script>
     <script src="../../MinaGlosor.Web/wwwroot/app/pages/progress/progressModule.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/app/pages/progress/progressList/progressList.js"></script>
-    <script src="../../MinaGlosor.Web/wwwroot/app/pages/progress/infrastructure/progressService.js"></script>
     <script src="../../MinaGlosor.Web/wwwroot/app/pages/search/searchModule.js"></script>
     <script src="../../MinaGlosor.Web/wwwroot/app/pages/wordlist/wordListModule.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/routes.js"></script>
+
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/practice/infrastructure/practiceService.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/practice/infrastructure/practiceWordService.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/progress/progressItem/progressItemDescription/progressItemDescription.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/progress/progressList/progressList.js"></script>
+    <script src="../../MinaGlosor.Web/wwwroot/app/pages/progress/infrastructure/progressService.js"></script>
     <script src="../../MinaGlosor.Web/wwwroot/app/pages/wordList/addWord/addWord.js"></script>
     <script src="../../MinaGlosor.Web/wwwroot/app/pages/wordlist/infrastructure/wordListService.js"></script>
     <script src="../../MinaGlosor.Web/wwwroot/app/pages/wordlist/infrastructure/wordService.js"></script>
@@ -43,13 +45,14 @@
     <script src="httpInterceptor.js"></script>
 
     <!-- include spec files here... -->
+    <script src="spec/addWordController.spec.js"></script>
     <script src="spec/practiceService.spec.js"></script>
     <script src="spec/practiceWordService.spec.js"></script>
+    <script src="spec/progressItemDescriptionController.spec.js"></script>
     <script src="spec/progressService.spec.js"></script>
+    <script src="spec/wordFavouriteService.spec.js"></script>
     <script src="spec/wordListService.spec.js"></script>
     <script src="spec/wordService.spec.js"></script>
-    <script src="spec/wordFavouriteService.spec.js"></script>
-    <script src="spec/addWordController.spec.js"></script>
 
     <script type="text/javascript">
         (function () {
@@ -72,11 +75,11 @@
                 }
                 execJasmine();
 
-                //setTimeout(
-                //    function () {
-                //        location.reload();
-                //    },
-                //    30000);
+                setTimeout(
+                    function () {
+                        location.reload();
+                    },
+                    3000);
             };
 
             function execJasmine() {
