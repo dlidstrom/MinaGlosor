@@ -80,6 +80,7 @@ namespace MinaGlosor.Test.Api
                         {
                             new
                                 {
+                                    progressId = "1",
                                     wordListId = "1",
                                     progressOwnerId = "1",
                                     wordListOwnerId = "1",
@@ -99,6 +100,7 @@ namespace MinaGlosor.Test.Api
                                 },
                             new
                                 {
+                                    progressId = "5",
                                     wordListId = "5",
                                     progressOwnerId = "1",
                                     wordListOwnerId = "1",

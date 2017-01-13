@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Net.Http;
 using MinaGlosor.Test.Api.Infrastructure;
@@ -30,6 +31,7 @@ namespace MinaGlosor.Test.Api
                         {
                             new
                                 {
+                                    progressId = "1",
                                     wordListId = "1",
                                     progressOwnerId = "1",
                                     wordListOwnerId = "1",
@@ -87,6 +89,7 @@ namespace MinaGlosor.Test.Api
                     ConfidenceLevel.PerfectResponse);
             }
 
+            Debug.Assert(wordConfidenceResponse != null, "wordConfidenceResponse != null");
             Assert.That(wordConfidenceResponse.IsFinished);
 
             var response = await Client.GetAsync("http://temp.uri/api/progress");
@@ -102,6 +105,7 @@ namespace MinaGlosor.Test.Api
                         {
                             new
                                 {
+                                    progressId = "1",
                                     wordListId = "1",
                                     progressOwnerId = "1",
                                     wordListOwnerId = "1",
@@ -148,6 +152,7 @@ namespace MinaGlosor.Test.Api
                     ConfidenceLevel.PerfectResponse);
             }
 
+            Debug.Assert(wordConfidenceResponse != null, "wordConfidenceResponse != null");
             Assert.That(wordConfidenceResponse.IsFinished);
 
             var response = await Client.GetAsync("http://temp.uri/api/progress");
@@ -163,6 +168,7 @@ namespace MinaGlosor.Test.Api
                         {
                             new
                                 {
+                                    progressId = "1",
                                     wordListId = "1",
                                     progressOwnerId = "1",
                                     wordListOwnerId = "1",

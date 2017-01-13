@@ -41,7 +41,7 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel
         public static string FromId(string progressId)
         {
             if (progressId == null) throw new ArgumentNullException("progressId");
-            return progressId.Substring(10);
+            return progressId.Substring(11);
         }
 
         public void WordHasExpired(int numberOfWords)
