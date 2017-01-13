@@ -23,6 +23,16 @@
     describe('getDescription', function () {
         var result = null;
 
+        describe('when empty list', function () {
+            beforeEach(function () {
+                result = ctrl.getDescription({percentDone: 0, percentExpired: 0});
+            });
+
+            it('should return "Empty"', function () {
+                expect(result).toBe('Empty');
+            });
+        });
+
         describe('when incomplete list', function () {
             describe('without any expired', function () {
                 beforeEach(function () {

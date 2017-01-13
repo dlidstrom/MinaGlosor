@@ -1,3 +1,20 @@
-﻿<span>
-    {{$ctrl.getDescription($ctrl.item)}}
-</span>
+﻿<ng-switch on="$ctrl.getDescription($ctrl.item)">
+    <span ng-switch-when="LearnNewBeforeRepeat">
+        Du har fler nya ord att öva på innan du repeterar tidigare ord.
+    </span>
+    <span ng-switch-when="LearnNew">
+        Du har fler nya ord att öva på.
+    </span>
+    <span ng-switch-when="Repeat">
+        {{$ctrl.item.percentExpired + '% av dina ord behöver repeteras.'}}
+    </span>
+    <span ng-switch-when="Done">
+        {{'Du har gjort klart ' + $ctrl.item.percentDone + '%. För tillfället har du inget att öva på.''}}
+    </span>
+    <span ng-switch-when="Empty">
+        Ordlistan är tom.
+    </span>
+    <span ng-switch-default>
+        UNKNOWN DESCRIPTION VALUE
+    </span>
+</ng-switch>

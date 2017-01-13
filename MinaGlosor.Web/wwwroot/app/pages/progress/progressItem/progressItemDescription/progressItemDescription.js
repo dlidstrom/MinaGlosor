@@ -21,23 +21,20 @@
         $ctrl.getDescription = getDescription;
 
         function getDescription(item) {
-            var result = null;
-            if (item.percentDone < 100) {
+            var result;
+            if (item.percentDone === 0) {
+                result = 'Empty';
+            }
+            else if (item.percentDone < 100) {
                 if (item.percentExpired > 0) {
-                    //description = 'Du har fler nya ord att öva på innan du repeterar tidigare ord.';
                     result = 'LearnNewBeforeRepeat';
                 } else {
-                    //description = 'Du har fler nya ord att öva på.';
                     result = 'LearnNew';
                 }
+            } else if (item.percentExpired > 0) {
+                result = 'Repeat';
             } else {
-                if (item.percentExpired > 0) {
-                    result = 'Repeat';
-                    //description = item.percentExpired + '% av dina ord behöver repeteras.';
-                } else if (item.percentDone === 100) {
-                    result = 'Done';
-                    //description = 'Du har gjort klart ' + item.percentDone + '%. För tillfället har du inget att öva på.';
-                }
+                result = 'Done';
             }
 
             return result;
