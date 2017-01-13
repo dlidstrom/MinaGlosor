@@ -56,13 +56,23 @@
         });
 
         describe('when complete list', function () {
-            describe('with expired', function () {
+            describe('with some expired', function () {
                 beforeEach(function () {
                     result = ctrl.getDescription({percentDone: 100, percentExpired: 10});
                 });
 
                 it('should return "Repeat"', function () {
                     expect(result).toBe('Repeat');
+                });
+            });
+
+            describe('with all expired', function () {
+                beforeEach(function () {
+                    result = ctrl.getDescription({percentDone: 100, percentExpired: 100});
+                });
+
+                it('should return "RepeatAll"', function () {
+                    expect(result).toBe('RepeatAll');
                 });
             });
 

@@ -8,6 +8,9 @@
     <span ng-switch-when="Repeat">
         {{$ctrl.item.percentExpired + '% av dina ord behöver repeteras.'}}
     </span>
+    <span ng-switch-when="RepeatAll">
+        {{'Alla dina ord behöver repeteras.'}}
+    </span>
     <span ng-switch-when="Done">
         {{'Du har gjort klart ' + $ctrl.item.percentDone + '%. För tillfället har du inget att öva på.''}}
     </span>

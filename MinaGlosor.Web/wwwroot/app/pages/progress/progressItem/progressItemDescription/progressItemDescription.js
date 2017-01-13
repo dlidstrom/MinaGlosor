@@ -31,6 +31,8 @@
                 } else {
                     result = 'LearnNew';
                 }
+            } else if (item.percentExpired === 100) {
+                result = 'RepeatAll';
             } else if (item.percentExpired > 0) {
                 result = 'Repeat';
             } else {
