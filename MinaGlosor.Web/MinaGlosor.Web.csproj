@@ -179,112 +179,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="wwwroot\app\app.js" />
-    <Content Include="wwwroot\app\pages\browse\browseList\browseListItem\browseListItem.html" />
-    <Content Include="wwwroot\app\pages\browse\browseList\browseListItem\browseListItem.js" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemDescription\progressItemDescription.less" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemDescription\progressItemDescription.html" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemDescription\progressItemDescription.js" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemPercentages\progressItemPercentages.html" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemPercentages\progressItemPercentages.js" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemProgress\progressItemProgress.html" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemProgress\progressItemProgress.js" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\publishedState\publishedState.html" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\publishedState\publishedState.js" />
-    <Content Include="wwwroot\app\pages\progress\progressList\progressListHeader\progressListHeader.html" />
-    <Content Include="wwwroot\app\pages\progress\progressList\progressListHeader\progressListHeader.js" />
-    <Content Include="wwwroot\app\pages\wordList\viewFavourites\viewFavourites.html" />
-    <Content Include="wwwroot\app\shared\navbar\navbarController.js" />
-    <Content Include="wwwroot\app\pages\browse\browseList\browseList.html" />
-    <Content Include="wwwroot\app\pages\browse\browseList\browseList.js" />
-    <Content Include="wwwroot\app\exceptionHandler.js" />
-    <Content Include="wwwroot\app\pages\browse\browseModule.js" />
-    <Content Include="wwwroot\app\pages\practice\practiceModule.js" />
-    <Content Include="wwwroot\app\pages\practice\practiceStart\practiceStart.js" />
-    <Content Include="wwwroot\app\pages\practice\practiceStart\practiceStart.html" />
-    <Content Include="wwwroot\app\pages\practice\practiceStart\unfinishedPracticeSessions\unfinishedPracticeSessions.html" />
-    <Content Include="wwwroot\app\pages\practice\practiceStart\unfinishedPracticeSessions\unfinishedPracticeSessions.js" />
-    <Content Include="wwwroot\app\pages\progress\progressModule.js" />
-    <Content Include="wwwroot\app\pages\search\navbarSearch\navbarSearch.html" />
-    <Content Include="wwwroot\app\pages\search\searchModule.js" />
-    <Content Include="wwwroot\app\pages\search\searchList\searchList.js" />
-    <Content Include="wwwroot\app\pages\search\searchList\searchList.html" />
-    <Content Include="wwwroot\app\pages\search\navbarSearch\navbarSearch.js" />
-    <Content Include="wwwroot\app\pages\wordList\viewWordList\publishModal\publishModal.html" />
-    <Content Include="wwwroot\app\pages\wordList\viewWordList\publishModal\publishModal.js" />
-    <Content Include="wwwroot\app\pages\wordList\viewWordList\viewWordList.html" />
-    <Content Include="wwwroot\app\pages\wordList\wordListModule.js" />
-    <Content Include="wwwroot\app\shared\clickOnce\clickOnceDirective.js" />
-    <Content Include="wwwroot\app\pages\browse\infrastructure\browseService.js" />
-    <Content Include="wwwroot\app\shared\gravatarImage\gravatarImage.html" />
-    <Content Include="wwwroot\app\shared\paging\pagingDirective.js" />
-    <Content Include="wwwroot\app\shared\gravatarImage\gravatarImageDirective.js" />
-    <Content Include="wwwroot\app\pages\practice\practiceSession\shared\practiceProgress\practiceProgress.html" />
-    <Content Include="wwwroot\app\pages\progress\progressFavourites\progressFavourites.html" />
-    <Content Include="wwwroot\app\pages\progress\progressFavourites\progressFavourites.js" />
-    <Content Include="wwwroot\app\pages\wordList\shared\wordFavouriteToggle\wordFavouriteToggle.html" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\progressItem.html" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\progressItem.js" />
-    <Content Include="wwwroot\app\shared\publishedState\publishedStateDirective.js" />
-    <Content Include="wwwroot\app\pages\search\infrastructure\searchService.js" />
-    <Content Include="wwwroot\app\shared\spinner\spinnerDirective.js" />
-    <Content Include="wwwroot\app\pages\progress\infrastructure\progressService.js" />
-    <Content Include="wwwroot\external\footer_js\angular-spinner.js" />
-    <Content Include="wwwroot\external\footer_js\angular-spinner.min.js" />
-    <Content Include="wwwroot\external\footer_js\bootstrap.js" />
-    <Content Include="wwwroot\external\footer_js\bootstrap.min.js" />
-    <Content Include="wwwroot\external\footer_js\bundle.txt" />
-    <Content Include="wwwroot\external\footer_js\fastclick.js" />
-    <Content Include="wwwroot\external\footer_js\fastclick.min.js" />
-    <Content Include="wwwroot\external\footer_js\json3.js" />
-    <Content Include="wwwroot\external\footer_js\json3.min.js" />
-    <Content Include="wwwroot\external\footer_js\spin.js" />
-    <Content Include="wwwroot\external\footer_js\spin.min.js" />
-    <Content Include="wwwroot\external\footer_js\toaster.js" />
-    <Content Include="wwwroot\external\footer_js\toaster.min.js" />
-    <Content Include="wwwroot\external\footer_js\waypoints-0.0.1.js" />
-    <Content Include="wwwroot\external\footer_js\waypoints-0.0.1.min.js" />
-    <Content Include="wwwroot\external\head_js\angular-animate.js" />
-    <Content Include="wwwroot\external\head_js\angular-animate.min.js" />
-    <Content Include="wwwroot\external\head_js\angular-messages.js" />
-    <Content Include="wwwroot\external\head_js\angular-messages.min.js" />
-    <Content Include="wwwroot\external\head_js\angular-route.js" />
-    <Content Include="wwwroot\external\head_js\angular-route.min.js" />
-    <Content Include="wwwroot\external\head_js\angular-sanitize.js" />
-    <Content Include="wwwroot\external\head_js\angular-sanitize.min.js" />
-    <Content Include="wwwroot\external\head_js\angular-ui-router.js" />
-    <Content Include="wwwroot\external\head_js\angular-ui-router.min.js" />
-    <Content Include="wwwroot\external\head_js\angular.js" />
-    <Content Include="wwwroot\external\head_js\angular.min.js" />
-    <Content Include="wwwroot\external\head_js\bundle.txt" />
-    <Content Include="wwwroot\external\head_js\jquery-2.1.3.js" />
-    <Content Include="wwwroot\external\head_js\jquery-2.1.3.min.js" />
-    <Content Include="wwwroot\app\help\index.html" />
-    <Content Include="wwwroot\app\httpInterceptor.js" />
-    <Content Include="wwwroot\app\pages\wordList\infrastructure\wordFavouriteService.js" />
-    <Content Include="wwwroot\app\pages\wordList\shared\wordFavouriteToggle\wordFavouriteToggle.js" />
-    <Content Include="wwwroot\app\pages\practice\practiceSession\practiceWordDefinition\practiceWordDefinition.js" />
-    <Content Include="wwwroot\app\pages\practice\practiceSession\practiceWordDefinition\practiceWordDefinition.html" />
-    <Content Include="wwwroot\app\pages\practice\practiceSession\practiceSummary\practiceSummary.js" />
-    <Content Include="wwwroot\app\pages\practice\practiceSession\practiceSummary\practiceSummary.html" />
-    <Content Include="wwwroot\app\pages\practice\practiceSession\practiceWordText\practiceWordText.js" />
-    <Content Include="wwwroot\app\pages\practice\practiceSession\practiceWordText\practiceWordText.html" />
-    <Content Include="wwwroot\app\routes.js" />
-    <Content Include="wwwroot\app\pages\practice\practiceSession\shared\practiceProgress\practiceProgress.js" />
-    <Content Include="wwwroot\app\pages\practice\infrastructure\practiceWordService.js" />
-    <Content Include="wwwroot\app\pages\practice\infrastructure\practiceService.js" />
-    <Content Include="wwwroot\app\pages\wordList\infrastructure\wordService.js" />
-    <Content Include="wwwroot\app\pages\wordList\infrastructure\wordListService.js" />
-    <Content Include="wwwroot\app\pages\wordList\addWord\addWord.html" />
-    <Content Include="wwwroot\app\pages\wordList\addWord\addWord.js" />
-    <Content Include="wwwroot\app\pages\wordList\viewFavourites\viewFavourites.js" />
-    <Content Include="wwwroot\app\pages\wordList\editWord\editWord.js" />
-    <Content Include="wwwroot\app\pages\wordList\viewWordList\viewWordList.js" />
-    <Content Include="wwwroot\app\pages\wordList\shared\view.html" />
-    <Content Include="wwwroot\app\pages\wordList\createWordList\createWordList.html" />
-    <Content Include="wwwroot\app\pages\wordList\createWordList\createWordList.js" />
-    <Content Include="wwwroot\app\pages\progress\progressList\progressList.js" />
-    <Content Include="wwwroot\app\pages\progress\progressList\progressList.html" />
+    <Content Include="wwwroot\**\*" />
     <Compile Include="Controllers\AccountLogoffController.cs" />
     <Compile Include="Controllers\AccountPasswordController.cs" />
     <Compile Include="Controllers\Api\BrowseController.cs" />
@@ -321,33 +216,6 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\bundle.txt" />
-    <Content Include="wwwroot\external\head_js\ui-bootstrap-tpls-2.2.0.js" />
-    <Content Include="wwwroot\external\head_js\ui-bootstrap-tpls-2.2.0.min.js" />
-    <Content Include="wwwroot\external\head_js\xeditable.js" />
-    <Content Include="wwwroot\external\head_js\xeditable.min.js" />
-    <Content Include="wwwroot\images\apple-touch-icon-114x114.png" />
-    <Content Include="wwwroot\images\apple-touch-icon-120x120.png" />
-    <Content Include="wwwroot\images\apple-touch-icon-144x144.png" />
-    <Content Include="wwwroot\images\apple-touch-icon-152x152.png" />
-    <Content Include="wwwroot\images\apple-touch-icon-57x57.png" />
-    <Content Include="wwwroot\images\apple-touch-icon-72x72.png" />
-    <Content Include="wwwroot\images\apple-touch-icon-76x76.png" />
-    <Content Include="wwwroot\images\apple-touch-startup-image-1182x2208.png" />
-    <Content Include="wwwroot\images\apple-touch-startup-image-1242x2148.png" />
-    <Content Include="wwwroot\images\apple-touch-startup-image-1496x2048.png" />
-    <Content Include="wwwroot\images\apple-touch-startup-image-1536x2008.png" />
-    <Content Include="wwwroot\images\apple-touch-startup-image-320x460.png" />
-    <Content Include="wwwroot\images\apple-touch-startup-image-640x1096.png" />
-    <Content Include="wwwroot\images\apple-touch-startup-image-640x920.png" />
-    <Content Include="wwwroot\images\apple-touch-startup-image-748x1024.png" />
-    <Content Include="wwwroot\images\apple-touch-startup-image-750x1294.png" />
-    <Content Include="wwwroot\images\apple-touch-startup-image-768x1004.png" />
-    <Content Include="wwwroot\spinner.less" />
-    <Content Include="wwwroot\toaster.css" />
-    <Content Include="wwwroot\toaster.min.css" />
-    <Content Include="wwwroot\xeditable.css" />
-    <Content Include="wwwroot\xeditable.min.css" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -361,25 +229,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Shared\_WebApp.cshtml" />
-    <Content Include="wwwroot\app\shared\publishedState\publishedState.less" />
-    <Content Include="wwwroot\app\shared\gravatarImage\gravatarImage.less" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\progressItem.less" />
-    <Content Include="wwwroot\app\pages\wordList\shared\wordFavouriteToggle\wordFavouriteToggle.less" />
-    <Content Include="wwwroot\app\pages\progress\progressFavourites\progressFavourites.less" />
-    <Content Include="wwwroot\app\pages\practice\practiceSession\shared\practiceProgress\practiceProgress.less" />
-    <Content Include="wwwroot\app\pages\progress\progressList\progressList.less" />
-    <Content Include="wwwroot\app\pages\progress\progressList\progressListHeader\progressListHeader.less" />
-    <Content Include="wwwroot\app\pages\browse\browseList\browseListItem\browseListItem.less" />
-    <Content Include="wwwroot\app\pages\browse\browseList\browseList.less" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\publishedState\publishedState.less" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemProgress\progressItemProgress.less" />
-    <Content Include="wwwroot\app\pages\progress\progressItem\progressItemPercentages\progressItemPercentages.less" />
-    <None Include="wwwroot\bootstrap\css\bootstrap-theme.css" />
-    <None Include="wwwroot\bootstrap\css\bootstrap-theme.min.css" />
-    <None Include="wwwroot\bootstrap\css\bootstrap.css" />
-    <None Include="wwwroot\bootstrap\css\bootstrap.min.css" />
-    <Content Include="wwwroot\app\pages\wordList\editWord\editWord.html" />
-    <Content Include="wwwroot\main.less" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -672,8 +521,6 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-    <None Include="wwwroot\bootstrap\css\bootstrap-theme.css.map" />
-    <None Include="wwwroot\bootstrap\css\bootstrap.css.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
