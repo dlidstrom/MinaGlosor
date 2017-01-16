@@ -31,6 +31,7 @@ namespace MinaGlosor.Test.Api
                         {
                             new
                                 {
+                                    progressId = "1",
                                     wordListId = "1",
                                     progressOwnerId = User.FromId(owner.Id),
                                     wordListOwnerId = User.FromId(owner.Id),
