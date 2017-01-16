@@ -46,7 +46,7 @@ namespace MinaGlosor.Test.Api
                                     percentEasyWords = 67,
                                     numberOfDifficultWords = 1,
                                     percentDifficultWords = 33,
-                                    published = false,
+                                    published = true,
                                     gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
                                 }
                         },
@@ -120,7 +120,7 @@ namespace MinaGlosor.Test.Api
                                     percentEasyWords = 0,
                                     numberOfDifficultWords = 3,
                                     percentDifficultWords = 100,
-                                    published = false,
+                                    published = true,
                                     gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
                                 }
                         },
@@ -183,7 +183,7 @@ namespace MinaGlosor.Test.Api
                                     percentEasyWords = 100,
                                     numberOfDifficultWords = 0,
                                     percentDifficultWords = 0,
-                                    published = false,
+                                    published = true,
                                     gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
                                 }
                         },
@@ -218,6 +218,7 @@ namespace MinaGlosor.Test.Api
             });
 
             postWordListResponse = await this.PostWordList("list");
+            await this.PublishWordList(postWordListResponse.WordListId, true);
 
             // add some words to the word list
             for (var i = 0; i < 3; i++)
@@ -262,6 +263,7 @@ namespace MinaGlosor.Test.Api
             Assert.That(wordConfidenceResponse.IsFinished);
 
             var response = await Client.GetAsync("http://temp.uri/api/progress");
+            response.EnsureSuccessStatusCode();
             content = response.Content;
         }
     }

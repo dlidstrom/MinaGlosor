@@ -42,7 +42,7 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
 
                 var difficultWordIdsForPractice = difficultWordScoreIdsQuery.Take(WordsToTake).ToArray();
                 var easyWordIdsForPractice = easyWordScoreIdsQuery.Take(WordsToTake - difficultWordIdsForPractice.Length).ToList();
-                wordIdsForPractice = difficultWordIdsForPractice.Concat(easyWordIdsForPractice).ToList();
+                wordIdsForPractice.AddRange(difficultWordIdsForPractice.Concat(easyWordIdsForPractice));
 
                 // while less than 10, fill up with new words that have never been practiced
                 //if (wordIdsForPractice.Count < WordsToTake)
