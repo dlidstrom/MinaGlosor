@@ -12,7 +12,7 @@
                     '/api/practicesession',
                     {
                         wordListId: wordListId,
-                        practiceMode: 'Default'
+                        practiceMode: 'Default' // TODO Remove
                     })
                     .success(function (result) {
                         deferred.resolve(result.practiceSessionId);

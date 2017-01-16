@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MinaGlosor.Web.Infrastructure;
+using MinaGlosor.Web.Infrastructure.Tracing;
 using MinaGlosor.Web.Models.Indexes;
 using Raven.Abstractions;
 using Raven.Client;
@@ -19,7 +20,8 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
             var utcNow = SystemTime.UtcNow;
             
             var wordIdsForPractice = new List<string>();
-            if (command.PracticeMode == PracticeMode.Default)
+            FillWithNewWords(Session, wordIdsForPractice, command.WordListId, command.CurrentUserId);
+            if (wordIdsForPractice.Count < WordsToTake)
             {
                 // select difficult words that are up for new practice
                 var difficultWordScoreIdsQuery = from wordScore in Session.Query<WordScore, WordScoreIndex>()
@@ -43,18 +45,10 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
                 wordIdsForPractice = difficultWordIdsForPractice.Concat(easyWordIdsForPractice).ToList();
 
                 // while less than 10, fill up with new words that have never been practiced
-                if (wordIdsForPractice.Count < WordsToTake)
-                {
-                    FillWithNewWords(Session, wordIdsForPractice, command.WordListId, command.CurrentUserId);
-                }
-            }
-            else if (command.PracticeMode == PracticeMode.UnpracticedPreferred)
-            {
-                FillWithNewWords(Session, wordIdsForPractice, command.WordListId, command.CurrentUserId);
-            }
-            else
-            {
-                throw new ApplicationException("Unexpected practice mode: " + command.PracticeMode);
+                //if (wordIdsForPractice.Count < WordsToTake)
+                //{
+                //    FillWithNewWords(Session, wordIdsForPractice, command.WordListId, command.CurrentUserId);
+                //}
             }
 
             var words = Session.Load<Word>(wordIdsForPractice).ToDictionary(x => x.Id);
@@ -75,20 +69,18 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
 
         public override bool CanExecute(CreatePracticeSessionCommand command, User currentUser)
         {
-            // TODO: Check if word list is published?
-            return true;
-            //var wordList = Session.Load<WordList>(command.WordListId);
-            //var canExecute = wordList.HasAccess(currentUser.Id);
-            //if (canExecute == false)
-            //{
-            //    var owner = Session.Load<User>(wordList.OwnerId);
-            //    var message = string.Format("Current user={0}, owner={1}", currentUser.Email, owner.Email);
-            //    TracingLogger.Error(
-            //        EventIds.Error_Permanent_5XXX.Web_CreatePracticeSession_Unauthorized_5001,
-            //        message);
-            //}
+            var wordList = Session.Load<WordList>(command.WordListId);
+            var isPublished = wordList.IsPublished();
+            if (isPublished == false)
+            {
+                var owner = Session.Load<User>(wordList.OwnerId);
+                var message = string.Format("Current user={0}, owner={1}", currentUser.Email, owner.Email);
+                TracingLogger.Error(
+                    EventIds.Error_Permanent_5XXX.Web_CreatePracticeSession_Unauthorized_5001,
+                    message);
+            }
 
-            //return canExecute;
+            return isPublished;
         }
 
         private void FillWithNewWords(IDocumentSession session, List<string> wordIdsForPractice, string wordListId, string currentUserId)

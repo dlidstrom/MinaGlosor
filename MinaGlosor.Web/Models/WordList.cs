@@ -77,6 +77,11 @@ namespace MinaGlosor.Web.Models
             Apply(new UnpublishWordListEvent(Id));
         }
 
+        public bool IsPublished()
+        {
+            return PublishState == WordListPublishState.Published;
+        }
+
         private void ApplyEvent(AddWordEvent @event)
         {
             NumberOfWords = @event.NumberOfWords;
