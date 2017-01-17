@@ -60,7 +60,7 @@ namespace MinaGlosor.Test.Api
                         percentEasyWords = 0,
                         numberOfDifficultWords = 0,
                         percentDifficultWords = 0,
-                        published = false,
+                        published = true,
                         gravatarHash = "e84879df1fe98a8cb559cf7ee65eb16f"
                     }
                 },
