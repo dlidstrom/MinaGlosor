@@ -46,6 +46,7 @@ namespace MinaGlosor.Test.Api
             });
 
             var wordListResponse = await this.PostWordList();
+            await this.PublishWordList(wordListResponse.WordListId, true);
 
             // add some words to the word list
             SystemTime.UtcDateTime = () => new DateTime(2012, 1, 1);

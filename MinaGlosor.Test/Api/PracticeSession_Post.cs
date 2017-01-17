@@ -45,22 +45,19 @@ namespace MinaGlosor.Test.Api
             {
                 var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(owner);
-
-                var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
-                session.Store(wordList);
-
-                // add some words to the word list
-                var generator = new KeyGenerator<Word>(session);
-                for (var i = 0; i < 20; i++)
-                {
-                    var word = Word.Create(
-                        generator.Generate(),
-                        i.ToString(CultureInfo.InvariantCulture),
-                        i.ToString(CultureInfo.InvariantCulture),
-                        wordList);
-                    session.Store(word);
-                }
             });
+
+            var wordListResponse = await this.PostWordList("list");
+            await this.PublishWordList(wordListResponse.WordListId, true);
+
+            // add some words to the word list
+            for (var i = 0; i < 20; i++)
+            {
+                await this.PostWord(
+                    i.ToString(CultureInfo.InvariantCulture),
+                    i.ToString(CultureInfo.InvariantCulture),
+                    wordListResponse.WordListId);
+            }
 
             // Act
             content = await this.StartPracticeSession("1");

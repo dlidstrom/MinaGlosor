@@ -26,6 +26,7 @@ namespace MinaGlosor.Test.Api
 
             // belongs to e@d.com
             var wordListResponse = await this.PostWordList("list");
+            await this.PublishWordList(wordListResponse.WordListId, true);
             await this.PostWord("text", "def", wordListResponse.WordListId);
 
             // switch current user

@@ -25,6 +25,7 @@ namespace MinaGlosor.Test.Api
             });
 
             var wordListResponse = await this.PostWordList("wl1");
+            await this.PublishWordList(wordListResponse.WordListId, true);
             await this.PostWord("t", "d", wordListResponse.WordListId);
             await this.StartPracticeSession(wordListResponse.WordListId);
 

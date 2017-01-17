@@ -46,58 +46,64 @@ namespace MinaGlosor.Test.Api
         protected override async void Act()
         {
             // Arrange
+            User owner = null;
             Transact(session =>
+            {
+                owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
+                session.Store(owner);
+            });
+
+            var wordListResponse = await this.PostWordList("list");
+            await this.PublishWordList(wordListResponse.WordListId, true);
+
+            // add some words to the word list
+            var currentDate = new DateTime(2012, 1, 1);
+            for (var i = 0; i < 15; i++)
+            {
+                var newCurrentDate = currentDate.AddSeconds(i);
+                SystemTime.UtcDateTime = () => newCurrentDate;
+                await this.PostWord(
+                    1 + i + "t",
+                    1 + i + "d",
+                    wordListResponse.WordListId);
+            }
+
+            // last should be practiced already (these should be selected)
+            for (var i = 15; i < 20; i++)
+            {
+                var newCurrentDate = currentDate.AddSeconds(i);
+                SystemTime.UtcDateTime = () => newCurrentDate;
+                var wordResponse = await this.PostWord(
+                    1 + i + "t",
+                    1 + i + "d",
+                    wordListResponse.WordListId);
+                Transact(session =>
                 {
-                    var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
-                    session.Store(owner);
+                    var wordScore = new WordScore(
+                        KeyGeneratorBase.Generate<WordScore>(session),
+                        owner.Id,
+                        Word.ToId(wordResponse.WordId),
+                        WordList.ToId(wordListResponse.WordListId));
+                    wordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
+                    session.Store(wordScore);
 
-                    var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
-                    session.Store(wordList);
-
-                    // add some words to the word list
-                    var currentDate = new DateTime(2012, 1, 1);
-                    var generator = new KeyGenerator<Word>(session);
-                    for (var i = 0; i < 15; i++)
-                    {
-                        var newCurrentDate = currentDate.AddSeconds(i);
-                        SystemTime.UtcDateTime = () => newCurrentDate;
-                        var word = Word.Create(
-                            generator.Generate(),
-                            1 + i + "t",
-                            1 + i + "d",
-                            wordList);
-                        session.Store(word);
-                    }
-
-                    // last should be practiced already (these should be selected)
-                    for (var i = 15; i < 20; i++)
-                    {
-                        var newCurrentDate = currentDate.AddSeconds(i);
-                        SystemTime.UtcDateTime = () => newCurrentDate;
-                        var word = Word.Create(
-                            generator.Generate(),
-                            1 + i + "t",
-                            1 + i + "d",
-                            wordList);
-                        session.Store(word);
-                        var wordScore = new WordScore(KeyGeneratorBase.Generate<WordScore>(session), owner.Id, word.Id, wordList.Id);
-                        wordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
-                        session.Store(wordScore);
-                    }
-
-                    // add some practice word that is for the far future (this should not be selected)
-                    var futureWord = Word.Create(
-                        generator.Generate(),
-                        "future",
-                        "future",
-                        wordList);
-                    session.Store(futureWord);
-                    var futureWordScore = new WordScore(KeyGeneratorBase.Generate<WordScore>(session), owner.Id, futureWord.Id, wordList.Id);
-                    futureWordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
-                    SystemTime.UtcDateTime = () => new DateTime(2012, 1, 2, 1, 0, 0);
-                    futureWordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
-                    session.Store(futureWordScore);
                 });
+            }
+
+            // add some practice word that is for the far future (this should not be selected)
+            var futureWordResponse = await this.PostWord("future", "future", wordListResponse.WordListId);
+            Transact(session =>
+            {
+                var futureWordScore = new WordScore(
+                    KeyGeneratorBase.Generate<WordScore>(session),
+                    owner.Id,
+                    Word.ToId(futureWordResponse.WordId),
+                    WordList.ToId(wordListResponse.WordListId));
+                futureWordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
+                SystemTime.UtcDateTime = () => new DateTime(2012, 1, 2, 1, 0, 0);
+                futureWordScore.ScoreWord(ConfidenceLevel.PerfectResponse);
+                session.Store(futureWordScore);
+            });
 
             SystemTime.UtcDateTime = () => new DateTime(2012, 1, 3);
 

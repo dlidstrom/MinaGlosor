@@ -80,25 +80,22 @@ namespace MinaGlosor.Test.Api
             {
                 var owner = new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username");
                 session.Store(owner);
-
-                var wordList = new WordList(KeyGeneratorBase.Generate<WordList>(session), "list", owner.Id);
-                session.Store(wordList);
-
-                // add some words to the word list
-                var currentDate = new DateTime(2012, 1, 1);
-                var generator = new KeyGenerator<Word>(session);
-                for (var i = 0; i < 15; i++)
-                {
-                    var newCurrentDate = currentDate.AddSeconds(i);
-                    SystemTime.UtcDateTime = () => newCurrentDate;
-                    var word = Word.Create(
-                        generator.Generate(),
-                        1 + i + "t",
-                        1 + i + "d",
-                        wordList);
-                    session.Store(word);
-                }
             });
+
+            var wordListResponse = await this.PostWordList("list");
+            await this.PublishWordList(wordListResponse.WordListId, true);
+
+            // add some words to the word list
+            var currentDate = new DateTime(2012, 1, 1);
+            for (var i = 0; i < 15; i++)
+            {
+                var newCurrentDate = currentDate.AddSeconds(i);
+                SystemTime.UtcDateTime = () => newCurrentDate;
+                await this.PostWord(
+                    1 + i + "t",
+                    1 + i + "d",
+                    wordListResponse.WordListId);
+            }
 
             await this.StartPracticeSession("1");
         }

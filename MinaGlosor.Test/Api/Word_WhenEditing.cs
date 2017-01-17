@@ -21,6 +21,8 @@ namespace MinaGlosor.Test.Api
             var taskRunner = Container.Resolve<TaskRunner>();
             Transact(session => session.Store(new User(KeyGeneratorBase.Generate<User>(session), "e@d.com", "pwd", "username")));
             var wordListResponse = await this.PostWordList();
+            await this.PublishWordList(wordListResponse.WordListId, true);
+
             var wordResponse = await this.PostWord("text", "def", wordListResponse.WordListId);
             var practiceSessionResponse = await this.StartPracticeSession(wordListResponse.WordListId);
 
