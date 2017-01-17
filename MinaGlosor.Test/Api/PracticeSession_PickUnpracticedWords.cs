@@ -32,7 +32,7 @@ namespace MinaGlosor.Test.Api
                     "33",
                     "37"
                 };
-                Assert.That(practiceSession.Words.Select(x => Word.FromId(x.WordId)), Is.EqualTo(expectedWordIds));
+                Assert.That(practiceSession.Words.Select(x => Word.FromId(x.WordId)).ToArray(), Is.EqualTo(expectedWordIds));
             });
         }
 
@@ -74,7 +74,7 @@ namespace MinaGlosor.Test.Api
 
             Assert.That(wordConfidenceResponse, Is.Not.Null);
             Debug.Assert(wordConfidenceResponse != null, "wordConfidenceResponse != null");
-            Assert.That(wordConfidenceResponse.IsFinished, Is.True, "Expected practice session to finish after 10 steps");
+            Assert.That(wordConfidenceResponse.IsFinished, Is.True, "Expected practice session to finish after 5 steps");
 
             // add 5 more
             for (var i = 5; i < 10; i++)

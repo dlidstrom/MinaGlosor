@@ -21,7 +21,7 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
             
             var wordIdsForPractice = new List<string>();
             FillWithNewWords(Session, wordIdsForPractice, command.WordListId, command.CurrentUserId);
-            if (wordIdsForPractice.Count < WordsToTake)
+            if (wordIdsForPractice.Count == 0)
             {
                 // select difficult words that are up for new practice
                 var difficultWordScoreIdsQuery = from wordScore in Session.Query<WordScore, WordScoreIndex>()
