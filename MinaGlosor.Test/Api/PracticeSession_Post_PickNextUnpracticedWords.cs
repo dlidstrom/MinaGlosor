@@ -58,6 +58,7 @@ namespace MinaGlosor.Test.Api
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("first@d.com"), new string[0]);
 
             var wordListResponse = await this.PostWordList();
+            await this.PublishWordList(wordListResponse.WordListId, true);
 
             // add some words to the word list
             var currentDate = new DateTime(2012, 1, 1);

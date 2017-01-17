@@ -114,7 +114,6 @@
     <Compile Include="Api\PracticeSession_Post_PickNextUnpracticedWords.cs" />
     <Compile Include="Api\PracticeWord_Get.cs" />
     <Compile Include="Api\PracticeSession_Post.cs" />
-    <Compile Include="Api\PracticeSession_Post_WhenExisting.cs" />
     <Compile Include="Api\RoutesTest.cs" />
     <Compile Include="Api\RouteTestHelper.cs" />
     <Compile Include="Api\Search_Get.cs" />

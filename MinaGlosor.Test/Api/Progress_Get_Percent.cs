@@ -45,7 +45,7 @@ namespace MinaGlosor.Test.Api
                                     percentEasyWords = 66,
                                     numberOfDifficultWords = 1,
                                     percentDifficultWords = 33,
-                                    published = false,
+                                    published = true,
                                     gravatarHash = "e528f7e2efd2431e5fa05859ee474df8"
                                 }
                         },
@@ -71,6 +71,7 @@ namespace MinaGlosor.Test.Api
             });
 
             var wordListResponse = await this.PostWordList("list");
+            await this.PublishWordList(wordListResponse.WordListId, true);
 
             // add some words to the word list
             for (var i = 0; i < 10; i++)
