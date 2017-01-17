@@ -232,7 +232,7 @@ namespace MinaGlosor.Test.Api
             // Act
             practiceSessionResponse = await this.StartPracticeSession(postWordListResponse.WordListId);
 
-            var responses = new[]
+            var confidenceLevels = new[]
             {
                 ConfidenceLevel.RecalledWithSeriousDifficulty,
                 ConfidenceLevel.PerfectResponse,
@@ -240,7 +240,7 @@ namespace MinaGlosor.Test.Api
             };
             PracticeSessionExtensions.PracticeWordResponse practiceWordResponse;
             WordConfidenceExtensions.Response wordConfidenceResponse;
-            for (var i = 0; i < responses.Length; i++)
+            foreach (var confidenceLevel in confidenceLevels)
             {
                 // get next practice word
                 practiceWordResponse = await this.GetNextPracticeWord(practiceSessionResponse.PracticeSessionId);
@@ -249,7 +249,7 @@ namespace MinaGlosor.Test.Api
                 wordConfidenceResponse = await this.PostWordConfidence(
                     practiceSessionResponse.PracticeSessionId,
                     practiceWordResponse.PracticeWordId,
-                    responses[i]);
+                    confidenceLevel);
                 Assert.That(wordConfidenceResponse.IsFinished, Is.False);
             }
 
