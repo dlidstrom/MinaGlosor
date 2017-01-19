@@ -6,14 +6,16 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Queries.Handlers
 {
-    public class BrowseQueryHandler : QueryHandlerBase<BrowseQuery, BrowseQuery.Result>
+    public class BrowseQueryHandler : IQueryHandler<BrowseQuery, BrowseQuery.Result>
     {
-        public override bool CanExecute(BrowseQuery query, User currentUser)
+        public IDocumentSession Session { get; set; }
+
+        public bool CanExecute(BrowseQuery query, User currentUser)
         {
             return true;
         }
 
-        public override BrowseQuery.Result Handle(BrowseQuery query)
+        public BrowseQuery.Result Handle(BrowseQuery query)
         {
             RavenQueryStatistics stats;
             var wordLists = Session.Query<WordList, WordListIndex>()

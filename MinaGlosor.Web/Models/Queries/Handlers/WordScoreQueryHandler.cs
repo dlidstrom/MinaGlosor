@@ -1,18 +1,21 @@
 ﻿using System.Linq;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Indexes;
+using Raven.Client;
 using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Models.Queries.Handlers
 {
-    public class GetWordScoreIdsQueryHandler : QueryHandlerBase<GetWordScoreIdsQuery, GetWordScoreIdsQuery.Result>
+    public class WordScoreQueryHandler : IQueryHandler<GetWordScoreIdsQuery, GetWordScoreIdsQuery.Result>
     {
-        public override bool CanExecute(GetWordScoreIdsQuery query, User currentUser)
+        public IDocumentSession Session { get; set; }
+
+        public bool CanExecute(GetWordScoreIdsQuery query, User currentUser)
         {
             return true;
         }
 
-        public override GetWordScoreIdsQuery.Result Handle(GetWordScoreIdsQuery query)
+        public GetWordScoreIdsQuery.Result Handle(GetWordScoreIdsQuery query)
         {
             var linq = Session.Query<WordScore, WordScoreIndex>()
                               .Where(x => x.WordId == query.WordId)

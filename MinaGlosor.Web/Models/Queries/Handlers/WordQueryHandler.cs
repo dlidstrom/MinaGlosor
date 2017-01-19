@@ -6,14 +6,18 @@ using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Models.Queries.Handlers
 {
-    public class GetWordsQueryHandler : QueryHandlerBase<GetWordsQuery, GetWordsResult>
+    public class WordQueryHandler :
+        IQueryHandler<GetWordsQuery, GetWordsResult>,
+        IQueryHandler<GetWordQuery, GetWordQuery.Result>
     {
-        public override bool CanExecute(GetWordsQuery query, User currentUser)
+        public IDocumentSession Session { get; set; }
+
+        public bool CanExecute(GetWordsQuery query, User currentUser)
         {
             return true;
         }
 
-        public override GetWordsResult Handle(GetWordsQuery query)
+        public GetWordsResult Handle(GetWordsQuery query)
         {
             var wordList = Session.Load<WordList>(query.WordListId);
             RavenQueryStatistics stats;
@@ -35,6 +39,17 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
                 query.Page,
                 query.ItemsPerPage);
             return result;
+        }
+
+        public bool CanExecute(GetWordQuery query, User currentUser)
+        {
+            return true;
+        }
+
+        public GetWordQuery.Result Handle(GetWordQuery query)
+        {
+            var word = Session.Load<Word>(query.WordId);
+            return new GetWordQuery.Result(word);
         }
     }
 }

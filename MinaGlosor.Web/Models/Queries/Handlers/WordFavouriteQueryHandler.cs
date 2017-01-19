@@ -6,14 +6,16 @@ using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Models.Queries.Handlers
 {
-    public class GetWordFavouritesQueryHandler : QueryHandlerBase<GetWordFavouritesQuery, GetWordFavouritesResult>
+    public class WordFavouriteQueryHandler : IQueryHandler<GetWordFavouritesQuery, GetWordFavouritesResult>
     {
-        public override bool CanExecute(GetWordFavouritesQuery query, User currentUser)
+        public IDocumentSession Session { get; set; }
+
+        public bool CanExecute(GetWordFavouritesQuery query, User currentUser)
         {
             return true;
         }
 
-        public override GetWordFavouritesResult Handle(GetWordFavouritesQuery query)
+        public GetWordFavouritesResult Handle(GetWordFavouritesQuery query)
         {
             RavenQueryStatistics stats;
             var linq = Session.Query<WordFavourite, WordFavouriteIndex>()

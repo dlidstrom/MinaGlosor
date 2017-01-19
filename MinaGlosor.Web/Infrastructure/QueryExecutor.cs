@@ -17,7 +17,7 @@ namespace MinaGlosor.Web.Infrastructure
 
         public TResult ExecuteQuery<TResult>(IQuery<TResult> query, User user)
         {
-            var handlerType = typeof(QueryHandlerBase<,>).MakeGenericType(query.GetType(), typeof(TResult));
+            var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
             var canExecuteMethod = handlerType.GetMethod("CanExecute");
             var handleMethod = handlerType.GetMethod("Handle");
             try

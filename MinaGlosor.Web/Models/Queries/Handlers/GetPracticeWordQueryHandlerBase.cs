@@ -1,10 +1,17 @@
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Infrastructure.Tracing;
+using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Queries.Handlers
 {
-    public abstract class GetPracticeWordQueryHandlerBase<TQuery> : QueryHandlerBase<TQuery, PracticeWordResult> where TQuery : IQuery<PracticeWordResult>
+    public abstract class GetPracticeWordQueryHandlerBase<TQuery> : IQueryHandler<TQuery, PracticeWordResult> where TQuery : IQuery<PracticeWordResult>
     {
+        public abstract IDocumentSession Session { get; set; }
+
+        public abstract bool CanExecute(TQuery query, User currentUser);
+
+        public abstract PracticeWordResult Handle(TQuery query);
+
         protected bool DefaultCanExecute(User currentUser, string practiceSessionId)
         {
             var practiceSession = Session.Load<PracticeSession>(practiceSessionId);

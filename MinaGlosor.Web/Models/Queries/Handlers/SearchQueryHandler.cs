@@ -9,16 +9,18 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Queries.Handlers
 {
-    public class SearchQueryHandler : QueryHandlerBase<SearchQuery, SearchQuery.Result>
+    public class SearchQueryHandler : IQueryHandler<SearchQuery, SearchQuery.Result>
     {
         private const int MaxResults = 30;
 
-        public override bool CanExecute(SearchQuery query, User currentUser)
+        public IDocumentSession Session { get; set; }
+
+        public bool CanExecute(SearchQuery query, User currentUser)
         {
             return true;
         }
 
-        public override SearchQuery.Result Handle(SearchQuery query)
+        public SearchQuery.Result Handle(SearchQuery query)
         {
             var index = 0;
             var textResults = SearchTerm(Session, word => word.Text, index, query.Q, query.UserId);
@@ -141,9 +143,9 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
             {
                 var fragments = highlightings.GetFragments(result.Id);
                 var fragment = fragments.FirstOrDefault();
-                var propertyInfo = result.GetType().GetProperty(propertyName);
                 if (fragment != null)
                 {
+                    var propertyInfo = result.GetType().GetProperty(propertyName);
                     propertyInfo.SetValue(result, fragment);
                 }
 

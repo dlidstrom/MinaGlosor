@@ -1,7 +1,11 @@
+using Raven.Client;
+
 namespace MinaGlosor.Web.Models.Queries.Handlers
 {
     public class GetPracticeWordQueryHandler : GetPracticeWordQueryHandlerBase<GetPracticeWordQuery>
     {
+        public override IDocumentSession Session { get; set; }
+
         public override bool CanExecute(GetPracticeWordQuery query, User currentUser)
         {
             return DefaultCanExecute(currentUser, query.PracticeSessionId);

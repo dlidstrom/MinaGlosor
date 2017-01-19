@@ -1,21 +1,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using MinaGlosor.Web.Infrastructure;
-using MinaGlosor.Web.Models.Domain.ProgressModel;
 using MinaGlosor.Web.Models.Indexes;
+using MinaGlosor.Web.Models.Queries;
 using Raven.Client;
-using Raven.Client.Linq;
 
-namespace MinaGlosor.Web.Models.Queries.Handlers
+namespace MinaGlosor.Web.Models.Domain.ProgressModel.Queries
 {
-    public class GetProgressListQueryHandler : QueryHandlerBase<GetProgressListQuery, GetProgressListQuery.Result>
+    public class ProgressQueryHandler :
+        IQueryHandler<GetProgressQuery, GetProgressQuery.Result>,
+        IQueryHandler<GetProgressListQuery, GetProgressListQuery.Result>,
+        IQueryHandler<GetProgressListByWordListIdQuery, GetProgressListByWordListIdQuery.Result>
     {
-        public override bool CanExecute(GetProgressListQuery query, User currentUser)
+        public IDocumentSession Session { get; set; }
+
+        public bool CanExecute(GetProgressQuery query, User currentUser)
+        {
+            return true;
+        }
+
+        public GetProgressQuery.Result Handle(GetProgressQuery query)
+        {
+            var progress = Session.Load<Progress>(query.ProgressId);
+            if (progress == null) return null;
+            var result = new GetProgressQuery.Result(progress);
+            return result;
+        }
+
+        public bool CanExecute(GetProgressListQuery query, User currentUser)
         {
             return query.UserId == currentUser.Id;
         }
 
-        public override GetProgressListQuery.Result Handle(GetProgressListQuery query)
+        public GetProgressListQuery.Result Handle(GetProgressListQuery query)
         {
             RavenQueryStatistics stats;
             var progresses = Session.Query<Progress, ProgressIndex>()
@@ -49,6 +66,21 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
                 stats.TotalResults,
                 query.Page,
                 query.ItemsPerPage);
+            return result;
+        }
+
+        public bool CanExecute(GetProgressListByWordListIdQuery query, User currentUser)
+        {
+            return true;
+        }
+
+        public GetProgressListByWordListIdQuery.Result Handle(GetProgressListByWordListIdQuery query)
+        {
+            var linq = Session.Query<Progress, ProgressIndex>()
+                              .Where(x => x.WordListId == query.WordListId)
+                              .Select(x => x.Id);
+            var ids = linq.ToArray();
+            var result = new GetProgressListByWordListIdQuery.Result(ids);
             return result;
         }
     }

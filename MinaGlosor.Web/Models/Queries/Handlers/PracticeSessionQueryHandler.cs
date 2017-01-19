@@ -1,19 +1,35 @@
 using System.Linq;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Indexes;
-using Raven.Client.Linq;
+using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Queries.Handlers
 {
-    public class GetUnfinishedPracticeSessionsQueryHandler : QueryHandlerBase<GetUnfinishedPracticeSessionsQuery, GetUnfinishedPracticeSessionsQuery.Result>
+    public class PracticeSessionQueryHandler :
+        IQueryHandler<IsPracticeSessionFinishedQuery, bool>,
+        IQueryHandler<GetUnfinishedPracticeSessionsQuery, GetUnfinishedPracticeSessionsQuery.Result>
     {
-        public override bool CanExecute(GetUnfinishedPracticeSessionsQuery query, User currentUser)
+        public IDocumentSession Session { get; set; }
+
+        public bool CanExecute(IsPracticeSessionFinishedQuery query, User currentUser)
+        {
+            var practiceSession = Session.Load<PracticeSession>(query.PracticeSessionId);
+            return practiceSession.HasAccess(currentUser.Id);
+        }
+
+        public bool Handle(IsPracticeSessionFinishedQuery query)
+        {
+            var practiceSession = Session.Load<PracticeSession>(query.PracticeSessionId);
+            return practiceSession.IsFinished;
+        }
+
+        public bool CanExecute(GetUnfinishedPracticeSessionsQuery query, User currentUser)
         {
             // TODO: Check if word list is published?
             return true;
         }
 
-        public override GetUnfinishedPracticeSessionsQuery.Result Handle(GetUnfinishedPracticeSessionsQuery query)
+        public GetUnfinishedPracticeSessionsQuery.Result Handle(GetUnfinishedPracticeSessionsQuery query)
         {
             var wordList = Session.Load<WordList>(query.WordListId);
             var linq = from practiceSession in Session.Query<PracticeSession, PracticeSessionIndex>()
