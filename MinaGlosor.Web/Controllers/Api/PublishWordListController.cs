@@ -17,7 +17,7 @@ namespace MinaGlosor.Web.Controllers.Api
 
             Debug.Assert(request != null, "request != null");
             Debug.Assert(request.Publish != null, "request.Publish != null");
-            ExecuteCommand(new PublishWorListCommand(request.WordListId, request.Publish.Value));
+            ExecuteCommand(new PublishWordListCommand(request.WordListId, request.Publish.Value));
             return Ok();
         }
 

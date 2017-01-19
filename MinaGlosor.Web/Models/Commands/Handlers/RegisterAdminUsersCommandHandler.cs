@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using MinaGlosor.Web.Infrastructure;
+using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands.Handlers
 {
-    public class RegisterAdminUsersCommandHandler : CommandHandlerBase<RegisterAdminUsersCommand, RegisterAdminUsersCommand.Result>
+    public class RegisterAdminUsersCommandHandler : ICommandHandler<RegisterAdminUsersCommand, RegisterAdminUsersCommand.Result>
     {
-        public override RegisterAdminUsersCommand.Result Handle(RegisterAdminUsersCommand command)
+        public IDocumentSession Session { get; set; }
+
+        public RegisterAdminUsersCommand.Result Handle(RegisterAdminUsersCommand command)
         {
             var websiteConfig = Session.Load<WebsiteConfig>(WebsiteConfig.GlobalId);
             if (websiteConfig == null)
@@ -27,7 +30,7 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
             return new RegisterAdminUsersCommand.Result(migratedUsers.ToArray());
         }
 
-        public override bool CanExecute(RegisterAdminUsersCommand command, User currentUser)
+        public bool CanExecute(RegisterAdminUsersCommand command, User currentUser)
         {
             return currentUser.IsAdmin;
         }

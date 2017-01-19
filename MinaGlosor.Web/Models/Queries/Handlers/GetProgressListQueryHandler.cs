@@ -21,6 +21,7 @@ namespace MinaGlosor.Web.Models.Queries.Handlers
             var progresses = Session.Query<Progress, ProgressIndex>()
                                     .Statistics(out stats)
                                     .Where(x => x.OwnerId == query.UserId)
+                                    .OrderBy(x => x.NumberOfWordsSortOrder)
                                     .Skip((query.Page - 1) * query.ItemsPerPage)
                                     .Take(query.ItemsPerPage)
                                     .ToArray();

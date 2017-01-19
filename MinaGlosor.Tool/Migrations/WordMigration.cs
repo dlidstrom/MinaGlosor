@@ -35,7 +35,7 @@ namespace MinaGlosor.Tool.Migrations
             var definition = reader.GetString(3);
             var wordListName = reader.GetString(4);
             var ownerEmail = reader.GetString(5);
-            object word = new Word
+            object word = new WordDto
             {
                 RequestUsername = username,
                 RequestPassword = password,

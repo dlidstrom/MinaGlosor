@@ -2,12 +2,15 @@ using System;
 using System.Linq;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.Indexes;
+using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands.Handlers
 {
-    public class CreateUserCommandHandler : CommandHandlerBase<CreateUserCommand, string>
+    public class UserCommandHandler : ICommandHandler<CreateUserCommand, string>
     {
-        public override string Handle(CreateUserCommand command)
+        public IDocumentSession Session { get; set; }
+
+        public string Handle(CreateUserCommand command)
         {
             // check for existing user
             var existing = Session.Query<User, UserIndex>().SingleOrDefault(x => x.Username == command.Username);
@@ -28,7 +31,7 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
             return id;
         }
 
-        public override bool CanExecute(CreateUserCommand command, User currentUser)
+        public bool CanExecute(CreateUserCommand command, User currentUser)
         {
             return true;
         }

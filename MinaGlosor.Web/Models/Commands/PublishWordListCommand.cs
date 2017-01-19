@@ -3,9 +3,9 @@ using MinaGlosor.Web.Infrastructure;
 
 namespace MinaGlosor.Web.Models.Commands
 {
-    public class PublishWorListCommand : ICommand<object>
+    public class PublishWordListCommand : ICommand<object>
     {
-        public PublishWorListCommand(string wordListId, bool publish)
+        public PublishWordListCommand(string wordListId, bool publish)
         {
             if (wordListId == null) throw new ArgumentNullException("wordListId");
             WordListId = WordList.ToId(wordListId);

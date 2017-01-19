@@ -1,19 +1,17 @@
 using Castle.MicroKernel;
 using MinaGlosor.Web.Infrastructure;
 using MinaGlosor.Web.Models.AdminCommands;
+using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands.Handlers
 {
-    public class RunAdminCommandHandler : CommandHandlerBase<RunAdminCommand, object>
+    public class RunAdminCommandHandler : ICommandHandler<RunAdminCommand, object>
     {
-        private readonly IKernel kernel;
+        public IDocumentSession Session { get; set; }
 
-        public RunAdminCommandHandler(IKernel kernel)
-        {
-            this.kernel = kernel;
-        }
+        public IKernel Kernel { get; set; }
 
-        public override object Handle(RunAdminCommand command)
+        public object Handle(RunAdminCommand command)
         {
             object handler = null;
             try
@@ -21,18 +19,18 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
                 var adminCommand = command.AdminCommand;
                 var handlerType = typeof(IAdminCommandHandler<>)
                     .MakeGenericType(adminCommand.GetType());
-                handler = kernel.Resolve(handlerType);
+                handler = Kernel.Resolve(handlerType);
                 var methodInfo = handlerType.GetMethod("Run");
                 var result = methodInfo.Invoke(handler, new[] { (object)adminCommand });
                 return result;
             }
             finally
             {
-                kernel.ReleaseComponent(handler);
+                Kernel.ReleaseComponent(handler);
             }
         }
 
-        public override bool CanExecute(RunAdminCommand command, User currentUser)
+        public bool CanExecute(RunAdminCommand command, User currentUser)
         {
             return true;
         }

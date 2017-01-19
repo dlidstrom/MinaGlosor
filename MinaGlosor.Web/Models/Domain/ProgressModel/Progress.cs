@@ -14,7 +14,7 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel
         {
             if (ownerId == null) throw new ArgumentNullException("ownerId");
             if (wordListId == null) throw new ArgumentNullException("wordListId");
-            Apply(new CeatedEvent(Id, ownerId, wordListId, new ProgressWordCounts(), new ProgressPercentages()));
+            Apply(new CeatedEvent(Id, ownerId, wordListId, new ProgressWordCounts(), new ProgressPercentages(), -1));
         }
 
 #pragma warning disable 612, 618
@@ -22,11 +22,15 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel
         private Progress()
 #pragma warning restore 612, 618
         {
+            // TODO: Remove when done
+            NumberOfWordsSortOrder = -1;
         }
 
         public string OwnerId { get; private set; }
 
         public string WordListId { get; private set; }
+
+        public int NumberOfWordsSortOrder { get; private set; }
 
         public ProgressWordCounts WordCounts { get; private set; }
 
@@ -119,6 +123,7 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel
             WordListId = @event.WordListId;
             WordCounts = @event.ProgressWordCounts;
             Percentages = @event.ProgressPercentages;
+            NumberOfWordsSortOrder = @event.NumberOfWordsSortOrder;
         }
 
         private void ApplyEvent(WordHasExpiredEvent @event)

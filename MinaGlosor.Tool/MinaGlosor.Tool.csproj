@@ -66,9 +66,9 @@
     <Compile Include="Commands\LoggingHandler.cs" />
     <Compile Include="Commands\MigrateAdminUserCommandRunner.cs" />
     <Compile Include="Commands\MigrateWordUserIdCommandRunner.cs" />
-    <Compile Include="Dto\User.cs" />
-    <Compile Include="Dto\Word.cs" />
-    <Compile Include="Dto\WordList.cs" />
+    <Compile Include="Dto\UserDto.cs" />
+    <Compile Include="Dto\WordDto.cs" />
+    <Compile Include="Dto\WordListDto.cs" />
     <Compile Include="Infrastructure\CommandRunnerInstaller.cs" />
     <Compile Include="Infrastructure\ContainerBuilder.cs" />
     <Compile Include="Infrastructure\ServerUrlProviderInstaller.cs" />

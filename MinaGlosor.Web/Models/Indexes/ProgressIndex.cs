@@ -13,7 +13,8 @@ namespace MinaGlosor.Web.Models.Indexes
                                 {
                                     progress.Id,
                                     progress.OwnerId,
-                                    progress.WordListId
+                                    progress.WordListId,
+                                    progress.NumberOfWordsSortOrder
                                 };
         }
     }

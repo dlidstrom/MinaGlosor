@@ -28,7 +28,7 @@ namespace MinaGlosor.Tool.Migrations
             var email = reader.GetString(1);
             var hashedPassword = reader.GetString(2);
             var createdDate = reader.GetDateTime(3);
-            object user = new User
+            object user = new UserDto
             {
                 RequestUsername = username,
                 RequestPassword = password,

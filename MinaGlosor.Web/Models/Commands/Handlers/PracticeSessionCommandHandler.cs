@@ -10,12 +10,17 @@ using Raven.Client.Linq;
 
 namespace MinaGlosor.Web.Models.Commands.Handlers
 {
-    public class CreatePracticeSessionCommandHandler : CommandHandlerBase<CreatePracticeSessionCommand, CreatePracticeSessionCommand.Result>
+    public class PracticeSessionCommandHandler :
+        ICommandHandler<CreatePracticeSessionCommand, CreatePracticeSessionCommand.Result>,
+        ICommandHandler<UpdateLastPickedDateCommand, object>,
+        ICommandHandler<UpdateWordConfidenceCommand, UpdateWordConfidenceCommand.Result>
     {
         private const int WordsToTake = 10;
         private static readonly Random Rng = new Random();
 
-        public override CreatePracticeSessionCommand.Result Handle(CreatePracticeSessionCommand command)
+        public IDocumentSession Session { get; set; }
+
+        public CreatePracticeSessionCommand.Result Handle(CreatePracticeSessionCommand command)
         {
             var utcNow = SystemTime.UtcNow;
             
@@ -67,7 +72,7 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
             return new CreatePracticeSessionCommand.Result(practiceSession.Id);
         }
 
-        public override bool CanExecute(CreatePracticeSessionCommand command, User currentUser)
+        public bool CanExecute(CreatePracticeSessionCommand command, User currentUser)
         {
             var wordList = Session.Load<WordList>(command.WordListId);
             var isPublished = wordList.IsPublished();
@@ -81,6 +86,32 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
             }
 
             return isPublished;
+        }
+
+        public object Handle(UpdateLastPickedDateCommand command)
+        {
+            var practiceSession = Session.Load<PracticeSession>(command.PracticeSessionId);
+            practiceSession.UpdateLastPickedDate(command.PracticeWordId);
+            return null;
+        }
+
+        public bool CanExecute(UpdateLastPickedDateCommand command, User currentUser)
+        {
+            return true;
+        }
+
+        public UpdateWordConfidenceCommand.Result Handle(UpdateWordConfidenceCommand command)
+        {
+            var practiceSession = Session.Load<PracticeSession>(command.PracticeSessionId);
+            practiceSession.UpdateConfidence(command.PracticeWordId, command.ConfidenceLevel);
+            return new UpdateWordConfidenceCommand.Result(practiceSession.GetStatistics());
+        }
+
+        public bool CanExecute(UpdateWordConfidenceCommand command, User currentUser)
+        {
+            var practiceSession = Session.Load<PracticeSession>(command.PracticeSessionId);
+            var hasAccess = practiceSession.HasAccess(currentUser.Id);
+            return hasAccess;
         }
 
         private void FillWithNewWords(IDocumentSession session, List<string> wordIdsForPractice, string wordListId, string currentUserId)

@@ -20,7 +20,7 @@ namespace MinaGlosor.Web.Infrastructure
 
         public TResult ExecuteCommand<TResult>(ICommand<TResult> command, User user)
         {
-            var handlerType = typeof(CommandHandlerBase<,>).MakeGenericType(command.GetType(), typeof(TResult));
+            var handlerType = typeof(ICommandHandler<,>).MakeGenericType(command.GetType(), typeof(TResult));
             var canExecuteMethod = handlerType.GetMethod("CanExecute");
             var handleMethod = handlerType.GetMethod("Handle");
             try

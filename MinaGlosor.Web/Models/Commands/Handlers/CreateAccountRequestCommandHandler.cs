@@ -1,10 +1,13 @@
 using MinaGlosor.Web.Infrastructure;
+using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands.Handlers
 {
-    public class CreateAccountRequestCommandHandler : CommandHandlerBase<CreateAccountRequestCommand, string>
+    public class CreateAccountRequestCommandHandler : ICommandHandler<CreateAccountRequestCommand, string>
     {
-        public override string Handle(CreateAccountRequestCommand command)
+        public IDocumentSession Session { get; set; }
+
+        public string Handle(CreateAccountRequestCommand command)
         {
             var request = new CreateAccountRequest(
                 KeyGeneratorBase.Generate<CreateAccountRequest>(Session),
@@ -14,7 +17,7 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
             return request.Id;
         }
 
-        public override bool CanExecute(CreateAccountRequestCommand command, User currentUser)
+        public bool CanExecute(CreateAccountRequestCommand command, User currentUser)
         {
             return true;
         }

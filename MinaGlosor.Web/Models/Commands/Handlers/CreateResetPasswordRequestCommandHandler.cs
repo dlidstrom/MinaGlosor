@@ -1,17 +1,20 @@
 using MinaGlosor.Web.Infrastructure;
+using Raven.Client;
 
 namespace MinaGlosor.Web.Models.Commands.Handlers
 {
-    public class CreateResetPasswordRequestCommandHandler : CommandHandlerBase<CreateResetPasswordRequestCommand, string>
+    public class CreateResetPasswordRequestCommandHandler : ICommandHandler<CreateResetPasswordRequestCommand, string>
     {
-        public override string Handle(CreateResetPasswordRequestCommand command)
+        public IDocumentSession Session { get; set; }
+
+        public string Handle(CreateResetPasswordRequestCommand command)
         {
             var id = KeyGeneratorBase.Generate<ResetPasswordRequest>(Session);
             Session.Store(new ResetPasswordRequest(id, command.Email));
             return id;
         }
 
-        public override bool CanExecute(CreateResetPasswordRequestCommand command, User currentUser)
+        public bool CanExecute(CreateResetPasswordRequestCommand command, User currentUser)
         {
             return true;
         }

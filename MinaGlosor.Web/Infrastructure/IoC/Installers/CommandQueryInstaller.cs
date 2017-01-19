@@ -12,7 +12,7 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
             container.Register(Component.For<CommandExecutor>().LifestyleTransient());
             container.Register(
                 Classes.FromThisAssembly()
-                       .BasedOn(typeof(CommandHandlerBase<,>))
+                       .BasedOn(typeof(ICommandHandler<,>))
                        .WithServiceBase()
                        .LifestyleTransient());
             container.Register(

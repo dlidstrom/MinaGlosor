@@ -11,13 +11,15 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel.Events
             string ownerId,
             string wordListId,
             ProgressWordCounts progressWordCounts,
-            ProgressPercentages progressPercentages)
+            ProgressPercentages progressPercentages,
+            int numberOfWordsSortOrder)
             : base(modelId)
         {
             OwnerId = ownerId;
             WordListId = wordListId;
             ProgressWordCounts = progressWordCounts;
             ProgressPercentages = progressPercentages;
+            NumberOfWordsSortOrder = numberOfWordsSortOrder;
         }
 
 #pragma warning disable 612, 618
@@ -34,5 +36,7 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel.Events
         public ProgressWordCounts ProgressWordCounts { get; private set; }
 
         public ProgressPercentages ProgressPercentages { get; private set; }
+
+        public int NumberOfWordsSortOrder { get; private set; }
     }
 }
