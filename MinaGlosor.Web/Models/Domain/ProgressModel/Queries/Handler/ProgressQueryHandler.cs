@@ -5,7 +5,7 @@ using MinaGlosor.Web.Models.Indexes;
 using MinaGlosor.Web.Models.Queries;
 using Raven.Client;
 
-namespace MinaGlosor.Web.Models.Domain.ProgressModel.Queries
+namespace MinaGlosor.Web.Models.Domain.ProgressModel.Queries.Handler
 {
     public class ProgressQueryHandler :
         IQueryHandler<GetProgressQuery, GetProgressQuery.Result>,

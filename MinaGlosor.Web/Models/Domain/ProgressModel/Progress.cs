@@ -74,6 +74,11 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel
             Apply(new UpdatePercentagesAfterWordAddedEvent(Id, Percentages.Of(WordCounts, numberOfWords)));
         }
 
+        public void UpdateNumberOfWordsSortOrder(int numberOfWords)
+        {
+            throw new NotImplementedException();
+        }
+
         public void UpdateDifficultyCounts(WordScoreDifficultyLifecycle lifecycle)
         {
             ProgressWordCounts newWordCounts = null;

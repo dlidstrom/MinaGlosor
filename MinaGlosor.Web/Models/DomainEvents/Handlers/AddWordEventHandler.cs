@@ -12,6 +12,8 @@ namespace MinaGlosor.Web.Models.DomainEvents.Handlers
             {
                 SendTask(new AddWordTask(progressId, ev.NumberOfWords), ev);
             }
+
+            SendTask(new ProgressNumberOfWordsSortOrderTask(ev.ModelId, ev.OwnerId, ev.NumberOfWords), ev);
         }
     }
 }

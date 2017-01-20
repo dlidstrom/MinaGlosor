@@ -6,7 +6,7 @@ namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
     {
         public override void Handle(ProgressNumberOfWordsSortOrderTask task)
         {
-            ExecuteCommand(new ProgressNumberOfWordsSortOrderCommand(), task);
+            ExecuteCommand(new ProgressNumberOfWordsSortOrderCommand(task.WordListId, task.OwnerId, task.NumberOfWords), task);
         }
     }
 }

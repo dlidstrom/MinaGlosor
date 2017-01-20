@@ -340,7 +340,6 @@
     <Compile Include="Models\DomainEvents\Handlers\CheckIfWordExpiresEventHandler.cs" />
     <Compile Include="Models\DomainEvents\Handlers\IHandle.cs" />
     <Compile Include="Models\DomainEvents\Handlers\PracticeSessionFinishedEventHandler.cs" />
-    <Compile Include="Models\DomainEvents\Handlers\ProgressSortOrderEventHandler.cs" />
     <Compile Include="Models\DomainEvents\Handlers\ResetPasswordHandler.cs" />
     <Compile Include="Models\DomainEvents\Handlers\UpdateWordScoreEventHandler.cs" />
     <Compile Include="Models\DomainEvents\Handlers\WordScoreEventHandler.cs" />
@@ -389,6 +388,7 @@
     <Compile Include="Models\Domain\ProgressModel\ProgressPercentages.cs" />
     <Compile Include="Models\Domain\ProgressModel\ProgressWordCounts.cs" />
     <Compile Include="Models\Domain\ProgressModel\Queries\GetProgressListByWordListIdQuery.cs" />
+    <Compile Include="Models\Domain\ProgressModel\Queries\Handler\ProgressQueryHandler.cs" />
     <Compile Include="Models\Indexes\ChangeLogEntryIndex.cs" />
     <Compile Include="Models\Indexes\ProgressIndex.cs" />
     <Compile Include="Models\ModelContext.cs" />
@@ -454,7 +454,6 @@
     <Compile Include="Models\Queries\Handlers\GetPracticeWordQueryHandlerBase.cs" />
     <Compile Include="Models\Queries\Handlers\ResetPasswordRequestQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\WordFavouriteQueryHandler.cs" />
-    <Compile Include="Models\Domain\ProgressModel\Queries\ProgressQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\WordListQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\WordScoreQueryHandler.cs" />
     <Compile Include="Models\Queries\Handlers\WordQueryHandler.cs" />

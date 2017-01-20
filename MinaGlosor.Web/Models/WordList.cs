@@ -57,7 +57,7 @@ namespace MinaGlosor.Web.Models
 
         public void AddWord()
         {
-            Apply(new AddWordEvent(Id, NumberOfWords + 1));
+            Apply(new AddWordEvent(Id, NumberOfWords + 1, OwnerId));
         }
 
         public void UpdateName(string wordListName)

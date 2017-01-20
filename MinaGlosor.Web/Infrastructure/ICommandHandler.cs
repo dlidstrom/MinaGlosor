@@ -7,8 +7,8 @@ namespace MinaGlosor.Web.Infrastructure
     {
         IDocumentSession Session { get; set; }
 
-        TResult Handle(TCommand command);
-
         bool CanExecute(TCommand command, User currentUser);
+
+        TResult Handle(TCommand command);
     }
 }
