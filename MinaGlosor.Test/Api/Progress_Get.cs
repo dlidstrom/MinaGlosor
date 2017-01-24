@@ -101,7 +101,7 @@ namespace MinaGlosor.Test.Api
                                 },
                             new
                                 {
-                                    progressId = "5",
+                                    progressId = "1-5",
                                     wordListId = "5",
                                     progressOwnerId = "1",
                                     wordListOwnerId = "1",
