@@ -36,6 +36,10 @@
                 return 'Tomt namn är inte tillåtet';
             }
 
+            if (newWordListName.length > 1024) {
+                return 'Namn får vara högst 1024 tecken';
+            }
+
             return wordListService.updateName($ctrl.model.wordListId, newWordListName);
         }
     }

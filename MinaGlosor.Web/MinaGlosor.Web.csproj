@@ -352,7 +352,6 @@
     <Compile Include="Models\DomainEvents\SetUserCreatedEvent.cs" />
     <Compile Include="Models\DomainEvents\SetWordUserIdEvent.cs" />
     <Compile Include="Models\DomainEvents\ToggleWordFavouriteEvent.cs" />
-    <Compile Include="Models\DomainEvents\UnpublishWordListEvent.cs" />
     <Compile Include="Models\DomainEvents\UpdateConfidenceLevelEvent.cs" />
     <Compile Include="Models\DomainEvents\Handlers\UpdateConfidenceEventHandler.cs" />
     <Compile Include="Models\DomainEvents\UpdateLastPickedDateEvent.cs" />

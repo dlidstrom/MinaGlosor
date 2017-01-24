@@ -7,15 +7,17 @@ namespace MinaGlosor.Web.Models
 {
     public class WordList : DomainModel
     {
+        private const string NameMaxLength = 1024;
+
         public WordList(string id, string name, string ownerId)
             : base(id)
         {
             if (name == null) throw new ArgumentNullException("name");
             if (ownerId == null) throw new ArgumentNullException("ownerId");
 
-            if (name.Length > 1024)
+            if (name.Length > NameMaxLength)
             {
-                throw new ArgumentOutOfRangeException("name", "Name cannot be longer than 1024 characters");
+                throw new ArgumentOutOfRangeException("name", string.Format("Name cannot be longer than {0} characters", NameMaxLength));
             }
 
             Apply(new WordListRegisteredEvent(id, name, ownerId));
@@ -63,18 +65,22 @@ namespace MinaGlosor.Web.Models
         public void UpdateName(string wordListName)
         {
             if (wordListName == null) throw new ArgumentNullException("wordListName");
-            if (wordListName.Length > 1000) throw new ArgumentOutOfRangeException("wordListName", "Max 1000 characters");
+            if (wordListName.Length > NameMaxLength)
+            {
+                throw new ArgumentOutOfRangeException("wordListName", string.Format("Max {0} characters", NameMaxLength));
+            }
+
             Apply(new UpdateWordListNameEvent(Id, wordListName));
         }
 
         public void Publish()
         {
-            Apply(new PublishWordListEvent(Id));
+            Apply(new PublishWordListEvent(Id, WordListPublishState.Published));
         }
 
         public void Unpublish()
         {
-            Apply(new UnpublishWordListEvent(Id));
+            Apply(new PublishWordListEvent(Id, WordListPublishState.Private));
         }
 
         public bool IsPublished()
@@ -100,14 +106,7 @@ namespace MinaGlosor.Web.Models
 
         private void ApplyEvent(PublishWordListEvent @event)
         {
-            // TODO Fix this!!!
-            PublishState = WordListPublishState.Published;
-        }
-
-        private void ApplyEvent(UnpublishWordListEvent @event)
-        {
-            // TODO Fix this!!!
-            PublishState = WordListPublishState.Private;
+            PublishState = @event.WordListPublishState;
         }
     }
 }
