@@ -11,7 +11,7 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel.Commands.Handlers
         ICommandHandler<WordScoreRegisteredCommand, object>,
         ICommandHandler<WordScoreChangedDifficultyCommand, object>,
         ICommandHandler<WordIsUpToDateCommand, object>,
-        ICommandHandler<ProgressNumberOfWordsSortOrderCommand, object>
+        ICommandHandler<WordExpiredCommand, object>
     {
         public IDocumentSession Session { get; set; }
 
@@ -99,17 +99,20 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel.Commands.Handlers
             return true;
         }
 
-        public bool CanExecute(ProgressNumberOfWordsSortOrderCommand command, User currentUser)
+        public object Handle(WordExpiredCommand command)
         {
-            return true;
+            var word = Session.Load<Word>(command.WordId);
+            var wordList = Session.Load<WordList>(word.WordListId);
+            var progressId = Progress.GetIdFromWordListForUser(word.WordListId, command.OwnerId);
+            var progress = Session.Load<Progress>(progressId);
+            progress.WordHasExpired(wordList.NumberOfWords);
+
+            return new object();
         }
 
-        public object Handle(ProgressNumberOfWordsSortOrderCommand command)
+        public bool CanExecute(WordExpiredCommand command, User currentUser)
         {
-            var id = Progress.GetIdFromWordListForUser(command.WordListId, command.OwnerId);
-            var progress = Session.Load<Progress>(id);
-            progress.UpdateNumberOfWordsSortOrder(command.NumberOfWords);
-            return new object();
+            return true;
         }
     }
 }

@@ -35,12 +35,16 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel.Queries.Handler
         public GetProgressListQuery.Result Handle(GetProgressListQuery query)
         {
             RavenQueryStatistics stats;
-            var progresses = Session.Query<Progress, ProgressIndex>()
+            var progresses = Session.Query<ProgressIndex.Result, ProgressIndex>()
                                     .Statistics(out stats)
                                     .Where(x => x.OwnerId == query.UserId)
-                                    .OrderBy(x => x.NumberOfWordsSortOrder)
+                                    .OrderBy(x => x.NumberOfWords)
+                                    .ThenBy(x => x.PercentDone)
+                                    .ThenBy(x => x.PercentExpired)
+                                    .ThenBy(x => x.Order)
                                     .Skip((query.Page - 1) * query.ItemsPerPage)
                                     .Take(query.ItemsPerPage)
+                                    .OfType<Progress>()
                                     .ToArray();
             var wordLists = Session.Load<WordList>(progresses.Select(x => x.WordListId))
                                    .ToDictionary(x => x.Id);

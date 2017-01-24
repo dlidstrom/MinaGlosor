@@ -100,11 +100,13 @@ namespace MinaGlosor.Web.Models
 
         private void ApplyEvent(PublishWordListEvent @event)
         {
+            // TODO Fix this!!!
             PublishState = WordListPublishState.Published;
         }
 
         private void ApplyEvent(UnpublishWordListEvent @event)
         {
+            // TODO Fix this!!!
             PublishState = WordListPublishState.Private;
         }
     }

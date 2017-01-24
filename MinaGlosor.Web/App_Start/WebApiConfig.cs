@@ -1,6 +1,8 @@
 ﻿using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 using Elmah.Contrib.WebApi;
 using MinaGlosor.Web.Infrastructure.Attributes;
+using MinaGlosor.Web.Infrastructure.Tracing;
 using Newtonsoft.Json.Serialization;
 
 // ReSharper disable CheckNamespace
@@ -12,6 +14,7 @@ namespace MinaGlosor.Web
         {
             configuration.Filters.Add(new HttpRequestScopeAttribute());
             configuration.Filters.Add(new ElmahHandleErrorApiAttribute());
+            configuration.Services.Add(typeof(IExceptionLogger), new TracingExceptionLogger());
 
             // camelCase by default
             var formatter = configuration.Formatters.JsonFormatter;

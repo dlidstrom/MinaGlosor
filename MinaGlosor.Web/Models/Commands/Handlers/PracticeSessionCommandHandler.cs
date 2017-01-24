@@ -76,7 +76,8 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
         {
             var wordList = Session.Load<WordList>(command.WordListId);
             var isPublished = wordList.IsPublished();
-            if (isPublished == false)
+            var canExecute = wordList.OwnerId == currentUser.Id || isPublished;
+            if (!canExecute)
             {
                 var owner = Session.Load<User>(wordList.OwnerId);
                 var message = string.Format("Current user={0}, owner={1}", currentUser.Email, owner.Email);
@@ -85,7 +86,7 @@ namespace MinaGlosor.Web.Models.Commands.Handlers
                     message);
             }
 
-            return isPublished;
+            return canExecute;
         }
 
         public object Handle(UpdateLastPickedDateCommand command)

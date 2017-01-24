@@ -8,9 +8,10 @@ namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
     {
         public CommandExecutor CommandExecutor { get; set; }
 
-        public abstract void Handle(TTask task);
+        public abstract void Handle(TTask task, Guid correlationId);
 
-        protected void ExecuteCommand<TResult, TDependentTask>(ICommand<TResult> command, TDependentTask causedByTask)
+        // TODO Move correlationId and causationId into setter methods, then use the properties when performing ExecuteCommand
+        protected void ExecuteCommand<TResult, TDependentTask>(ICommand<TResult> command, TDependentTask causedByTask, Guid correlationId)
         {
             if (command == null) throw new ArgumentNullException("command");
             if (causedByTask == null) throw new ArgumentNullException("causedByTask");
@@ -21,7 +22,7 @@ namespace MinaGlosor.Web.Models.BackgroundTasks.Handlers
                 command.GetType().Name,
                 causedByTask.GetType().Name,
                 command.ToJson());
-            CommandExecutor.ExecuteCommand(command, null);
+            CommandExecutor.ExecuteCommand(command, null, correlationId);
         }
     }
 }

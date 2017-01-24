@@ -9,11 +9,13 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel.Events
         public WordHasBeenPracticedEvent(
             string modelId,
             ProgressWordCounts progressWordCounts,
-            ProgressPercentages progressPercentages)
+            ProgressPercentages progressPercentages,
+            ProgressSortOrder progressSortOrder)
             : base(modelId)
         {
             ProgressWordCounts = progressWordCounts;
             ProgressPercentages = progressPercentages;
+            ProgressSortOrder = progressSortOrder;
         }
 
 #pragma warning disable 612, 618
@@ -26,5 +28,7 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel.Events
         public ProgressWordCounts ProgressWordCounts { get; private set; }
 
         public ProgressPercentages ProgressPercentages { get; private set; }
+
+        public ProgressSortOrder ProgressSortOrder { get; private set; }
     }
 }

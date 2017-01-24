@@ -18,6 +18,15 @@ namespace MinaGlosor.Web.Infrastructure.Tracing
             TracingLogger.Start(startId, activityName);
         }
 
+        public ActivityScope(int startId, int stopId, string activityName, Guid activityId)
+        {
+            this.stopId = stopId;
+            this.activityName = activityName;
+            oldActivityId = Trace.CorrelationManager.ActivityId;
+            Trace.CorrelationManager.ActivityId = activityId;
+            TracingLogger.Start(startId, activityName);
+        }
+
         public void Dispose()
         {
             TracingLogger.Stop(stopId, activityName);

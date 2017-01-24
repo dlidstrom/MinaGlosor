@@ -151,28 +151,32 @@ namespace MinaGlosor.Web.Infrastructure.BackgroundTasks
                                                   && x.NextTry <= utcNow)
                                               .OrderBy(x => x.NextTry)
                                               .ToArray();
-            TracingLogger.Information(
-                "{0} - Tasks to be processed: {1}, total queued: {2}",
-                utcNow,
-                taskToBeProcessedNow.Length,
-                totalTasksInQueueToBeProcessed.Length);
             if (taskToBeProcessedNow.Any() == false)
             {
                 return new QueueStatus(totalTasksInQueueToBeProcessed.Length, 0);
             }
 
+            TracingLogger.Information(
+                "{0} - Tasks to be processed: {1}, total queued: {2}",
+                utcNow,
+                taskToBeProcessedNow.Length,
+                totalTasksInQueueToBeProcessed.Length);
             var task = taskToBeProcessedNow.First();
             object handler = null;
             try
             {
                 using (new ModelContext(task.CorrelationId))
-                using (new ActivityScope(EventIds.Informational_ApplicationLog_3XXX.Web_StartTask_3007, EventIds.Informational_ApplicationLog_3XXX.Web_EndTask_3008, task.ToString()))
+                using (new ActivityScope(
+                    EventIds.Informational_ApplicationLog_3XXX.Web_StartTask_3007,
+                    EventIds.Informational_ApplicationLog_3XXX.Web_EndTask_3008,
+                    task.ToString(),
+                    task.CorrelationId))
                 {
                     TracingLogger.Information("Handling task " + task.GetInfo());
                     var handlerType = typeof(BackgroundTaskHandler<>).MakeGenericType(task.Body.GetType());
                     handler = kernel.Resolve(handlerType);
                     var method = handler.GetType().GetMethod("Handle");
-                    method.Invoke(handler, new[] { task.Body });
+                    method.Invoke(handler, new[] { task.Body, task.CorrelationId });
                     task.MarkFinished();
                 }
             }

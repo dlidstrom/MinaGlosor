@@ -6,11 +6,16 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel.Events
 {
     public class WordIsUpToDateEvent : ModelEvent
     {
-        public WordIsUpToDateEvent(string modelId, ProgressWordCounts progressWordCounts, ProgressPercentages progressPercentages)
+        public WordIsUpToDateEvent(
+            string modelId,
+            ProgressWordCounts progressWordCounts,
+            ProgressPercentages progressPercentages,
+            ProgressSortOrder progressSortOrder)
             : base(modelId)
         {
             ProgressWordCounts = progressWordCounts;
             ProgressPercentages = progressPercentages;
+            ProgressSortOrder = progressSortOrder;
         }
 
 #pragma warning disable 612, 618
@@ -23,5 +28,7 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel.Events
         public ProgressWordCounts ProgressWordCounts { get; private set; }
 
         public ProgressPercentages ProgressPercentages { get; private set; }
+
+        public ProgressSortOrder ProgressSortOrder { get; private set; }
     }
 }

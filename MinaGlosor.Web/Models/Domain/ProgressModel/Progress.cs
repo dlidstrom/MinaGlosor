@@ -14,27 +14,32 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel
         {
             if (ownerId == null) throw new ArgumentNullException("ownerId");
             if (wordListId == null) throw new ArgumentNullException("wordListId");
-            Apply(new CeatedEvent(Id, ownerId, wordListId, new ProgressWordCounts(), new ProgressPercentages(), -1));
+            var @event = new CeatedEvent(
+                Id,
+                ownerId,
+                wordListId,
+                new ProgressWordCounts(),
+                new ProgressPercentages(),
+                ProgressSortOrder.Default(GetOrder(ownerId, wordListId)));
+            Apply(@event);
         }
 
 #pragma warning disable 612, 618
         [JsonConstructor, UsedImplicitly]
-        private Progress()
+        private Progress(string id)
 #pragma warning restore 612, 618
         {
-            // TODO: Remove when done
-            NumberOfWordsSortOrder = -1;
         }
 
         public string OwnerId { get; private set; }
 
         public string WordListId { get; private set; }
 
-        public int NumberOfWordsSortOrder { get; private set; }
-
         public ProgressWordCounts WordCounts { get; private set; }
 
         public ProgressPercentages Percentages { get; private set; }
+
+        public ProgressSortOrder SortOrder { get; private set; }
 
         public static string GetIdFromWordListForUser(string wordListId, string ownerId)
         {
@@ -45,43 +50,43 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel
         public static string FromId(string progressId)
         {
             if (progressId == null) throw new ArgumentNullException("progressId");
-            return progressId.Substring(11);
+            return progressId.Substring(9);
         }
 
         public void WordHasExpired(int numberOfWords)
         {
             var newWordCounts = WordCounts.IncreaseExpired();
             var newPercentages = Percentages.Of(newWordCounts, numberOfWords);
-            Apply(new WordHasExpiredEvent(Id, newWordCounts, newPercentages));
+            var newProgressSortOrder = ProgressSortOrder.UpdateWith(GetOrder(OwnerId, WordListId), numberOfWords, newPercentages);
+            Apply(new WordHasExpiredEvent(Id, newWordCounts, newPercentages, newProgressSortOrder));
         }
 
         public void WordIsUpToDate(int numberOfWords)
         {
             var newWordCounts = WordCounts.DecreaseExpired();
             var newPercentages = Percentages.Of(newWordCounts, numberOfWords);
-            Apply(new WordIsUpToDateEvent(Id, newWordCounts, newPercentages));
+            var newProgressSortOrder = ProgressSortOrder.UpdateWith(GetOrder(OwnerId, WordListId), numberOfWords, newPercentages);
+            Apply(new WordIsUpToDateEvent(Id, newWordCounts, newPercentages, newProgressSortOrder));
         }
 
         public void NewWordHasBeenPracticed(int numberOfWords)
         {
             var newWordCounts = WordCounts.IncreaseCount();
             var newPercentages = Percentages.Of(newWordCounts, numberOfWords);
-            Apply(new WordHasBeenPracticedEvent(Id, newWordCounts, newPercentages));
+            var newProgressSortOrder = ProgressSortOrder.UpdateWith(GetOrder(OwnerId, WordListId), numberOfWords, newPercentages);
+            Apply(new WordHasBeenPracticedEvent(Id, newWordCounts, newPercentages, newProgressSortOrder));
         }
 
         public void WordAdded(int numberOfWords)
         {
-            Apply(new UpdatePercentagesAfterWordAddedEvent(Id, Percentages.Of(WordCounts, numberOfWords)));
-        }
-
-        public void UpdateNumberOfWordsSortOrder(int numberOfWords)
-        {
-            throw new NotImplementedException();
+            var newPercentages = Percentages.Of(WordCounts, numberOfWords);
+            var newProgressSortOrder = ProgressSortOrder.UpdateWith(GetOrder(OwnerId, WordListId), numberOfWords, newPercentages);
+            Apply(new UpdatePercentagesAfterWordAddedEvent(Id, newPercentages, newProgressSortOrder));
         }
 
         public void UpdateDifficultyCounts(WordScoreDifficultyLifecycle lifecycle)
         {
-            ProgressWordCounts newWordCounts = null;
+            ProgressWordCounts newWordCounts;
             switch (lifecycle)
             {
                 case WordScoreDifficultyLifecycle.FirstTimeDifficult:
@@ -112,6 +117,8 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel
                 {
                     return;
                 }
+
+                default: throw new InvalidOperationException("Unknown lifecycle: " + lifecycle);
             }
 
             var newPercentages = Percentages.Difficulties(newWordCounts);
@@ -122,31 +129,40 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel
             Apply(@event);
         }
 
+        private static int GetOrder(string ownerId, string wordListId)
+        {
+            var order = 1000000 * int.Parse(User.FromId(ownerId)) + int.Parse(WordList.FromId(wordListId));
+            return order;
+        }
+
         private void ApplyEvent(CeatedEvent @event)
         {
             OwnerId = @event.OwnerId;
             WordListId = @event.WordListId;
             WordCounts = @event.ProgressWordCounts;
             Percentages = @event.ProgressPercentages;
-            NumberOfWordsSortOrder = @event.NumberOfWordsSortOrder;
+            SortOrder = @event.ProgressSortOrder;
         }
 
         private void ApplyEvent(WordHasExpiredEvent @event)
         {
             WordCounts = @event.ProgressWordCounts;
             Percentages = @event.ProgressPercentages;
+            SortOrder = @event.ProgressSortOrder;
         }
 
         private void ApplyEvent(WordIsUpToDateEvent @event)
         {
             WordCounts = @event.ProgressWordCounts;
             Percentages = @event.ProgressPercentages;
+            SortOrder = @event.ProgressSortOrder;
         }
 
         private void ApplyEvent(WordHasBeenPracticedEvent @event)
         {
             WordCounts = @event.ProgressWordCounts;
             Percentages = @event.ProgressPercentages;
+            SortOrder = @event.ProgressSortOrder;
         }
 
         private void ApplyEvent(DifficultyCountsUpdatedEvent @event)
@@ -158,6 +174,7 @@ namespace MinaGlosor.Web.Models.Domain.ProgressModel
         private void ApplyEvent(UpdatePercentagesAfterWordAddedEvent @event)
         {
             Percentages = @event.ProgressPercentages;
+            SortOrder = @event.ProgressSortOrder;
         }
     }
 }

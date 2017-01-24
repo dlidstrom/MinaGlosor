@@ -18,7 +18,7 @@ namespace MinaGlosor.Web.Infrastructure
             this.kernel = kernel;
         }
 
-        public TResult ExecuteCommand<TResult>(ICommand<TResult> command, User user)
+        public TResult ExecuteCommand<TResult>(ICommand<TResult> command, User user, Guid? correlationId = null)
         {
             var handlerType = typeof(ICommandHandler<,>).MakeGenericType(command.GetType(), typeof(TResult));
             var canExecuteMethod = handlerType.GetMethod("CanExecute");
@@ -28,7 +28,8 @@ namespace MinaGlosor.Web.Infrastructure
                 using (new ActivityScope(
                     EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteCommandStart_3010,
                     EventIds.Informational_ApplicationLog_3XXX.Web_ExecuteCommandStop_3011,
-                    command.GetType().Name))
+                    command.GetType().Name,
+                    correlationId ?? SystemGuid.NewSequential))
                 using (new ModelContext(Trace.CorrelationManager.ActivityId))
                 {
                     var commandAsJson = command.ToJson();
