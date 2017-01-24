@@ -7,7 +7,7 @@ namespace MinaGlosor.Web.Models
 {
     public class WordList : DomainModel
     {
-        private const string NameMaxLength = 1024;
+        private const int NameMaxLength = 1024;
 
         public WordList(string id, string name, string ownerId)
             : base(id)
