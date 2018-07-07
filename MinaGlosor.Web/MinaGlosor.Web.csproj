@@ -549,9 +549,6 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Target Name="Bundle" AfterTargets="Build" Condition="'$(NCrunch)' != '1'">
-    <Exec Command="C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe $(ProjectDirectory)cassette.targets /p:OutputPath=$(OutputPath) /t:Bundle /nr:false" />
-  </Target>
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
@@ -563,6 +560,7 @@
   -->
   <Target Name="BeforeBuild">
     <Exec Command="clean.cmd $(Configuration)" />
+    <Exec Command="C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe $(ProjectDirectory)cassette.targets /p:OutputPath=$(OutputPath) /t:Bundle /nr:false" />
     <ItemGroup>
       <Content Include="cassette-cache\**\*.*" />
     </ItemGroup>
