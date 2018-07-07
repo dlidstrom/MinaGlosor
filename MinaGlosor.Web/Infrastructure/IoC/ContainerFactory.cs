@@ -19,12 +19,8 @@ namespace MinaGlosor.Web.Infrastructure.IoC
                 new TaskRunnerInstaller(taskRunnerPollingIntervalMillis),
                 new CommandQueryInstaller(),
                 new ControllerFactoryInstaller(),
-#if DEBUG
                 RavenInstaller.CreateForServer("RavenDB")
-#else
-                RavenInstaller.CreateForEmbedded()
-#endif
-                );
+            );
             return container;
            
         }

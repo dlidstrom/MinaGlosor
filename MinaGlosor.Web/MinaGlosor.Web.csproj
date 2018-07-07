@@ -173,12 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\Elmah.txt" />
-    <Content Include="cassette-cache\manifest.xml" />
-    <Content Include="cassette-cache\script\Cassette.Aspnet.Resources\cf0bc0ffd8166158a88ea6aa1ae7512d6a1b42cc.js" />
-    <Content Include="cassette-cache\script\wwwroot\app\10fb34520a07ebbb11a21429e6b2b8fe03fd5511.js" />
-    <Content Include="cassette-cache\script\wwwroot\external\footer_js\397778bf9d5bb6a6776080d05e43dfe084c515f0.js" />
-    <Content Include="cassette-cache\script\wwwroot\external\head_js\cb54dc160414c8136771c41963843c6fe9dd22de.js" />
-    <Content Include="cassette-cache\stylesheet\wwwroot\2e161873ee988fd28631f16b4f8a3c8a9f6190aa.css" />
+    <Content Include="cassette-cache\**\*" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
     <Content Include="Web.config" />
@@ -563,7 +558,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Target Name="BeforeBuild" Condition="'$(Configuration)' == 'Release'">
-    <Exec Command="del /F /S /Q bin\MinaGlosor.Web.dll obj\MinaGlosor.Web.dll" />
+  <Target Name="BeforeBuild">
+    <Exec Command="clean.cmd $(Configuration)" />
   </Target>
 </Project>

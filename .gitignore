@@ -39,3 +39,7 @@ MinaGlosor.Test/CompiledIndexCache/
 MinaGlosor.Test/Assemblies/
 Icons/*.png
 _NCrunch_MinaGlosor/
+Tools/
+_install/
+Build/_build/
+.vs

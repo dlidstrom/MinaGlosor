@@ -1,0 +1,164 @@
+<Project Name="MinaGlosor" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--
+    Version is required. Run like this:
+    msbuild build.msbuild /property:Version=1.0.0
+  -->
+  <PropertyGroup>
+    <WixTasksPath>WixTasks.dll</WixTasksPath>
+    <!-- for AssemblyInfo element -->
+    <MSBuildCommunityTasksPath>.\</MSBuildCommunityTasksPath>
+    <OutputName>MinaGlosor.Installer</OutputName>
+    <OutputType>Package</OutputType>
+    <OutputDirectory>$(MSBuildProjectDirectory)\Build\_build</OutputDirectory>
+    <InstallDirectory>_install</InstallDirectory>
+  </PropertyGroup>
+
+  <Import Project="Tools\wix311-binaries\wix.targets" />
+  <Import Project="Tools\MSBuild.Community.Tasks.v1.5.0.235\MSBuild.Community.Tasks.Targets" />
+
+  <ItemGroup>
+    <MinaGlosorWebProject Include="MinaGlosor.Web\MinaGlosor.Web.csproj" />
+    <!--<MinaGlosorQueueProject Include="MinaGlosor.Queue.WindowsServiceHost\MinaGlosor.Queue.WindowsServiceHost.csproj" />-->
+    <AssemblyVersionFiles Include="**\Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <Target Name="All">
+    <CallTarget Targets="Initialize;Build;WixPrepare;Wix" />
+  </Target>
+
+  <Target Name="Wix">
+    <CallTarget Targets="Cop;Heat;Candle;Light" />
+  </Target>
+
+  <Target Name="Initialize">
+    <Message Text="Verifying command line..." />
+
+    <!-- check the required properties (http://stackoverflow.com/a/2746543) -->
+    <ItemGroup>
+      <_RequiredProperties Include="Version">
+        <Value>$(Version)</Value>
+      </_RequiredProperties>
+    </ItemGroup>
+    <Error Condition ="'%(_RequiredProperties.Value)'=='' " Text=" Missing required property [%(_RequiredProperties.Identity)]" />
+
+    <RemoveDir Directories="$(OutputDirectory)" />
+  </Target>
+
+  <Target Name="AssemblyVersion" Inputs="@(AssemblyVersionFiles)" Outputs="UpdatedAssemblyVersionFiles" DependsOnTargets="Initialize">
+    <Attrib Files="%(AssemblyVersionFiles.FullPath)" Normal="true"/>
+    <AssemblyInfo CodeLanguage="CS"
+                  OutputFile="%(AssemblyVersionFiles.FullPath)"
+                  AssemblyProduct="MinaGlosor"
+                  AssemblyTitle="MinaGlosor"
+                  AssemblyCompany="Daniel Lidström AB"
+                  AssemblyCopyright="Copyright © Daniel Lidström AB"
+                  AssemblyVersion="$(Version)"
+                  AssemblyFileVersion="$(Version)"
+                  AssemblyInformationalVersion="$(Version)"
+                  Guid="c21c3dcb-c9a2-4ae6-b241-c69376ef9dcd">
+        <Output TaskParameter="OutputFile" ItemName="UpdatedAssemblyVersionFiles" />
+    </AssemblyInfo>
+  </Target>
+
+  <!-- Build the application -->
+  <Target Name="Build" DependsOnTargets="AssemblyVersion">
+    <!-- web projects -->
+    <MSBuild Projects="@(MinaGlosorWebProject)" Properties="Configuration=Release;UseWPP_CopyWebApplication=True;PipelineDependsOnBuild=False;OutDir=$(OutputDirectory)\MinaGlosorWeb" />
+    <!--<MSBuild Projects="@(MinaGlosorQueueProject)" Properties="Configuration=Release;OutDir=$(OutputDirectory)\MinaGlosorQueue" />-->
+  </Target>
+
+  <!-- Preparations for WiX -->
+  <Target Name="WixPrepare">
+    <!-- Move files that are handled in main -->
+    <Move SourceFiles="$(OutputDirectory)\MinaGlosorWeb\_PublishedWebsites\MinaGlosor.Web\Web.config"
+          DestinationFolder="$(OutputDirectory)\app\MinaGlosor" />
+    <!--<Move SourceFiles="$(OutputDirectory)\MinaGlosorQueue\MinaGlosor.Queue.WindowsServiceHost.exe"
+          DestinationFolder="$(OutputDirectory)\app\MinaGlosor" />
+    <Move SourceFiles="$(OutputDirectory)\MinaGlosorQueue\MinaGlosor.Queue.WindowsServiceHost.exe.config"
+          DestinationFolder="$(OutputDirectory)\app\MinaGlosor" />-->
+
+    <!-- Copy everything except configuration files -->
+    <ItemGroup>
+      <MinaGlosorWeb_Libraries Include="$(OutputDirectory)\MinaGlosorWeb\_PublishedWebsites\MinaGlosor.Web\**\*.*" />
+      <!--<MinaGlosorQueue_Libraries Include="$(OutputDirectory)\MinaGlosorQueue\*.*" />-->
+    </ItemGroup>
+    <Copy SourceFiles="@(MinaGlosorWeb_Libraries)" DestinationFolder="$(OutputDirectory)\lib\MinaGlosor.Web\%(RecursiveDir)" />
+    <!--<Copy SourceFiles="@(MinaGlosorQueue_Libraries)" DestinationFolder="$(OutputDirectory)\lib\MinaGlosor.Queue\%(RecursiveDir)" />-->
+  </Target>
+
+  <Target Name="Cop">
+    <Exec Command="Tools\wix311-binaries\WixCop.exe -indent:2 *.wxs" />
+  </Target>
+
+  <!-- Generate components for libraries -->
+  <Target Name="Heat">
+    <HeatDirectory SuppressCom="true"
+                   SuppressRegistry="true"
+                   Directory="$(OutputDirectory)\lib\MinaGlosor.Web"
+                   OutputFile="$(OutputDirectory)\tmp\MinaGlosor.Web.lib.wxs"
+                   ToolPath="Tools\wix311-binaries"
+                   ComponentGroupName="MinaGlosorWebLib"
+                   AutogenerateGuids="true"
+                   SuppressUniqueIds="true"
+                   SuppressFragments="true"
+                   PreprocessorVariable="var.MinaGlosorWeb_Lib"
+                   SuppressRootDirectory="true"
+                   DirectoryRefId="MinaGlosorWebDir" />
+    <XslTransformation XmlInputPaths="$(OutputDirectory)\tmp\MinaGlosor.Web.lib.wxs"
+                       OutputPaths="$(OutputDirectory)\tmp\MinaGlosor.Web.lib.transformed.wxs"
+                       XslInputPath="project_prefix.xsl" />
+    <XslTransformation XmlInputPaths="$(OutputDirectory)\tmp\MinaGlosor.Web.lib.transformed.wxs"
+                       OutputPaths="$(OutputDirectory)\tmp\MinaGlosor.Web.lib.transformed64.wxs"
+                       XslInputPath="Build\add_64bit.xsl" />
+    <!--<HeatDirectory SuppressCom="true"
+                   SuppressRegistry="true"
+                   Directory="$(OutputDirectory)\lib\MinaGlosor.Queue"
+                   OutputFile="$(OutputDirectory)\tmp\MinaGlosor.Queue.lib.wxs"
+                   ToolPath="Tools\wix311-binaries"
+                   ComponentGroupName="MinaGlosorQueueLib"
+                   AutogenerateGuids="true"
+                   SuppressUniqueIds="true"
+                   SuppressFragments="true"
+                   PreprocessorVariable="var.MinaGlosorQueue_Lib"
+                   SuppressRootDirectory="true"
+                   DirectoryRefId="MinaGlosorQueueDir" />
+    <XslTransformation XmlInputPaths="$(OutputDirectory)\tmp\MinaGlosor.Queue.lib.wxs"
+                       OutputPaths="$(OutputDirectory)\tmp\MinaGlosor.Queue.lib.transformed.wxs"
+                       XslInputPath="project_prefix.xsl" />
+    <XslTransformation XmlInputPaths="$(OutputDirectory)\tmp\MinaGlosor.Queue.lib.transformed.wxs"
+                       OutputPaths="$(OutputDirectory)\tmp\MinaGlosor.Queue.lib.transformed64.wxs"
+                       XslInputPath="Build\add_64bit.xsl" />-->
+  </Target>
+
+  <Target Name="Candle">
+    <!-- Reference wix files to include -->
+    <ItemGroup>
+      <WixSources Include="MinaGlosor.main.wxs" />
+      <WixSources Include="$(OutputDirectory)\tmp\MinaGlosor.Web.lib.transformed64.wxs" />
+      <!--<WixSources Include="$(OutputDirectory)\tmp\MinaGlosor.Queue.lib.transformed64.wxs" />-->
+    </ItemGroup>
+    <Candle OutputFile="$(OutputDirectory)\tmp\"
+            SourceFiles="%(WixSources.FullPath)"
+            ToolPath="Tools\wix311-binaries"
+            DefineConstants="MinaGlosor_App=$(OutputDirectory)\app\MinaGlosor;MinaGlosorWeb_Lib=$(OutputDirectory)\lib\MinaGlosor.Web;MinaGlosorQueue_Lib=$(OutputDirectory)\lib\MinaGlosor.Queue;Version=$(Version)"
+            Extensions="Tools\wix311-binaries\WixUtilExtension.dll;Tools\wix311-binaries\WiXNetFxExtension.dll;Tools\wix311-binaries\WixIIsExtension.dll" />
+  </Target>
+
+  <Target Name="Light">
+    <!-- Reference wixobj files to include  -->
+    <ItemGroup>
+      <WixObjects Include="$(OutputDirectory)\tmp\*.wixobj" />
+    </ItemGroup>
+    <Light ObjectFiles="@(WixObjects)"
+           OutputFile="$(OutputDirectory)\MinaGlosor.msi"
+           ToolPath="Tools/wix311-binaries"
+           Extensions="Tools/wix311-binaries/WixUtilExtension.dll;Tools/wix311-binaries/WiXNetFxExtension.dll;Tools\wix311-binaries\WixIIsExtension.dll"
+           SuppressSpecificWarnings="1076" />
+    <MakeDir Directories="$(InstallDirectory)\$(Version)" />
+    <ItemGroup>
+      <InstallFiles Include="$(OutputDirectory)\MinaGlosor.msi" />
+    </ItemGroup>
+    <Copy SourceFiles="@(InstallFiles);MinaGlosorInstall.ps1"
+          DestinationFolder="$(InstallDirectory)\$(Version)" />
+  </Target>
+</Project>

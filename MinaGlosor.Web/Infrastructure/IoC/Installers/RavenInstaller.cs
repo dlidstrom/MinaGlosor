@@ -32,28 +32,12 @@ namespace MinaGlosor.Web.Infrastructure.IoC.Installers
                 };
         }
 
-        public static IWindsorInstaller CreateForEmbedded()
-        {
-            var appDataPath = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
-            var dataDirectory = Path.Combine(appDataPath, "Database");
-            var embeddableDocumentStore = new EmbeddableDocumentStore
-                {
-                    DataDirectory = dataDirectory
-                };
-            embeddableDocumentStore.Configuration.MemoryCacheLimitMegabytes = 256;
-            return new RavenInstaller
-                {
-                    CreateDocumentStore = () => embeddableDocumentStore
-                };
-        }
-
         public static IWindsorInstaller CreateForServer(string connectionStringName)
         {
             if (connectionStringName == null) throw new ArgumentNullException("connectionStringName");
             return new RavenInstaller
                 {
-                    CreateDocumentStore = () => new DocumentStore { ConnectionStringName = connectionStringName },
-                    InitializeIndexes = true
+                    CreateDocumentStore = () => new DocumentStore { ConnectionStringName = connectionStringName }
                 };
         }
 

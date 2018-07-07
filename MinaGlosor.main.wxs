@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension">
+
+  <!-- unique identifier for this package, DO NOT CHANGE! -->
+  <?define UpgradeCode="{00f48ca9-3e02-4c89-96b6-0925598523b0}"?>
+  <?define ProductName="MinaGlosor"?>
+
+  <Product Id="*"
+           UpgradeCode="$(var.UpgradeCode)"
+           Name="$(var.ProductName)"
+           Manufacturer="Daniel Lidstrom AB"
+           Language="1033"
+           Version="$(var.Version)">
+    <Package Id="*"
+             Description="MinaGlosor installer"
+             InstallerVersion="500"
+             Languages="1033"
+             Compressed="yes"
+             SummaryCodepage="1252"
+             Platform="x64" />
+    <Media Id="1" Cabinet="service.cab" EmbedCab="yes" />
+    <Icon Id="icon.ico" SourceFile="MinaGlosor.Web\favicon.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="icon.ico" />
+
+    <MajorUpgrade DowngradeErrorMessage="A later version of this product is already installed. Setup will now exit." />
+    <Property Id="ALLUSERS" Value="1" />
+    <PropertyRef Id="NETFRAMEWORK40FULLINSTALLROOTDIR" />
+
+    <!-- will break when supported by WiX -->
+    <Property Id="WIX_IS_NETFRAMEWORK_47_OR_LATER_INSTALLED" Value="0" />
+    <PropertyRef Id="NETFRAMEWORK45" />
+    <Condition Message="[ProductName] Requires .NET Framework 4.7 or later to be installed"><![CDATA[Installed OR (NETFRAMEWORK45 AND NETFRAMEWORK45 >= "#460805")]]></Condition>
+
+    <Condition Message="ADMINISTRATOR_PASSWORD variable must be set in the command line">
+      Installed OR ADMINISTRATOR_PASSWORD
+    </Condition>
+
+    <?include conditions.wxi?>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder" Name="PFiles">
+        <Directory Id="INSTALLDIR" Name="MinaGlosor">
+          <Directory Id="MinaGlosorWebDir" Name="MinaGlosor.Web">
+            <Component Id="MinaGlosor.Web.config" Guid="*" Win64="yes">
+              <File Id="MinaGlosor.Web.config"
+                    KeyPath="yes"
+                    Source="$(var.MinaGlosor_App)\Web.config" />
+            </Component>
+            <Directory Id="MinaGlosorWeb_AppData" Name="App_Data">
+              <Component Id="MinaGlosorWeb_AppData" Guid="{3d87f3aa-2930-436d-ad8e-5a1a2d7c2ea6}"
+                         SharedDllRefCount="no" KeyPath="no" NeverOverwrite="no" Permanent="no" Transitive="no"
+                         Win64="yes" Location="either">
+                <CreateFolder>
+                  <util:PermissionEx GenericAll="yes"
+                                     CreateFile="yes"
+                                     ChangePermission="yes"
+                                     Delete="yes"
+                                     DeleteChild="yes"
+                                     User="IIS_IUSRS" />
+                </CreateFolder>
+              </Component>
+            </Directory>
+            <Directory Id="MinaGlosorWeb_Logs" Name="Logs">
+              <Component Id="MinaGlosorWeb_Logs" Guid="{cc7ba541-6155-4d7e-94a9-ad123b597f35}"
+                         SharedDllRefCount="no" KeyPath="no" NeverOverwrite="no" Permanent="no" Transitive="no"
+                         Win64="yes" Location="either">
+                <CreateFolder>
+                  <util:PermissionEx GenericAll="yes"
+                                     CreateFile="yes"
+                                     ChangePermission="yes"
+                                     Delete="yes"
+                                     DeleteChild="yes"
+                                     User="IIS_IUSRS" />
+                </CreateFolder>
+              </Component>
+            </Directory>
+          </Directory>
+          <!--
+          <Directory Id="MinaGlosorQueueDir" Name="MinaGlosor.Queue">
+            <Component Id="MinaGlosor.Queue.WindowsServiceHost.exe" Guid="*" Win64="yes">
+              <File KeyPath="yes"
+                    Source="$(var.MinaGlosor_App)\MinaGlosor.Queue.WindowsServiceHost.exe" />
+              <ServiceInstall Id="MinaGlosor.Queue.WindowsServiceHost.exe"
+                              Name="MinaGlosor.Queue.WindowsServiceHost.exe"
+                              DisplayName="MinaGlosor Queue Service"
+                              ErrorControl="normal"
+                              Start="auto"
+                              Type="ownProcess"
+                              Account="Snittlistan\Administrator"
+                              Password="[ADMINISTRATOR_PASSWORD]"
+                              Vital="yes">
+                <ServiceDependency Id="MSMQ" />
+                <util:ServiceConfig FirstFailureActionType="restart"
+                                    SecondFailureActionType="restart"
+                                    ThirdFailureActionType="restart"
+                                    RestartServiceDelayInSeconds="300"
+                                    ResetPeriodInDays="1" />
+              </ServiceInstall>
+              <ServiceControl Id="MinaGlosor.Queue.WindowsServiceHost.exe"
+                              Name="MinaGlosor.Queue.WindowsServiceHost.exe"
+                              Start="install"
+                              Stop="both"
+                              Remove="uninstall"/>
+            </Component>
+            <Component Id="MinaGlosor.Queue.WindowsServiceHost.exe.config" Guid="*" Win64="yes">
+              <File KeyPath="yes"
+                    Source="$(var.MinaGlosor_App)\MinaGlosor.Queue.WindowsServiceHost.exe.config" />
+              <util:XmlFile Id="MinaGlosorQueueLogsDirSetting"
+                            Action="setValue"
+                            File="[MinaGlosorQueueDir]MinaGlosor.Queue.WindowsServiceHost.exe.config"
+                            ElementPath="/configuration/log4net/appender[\[]@name='RollingFileAppender'[\]]/file/@value"
+                            Value="[MinaGlosorQueueDir]Logs\logfile.log" />
+              <util:XmlFile Id="MinaGlosorQueueLogsDirSettingErrors"
+                            Action="setValue"
+                            File="[MinaGlosorQueueDir]MinaGlosor.Queue.WindowsServiceHost.exe.config"
+                            ElementPath="/configuration/log4net/appender[\[]@name='RollingFileAppenderErrors'[\]]/file/@value"
+                            Value="[MinaGlosorQueueDir]Logs\logfile.error.log" />
+            </Component>
+            <Directory Id="MinaGlosorQueue_Logs" Name="Logs">
+              <Component Id="MinaGlosorQueue_Logs" Guid="{3aa768e9-990d-4fc5-8a87-feb64309c37d}"
+                         SharedDllRefCount="no" KeyPath="no" NeverOverwrite="no" Permanent="no" Transitive="no"
+                         Win64="yes" Location="either">
+                <CreateFolder>
+                  <util:PermissionEx GenericAll="yes"
+                                     CreateFile="yes"
+                                     ChangePermission="yes"
+                                     Delete="yes"
+                                     DeleteChild="yes"
+                                     User="Users" />
+                </CreateFolder>
+              </Component>
+            </Directory>
+          </Directory>
+        -->
+        </Directory>
+      </Directory>
+      <Component Id="AppPool" Guid="{6a943fa2-07d5-44cd-88cf-33bc6c55b630}" Permanent="yes" Win64="yes">
+        <!-- Create an application pool. Disable idle timeout.
+             Keep the application active for 24 hours then recycle the worker process. -->
+        <iis:WebAppPool Id="AppPool"
+                        Name="MinaGlosor"
+                        ManagedPipelineMode="Integrated"
+                        ManagedRuntimeVersion="v4.0"
+                        Identity="applicationPoolIdentity"
+                        RecycleMinutes="1440"
+                        IdleTimeout="0" />
+      </Component>
+      <Component Id="MinaGlosorWebSite" Guid="{d64020ad-ae21-4d70-b2ea-7b39ee527f47}">
+        <!-- Creates the MinaGlosor web site -->
+        <iis:WebSite Id="MinaGlosorWebSite" Description="MinaGlosor" Directory="MinaGlosorWebDir">
+          <iis:WebAddress Id="Binding1" Port="443" Header="minaglosor.se" Secure="yes" />
+          <iis:WebAddress Id="Binding2" Port="443" Header="www.minaglosor.se" Secure="yes" />
+          <iis:WebAddress Id="Binding3" Port="81" />
+          <iis:WebAddress Id="Binding4" Port="80" Header="minaglosor.se" />
+          <iis:WebAddress Id="Binding5" Port="80" Header="www.minaglosor.se" />
+          <iis:WebApplication Id="MinaGlosorApplication" Name="MinaGlosor" WebAppPool="AppPool" />
+        </iis:WebSite>
+      </Component>
+    </Directory>
+
+    <Feature Id="Service" Level="1">
+      <ComponentRef Id="MinaGlosor.Web.config" />
+      <ComponentRef Id="MinaGlosorWeb_AppData" />
+      <ComponentRef Id="MinaGlosorWeb_Logs" />
+      <!--
+      <ComponentRef Id="MinaGlosor.Queue.WindowsServiceHost.exe" />
+      <ComponentRef Id="MinaGlosor.Queue.WindowsServiceHost.exe.config" />
+      <ComponentRef Id="MinaGlosorQueue_Logs" />
+    -->
+      <ComponentRef Id="AppPool" />
+      <ComponentRef Id="MinaGlosorWebSite" />
+    </Feature>
+    <Feature Id="Libraries" Level="1">
+      <ComponentGroupRef Id="MinaGlosorWebLib" />
+      <!--
+      <ComponentGroupRef Id="MinaGlosorQueueLib" />
+    -->
+    </Feature>
+  </Product>
+</Wix>
