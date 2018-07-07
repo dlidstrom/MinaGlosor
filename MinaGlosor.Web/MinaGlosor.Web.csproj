@@ -19,6 +19,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -173,10 +175,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\Elmah.txt" />
-    <Content Include="cassette-cache\**\*" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="wwwroot\angular-route.js" />
     <Content Include="wwwroot\angular.js" />
     <Content Include="wwwroot\app\app.js" />
@@ -560,5 +563,8 @@
   -->
   <Target Name="BeforeBuild">
     <Exec Command="clean.cmd $(Configuration)" />
+    <ItemGroup>
+      <Content Include="cassette-cache\**\*.*" />
+    </ItemGroup>
   </Target>
 </Project>
