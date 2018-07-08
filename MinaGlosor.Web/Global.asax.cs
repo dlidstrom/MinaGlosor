@@ -61,6 +61,23 @@ namespace MinaGlosor.Web
             TracingLogger.Information(EventIds.Information_Finalization_8XXX.Web_Stopped_8001, "Stopped application");
         }
 
+        protected void Application_BeginRequest()
+        {
+            if (Context.IsDebuggingEnabled)
+            {
+                return;
+            }
+
+            if (Context.Request.IsSecureConnection == false
+                && Context.Request.Url.ToString().Contains("localhost:") == false)
+            {
+                Response.Clear();
+                Response.Status = "301 Moved Permanently";
+                Response.AddHeader("Location", Context.Request.Url.ToString().Insert(4, "s"));
+                Response.End();
+            }
+        }
+
         private static void Cleanup()
         {
             RouteTable.Routes.Clear();
