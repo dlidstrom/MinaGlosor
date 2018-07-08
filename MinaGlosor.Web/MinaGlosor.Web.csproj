@@ -287,6 +287,9 @@
     <Content Include="wwwroot\images\apple-touch-startup-image-768x1004.png" />
     <Content Include="wwwroot\spinner.less" />
     <Content Include="wwwroot\toaster.min.css" />
+    <Content Include=".well-known\acme-challenge\Web.Config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
