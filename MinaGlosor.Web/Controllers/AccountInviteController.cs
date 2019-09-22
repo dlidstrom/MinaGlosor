@@ -15,7 +15,12 @@ namespace MinaGlosor.Web.Controllers
             {
                 ModelState.AddModelError("Request", "Invalid request");
             }
-            else if (ExecuteQuery(new GetUserByEmailQuery(request.UserEmail)) != null)
+            else if (string.IsNullOrWhiteSpace(request.UserEmail) == false)
+            {
+                // try to catch the spammers
+                return RedirectToAction("Index", "Home");
+            }
+            else if (ExecuteQuery(new GetUserByEmailQuery(request.UserEmail2)) != null)
             {
                 ModelState.AddModelError("Email", "E-postadressen finns redan");
             }
@@ -36,8 +41,10 @@ namespace MinaGlosor.Web.Controllers
 
         public class RequestCreateAccount
         {
-            [Required, MaxLength(254)]
             public string UserEmail { get; set; }
+
+            [Required, MaxLength(254)]
+            public string UserEmail2 { get; set; }
         }
     }
 }

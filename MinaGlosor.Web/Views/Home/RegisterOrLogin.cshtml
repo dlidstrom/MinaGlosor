@@ -9,6 +9,8 @@
 </p>
 <form method="POST" name="inviteform" action="@Url.Action("Invite", "AccountInvite")">
     @Html.DisplayFor(model => Html.ViewData.ModelState, "ValidationSummary")
+    @* try to catch the spammers *@
+    <input style="display: none;" type="email" class="form-control" placeholder="Lämna den här tom" name="useremail" />
     <div class="row">
         <div class="col-md-4">
             <div class="form-group" ng-class="{'has-error': inviteform.useremail.$dirty && inviteform.useremail.$invalid}">
@@ -17,7 +19,7 @@
                 </label>
                 <input type="email"
                        class="form-control"
-                       name="useremail"
+                       name="useremail2"
                        ng-model="user.email"
                        placeholder="Skriv e-postadress"
                        autofocus="autofocus"
