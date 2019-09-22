@@ -29,7 +29,7 @@ namespace MinaGlosor.Web.Controllers
                 return RedirectToAction("Index", "Home");
 
             Debug.Assert(request != null, "request != null");
-            ExecuteCommand(new CreateAccountRequestCommand(request.UserEmail));
+            ExecuteCommand(new CreateAccountRequestCommand(request.UserEmail2));
 
             return RedirectToAction("InviteSuccess");
         }
