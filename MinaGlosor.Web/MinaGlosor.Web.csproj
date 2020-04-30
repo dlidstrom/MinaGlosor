@@ -247,6 +247,9 @@
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Infrastructure\Attributes\CheckAppVersionAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\HttpRequestScopeAttribute.cs" />
+    <Compile Include="Infrastructure\ExportModelStateToTempDataAttribute.cs" />
+    <Compile Include="Infrastructure\ImportModelStateFromTempDataAttribute.cs" />
+    <Compile Include="Infrastructure\ModelStateTempDataTransfer.cs" />
     <Compile Include="Infrastructure\CommandHandlerBase.cs" />
     <Compile Include="Infrastructure\IoC\ContainerFactory.cs" />
     <Compile Include="Infrastructure\IoC\Installers\BackgroundTaskHandlerInstaller.cs" />

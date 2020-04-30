@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Web.Mvc;
 using MinaGlosor.Web.Models.Commands;
@@ -39,12 +41,20 @@ namespace MinaGlosor.Web.Controllers
             return View();
         }
 
-        public class RequestCreateAccount
+        public class RequestCreateAccount : IValidatableObject
         {
             public string UserEmail { get; set; }
 
             [Required, MaxLength(254)]
             public string UserEmail2 { get; set; }
+
+            [Required(ErrorMessage = "Du måste skriva talet som anges.")]
+            public int? Secret { get; set; }
+
+            public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+            {
+                if (Secret.GetValueOrDefault() != DateTime.Now.Date.DayOfYear) yield return new ValidationResult("Du måste skriva talet som anges.");
+            }
         }
     }
 }

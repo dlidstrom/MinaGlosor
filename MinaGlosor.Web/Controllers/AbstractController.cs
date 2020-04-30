@@ -10,6 +10,8 @@ using Raven.Client;
 
 namespace MinaGlosor.Web.Controllers
 {
+    [ImportModelStateFromTempData]
+    [ExportModelStateToTempData]
     public class AbstractController : Controller
     {
         public IKernel Kernel { get; set; }
