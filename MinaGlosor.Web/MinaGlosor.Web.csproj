@@ -206,6 +206,7 @@
     <Content Include="wwwroot\external\head_js\angular-sanitize.min.js" />
     <Content Include="wwwroot\external\head_js\angular.min.js" />
     <Content Include="wwwroot\external\head_js\bundle.txt" />
+    <Content Include="wwwroot\external\head_js\chatra.js" />
     <Content Include="wwwroot\external\head_js\jquery-2.1.3.min.js" />
     <Content Include="wwwroot\app\help\index.html" />
     <Content Include="wwwroot\app\httpInterceptor.js" />

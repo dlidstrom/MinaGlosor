@@ -4,3 +4,4 @@ angular-animate.min.js
 angular-route.min.js
 angular-messages.min.js
 angular-sanitize.min.js
+chatra.js
